@@ -7,9 +7,13 @@
   "scripts": {
     "score-demo": "node scripts/score-demo.js",
     "ingest": "node scripts/ingest-mattresses.js",
-    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js"
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && npm run typecheck --silent"
   },
   "engines": {
     "node": ">=14"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

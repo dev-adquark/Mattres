@@ -143,3 +143,60 @@ node scripts/test-ingest.js
   principle.
 - **Not connected to the frontend or scoring engine yet.** The `#compare` page's mattress cards
   and `scoreEngine()`'s sample mattress are still separate, hand-written fixtures.
+
+## Data contracts: SleepProfile + RecommendationResult (TypeScript)
+
+The single internal shape used end-to-end — form input → scoring → results rendering — lives in
+`src/contracts/mattress-match.ts`. This is the first TypeScript in the repo, so `typescript` is
+now a devDependency and there's a `tsconfig.json` scoped to `src/contracts/**/*.ts`.
+
+```
+src/contracts/mattress-match.ts                  the contract: types + getPlacementBadge()
+src/contracts/formToProfile.example.ts           Quick Match / full form -> SleepProfile
+src/contracts/buildRecommendationResult.example.ts  SleepProfile + catalog -> RecommendationResult[]
+src/contracts/resultsPageViewModel.example.ts    RecommendationResult[] -> results page view model
+```
+
+### Run it
+
+```
+npm run typecheck        # tsc --noEmit, strict mode, noUnusedLocals/noUnusedParameters on
+npm test                 # runs the scoring + ingestion test suites, then typecheck
+```
+
+The `.example.ts` files aren't test files in the mocha/jest sense — they're runnable
+demonstrations that every field on `SleepProfile` and `RecommendationResult` is read by
+something concrete (a filter, a chip, a badge, a sort), which is what makes "no unused fields"
+checkable rather than just asserted. To see them actually run end-to-end (form → profile →
+filtered/ranked recommendations → view model, including the budget filter excluding an
+over-budget mattress), transpile with `tsc` to a scratch directory and `require()` the output —
+see the project's PR/commit history for the exact one-liner used to verify this.
+
+### The two forms -> one profile
+
+- **`QuickMatchFormInput`** (landing page) — 4 fields: `sleepPosition`, `weightLb`,
+  `firmnessPreference`, `sleepTemperature`. Fast on purpose; missing fields (motion sensitivity,
+  pain focus) get explicit, documented defaults when normalized.
+- **`SleepProfileFormInput`** (full form) — adds `motionSensitivity`, `painFocus[]`, optional
+  `heightIn`, `mattressTypePreference[]`, `budgetUsd`.
+- Both normalize into **`SleepProfile`**, the one shape scoring and rendering ever see. It adds
+  `profileId` (audit trail back to the inputs that drove a result), `source` (`'quick' | 'full'`,
+  for the PRD's form-completion-rate metric), and `createdAt`.
+
+### Sponsored vs algorithmic placement
+
+`ListingPlacement` is a discriminated union — `{ kind: 'sponsored', verifiedAt, sponsorName? }`
+or `{ kind: 'algorithmic', isTopMatch }` — so a listing can't be both sponsored and a "top match"
+at once, which encodes the disclosures page's promise that sponsored slots are never blended
+into algorithmic ranking. `getPlacementBadge()` is the one function anything should call to
+render a badge, so the wording (`"Sponsored Verified"` / `"Algorithmic Pick"`) stays consistent
+everywhere instead of being re-typed per component.
+
+### Known gaps
+
+- `MattressSummary.priceUsd` and `.affiliateUrl` are rendered by the results page contract but
+  not yet produced by `scripts/ingest-mattresses.js` — pricing/affiliate-link ingestion is a
+  follow-up, not part of this task.
+- These contracts aren't wired into the static `index.html` site or the scoring engine's JS —
+  they're the target shape for when those become real form/API/page code, exercised here via the
+  `.example.ts` adapters rather than the production HTML.
