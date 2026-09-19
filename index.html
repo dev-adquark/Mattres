@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mattress Match Score — Find Your Perfect Mattress Match</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --navy-950:#080f1d;
+    --navy-900:#0b1830;
+    --navy-800:#0f2140;
+    --navy-700:#16304f;
+    --ink:#eaf2f8;
+    --ink-dim:#a9bccd;
+    --teal-400:#3fe0c9;
+    --teal-500:#22c9b0;
+    --teal-600:#14a893;
+    --paper:#f3f7fa;
+    --paper-2:#e7eff4;
+    --slate-900:#0e1f33;
+    --slate-600:#5c7286;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--slate-900);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.font-display{font-family:'Sora',system-ui,sans-serif;}
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(8,15,29,0.94);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    padding-top:env(safe-area-inset-top,0px);
+  }
+  .nav-row{display:flex;align-items:center;justify-content:space-between;height:76px;}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:17px;letter-spacing:-0.01em;}
+  .brand svg{width:30px;height:30px;flex:none;}
+  .nav-links{display:flex;align-items:center;gap:34px;}
+  .nav-links a{color:var(--ink-dim);font-size:14.5px;font-weight:500;position:relative;padding:6px 0;transition:color .18s ease;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.active{color:var(--ink);}
+  .nav-links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--teal-400);border-radius:2px;}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--ink-dim);background:transparent;border:none;cursor:pointer;transition:background .18s ease,color .18s ease;}
+  .icon-btn:hover{background:rgba(255,255,255,0.08);color:var(--ink);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:999px;
+    font-weight:600;font-size:14.5px;cursor:pointer;border:none;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--teal-400),var(--teal-600));
+    color:#04231e;
+    box-shadow:0 10px 24px -8px rgba(34,201,176,0.55);
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(34,201,176,0.7);}
+  .btn-ghost{
+    background:transparent;color:var(--ink);
+    border:1.5px solid rgba(255,255,255,0.22);
+  }
+  .btn-ghost:hover{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.05);}
+  .nav-toggle{display:none;background:none;border:none;color:var(--ink);width:40px;height:40px;place-items:center;cursor:pointer;}
+  .mobile-menu{display:none;}
+
+  @media (max-width:920px){
+    .nav-links{display:none;}
+    .nav-toggle{display:grid;}
+    .icon-btn{display:none;}
+    .mobile-menu.open{
+      display:flex;flex-direction:column;gap:2px;
+      position:absolute;left:0;right:0;top:76px;
+      background:var(--navy-950);border-bottom:1px solid rgba(255,255,255,0.08);
+      padding:10px 20px 20px;
+    }
+    .mobile-menu a{color:var(--ink-dim);padding:12px 4px;font-size:15px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .mobile-menu a.active{color:var(--teal-400);}
+  }
+  @media (max-width:480px){
+    .nav-row{height:64px;}
+    .brand{font-size:14.5px;gap:8px;}
+    .brand svg{width:24px;height:24px;}
+    .btn-primary{padding:9px 15px;font-size:13px;}
+    .mobile-menu.open{top:64px;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1100px 600px at 82% 8%, rgba(34,201,176,0.16), transparent 60%),
+      radial-gradient(800px 500px at 10% 90%, rgba(63,224,201,0.08), transparent 60%),
+      linear-gradient(180deg,var(--navy-950) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
+    padding:76px 0 130px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:140px;
+    background:linear-gradient(180deg, transparent, var(--paper));
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center;
+    position:relative;z-index:2;
+  }
+  @media (max-width:960px){ .hero-grid{grid-template-columns:1fr;text-align:center;} }
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 16px;border-radius:999px;
+    background:rgba(63,224,201,0.1);
+    border:1px solid rgba(63,224,201,0.35);
+    color:var(--teal-400);font-size:12.5px;font-weight:600;
+    letter-spacing:0.02em;margin-bottom:26px;
+  }
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--teal-400);}
+  .hero h1{
+    font-size:clamp(34px,4.6vw,54px);
+    line-height:1.06;font-weight:700;color:var(--ink);
+    letter-spacing:-0.02em;margin:0 0 22px;
+  }
+  .hero h1 span{
+    display:block;
+    background:linear-gradient(100deg,var(--teal-300,#7bf2df),var(--teal-500));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    color:var(--ink-dim);font-size:16.5px;line-height:1.65;
+    max-width:480px;margin:0 0 34px;
+  }
+  @media (max-width:960px){ .hero p.lead{margin-left:auto;margin-right:auto;} }
+  .hero-ctas{display:flex;align-items:center;gap:16px;margin-bottom:44px;flex-wrap:wrap;}
+  @media (max-width:960px){ .hero-ctas{justify-content:center;} }
+  .play-link{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-weight:600;font-size:14.5px;}
+  .play-circle{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.35);display:grid;place-items:center;transition:background .18s ease;}
+  .play-link:hover .play-circle{background:rgba(255,255,255,0.1);}
+  .trust-row{display:flex;gap:30px;flex-wrap:wrap;color:var(--ink-dim);font-size:13.5px;}
+  @media (max-width:960px){ .trust-row{justify-content:center;} }
+  .trust-item{display:flex;align-items:center;gap:9px;}
+  .trust-item svg{width:18px;height:18px;color:var(--teal-400);flex:none;}
+  .trust-item b{color:var(--ink);font-weight:600;}
+
+  /* ---------- MATTRESS SCENE ---------- */
+  .scene-wrap{position:relative;height:480px;display:flex;align-items:center;justify-content:center;}
+  @media (max-width:960px){ .scene-wrap{height:400px;margin-top:20px;} }
+  @media (max-width:480px){ .scene-wrap{height:340px;} }
+
+  .glow-floor{
+    position:absolute;left:50%;bottom:56px;transform:translateX(-50%);
+    width:420px;height:120px;
+    background:radial-gradient(ellipse at center, rgba(63,224,201,0.5), rgba(63,224,201,0.08) 55%, transparent 75%);
+    filter:blur(6px);
+    opacity:calc(0.5 + var(--explode,0) * 0.5);
+    transition:opacity .4s ease;
+  }
+  .ring{
+    position:absolute;left:50%;bottom:60px;transform:translateX(-50%) rotateX(72deg);
+    border-radius:50%;border:1.5px solid rgba(63,224,201,0.55);
+    box-shadow:0 0 18px rgba(63,224,201,0.35);
+  }
+  .ring.r1{width:380px;height:380px;}
+  .ring.r2{width:300px;height:300px;border-color:rgba(63,224,201,0.3);}
+
+  .mattress-stage{
+    position:relative;width:100%;max-width:440px;height:100%;
+    perspective:1600px;
+  }
+  .mattress-3d{
+    position:absolute;left:50%;top:54%;
+    width:340px;height:230px;margin-left:-170px;margin-top:-115px;
+    transform-style:preserve-3d;
+    transform:rotateX(46deg) rotateZ(-36deg);
+  }
+  .layer{
+    position:absolute;left:0;top:0;width:100%;height:100%;
+    border-radius:22px;
+    transition:transform .05s linear;
+  }
+  .layer-support{
+    background:linear-gradient(155deg,#3b4d63,#1f2c3d);
+    box-shadow:0 34px 0 -4px #141d29, 0 40px 46px -8px rgba(0,0,0,0.55);
+    transform:translateZ(0px) translateY(calc(var(--explode,0) * 26px));
+  }
+  .layer-transition{
+    background:linear-gradient(155deg,#8ff2e4,#22c9b0);
+    box-shadow:0 14px 0 -2px #0d8f7e, 0 26px 30px -8px rgba(20,168,147,0.55);
+    transform:translateZ(30px) translateY(calc(var(--explode,0) * -14px));
+  }
+  .layer-comfort{
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.9) 0 3px, transparent 4px) 0 0/38px 38px,
+      linear-gradient(155deg,#fbfdff,#e4edf3);
+    box-shadow:0 10px 0 -2px #c9d6de, 0 22px 30px -6px rgba(0,0,0,0.3);
+    transform:translateZ(56px) translateY(calc(var(--explode,0) * -54px));
+  }
+  .layer-cover{
+    border-radius:22px 22px 30px 30px;
+    background:linear-gradient(155deg,#ffffff,#eef4f8);
+    box-shadow:0 6px 0 -1px #d7e2e8, 0 16px 22px -6px rgba(0,0,0,0.22);
+    transform:translateZ(68px) translateY(calc(var(--explode,0) * -84px));
+  }
+  .pillow{
+    position:absolute;left:26px;top:-18px;width:120px;height:70px;border-radius:30px;
+    background:linear-gradient(155deg,#ffffff,#e7eef3);
+    box-shadow:0 8px 16px rgba(0,0,0,0.25);
+    transform:translateZ(70px) translateY(calc(var(--explode,0) * -90px));
+  }
+  .pillow-2{
+    left:auto;right:22px;width:96px;height:58px;
+    transform:translateZ(66px) translateY(calc(var(--explode,0) * -86px)) rotate(-4deg);
+    opacity:0.9;
+  }
+
+  .callout{
+    position:absolute;display:flex;align-items:center;gap:10px;
+    padding:10px 14px;border-radius:12px;
+    background:rgba(8,20,36,0.82);
+    border:1px solid rgba(63,224,201,0.4);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    color:var(--ink);white-space:nowrap;
+    opacity:clamp(0,calc((var(--explode,0) - 0.25) * 2.2),1);
+    transform:translateY(calc((1 - clamp(0,calc((var(--explode,0) - 0.25) * 2.2),1)) * 10px));
+    transition:opacity .1s linear;
+    z-index:5;
+    box-shadow:0 10px 24px -8px rgba(0,0,0,0.5);
+  }
+  .callout .ic{width:30px;height:30px;border-radius:9px;background:rgba(63,224,201,0.15);display:grid;place-items:center;color:var(--teal-400);flex:none;}
+  .callout .ic svg{width:16px;height:16px;}
+  .callout .tt{font-size:12.5px;font-weight:700;line-height:1.15;}
+  .callout .sb{font-size:11px;color:var(--ink-dim);line-height:1.2;}
+  .callout.c-cool{left:-8%;top:6%;}
+  .callout.c-comfort{right:-14%;top:20%;}
+  .callout.c-transition{right:-18%;top:52%;}
+  .callout.c-core{right:-10%;bottom:2%;}
+  @media (max-width:960px){
+    .callout{display:none;}
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  .section{padding:96px 0;}
+  @media (max-width:640px){ .section{padding:64px 0;} }
+  .section-head{text-align:center;max-width:620px;margin:0 auto 56px;}
+  .section-head .eyebrow-dark{
+    color:var(--teal-600);font-weight:700;font-size:12.5px;letter-spacing:0.03em;margin-bottom:12px;display:block;
+  }
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);font-weight:700;color:var(--slate-900);letter-spacing:-0.015em;margin:0 0 14px;}
+  .section-head p{color:var(--slate-600);font-size:15.5px;line-height:1.6;margin:0;}
+
+  /* ---------- PROCESS ---------- */
+  .process-row{display:flex;align-items:stretch;gap:0;}
+  @media (max-width:860px){ .process-row{flex-direction:column;gap:20px;} }
+  .p-card{
+    flex:1;background:#fff;border-radius:18px;padding:32px 26px;
+    border:1px solid #e4ecf1;box-shadow:0 1px 2px rgba(15,33,64,0.04);
+    text-align:left;
+  }
+  .p-num{
+    width:46px;height:46px;border-radius:13px;
+    background:linear-gradient(135deg,#e6fbf6,#d3f4ec);
+    display:grid;place-items:center;color:var(--teal-600);margin-bottom:20px;
+  }
+  .p-num svg{width:22px;height:22px;}
+  .p-card h3{font-size:17px;margin:0 0 8px;color:var(--slate-900);font-weight:700;}
+  .p-card p{margin:0;color:var(--slate-600);font-size:14px;line-height:1.6;}
+  .p-arrow{display:flex;align-items:center;justify-content:center;width:64px;flex:none;color:#9fd9cd;}
+  .p-arrow svg{width:26px;height:26px;}
+  @media (max-width:860px){ .p-arrow{display:none;} }
+
+  /* ---------- WHY / DARK FEATURE SECTION ---------- */
+  .why{
+    background:linear-gradient(180deg,var(--navy-900),var(--navy-950));
+    color:var(--ink);position:relative;overflow:hidden;
+  }
+  .why::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(700px 400px at 90% 10%, rgba(34,201,176,0.14), transparent 60%);
+  }
+  .why-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;align-items:center;position:relative;z-index:2;}
+  @media (max-width:960px){ .why-grid{grid-template-columns:1fr;} }
+  .why-head h2{color:var(--ink);font-size:clamp(24px,3.2vw,32px);margin:0 0 14px;font-weight:700;letter-spacing:-0.015em;}
+  .why-head p{color:var(--ink-dim);font-size:15px;line-height:1.65;margin:0 0 36px;max-width:460px;}
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 30px;}
+  @media (max-width:480px){ .feat-grid{grid-template-columns:1fr;} }
+  .feat{display:flex;gap:14px;align-items:flex-start;}
+  .feat-ic{width:42px;height:42px;border-radius:12px;background:rgba(63,224,201,0.12);border:1px solid rgba(63,224,201,0.25);display:grid;place-items:center;color:var(--teal-400);flex:none;}
+  .feat-ic svg{width:20px;height:20px;}
+  .feat h4{margin:2px 0 5px;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .feat p{margin:0;font-size:13px;color:var(--ink-dim);line-height:1.55;}
+
+  .why-visual{position:relative;}
+  .rest-card{
+    position:relative;border-radius:22px;overflow:hidden;
+    background:linear-gradient(165deg,#12233c,#0a1526);
+    border:1px solid rgba(255,255,255,0.08);
+    height:360px;display:flex;align-items:flex-end;justify-content:center;
+  }
+  @media (max-width:960px){ .rest-card{height:300px;margin-top:10px;} }
+  .rest-card .tag{
+    position:absolute;top:20px;left:20px;
+    background:rgba(8,20,36,0.85);border:1px solid rgba(63,224,201,0.35);
+    padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600;color:var(--ink);
+    display:flex;align-items:center;gap:8px;
+  }
+  .tag .moon{width:14px;height:14px;color:var(--teal-400);}
+  .rest-figure{width:200px;margin-bottom:0;}
+
+  /* ---------- COMPARE + REVIEWS ---------- */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  @media (max-width:860px){ .duo{grid-template-columns:1fr;} }
+  .duo-card{
+    background:#0f2140;color:var(--ink);border-radius:22px;padding:34px;
+    position:relative;overflow:hidden;min-height:260px;
+  }
+  .duo-card.light{background:#0f2140;}
+  .duo-card h3{font-size:19px;margin:0 0 10px;font-weight:700;}
+  .duo-card p{color:var(--ink-dim);font-size:14px;line-height:1.6;margin:0 0 22px;max-width:280px;}
+  .stack-graphic{position:absolute;right:26px;bottom:0;width:220px;}
+  .stack-graphic .sw{position:absolute;left:0;right:0;border-radius:14px;box-shadow:0 10px 18px rgba(0,0,0,0.3);}
+  .review-card{background:#132646;border-radius:16px;padding:18px 18px 20px;margin-top:6px;position:relative;z-index:2;max-width:340px;}
+  .review-stars{color:#ffc84a;font-size:13px;margin-bottom:8px;letter-spacing:2px;}
+  .review-stars span{color:var(--ink-dim);font-weight:600;margin-left:6px;letter-spacing:0;}
+  .review-card q{display:block;font-size:13.5px;line-height:1.55;color:var(--ink-dim);font-style:normal;margin-bottom:14px;}
+  .reviewer{display:flex;align-items:center;gap:10px;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal-400),var(--teal-600));display:grid;place-items:center;color:#04231e;font-weight:700;font-size:13px;flex:none;}
+  .reviewer .who{font-size:13px;font-weight:600;color:var(--ink);}
+  .reviewer .role{font-size:11.5px;color:var(--ink-dim);}
+  .review-nav{position:absolute;right:18px;top:18px;display:flex;gap:8px;z-index:3;}
+  .review-nav button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:background .15s ease;}
+  .review-nav button:hover{background:rgba(255,255,255,0.12);}
+  .review-nav svg{width:14px;height:14px;}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:linear-gradient(120deg,#0d3a34,#0a1526 60%);
+    border-radius:0;position:relative;overflow:hidden;
+  }
+  .cta-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;
+    padding:52px 0;position:relative;z-index:2;
+  }
+  .cta-left{display:flex;align-items:center;gap:18px;}
+  .cta-moon{width:54px;height:54px;border-radius:16px;background:rgba(63,224,201,0.14);display:grid;place-items:center;color:var(--teal-400);flex:none;}
+  .cta-moon svg{width:26px;height:26px;}
+  .cta h3{color:#fff;font-size:22px;margin:0 0 4px;font-weight:700;}
+  .cta p{color:var(--ink-dim);margin:0;font-size:14px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy-950);color:var(--ink-dim);padding:60px 0 30px;}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .foot-brand{max-width:280px;}
+  .foot-brand .brand{margin-bottom:14px;}
+  .foot-brand p{font-size:13.5px;line-height:1.6;color:var(--ink-dim);margin:0;}
+  .foot-links{display:flex;gap:16px;}
+  @media (max-width:600px){ .foot-links{gap:10px;font-size:13px;} }
+  .foot-links a{font-size:14px;color:var(--ink-dim);}
+  .foot-links a:hover{color:var(--ink);}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;gap:16px;flex-wrap:wrap;font-size:13px;}
+  .socials{display:flex;gap:10px;}
+  .socials a{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.06);display:grid;place-items:center;color:var(--ink-dim);transition:background .15s ease,color .15s ease;}
+  .socials a:hover{background:rgba(63,224,201,0.15);color:var(--teal-400);}
+  .socials svg{width:15px;height:15px;}
+  .legal{display:flex;gap:20px;}
+  .legal a{color:var(--ink-dim);}
+  .legal a:hover{color:var(--ink);}
+
+  ::selection{background:rgba(34,201,176,0.35);}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--teal-400);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .layer,.callout,.glow-floor{transition:none !important;}
+  }
+
+  /* ---------- PAGE ROUTER ---------- */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ---------- SHARED: PAGE HERO (methodology / compare / disclosures) ---------- */
+  .page-hero{
+    background:linear-gradient(180deg,var(--navy-950),var(--navy-900));
+    padding:72px 0 52px;position:relative;overflow:hidden;
+  }
+  .page-hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(700px 380px at 85% 0%, rgba(34,201,176,0.14), transparent 60%);
+  }
+  .page-hero .wrap{position:relative;z-index:2;max-width:760px;}
+  .page-hero .eyebrow{margin-bottom:20px;}
+  .ph-title{color:var(--ink);font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em;margin:0 0 16px;line-height:1.12;}
+  .ph-sub{color:var(--ink-dim);font-size:15.5px;line-height:1.65;margin:0;max-width:600px;}
+
+  .btn-ghost-dark{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:999px;font-weight:600;font-size:13.5px;
+    border:1.5px solid #d7e2e8;color:var(--slate-900);background:#fff;
+    transition:border-color .18s ease,background .18s ease;
+  }
+  .btn-ghost-dark:hover{border-color:var(--teal-500);background:#f2fbf9;}
+
+  /* ---------- COMPARE PAGE ---------- */
+  .compare-toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:36px;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{background:#e6f7f3;color:var(--teal-600);border:1px solid #bfe9df;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:600;}
+  .toolbar-actions{display:flex;align-items:center;gap:16px;}
+  .selected-count{font-size:13px;color:var(--slate-600);font-weight:600;}
+
+  .compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:1000px){ .compare-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto;} }
+  .compare-card{
+    background:#fff;border:1px solid #e4ecf1;border-radius:20px;padding:26px;
+    display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 2px rgba(15,33,64,0.04);
+  }
+  .listing-badge{
+    align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:0.01em;
+    padding:6px 11px;border-radius:999px;
+  }
+  .badge-top{background:#e6f7f3;color:var(--teal-600);}
+  .badge-sponsored{background:#fef3e2;color:#b7791f;}
+  .badge-none{background:#eef2f6;color:var(--slate-600);}
+  .compare-card h3{margin:0;font-size:19px;color:var(--slate-900);font-weight:700;}
+  .cc-meta{font-size:13px;color:var(--slate-600);}
+  .cc-meta strong{color:var(--slate-900);}
+  .score-hero{display:flex;align-items:baseline;gap:4px;color:var(--slate-900);}
+  .score-num{font-family:'Sora',sans-serif;font-size:40px;font-weight:800;line-height:1;color:var(--teal-600);}
+  .score-max{font-size:14px;color:var(--slate-600);font-weight:600;}
+  .subscores{display:flex;flex-direction:column;gap:9px;}
+  .ss-row{display:grid;grid-template-columns:108px 1fr 30px;align-items:center;gap:10px;font-size:12px;color:var(--slate-600);}
+  .ss-bar{height:6px;border-radius:4px;background:#eef2f6;overflow:hidden;}
+  .ss-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal-500),var(--teal-400));border-radius:4px;}
+  .ss-row b{color:var(--slate-900);font-size:12px;text-align:right;}
+  .flags{display:flex;flex-wrap:wrap;gap:8px;}
+  .flag{display:inline-block;font-size:12px;font-weight:600;padding:7px 11px;border-radius:10px;cursor:default;}
+  .flag-warn{background:#fef3e2;color:#a8600f;}
+  .flag-ok{background:#e6f7f3;color:var(--teal-600);}
+  .highlight{background:#f6f9fb;border-radius:12px;padding:14px 16px;}
+  .highlight q{display:block;font-size:13px;color:var(--slate-900);line-height:1.55;margin:0 0 8px;font-style:normal;}
+  .hl-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .tag-pos{font-size:11px;font-weight:700;color:var(--teal-600);background:#e6f7f3;padding:4px 9px;border-radius:999px;}
+  .tag-neg{font-size:11px;font-weight:700;color:#b23b3b;background:#fbe9e9;padding:4px 9px;border-radius:999px;}
+  .cc-cta{justify-content:center;margin-top:4px;}
+  .aff-note{font-size:11px;color:var(--slate-600);text-align:center;}
+  .compare-footnote{margin-top:36px;font-size:13px;color:var(--slate-600);text-align:center;line-height:1.6;}
+  .compare-footnote a{color:var(--teal-600);font-weight:600;}
+
+  /* ---------- METHODOLOGY PAGE ---------- */
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media (max-width:860px){ .method-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .method-grid{grid-template-columns:1fr;} }
+  .method-card{background:#fff;border:1px solid #e4ecf1;border-radius:16px;padding:24px;}
+  .mc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .weight-badge{font-size:11px;font-weight:700;color:var(--teal-600);background:#e6f7f3;padding:5px 10px;border-radius:999px;}
+  .method-card h4{margin:0 0 8px;font-size:15.5px;color:var(--slate-900);font-weight:700;}
+  .method-card p{margin:0;font-size:13.5px;color:var(--slate-600);line-height:1.6;}
+
+  .flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  @media (max-width:860px){ .flow-row{grid-template-columns:1fr 1fr;} }
+  @media (max-width:520px){ .flow-row{grid-template-columns:1fr;} }
+  .flow-step{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px;}
+  .flow-num{display:inline-flex;width:30px;height:30px;border-radius:9px;background:rgba(63,224,201,0.14);color:var(--teal-400);align-items:center;justify-content:center;font-weight:700;font-size:13px;margin-bottom:14px;}
+  .flow-step h4{margin:0 0 8px;font-size:14.5px;color:var(--ink);}
+  .flow-step p{margin:0;font-size:13px;color:var(--ink-dim);line-height:1.6;}
+
+  .flag-table{border:1px solid #e4ecf1;border-radius:16px;overflow:hidden;background:#fff;}
+  .flag-row{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:16px;padding:16px 20px;border-bottom:1px solid #eef2f6;align-items:center;}
+  .flag-row:last-child{border-bottom:none;}
+  .flag-row-head{background:#f6f9fb;font-size:11.5px;font-weight:700;letter-spacing:0.02em;color:var(--slate-600);text-transform:uppercase;}
+  .flag-row span{font-size:13px;color:var(--slate-600);line-height:1.5;}
+  @media (max-width:760px){
+    .flag-row{grid-template-columns:1fr;gap:6px;}
+    .flag-row-head{display:none;}
+    .flag-row .flag{width:fit-content;}
+  }
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+  @media (max-width:860px){ .two-col{grid-template-columns:1fr;} }
+  .conf{font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;}
+  .conf-high{background:#e6f7f3;color:var(--teal-600);}
+  .conf-med{background:#fef3e2;color:#a8600f;}
+  .conf-low{background:#fbe9e9;color:#b23b3b;}
+  .version-box{background:#fff;border:1px solid #e4ecf1;border-radius:16px;padding:24px;}
+  .version-box h4{margin:0 0 16px;font-size:14px;color:var(--slate-900);}
+  .version-row{padding:14px 0;border-top:1px solid #eef2f6;}
+  .version-row:first-of-type{border-top:none;padding-top:0;}
+  .version-row b{color:var(--slate-900);font-size:14px;margin-right:10px;}
+  .version-row span{font-size:12px;color:var(--teal-600);font-weight:700;}
+  .version-row p{margin:6px 0 0;font-size:13px;color:var(--slate-600);line-height:1.55;}
+
+  /* ---------- DISCLOSURES PAGE ---------- */
+  .disc-wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:36px;}
+  .disc-block h3{font-size:19px;color:var(--slate-900);margin:0 0 12px;font-weight:700;}
+  .disc-block p{margin:0;font-size:14.5px;color:var(--slate-600);line-height:1.75;}
+  .disc-block p + p{margin-top:12px;}
+  .disc-block a{color:var(--teal-600);font-weight:600;}
+  .callout-box{
+    margin-top:16px;background:#f6f9fb;border-left:3px solid var(--teal-500);
+    border-radius:10px;padding:16px 18px;font-size:13.5px;color:var(--slate-600);line-height:1.65;
+  }
+  .badge-examples{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+  .contact-block{background:#f6f9fb;border-radius:16px;padding:28px;}
+  .contact-block .btn-ghost-dark{margin-top:14px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="#top" class="brand">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#g1)"/><defs><linearGradient id="g1" x1="5" y1="5" x2="27" y2="27"><stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/></linearGradient></defs></svg>
+      Mattress Match Score
+    </a>
+    <div class="nav-links">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#process">Match Score</a>
+      <a href="#compare" data-nav="compare">Compare</a>
+      <a href="#methodology" data-nav="methodology">Guides</a>
+      <a href="#cta">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Search">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a href="#process" class="btn btn-primary">Get Started</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" data-nav="home">Home</a>
+    <a href="#process">Match Score</a>
+    <a href="#compare" data-nav="compare">Compare</a>
+    <a href="#methodology" data-nav="methodology">Guides</a>
+    <a href="#cta">About</a>
+  </div>
+</nav>
+
+<div class="page active" data-page="home">
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>AI powered · personalized</span>
+      <h1>Find your perfect<span>mattress match</span></h1>
+      <p class="lead">Take our sleep assessment and get a personalized match score based on your sleep position, comfort preferences, and lifestyle — no guesswork, no showroom pressure.</p>
+      <div class="hero-ctas">
+        <a href="#process" class="btn btn-primary">Take the quiz
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#why" class="play-link">
+          <span class="play-circle">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+          How it works
+        </a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 2.4 6.9L21 11l-6.6 2.1L12 20l-2.4-6.9L3 11l6.6-2.1z"/></svg>
+          <span><b>Personalized</b> recommendations</span>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/></svg>
+          <span><b>Verified</b> reviews</span>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="8" width="15" height="9" rx="1.5"/><path d="M16 11h3.5L22 14.5V17h-6"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+          <span><b>Best prices</b> &amp; deals</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene-wrap">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="glow-floor"></div>
+      <div class="mattress-stage">
+        <div class="mattress-3d" id="mattress3d">
+          <div class="layer layer-support"></div>
+          <div class="layer layer-transition"></div>
+          <div class="layer layer-comfort"></div>
+          <div class="layer layer-cover"></div>
+          <div class="pillow"></div>
+          <div class="pillow pillow-2"></div>
+        </div>
+      </div>
+
+      <div class="callout c-cool">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg></span>
+        <span><span class="tt">Cooling cover</span><br><span class="sb">Stays cool all night</span></span>
+      </div>
+      <div class="callout c-comfort">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h10"/></svg></span>
+        <span><span class="tt">Comfort layer</span><br><span class="sb">Perfect balance</span></span>
+      </div>
+      <div class="callout c-transition">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg></span>
+        <span><span class="tt">Transition layer</span><br><span class="sb">Better support</span></span>
+      </div>
+      <div class="callout c-core">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/></svg></span>
+        <span><span class="tt">Core support</span><br><span class="sb">Long-lasting comfort</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-dark">The process</span>
+      <h2>Simple steps to better sleep</h2>
+      <p>Answer a few questions, get your match score, and find the mattress that actually fits how you sleep.</p>
+    </div>
+    <div class="process-row">
+      <div class="p-card">
+        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <h3>1. Take the quiz</h3>
+        <p>Tell us about your sleep style, body type, and the comfort preferences that matter most to you.</p>
+      </div>
+      <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="p-card">
+        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+        <h3>2. Get your match score</h3>
+        <p>Our model scores mattresses against your answers and ranks the best fits for you.</p>
+      </div>
+      <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="p-card">
+        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16l-1.5 9.5a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>3. Shop with confidence</h3>
+        <p>Compare your top matches, read verified reviews, and lock in the best price available.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section why" id="why">
+  <div class="wrap why-grid">
+    <div class="why-head">
+      <span class="eyebrow-dark" style="color:var(--teal-400)">Why choose us</span>
+      <h2>Why choose Mattress Match Score?</h2>
+      <p>We make it easy to find the mattress that's actually right for your body — so you can sleep better, every night.</p>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 2.4 6.9L21 11l-6.6 2.1L12 20l-2.4-6.9L3 11l6.6-2.1z"/></svg></div>
+          <div><h4>AI-powered matching</h4><p>Smart recommendations built for your unique needs.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/></svg></div>
+          <div><h4>Trusted reviews</h4><p>Real customer feedback and independent ratings.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div><h4>Best value</h4><p>Top deals sourced directly from leading brands.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div>
+          <div><h4>Expert guides</h4><p>Clear, unbiased buying advice from sleep specialists.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="rest-card">
+        <span class="tag"><svg class="moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.3A8.5 8.5 0 0 1 9.7 4a8.5 8.5 0 1 0 10.3 10.3Z"/></svg>Better sleep, better you</span>
+        <svg class="rest-figure" viewBox="0 0 200 220">
+          <ellipse cx="100" cy="210" rx="90" ry="10" fill="#050b16"/>
+          <rect x="20" y="130" width="160" height="70" rx="16" fill="#1a3350"/>
+          <rect x="30" y="120" width="140" height="30" rx="14" fill="#e9eff3"/>
+          <circle cx="100" cy="90" r="30" fill="#e8cbb3"/>
+          <path d="M72 84a28 28 0 0 1 56 0c0-18-12-30-28-30S72 66 72 84Z" fill="#2a2330"/>
+          <path d="M60 150c8-30 20-46 40-46s32 16 40 46" fill="#dfe9ee"/>
+          <rect x="86" y="118" width="28" height="24" rx="6" fill="#e8cbb3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="home-compare">
+  <div class="wrap duo">
+    <div class="duo-card">
+      <h3>Compare top mattress brands</h3>
+      <p>See how the best brands stack up on comfort, budget, and sleep style — side by side.</p>
+      <a href="#compare" class="btn btn-primary" style="padding:10px 18px;font-size:13.5px;">Start comparing
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="stack-graphic" aria-hidden="true">
+        <div class="sw" style="bottom:0;height:22px;background:linear-gradient(155deg,#3b4d63,#1f2c3d);"></div>
+        <div class="sw" style="bottom:20px;height:16px;background:linear-gradient(155deg,#8ff2e4,#22c9b0);"></div>
+        <div class="sw" style="bottom:34px;height:26px;background:linear-gradient(155deg,#fbfdff,#dfe7ec);"></div>
+      </div>
+    </div>
+    <div class="duo-card">
+      <h3>Real customer reviews</h3>
+      <p>Every review is verified — no incentives, no filtering, just honest feedback.</p>
+      <div class="review-nav">
+        <button aria-label="Previous review" id="revPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 6-6 6 6 6"/></svg></button>
+        <button aria-label="Next review" id="revNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★<span id="revScore">4.9 / 5</span></div>
+        <q id="revText">I finally sleep through the night. The match score nailed my firmness preference on the first try.</q>
+        <div class="reviewer">
+          <div class="avatar" id="revInit">S</div>
+          <div><div class="who" id="revWho">Sarah L.</div><div class="role">Verified buyer</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="wrap cta-inner">
+    <div class="cta-left">
+      <div class="cta-moon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.3A8.5 8.5 0 0 1 9.7 4a8.5 8.5 0 1 0 10.3 10.3Z"/></svg></div>
+      <div>
+        <h3>Better sleep starts here</h3>
+        <p>Take the quiz now and find your perfect mattress match.</p>
+      </div>
+    </div>
+    <a href="#process" class="btn btn-primary">Take the quiz
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+</div><!-- /page: home -->
+
+<div class="page" data-page="compare">
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Compare · Side sleepers under $1,000</span>
+      <h1 class="ph-title">Best mattresses for side sleepers under $1,000</h1>
+      <p class="ph-sub">Ranked by Match Score for a demo sleep profile. Sub-scores, risk flags, and review highlights are mapped directly to that profile's inputs.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="compare-toolbar">
+        <div class="chips">
+          <span class="chip">Side sleeper</span>
+          <span class="chip">130–180 lb</span>
+          <span class="chip">Medium-firm</span>
+          <span class="chip">Sleeps warm</span>
+        </div>
+        <div class="toolbar-actions">
+          <span class="selected-count">Comparing 3 of 3</span>
+          <a href="#process" class="btn btn-ghost-dark">Edit my profile</a>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <article class="compare-card">
+          <span class="listing-badge badge-top">Top match — algorithmic</span>
+          <h3>Aurora Hybrid</h3>
+          <div class="cc-meta">Hybrid · Medium-firm · <strong>$899</strong></div>
+          <div class="score-hero"><span class="score-num">92</span><span class="score-max">/100</span></div>
+          <div class="subscores">
+            <div class="ss-row"><span>Pressure relief</span><div class="ss-bar"><i style="width:94%"></i></div><b>9.4</b></div>
+            <div class="ss-row"><span>Support &amp; alignment</span><div class="ss-bar"><i style="width:91%"></i></div><b>9.1</b></div>
+            <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:88%"></i></div><b>8.8</b></div>
+            <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:90%"></i></div><b>9.0</b></div>
+            <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:85%"></i></div><b>8.5</b></div>
+            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:80%"></i></div><b>8.0</b></div>
+          </div>
+          <div class="flags">
+            <span class="flag flag-ok">✓ No flags for your profile</span>
+          </div>
+          <div class="highlight">
+            <q>Contours to my hips and shoulder without ever feeling stuck.</q>
+            <div class="hl-tags"><span class="tag-pos">pressure relief ✓</span><span class="tag-pos">cool ✓</span></div>
+          </div>
+          <a href="#disclosures" class="btn btn-primary cc-cta">View at retailer
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span class="aff-note">Affiliate link — we may earn a commission</span>
+        </article>
+
+        <article class="compare-card">
+          <span class="listing-badge badge-sponsored">Sponsored · verified Mar 2026</span>
+          <h3>Cloudline Original</h3>
+          <div class="cc-meta">Foam · Medium · <strong>$749</strong></div>
+          <div class="score-hero"><span class="score-num">88</span><span class="score-max">/100</span></div>
+          <div class="subscores">
+            <div class="ss-row"><span>Pressure relief</span><div class="ss-bar"><i style="width:96%"></i></div><b>9.6</b></div>
+            <div class="ss-row"><span>Support &amp; alignment</span><div class="ss-bar"><i style="width:82%"></i></div><b>8.2</b></div>
+            <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:58%"></i></div><b>5.8</b></div>
+            <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:93%"></i></div><b>9.3</b></div>
+            <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:70%"></i></div><b>7.0</b></div>
+            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:62%"></i></div><b>6.2</b></div>
+          </div>
+          <div class="flags">
+            <span class="flag flag-warn" title="All-foam construction retains more body heat; you told us you sleep warm.">⚠ Heat retention likely</span>
+          </div>
+          <div class="highlight">
+            <q>Sinks in perfectly for side sleeping but I do run a little hot.</q>
+            <div class="hl-tags"><span class="tag-pos">pressure relief ✓</span><span class="tag-neg">sleeps hot ✕</span></div>
+          </div>
+          <a href="#disclosures" class="btn btn-primary cc-cta">View at retailer
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span class="aff-note">Sponsored placement · affiliate link — see disclosure</span>
+        </article>
+
+        <article class="compare-card">
+          <span class="listing-badge badge-none">Algorithmic pick</span>
+          <h3>TerraFoam Cool</h3>
+          <div class="cc-meta">Foam · Firm · <strong>$679</strong></div>
+          <div class="score-hero"><span class="score-num">81</span><span class="score-max">/100</span></div>
+          <div class="subscores">
+            <div class="ss-row"><span>Pressure relief</span><div class="ss-bar"><i style="width:68%"></i></div><b>6.8</b></div>
+            <div class="ss-row"><span>Support &amp; alignment</span><div class="ss-bar"><i style="width:90%"></i></div><b>9.0</b></div>
+            <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:84%"></i></div><b>8.4</b></div>
+            <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:81%"></i></div><b>8.1</b></div>
+            <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:60%"></i></div><b>6.0</b></div>
+            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:75%"></i></div><b>7.5</b></div>
+          </div>
+          <div class="flags">
+            <span class="flag flag-warn" title="Firmness is above the typical comfort band for side sleepers in your weight range.">⚠ Support threshold mismatch</span>
+          </div>
+          <div class="highlight">
+            <q>Great if you like a firmer feel, but my shoulder noticed the difference.</q>
+            <div class="hl-tags"><span class="tag-neg">shoulder pressure ✕</span><span class="tag-pos">cool ✓</span></div>
+          </div>
+          <a href="#disclosures" class="btn btn-primary cc-cta">View at retailer
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span class="aff-note">Affiliate link — we may earn a commission</span>
+        </article>
+      </div>
+
+      <p class="compare-footnote">Scores reflect a placeholder demo profile (side sleeper, 130–180&nbsp;lb, medium-firm preference, warm sleeper) using scoring model <strong>v1.4</strong>. <a href="#process">Retake the quiz</a> for your own results, or read the <a href="#methodology">full methodology</a>.</p>
+    </div>
+  </section>
+</div><!-- /page: compare -->
+
+<div class="page" data-page="methodology">
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Methodology · Scoring model v1.4</span>
+      <h1 class="ph-title">How the Match Score works</h1>
+      <p class="ph-sub">A transparent, rules-based model. Every recommendation ships with the inputs and thresholds that produced it — nothing is a black box.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:40px;">
+        <span class="eyebrow-dark">The model</span>
+        <h2>Six scoring categories</h2>
+        <p>Your sleep profile is weighed against each category below. Weights shown are defaults — some shift slightly based on your sleep position and weight range.</p>
+      </div>
+      <div class="method-grid">
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.4-9.5-8.8C.7 8.7 2.3 5 6 5c2 0 3.4 1 4 2.4C10.6 6 12 5 14 5c3.7 0 5.3 3.7 3.5 7.2C15 17.6 12 21 12 21Z"/></svg></span><span class="weight-badge">20% weight</span></div>
+          <h4>Pressure relief</h4>
+          <p>How well the surface cushions shoulders and hips relative to your body weight and sleep position.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg></span><span class="weight-badge">25% weight</span></div>
+          <h4>Support &amp; alignment</h4>
+          <p>Whether the mattress keeps your spine neutral given your weight band and preferred firmness.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg></span><span class="weight-badge">15% weight</span></div>
+          <h4>Heat &amp; airflow</h4>
+          <p>Airflow and heat-trapping tendencies of the materials, weighted higher if you told us you sleep warm.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></span><span class="weight-badge">15% weight</span></div>
+          <h4>Motion isolation</h4>
+          <p>How much movement transfers across the surface — weighted higher for couples and light sleepers.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/></svg></span><span class="weight-badge">15% weight</span></div>
+          <h4>Edge support</h4>
+          <p>Stability and sag risk when sitting or sleeping near the perimeter of the mattress.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="weight-badge">10% weight</span></div>
+          <h4>Responsiveness</h4>
+          <p>How quickly the surface adapts as you change position through the night.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section why" style="padding-top:80px;padding-bottom:80px;">
+    <div class="wrap">
+      <div class="section-head" style="max-width:680px;">
+        <span class="eyebrow-dark" style="color:var(--teal-400)">From inputs to score</span>
+        <h2 style="color:var(--ink)">Four steps, no guesswork</h2>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step"><span class="flow-num">1</span><h4>Sleep profile</h4><p>Position, weight range, firmness preference, temperature and motion needs.</p></div>
+        <div class="flow-step"><span class="flow-num">2</span><h4>Rule matching</h4><p>Your inputs are matched against thresholds defined per mattress type and body-weight band.</p></div>
+        <div class="flow-step"><span class="flow-num">3</span><h4>Category scoring</h4><p>Each of the six categories is scored 0–10 using normalized spec and review data.</p></div>
+        <div class="flow-step"><span class="flow-num">4</span><h4>Weighted total</h4><p>Category scores are combined using the weights above into a single 0–100 Match Score.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:36px;">
+        <span class="eyebrow-dark">Guardrails</span>
+        <h2>Risk flags</h2>
+        <p>Flags surface mismatches a plain star rating would hide — each one names the trigger and a mitigation.</p>
+      </div>
+      <div class="flag-table">
+        <div class="flag-row flag-row-head">
+          <span>Flag</span><span>Typical trigger</span><span>Mitigation</span>
+        </div>
+        <div class="flag-row">
+          <span class="flag flag-warn">Support threshold mismatch</span>
+          <span>Firmness falls outside the comfort band for your weight and position.</span>
+          <span>Consider a firmer or softer variant in the same line, or add a topper.</span>
+        </div>
+        <div class="flag-row">
+          <span class="flag flag-warn">Heat retention likelihood</span>
+          <span>All-foam core with limited airflow, flagged for warm sleepers.</span>
+          <span>Look for gel-infused foam, hybrid coils, or a cooling cover.</span>
+        </div>
+        <div class="flag-row">
+          <span class="flag flag-warn">Edge support concern</span>
+          <span>Reinforced perimeter absent or rated low by verified reviewers.</span>
+          <span>Fine for centered sleepers; worth weighing if you sit on the edge often.</span>
+        </div>
+        <div class="flag-row">
+          <span class="flag flag-warn">Durability / sag risk</span>
+          <span>Low-density foam layers paired with above-average body weight.</span>
+          <span>Check warranty sag thresholds and trial period before buying.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap two-col">
+      <div>
+        <span class="eyebrow-dark">Data quality</span>
+        <h2 style="font-size:24px;margin:8px 0 14px;">Data sources &amp; confidence</h2>
+        <p style="color:var(--slate-600);font-size:14.5px;line-height:1.7;">Specs and review themes are normalized into structured tags (e.g. “sleeps hot”, “great edge support”) and each mattress carries a confidence rating based on how much verified data backs it.</p>
+        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;">
+          <span class="conf conf-high">High confidence</span>
+          <span class="conf conf-med">Medium confidence</span>
+          <span class="conf conf-low">Low confidence</span>
+        </div>
+      </div>
+      <div class="version-box">
+        <h4>Version history</h4>
+        <div class="version-row"><b>v1.4</b><span>Current</span><p>Refined heat &amp; airflow weighting for warm-sleeper profiles.</p></div>
+        <div class="version-row"><b>v1.3</b><span>Feb 2026</span><p>Added edge support as a standalone sub-score.</p></div>
+        <div class="version-row"><b>v1.0</b><span>Oct 2025</span><p>Initial launch of the six-category scoring model.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <div class="cta-left">
+        <div class="cta-moon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.3A8.5 8.5 0 0 1 9.7 4a8.5 8.5 0 1 0 10.3 10.3Z"/></svg></div>
+        <div><h3>See the model in action</h3><p>Compare real mattresses scored against a sample sleep profile.</p></div>
+      </div>
+      <a href="#compare" class="btn btn-primary">View comparison
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+</div><!-- /page: methodology -->
+
+<div class="page" data-page="disclosures">
+  <header class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Policies</span>
+      <h1 class="ph-title">Affiliate &amp; sponsored listing disclosures</h1>
+      <p class="ph-sub">How we make money, and how we keep it separate from what we recommend.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap disc-wrap">
+      <div class="disc-block">
+        <h3>How we make money</h3>
+        <p>Mattress Match Score is free to use. We earn a commission when you buy through certain links on this site, and some listings are paid placements from mattress brands and retailers. Neither arrangement is required for a mattress to appear in your results.</p>
+      </div>
+
+      <div class="disc-block">
+        <h3>Affiliate links</h3>
+        <p>“View at retailer” buttons route through an affiliate link. If you make a purchase, we may earn a commission at no additional cost to you. Affiliate links are tagged with tracking parameters so the retailer can credit the referral — they never change the price you pay.</p>
+        <div class="callout-box">This site contains affiliate links. As an affiliate, we may earn a commission on qualifying purchases, in accordance with FTC guidelines on endorsements and disclosures.</div>
+      </div>
+
+      <div class="disc-block">
+        <h3>Sponsored listings</h3>
+        <p>Brands and retailers can pay to appear in a labeled “Sponsored” slot. Sponsored listings are refreshed on a set schedule — the badge shows the date a listing's specs and pricing were last verified.</p>
+        <div class="badge-examples">
+          <span class="listing-badge badge-sponsored">Sponsored · verified Mar 2026</span>
+          <span class="listing-badge badge-top">Top match — algorithmic</span>
+        </div>
+        <p style="margin-top:16px;">Sponsored slots are visually and structurally separate from algorithmic rankings — a sponsored listing is never blended into, or substituted for, a mattress's Match Score position.</p>
+      </div>
+
+      <div class="disc-block">
+        <h3>Editorial independence</h3>
+        <p>Match Scores are generated by the scoring model described in our <a href="#methodology">methodology</a>. Advertisers cannot purchase a higher score, alter sub-scores, or remove a risk flag.</p>
+      </div>
+
+      <div class="disc-block contact-block">
+        <h3>Questions about a listing?</h3>
+        <p>If something looks off — outdated pricing, a missing disclosure, a flag you disagree with — tell us and we'll look into it.</p>
+        <a href="#" class="btn btn-ghost-dark">Contact the editorial team</a>
+      </div>
+    </div>
+  </section>
+</div><!-- /page: disclosures -->
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="brand">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="5" y1="5" x2="27" y2="27"><stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/></linearGradient></defs></svg>
+          Mattress Match Score
+        </a>
+        <p>Personalized mattress recommendations backed by real sleep data — so you buy once, and buy right.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#home">Home</a>
+        <a href="#process">Match Score</a>
+        <a href="#compare">Compare</a>
+        <a href="#methodology">Guides</a>
+        <a href="#cta">About</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Mattress Match Score. All rights reserved.</span>
+      <div class="legal">
+        <a href="#disclosures">Affiliate disclosure</a>
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 6 3-6 3Z" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav mobile toggle
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mobileMenu.classList.remove('open'); });
+  });
+
+  // Scroll-driven mattress layer separation
+  var hero = document.querySelector('.hero');
+  function updateExplode(){
+    var rect = hero.getBoundingClientRect();
+    var total = rect.height * 0.6;
+    var scrolled = Math.min(Math.max(-rect.top, 0), total);
+    var progress = total > 0 ? scrolled / total : 0;
+    document.documentElement.style.setProperty('--explode', progress.toFixed(3));
+  }
+  window.addEventListener('scroll', updateExplode, {passive:true});
+  window.addEventListener('resize', updateExplode);
+  updateExplode();
+
+  // Slight cinematic drift on the mattress tied to scroll, on top of layer separation
+  var m3d = document.getElementById('mattress3d');
+  function updateTilt(){
+    var p = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--explode')) || 0;
+    var rx = 46 - p * 6;
+    var rz = -36 + p * 6;
+    m3d.style.transform = 'rotateX(' + rx + 'deg) rotateZ(' + rz + 'deg)';
+    requestAnimationFrame(updateTilt);
+  }
+  requestAnimationFrame(updateTilt);
+
+  // Review carousel
+  var reviews = [
+    {stars:'4.9 / 5', text:'"I finally sleep through the night. The match score nailed my firmness preference on the first try."', who:'Sarah L.', role:'Verified buyer', init:'S'},
+    {stars:'4.8 / 5', text:'"Comparing brands side by side saved me hours of showroom visits and a lot of second-guessing."', who:'Marcus D.', role:'Verified buyer', init:'M'},
+    {stars:'5.0 / 5', text:'"The cooling layer recommendation was spot on — I stopped waking up overheated within a week."', who:'Priya K.', role:'Verified buyer', init:'P'}
+  ];
+  var ri = 0;
+  function renderReview(){
+    var r = reviews[ri];
+    document.getElementById('revScore').textContent = r.stars;
+    document.getElementById('revText').textContent = r.text;
+    document.getElementById('revWho').textContent = r.who;
+    document.getElementById('revInit').textContent = r.init;
+  }
+  document.getElementById('revPrev').addEventListener('click', function(){ ri = (ri - 1 + reviews.length) % reviews.length; renderReview(); });
+  document.getElementById('revNext').addEventListener('click', function(){ ri = (ri + 1) % reviews.length; renderReview(); });
+
+  // Lightweight page router (single-file, multi-"page" site)
+  var PAGE_KEYS = ['home', 'compare', 'methodology', 'disclosures'];
+  var pages = document.querySelectorAll('.page');
+  var navLinks = document.querySelectorAll('[data-nav]');
+
+  function route(){
+    var raw = (location.hash || '').replace('#', '');
+    var targetPage = 'home';
+    var scrollId = null;
+
+    if (raw === '' || raw === 'top') {
+      targetPage = 'home'; scrollId = 'top';
+    } else if (PAGE_KEYS.indexOf(raw) !== -1) {
+      targetPage = raw;
+    } else {
+      targetPage = 'home';
+      scrollId = raw;
+    }
+
+    pages.forEach(function(p){ p.classList.toggle('active', p.dataset.page === targetPage); });
+    navLinks.forEach(function(a){ a.classList.toggle('active', a.dataset.nav === targetPage); });
+
+    if (scrollId) {
+      var el = document.getElementById(scrollId);
+      if (el && scrollId !== 'top') {
+        requestAnimationFrame(function(){ el.scrollIntoView({behavior:'smooth', block:'start'}); });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+    updateExplode();
+  }
+  window.addEventListener('hashchange', route);
+  route();
+</script>
+</body>
+</html>
