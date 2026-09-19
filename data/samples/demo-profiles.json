@@ -1,0 +1,49 @@
+{
+  "description": "Demo profile/mattress pairs for the GET /api/score-trace?profileId=... endpoint. Not a real profile store — a fixed lookup table standing in for one, same spirit as data/samples/*.json.",
+  "profiles": {
+    "demo-poor-match": {
+      "profile": {
+        "sleepPosition": "side",
+        "weightLb": 210,
+        "preferredFirmnessLabel": "medium-firm",
+        "sleepTemperature": "hot",
+        "motionSensitivity": "couple-high",
+        "painFocus": ["shoulder", "hip"]
+      },
+      "mattress": {
+        "id": "cloudline-original",
+        "name": "Cloudline Original",
+        "type": "foam",
+        "firmnessRating": 3,
+        "heightIn": 10,
+        "hasCoolingCover": false,
+        "edgeSupportReinforced": false,
+        "topFoamDensityLbFt3": 1.5,
+        "warrantyYears": 10,
+        "trialNights": 100
+      }
+    },
+    "demo-good-match": {
+      "profile": {
+        "sleepPosition": "side",
+        "weightLb": 210,
+        "preferredFirmnessLabel": "medium-firm",
+        "sleepTemperature": "neutral",
+        "motionSensitivity": "single",
+        "painFocus": []
+      },
+      "mattress": {
+        "id": "aurora-hybrid",
+        "name": "Aurora Hybrid",
+        "type": "hybrid",
+        "firmnessRating": 6.5,
+        "heightIn": 12,
+        "hasCoolingCover": true,
+        "edgeSupportReinforced": true,
+        "topFoamDensityLbFt3": 2.5,
+        "warrantyYears": 10,
+        "trialNights": 100
+      }
+    }
+  }
+}

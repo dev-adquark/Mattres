@@ -21,32 +21,77 @@ import {
   ComfortBand,
   ScoreCategory,
   ListingPlacement,
+  ScoreTrace,
 } from './mattress-match';
 
 /** Stand-in for scoreEngine.js's real return shape (see src/scoreEngine.js). */
 interface ScoringOutput {
-  scoreModelVersion: string;
+  modelVersion: string;
   overallScore: number;
   subScores: Record<ScoreCategory, number>;
   comfortBand: ComfortBand;
   riskFlags: RiskFlag[];
+  trace: ScoreTrace;
 }
 
 /** Minimal deterministic stand-in for scoreEngine.js, same output shape. */
 function scoreOneMattress(_profile: SleepProfile, mattress: MattressSummary): ScoringOutput {
+  const isFoamNoCooling = mattress.type === 'foam';
+
   return {
-    scoreModelVersion: '0.1',
+    modelVersion: '0.1',
     overallScore: mattress.type === 'hybrid' ? 88 : 74,
     subScores: {
       pressureRelief: 7.5,
       support: 8,
-      heat: 7,
+      heat: isFoamNoCooling ? 5 : 7,
       motion: 7,
       edge: 7,
       durability: 7,
     },
     comfortBand: { min: 5, max: 8, weightBand: '180-230' },
-    riskFlags: [],
+    riskFlags: isFoamNoCooling
+      ? [
+          {
+            code: 'HEAT_RETENTION_LIKELY',
+            category: 'heat',
+            rationale: 'Heat sub-score is 5/10 and this profile sleeps hot.',
+            mitigation: 'Look for gel-infused foam or an added cooling cover.',
+          },
+        ]
+      : [],
+    trace: {
+      modelVersion: '0.1',
+      categoryRulesUsed: [
+        {
+          ruleId: 'BASELINE_BY_TYPE',
+          category: null,
+          description: `Starting sub-scores come from the ${mattress.type} baseline.`,
+          delta: 0,
+          note: `Mattress type "${mattress.type}" baseline applied.`,
+        },
+        ...(isFoamNoCooling
+          ? [
+              {
+                ruleId: 'HEAT_NO_COOLING_FOAM_PENALTY' as const,
+                category: 'heat' as const,
+                description: 'All-foam construction with no cooling cover reduces the heat sub-score.',
+                delta: -1,
+                note: 'No cooling cover specified on an all-foam mattress.',
+              },
+            ]
+          : []),
+      ],
+      riskRulesUsed: [
+        {
+          ruleId: 'HEAT_RETENTION_LIKELY',
+          triggered: isFoamNoCooling,
+          thresholdId: 'thresholds.heatRetentionMaxHeatScore',
+          thresholdValue: 6,
+          evaluatedValue: isFoamNoCooling ? 5 : 7,
+        },
+      ],
+    },
   };
 }
 
@@ -112,11 +157,12 @@ export function buildRecommendationResults(
     const result: RecommendationResult = {
       mattressId: candidate.mattress.mattressId,
       profileId: profile.profileId,
-      scoreModelVersion: scoring.scoreModelVersion,
+      modelVersion: scoring.modelVersion,
       overallScore: scoring.overallScore,
       subScores: scoring.subScores,
       comfortBand: scoring.comfortBand,
       riskFlags: scoring.riskFlags,
+      trace: scoring.trace,
       mattress: candidate.mattress,
       reviewHighlights: candidate.reviewHighlights,
       placement,

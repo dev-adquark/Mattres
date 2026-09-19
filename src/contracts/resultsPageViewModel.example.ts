@@ -23,10 +23,14 @@ export interface RecommendationCardViewModel {
   topReviewSnippet: string | null;
   isSelectedForComparison: boolean;
   retailerCtaUrl: string | null;
+  /** Compact "Why this match?" bullets, built from trace.categoryRulesUsed + trace.riskRulesUsed. */
+  whyThisMatch: string[];
 }
 
 export interface ResultsPageViewModel {
   profileSummaryChips: string[];
+  /** Surfaced next to the methodology page link, per this task's "modelVersion... in each recommendation card" requirement. */
+  modelVersion: string | null;
   totalResults: number;
   selectedForComparisonCount: number;
   cards: RecommendationCardViewModel[];
@@ -34,6 +38,31 @@ export interface ResultsPageViewModel {
 
 function formatPrice(priceUsd?: number): string {
   return priceUsd !== undefined ? `$${priceUsd.toLocaleString()}` : 'Price unavailable';
+}
+
+/**
+ * Builds the compact "Why this match?" bullets for one result: one line per
+ * category rule that actually moved a sub-score (skips zero-delta/baseline
+ * noise), plus one line per triggered risk rule. This is the only place
+ * that reads trace.categoryRulesUsed/riskRulesUsed for display — everything
+ * else on the card reads the already-computed subScores/riskFlags.
+ */
+function buildWhyThisMatch(result: RecommendationResult): string[] {
+  const bullets: string[] = [];
+
+  for (const rule of result.trace.categoryRulesUsed) {
+    if (rule.delta === 0) continue; // Skip the baseline / no-op entries — not interesting to a shopper.
+    const sign = rule.delta > 0 ? '+' : '';
+    const categoryLabel = rule.category ?? 'overall';
+    bullets.push(`${categoryLabel}: ${sign}${rule.delta} — ${rule.note}`);
+  }
+
+  for (const rule of result.trace.riskRulesUsed) {
+    if (!rule.triggered) continue;
+    bullets.push(`Flagged: ${rule.ruleId.replace(/_/g, ' ').toLowerCase()}`);
+  }
+
+  return bullets;
 }
 
 function buildCard(result: RecommendationResult): RecommendationCardViewModel {
@@ -60,6 +89,7 @@ function buildCard(result: RecommendationResult): RecommendationCardViewModel {
     topReviewSnippet: topHighlight ? topHighlight.snippet : null,
     isSelectedForComparison: result.isSelectedForComparison,
     retailerCtaUrl: result.mattress.affiliateUrl ?? null,
+    whyThisMatch: buildWhyThisMatch(result),
   };
 }
 
@@ -69,6 +99,7 @@ export function buildResultsPageViewModel(
 ): ResultsPageViewModel {
   return {
     profileSummaryChips: buildProfileSummaryChips(profile),
+    modelVersion: results[0]?.modelVersion ?? null,
     totalResults: results.length,
     selectedForComparisonCount: results.filter((r) => r.isSelectedForComparison).length,
     cards: results.map(buildCard),

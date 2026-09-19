@@ -85,25 +85,91 @@
     "lowIsolationTypesForCoupleHigh": ["innerspring"]
   },
 
+  "categoryRuleCatalog": [
+    {
+      "id": "BASELINE_BY_TYPE",
+      "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"],
+      "description": "Starting sub-scores come from mattressTypeBaselines for the mattress's construction type, before any profile-specific adjustment."
+    },
+    {
+      "id": "SUPPORT_BAND_BONUS",
+      "categories": ["support"],
+      "description": "Firmness rating falls inside the sleeper's comfort band; a small bonus is applied to the support sub-score."
+    },
+    {
+      "id": "SUPPORT_BAND_PENALTY",
+      "categories": ["support"],
+      "description": "Firmness rating falls outside the sleeper's comfort band; support is penalized proportionally to how many points outside the band it sits."
+    },
+    {
+      "id": "PRESSURE_RELIEF_SOFTER_BONUS",
+      "categories": ["pressureRelief"],
+      "description": "Firmness rating is softer than the comfort band, which typically improves pressure relief; a small bonus is applied."
+    },
+    {
+      "id": "PRESSURE_RELIEF_FIRMER_PENALTY",
+      "categories": ["pressureRelief"],
+      "description": "Firmness rating is firmer than the comfort band, which typically reduces pressure relief; a penalty proportional to the overage is applied."
+    },
+    {
+      "id": "HEAT_COOLING_COVER_BONUS",
+      "categories": ["heat"],
+      "description": "Mattress has a cooling cover; a bonus is applied to the heat & airflow sub-score."
+    },
+    {
+      "id": "HEAT_NO_COOLING_FOAM_PENALTY",
+      "categories": ["heat"],
+      "description": "Mattress is all-foam with no cooling cover; a penalty is applied to the heat & airflow sub-score, since foam alone tends to retain more heat."
+    },
+    {
+      "id": "MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY",
+      "categories": ["motion"],
+      "description": "Sleeper reports high motion sensitivity (shares the bed, easily woken) and the mattress type is on the low-isolation list; a penalty is applied to motion isolation."
+    },
+    {
+      "id": "EDGE_REINFORCED_BONUS",
+      "categories": ["edge"],
+      "description": "Mattress has a reinforced perimeter; a bonus is applied to the edge support sub-score."
+    },
+    {
+      "id": "DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY",
+      "categories": ["durability"],
+      "description": "Top foam density is below the durability threshold and the sleeper's weight is at or above the high-weight threshold; a penalty is applied for elevated long-term sag risk."
+    },
+    {
+      "id": "DURABILITY_HIGH_DENSITY_BONUS",
+      "categories": ["durability"],
+      "description": "Top foam density comfortably exceeds the durability threshold; a small bonus is applied."
+    }
+  ],
+
   "riskFlagRules": [
     {
       "code": "SUPPORT_THRESHOLD_MISMATCH",
       "category": "support",
+      "description": "Fires when the mattress's firmness rating falls outside the firmness comfort band resolved for the sleeper's position and weight band.",
+      "thresholdId": "firmnessComfortBands.<sleepPosition>.<weightBand>",
       "mitigation": "Consider a firmer or softer variant in the same line, or add a mattress topper to move the feel into your comfort band."
     },
     {
       "code": "HEAT_RETENTION_LIKELY",
       "category": "heat",
+      "description": "Fires when the sleeper reports sleeping hot and the computed heat sub-score is at or below the heat retention threshold.",
+      "thresholdId": "thresholds.heatRetentionMaxHeatScore",
       "mitigation": "Look for gel-infused foam, a hybrid coil layer, or an added cooling cover/topper if you tend to sleep warm."
     },
     {
       "code": "EDGE_SUPPORT_CONCERN",
       "category": "edge",
+      "description": "Fires when the mattress has no reinforced perimeter and the computed edge sub-score is below the edge support threshold.",
+      "thresholdId": "thresholds.edgeSupportMinScore",
       "mitigation": "Fine for sleepers who stay centered; worth weighing a model with reinforced perimeter coils if you sit on the edge often."
     },
     {
       "code": "DURABILITY_SAG_RISK",
       "category": "durability",
+      "description": "Fires when top foam density is below the durability density threshold and the sleeper's weight is at or above the high-weight threshold.",
+      "thresholdId": "thresholds.durabilityMinFoamDensityLbFt3 & thresholds.durabilityHighWeightLb",
       "mitigation": "Check the warranty's sag-depth threshold and prioritize using the full in-home trial period to catch early sagging."
     }
   ]

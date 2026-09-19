@@ -103,10 +103,18 @@ function resolveComfortBand(rules, sleepPosition, weightBandKey) {
  * Core v0.1 scoring implementation. Kept as a separate function (rather than
  * inlined in scoreEngine) so future versions can each own their own
  * implementation while sharing the same public scoreEngine() entry point.
+ *
+ * This also builds an audit trail alongside the score itself: every branch
+ * that actually changes a sub-score records which rule id fired (from
+ * rules.categoryRuleCatalog) and why, and every risk flag rule is evaluated
+ * with its trigger state recorded (from rules.riskFlagRules) whether or not
+ * it ends up firing. The trace is purely additive bookkeeping around the
+ * same computation — it does not change the score math.
  */
 function scoreV0_1(rules, profile, mattress) {
   const adj = rules.adjustments;
   const thresholds = rules.thresholds;
+  const ruleCatalogById = Object.fromEntries(rules.categoryRuleCatalog.map((r) => [r.id, r]));
 
   const weightBandKey = resolveWeightBand(rules, profile.weightLb);
   const comfortBand = resolveComfortBand(rules, profile.sleepPosition, weightBandKey);
@@ -117,42 +125,108 @@ function scoreV0_1(rules, profile, mattress) {
 
   const sub = { ...baseline }; // pressureRelief, support, heat, motion, edge, durability
 
+  const categoryRulesUsed = [];
+  function recordCategoryRule(ruleId, category, delta, note) {
+    categoryRulesUsed.push({
+      ruleId,
+      category,
+      description: ruleCatalogById[ruleId].description,
+      delta: round1(delta),
+      note,
+    });
+  }
+
+  // --- Baseline (applies to every category before any adjustment below) ---
+  recordCategoryRule(
+    'BASELINE_BY_TYPE',
+    null,
+    0,
+    `Mattress type "${mattress.type}" baseline: ${JSON.stringify(baseline)}.`
+  );
+
   // --- Support & alignment: penalize distance outside the comfort band ---
   let distanceOutsideBand = 0;
   if (mattress.firmnessRating < bandMin) {
     distanceOutsideBand = bandMin - mattress.firmnessRating;
-    sub.support -= distanceOutsideBand * adj.supportPenaltyPerFirmnessPoint;
+    const delta = -distanceOutsideBand * adj.supportPenaltyPerFirmnessPoint;
+    sub.support += delta;
+    recordCategoryRule(
+      'SUPPORT_BAND_PENALTY',
+      'support',
+      delta,
+      `Firmness ${mattress.firmnessRating}/10 is ${distanceOutsideBand} point(s) below the ${bandMin}-${bandMax} band.`
+    );
   } else if (mattress.firmnessRating > bandMax) {
     distanceOutsideBand = mattress.firmnessRating - bandMax;
-    sub.support -= distanceOutsideBand * adj.supportPenaltyPerFirmnessPoint;
+    const delta = -distanceOutsideBand * adj.supportPenaltyPerFirmnessPoint;
+    sub.support += delta;
+    recordCategoryRule(
+      'SUPPORT_BAND_PENALTY',
+      'support',
+      delta,
+      `Firmness ${mattress.firmnessRating}/10 is ${distanceOutsideBand} point(s) above the ${bandMin}-${bandMax} band.`
+    );
   } else {
     sub.support += adj.supportBonusInBand;
+    recordCategoryRule(
+      'SUPPORT_BAND_BONUS',
+      'support',
+      adj.supportBonusInBand,
+      `Firmness ${mattress.firmnessRating}/10 is within the ${bandMin}-${bandMax} band.`
+    );
   }
 
   // --- Pressure relief: softer-than-band helps, firmer-than-band hurts ---
   if (mattress.firmnessRating < bandMin) {
     sub.pressureRelief += adj.pressureReliefBonusWhenSofterThanBand;
+    recordCategoryRule(
+      'PRESSURE_RELIEF_SOFTER_BONUS',
+      'pressureRelief',
+      adj.pressureReliefBonusWhenSofterThanBand,
+      `Firmness ${mattress.firmnessRating}/10 is softer than the ${bandMin}-${bandMax} band.`
+    );
   } else if (mattress.firmnessRating > bandMax) {
     const overBy = mattress.firmnessRating - bandMax;
-    sub.pressureRelief -= overBy * adj.pressureReliefPenaltyPerFirmnessPoint;
+    const delta = -overBy * adj.pressureReliefPenaltyPerFirmnessPoint;
+    sub.pressureRelief += delta;
+    recordCategoryRule(
+      'PRESSURE_RELIEF_FIRMER_PENALTY',
+      'pressureRelief',
+      delta,
+      `Firmness ${mattress.firmnessRating}/10 is ${overBy} point(s) firmer than the ${bandMin}-${bandMax} band.`
+    );
   }
 
   // --- Heat & airflow ---
   if (mattress.hasCoolingCover) {
     sub.heat += adj.coolingCoverHeatBonus;
+    recordCategoryRule('HEAT_COOLING_COVER_BONUS', 'heat', adj.coolingCoverHeatBonus, 'Mattress has a cooling cover.');
   } else if (mattress.type === 'foam') {
     sub.heat -= adj.noCoolingFoamHeatPenalty;
+    recordCategoryRule(
+      'HEAT_NO_COOLING_FOAM_PENALTY',
+      'heat',
+      -adj.noCoolingFoamHeatPenalty,
+      'All-foam construction with no cooling cover.'
+    );
   }
 
   // --- Motion isolation ---
   const isLowIsolationType = thresholds.lowIsolationTypesForCoupleHigh.includes(mattress.type);
   if (profile.motionSensitivity === 'couple-high' && isLowIsolationType) {
     sub.motion -= adj.coupleHighMotionPenaltyLowIsolationTypes;
+    recordCategoryRule(
+      'MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY',
+      'motion',
+      -adj.coupleHighMotionPenaltyLowIsolationTypes,
+      `Profile reports "couple-high" motion sensitivity and mattress type "${mattress.type}" is on the low-isolation list.`
+    );
   }
 
   // --- Edge support ---
   if (mattress.edgeSupportReinforced) {
     sub.edge += adj.reinforcedEdgeBonus;
+    recordCategoryRule('EDGE_REINFORCED_BONUS', 'edge', adj.reinforcedEdgeBonus, 'Mattress has a reinforced perimeter.');
   }
 
   // --- Durability / sag risk ---
@@ -160,8 +234,20 @@ function scoreV0_1(rules, profile, mattress) {
   if (density != null) {
     if (density < thresholds.durabilityMinFoamDensityLbFt3 && profile.weightLb >= thresholds.durabilityHighWeightLb) {
       sub.durability -= adj.lowDensityHighWeightDurabilityPenalty;
+      recordCategoryRule(
+        'DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY',
+        'durability',
+        -adj.lowDensityHighWeightDurabilityPenalty,
+        `Top foam density ${density} lb/ft³ is below ${thresholds.durabilityMinFoamDensityLbFt3} lb/ft³ and profile weight ${profile.weightLb} lb is at/above ${thresholds.durabilityHighWeightLb} lb.`
+      );
     } else if (density >= thresholds.durabilityMinFoamDensityLbFt3 + 0.5) {
       sub.durability += adj.highDensityDurabilityBonus;
+      recordCategoryRule(
+        'DURABILITY_HIGH_DENSITY_BONUS',
+        'durability',
+        adj.highDensityDurabilityBonus,
+        `Top foam density ${density} lb/ft³ comfortably exceeds the ${thresholds.durabilityMinFoamDensityLbFt3} lb/ft³ threshold.`
+      );
     }
   }
 
@@ -177,73 +263,119 @@ function scoreV0_1(rules, profile, mattress) {
   }
   const overallScore = Math.round(clamp(weightedSum, 0, 10) * 10);
 
-  // --- Risk flags ---
+  // --- Risk flags (every rule evaluated + recorded, whether or not it fires) ---
   const riskFlags = [];
+  const riskRulesUsed = [];
   const ruleByCode = Object.fromEntries(rules.riskFlagRules.map((r) => [r.code, r]));
 
-  if (mattress.firmnessRating < bandMin || mattress.firmnessRating > bandMax) {
+  {
     const rule = ruleByCode.SUPPORT_THRESHOLD_MISMATCH;
+    const triggered = mattress.firmnessRating < bandMin || mattress.firmnessRating > bandMax;
     const direction = mattress.firmnessRating < bandMin ? 'softer' : 'firmer';
-    riskFlags.push({
-      code: rule.code,
-      category: rule.category,
-      rationale:
-        `This mattress's firmness rating (${mattress.firmnessRating}/10) is ${direction} than the ` +
+    const rationale = triggered
+      ? `This mattress's firmness rating (${mattress.firmnessRating}/10) is ${direction} than the ` +
         `${bandMin}-${bandMax}/10 comfort band typical for a ${profile.sleepPosition} sleeper in the ` +
-        `${weightBandKey} lb range.`,
-      mitigation: rule.mitigation,
+        `${weightBandKey} lb range.`
+      : `Firmness rating (${mattress.firmnessRating}/10) falls within the ${bandMin}-${bandMax}/10 comfort band; rule not triggered.`;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: `firmnessComfortBands.${profile.sleepPosition}.${weightBandKey}`,
+      thresholdValue: [bandMin, bandMax],
+      evaluatedValue: mattress.firmnessRating,
     });
+    if (triggered) {
+      riskFlags.push({ code: rule.code, category: rule.category, rationale, mitigation: rule.mitigation });
+    }
   }
 
-  if (profile.sleepTemperature === 'hot' && sub.heat <= thresholds.heatRetentionMaxHeatScore) {
+  {
     const rule = ruleByCode.HEAT_RETENTION_LIKELY;
-    riskFlags.push({
-      code: rule.code,
-      category: rule.category,
-      rationale:
-        `Heat & airflow sub-score is ${sub.heat}/10 (at or below the ${thresholds.heatRetentionMaxHeatScore}/10 ` +
-        `threshold), and this profile reports sleeping hot.`,
-      mitigation: rule.mitigation,
+    const triggered = profile.sleepTemperature === 'hot' && sub.heat <= thresholds.heatRetentionMaxHeatScore;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: 'thresholds.heatRetentionMaxHeatScore',
+      thresholdValue: thresholds.heatRetentionMaxHeatScore,
+      evaluatedValue: sub.heat,
     });
+    if (triggered) {
+      riskFlags.push({
+        code: rule.code,
+        category: rule.category,
+        rationale:
+          `Heat & airflow sub-score is ${sub.heat}/10 (at or below the ${thresholds.heatRetentionMaxHeatScore}/10 ` +
+          `threshold), and this profile reports sleeping hot.`,
+        mitigation: rule.mitigation,
+      });
+    }
   }
 
-  if (!mattress.edgeSupportReinforced && sub.edge < thresholds.edgeSupportMinScore) {
+  {
     const rule = ruleByCode.EDGE_SUPPORT_CONCERN;
-    riskFlags.push({
-      code: rule.code,
-      category: rule.category,
-      rationale:
-        `No reinforced perimeter is specified, and the edge support sub-score is ${sub.edge}/10 ` +
-        `(below the ${thresholds.edgeSupportMinScore}/10 threshold).`,
-      mitigation: rule.mitigation,
+    const triggered = !mattress.edgeSupportReinforced && sub.edge < thresholds.edgeSupportMinScore;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: 'thresholds.edgeSupportMinScore',
+      thresholdValue: thresholds.edgeSupportMinScore,
+      evaluatedValue: sub.edge,
     });
+    if (triggered) {
+      riskFlags.push({
+        code: rule.code,
+        category: rule.category,
+        rationale:
+          `No reinforced perimeter is specified, and the edge support sub-score is ${sub.edge}/10 ` +
+          `(below the ${thresholds.edgeSupportMinScore}/10 threshold).`,
+        mitigation: rule.mitigation,
+      });
+    }
   }
 
-  if (
-    density != null &&
-    density < thresholds.durabilityMinFoamDensityLbFt3 &&
-    profile.weightLb >= thresholds.durabilityHighWeightLb
-  ) {
+  {
     const rule = ruleByCode.DURABILITY_SAG_RISK;
-    riskFlags.push({
-      code: rule.code,
-      category: rule.category,
-      rationale:
-        `Top foam density is ${density} lb/ft³ (below the ${thresholds.durabilityMinFoamDensityLbFt3} lb/ft³ ` +
-        `threshold) for a sleeper at ${profile.weightLb} lb (at or above the ${thresholds.durabilityHighWeightLb} lb ` +
-        `threshold), which raises long-term sag risk.`,
-      mitigation: rule.mitigation,
+    const triggered =
+      density != null &&
+      density < thresholds.durabilityMinFoamDensityLbFt3 &&
+      profile.weightLb >= thresholds.durabilityHighWeightLb;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: 'thresholds.durabilityMinFoamDensityLbFt3 & thresholds.durabilityHighWeightLb',
+      thresholdValue: {
+        minDensity: thresholds.durabilityMinFoamDensityLbFt3,
+        highWeightLb: thresholds.durabilityHighWeightLb,
+      },
+      evaluatedValue: { density: density ?? null, weightLb: profile.weightLb },
     });
+    if (triggered) {
+      riskFlags.push({
+        code: rule.code,
+        category: rule.category,
+        rationale:
+          `Top foam density is ${density} lb/ft³ (below the ${thresholds.durabilityMinFoamDensityLbFt3} lb/ft³ ` +
+          `threshold) for a sleeper at ${profile.weightLb} lb (at or above the ${thresholds.durabilityHighWeightLb} lb ` +
+          `threshold), which raises long-term sag risk.`,
+        mitigation: rule.mitigation,
+      });
+    }
   }
 
   return {
-    scoreModelVersion: rules.version,
+    modelVersion: rules.version,
+    scoreModelVersion: rules.version, // kept for backward compatibility with earlier callers
     mattressId: mattress.id || null,
     overallScore,
     subScores: sub,
     weights: rules.weights,
     comfortBand: { min: bandMin, max: bandMax, weightBand: weightBandKey },
     riskFlags,
+    trace: {
+      modelVersion: rules.version,
+      categoryRulesUsed,
+      riskRulesUsed,
+    },
   };
 }
 
@@ -257,7 +389,7 @@ const VERSION_IMPLEMENTATIONS = {
  * @param {string} version e.g. "0.1"
  * @param {object} profile Sleep Profile (see data/samples/sample-profile.json)
  * @param {object} mattress Mattress spec (see data/samples/sample-mattress.json)
- * @returns {object} { scoreModelVersion, mattressId, overallScore, subScores, weights, comfortBand, riskFlags }
+ * @returns {object} { modelVersion, scoreModelVersion, mattressId, overallScore, subScores, weights, comfortBand, riskFlags, trace }
  */
 function scoreEngine(version, profile, mattress) {
   const impl = VERSION_IMPLEMENTATIONS[version];

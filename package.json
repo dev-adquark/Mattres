@@ -7,8 +7,9 @@
   "scripts": {
     "score-demo": "node scripts/score-demo.js",
     "ingest": "node scripts/ingest-mattresses.js",
+    "serve": "node scripts/serve-demo-api.js",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && npm run typecheck --silent"
+    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && node scripts/test-score-trace-api.js && npm run typecheck --silent"
   },
   "engines": {
     "node": ">=14"

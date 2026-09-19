@@ -75,6 +75,20 @@ export type RiskFlagCode =
   | 'EDGE_SUPPORT_CONCERN'
   | 'DURABILITY_SAG_RISK';
 
+/** Matches the `id` values in data/rules/0.1.json's categoryRuleCatalog. */
+export type CategoryRuleId =
+  | 'BASELINE_BY_TYPE'
+  | 'SUPPORT_BAND_BONUS'
+  | 'SUPPORT_BAND_PENALTY'
+  | 'PRESSURE_RELIEF_SOFTER_BONUS'
+  | 'PRESSURE_RELIEF_FIRMER_PENALTY'
+  | 'HEAT_COOLING_COVER_BONUS'
+  | 'HEAT_NO_COOLING_FOAM_PENALTY'
+  | 'MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY'
+  | 'EDGE_REINFORCED_BONUS'
+  | 'DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY'
+  | 'DURABILITY_HIGH_DENSITY_BONUS';
+
 // ---------------------------------------------------------------------------
 // Form input contracts
 // Two distinct shapes because the landing "Quick Match" and the full profile
@@ -178,6 +192,47 @@ export interface ReviewHighlight {
 }
 
 // ---------------------------------------------------------------------------
+// Scoring trace — auditability
+// Matches scoreEngine.js's `trace` return field exactly, so the JSON coming
+// back from GET /api/score-trace can be assigned directly to this type with
+// no adapter. See src/scoreEngine.js's scoreV0_1() for where each of these
+// entries is produced.
+// ---------------------------------------------------------------------------
+
+/**
+ * One category-scoring rule that fired while computing a sub-score.
+ * `category` is null for BASELINE_BY_TYPE, which seeds all six categories
+ * at once rather than adjusting a single one.
+ */
+export interface CategoryRuleUsage {
+  ruleId: CategoryRuleId;
+  category: ScoreCategory | null;
+  description: string;
+  delta: number;
+  note: string;
+}
+
+/**
+ * One risk-flag rule as evaluated, whether or not it triggered. Untriggered
+ * rules are included deliberately — "why didn't this flag fire?" is as much
+ * a part of the audit trail as "why did it".
+ */
+export interface RiskRuleUsage {
+  ruleId: RiskFlagCode;
+  triggered: boolean;
+  thresholdId: string;
+  thresholdValue: unknown;
+  evaluatedValue: unknown;
+}
+
+/** Matches scoreEngine.js's `trace` return field exactly. */
+export interface ScoreTrace {
+  modelVersion: string;
+  categoryRulesUsed: CategoryRuleUsage[];
+  riskRulesUsed: RiskRuleUsage[];
+}
+
+// ---------------------------------------------------------------------------
 // Placement metadata — sponsored vs algorithmic
 // ---------------------------------------------------------------------------
 
@@ -244,11 +299,14 @@ export interface RecommendationResult {
   mattressId: string;
   /** Which SleepProfile produced this result — audit trail per the PRD's "audit-ready scoring logic". */
   profileId: string;
-  scoreModelVersion: string;
+  /** Surfaced on the methodology page and on each recommendation card, per this task's brief. */
+  modelVersion: string;
   overallScore: number;
   subScores: Record<ScoreCategory, number>;
   comfortBand: ComfortBand;
   riskFlags: RiskFlag[];
+  /** Ties every sub-score and every risk flag back to the rule/threshold id that produced it — powers the "Why this match?" section. */
+  trace: ScoreTrace;
   mattress: MattressSummary;
   reviewHighlights: ReviewHighlight[];
   placement: ListingPlacement;

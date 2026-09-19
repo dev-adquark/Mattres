@@ -200,3 +200,66 @@ everywhere instead of being re-typed per component.
 - These contracts aren't wired into the static `index.html` site or the scoring engine's JS —
   they're the target shape for when those become real form/API/page code, exercised here via the
   `.example.ts` adapters rather than the production HTML.
+
+## Scoring trace + demo API (auditability)
+
+The scoring engine now returns a `trace` alongside every score, and a small demo HTTP endpoint
+exposes it directly — this is what a "Why this match?" section on the results page would render
+from.
+
+```
+data/samples/demo-profiles.json     2 demo profile/mattress pairs, keyed by profileId
+src/api/scoreTraceHandler.js        framework-free handler: profileId -> { modelVersion, trace, ... }
+scripts/serve-demo-api.js           minimal http server (no deps) exposing GET /api/score-trace
+scripts/test-score-trace-api.js     tests the handler directly AND over real HTTP
+```
+
+### Run it
+
+```
+npm run serve
+# in another terminal:
+curl "http://localhost:8787/api/score-trace?profileId=demo-poor-match"
+curl "http://localhost:8787/api/score-trace?profileId=demo-good-match"
+```
+
+`demo-poor-match` triggers all 4 risk rules (same fixture as `npm run score-demo`);
+`demo-good-match` triggers none, and its `trace.riskRulesUsed` shows all 4 rules evaluated with
+`triggered: false` — proving the trace records *why a flag didn't fire*, not just why it did.
+
+### What `trace` looks like
+
+```
+{
+  "modelVersion": "0.1",
+  "categoryRulesUsed": [
+    { "ruleId": "BASELINE_BY_TYPE", "category": null, "description": "...", "delta": 0, "note": "..." },
+    { "ruleId": "SUPPORT_BAND_PENALTY", "category": "support", "description": "...", "delta": -1.2, "note": "Firmness 3/10 is 2 point(s) below the 5-8 band." }
+  ],
+  "riskRulesUsed": [
+    { "ruleId": "HEAT_RETENTION_LIKELY", "triggered": true, "thresholdId": "thresholds.heatRetentionMaxHeatScore", "thresholdValue": 6, "evaluatedValue": 3 }
+  ]
+}
+```
+
+Every `ruleId` traces back to `data/rules/0.1.json`'s `categoryRuleCatalog` (for sub-score
+adjustments) or `riskFlagRules` (for flags) — the same dataset the methodology page's copy is
+meant to describe, so a rule's id, its human description, and its actual effect on a given score
+all come from one place instead of three that could drift apart.
+
+### `modelVersion`
+
+`scoreEngine()`'s return value now has both `modelVersion` (canonical, matches this task's ask)
+and `scoreModelVersion` (kept as a backward-compatible alias). The TypeScript contract's
+`RecommendationResult.modelVersion` follows the canonical name — this is the field a methodology
+page banner and each recommendation card would read to show which scoring model version produced
+what's on screen.
+
+### Known gaps
+
+- The demo endpoint scores a fixed profile against a fixed mattress from `data/samples/`, not
+  the live catalog — same scope boundary as `npm run score-demo`. Wiring `GET /api/score-trace`
+  to the real catalog + a real profile store is a follow-up.
+- There's no real HTTP framework here on purpose (matches the rest of the repo's
+  zero-dependency approach) — `scripts/serve-demo-api.js` is a demo server, not production
+  infrastructure.
