@@ -88,3 +88,58 @@ node scripts/score-demo.js --profile path/to/profile.json --mattress path/to/mat
   `VERSION_IMPLEMENTATIONS` inside `src/scoreEngine.js` — old versions keep working unchanged.
 - **Not connected to the frontend.** The `#compare` page's numbers are still hand-written
   mockup data; wiring it to this engine is a follow-up step, not done here.
+
+## Mattress catalog + review-tag ingestion
+
+A local ingestion pipeline that normalizes messy/inconsistent raw mattress records into the
+catalog schema referenced by the brief, and tags raw review snippets against a controlled
+vocabulary.
+
+```
+data/raw/mattresses-raw.json           12 raw mattress records, deliberately inconsistent
+                                        (mixed units, free-text categories, missing fields)
+data/raw/reviews-raw.json              raw review snippets, keyed by model_name
+data/schema/mattress.schema.json       JSON Schema for the normalized catalog entry
+data/schema/review-tags.vocabulary.json controlled tag vocabulary + ingestion trigger phrases
+src/ingest/normalizeMattress.js        raw record -> canonical mattress (unit/label parsing)
+src/ingest/tagReviews.js               keyword-based review tagging + confidence scoring
+scripts/ingest-mattresses.js           CLI: runs the pipeline, writes the two output files
+scripts/test-ingest.js                 dependency-free tests (also runs the pipeline as a smoke test)
+```
+
+### Run it
+
+```
+node scripts/ingest-mattresses.js
+# or: npm run ingest
+
+node scripts/test-ingest.js
+```
+
+### What it generates
+
+- **`data/mattress-catalog.json`** — 12 normalized mattresses, each with `brand`, `model`,
+  `type` (`foam` | `hybrid` | `innerspring`), `retailPartners`, `height.inches`, `trialDays`,
+  `warrantyYears` / `warrantyLifetime`, `firmnessRange` (`{min, max}` on a 1-10 scale, or `null`
+  when unparseable), `sourceConfidence` (`high` / `medium` / `low`), and `dataQualityNotes`
+  explaining any fallback (e.g. a height given in cm and converted, or a missing firmness value).
+
+- **`data/review-tags.json`** — for every mattress, an array of review highlight items tagged
+  from the controlled vocabulary (`sleepsHot`, `coolSleeper`, `greatEdgeSupport`,
+  `poorEdgeSupport`, `tooFirm`, `tooSoft`, `offGassing`, `motionIsolationGood`, `sagsAfterTime`,
+  `pressureReliefGood`, `greatValue`), each with a `confidence` tier (`high` ≥3 matching
+  reviews, `medium` = 2, `low` = 1), a `matchCount`, and the originating review `snippet`.
+
+### Design notes / known limitations
+
+- **Rule-based, not ML.** Tagging is deterministic case-insensitive phrase matching against
+  `data/schema/review-tags.vocabulary.json` — every tag traces back to an exact phrase in an
+  exact review. This trades recall for auditability, which matters more at this stage.
+- **Raw data is illustrative.** The 12 mattresses and their reviews are hand-written to exercise
+  every normalization edge case (a cm height, a missing firmness label, an explicit "(x/10)"
+  score, a "Lifetime" warranty) and every required tag — they are not real products.
+- **Confidence reflects review volume, not truth.** A `low` confidence tag just means only one
+  review snippet in this small sample happened to mention it, not that it's unreliable in
+  principle.
+- **Not connected to the frontend or scoring engine yet.** The `#compare` page's mattress cards
+  and `scoreEngine()`'s sample mattress are still separate, hand-written fixtures.

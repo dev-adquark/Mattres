@@ -6,7 +6,8 @@
   "main": "src/scoreEngine.js",
   "scripts": {
     "score-demo": "node scripts/score-demo.js",
-    "test": "node scripts/test-score-engine.js"
+    "ingest": "node scripts/ingest-mattresses.js",
+    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js"
   },
   "engines": {
     "node": ">=14"

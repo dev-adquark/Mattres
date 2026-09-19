@@ -1,0 +1,122 @@
+[
+  {
+    "brand_name": "Aurora Sleep",
+    "model_name": "Aurora Hybrid",
+    "category": "Hybrid",
+    "height_inches": "12in",
+    "trial_period": "100 nights",
+    "warranty": "10 years",
+    "firmness": "Medium-Firm",
+    "retailers": "Aurora Direct, Sleepworld"
+  },
+  {
+    "brand_name": "Cloudline",
+    "model_name": "Cloudline Original",
+    "category": "Memory Foam",
+    "height_inches": 10,
+    "trial_period": "100-night trial",
+    "warranty": "10 years",
+    "firmness": "Medium",
+    "retailers": ["Cloudline.com", "Mattress Depot"]
+  },
+  {
+    "brand_name": "TerraFoam",
+    "model_name": "TerraFoam Cool",
+    "category": "All-Foam",
+    "height_inches": "11",
+    "trial_period": 120,
+    "warranty": "12 years",
+    "firmness": "Firm (7.5/10)",
+    "retailers": "TerraFoam Direct"
+  },
+  {
+    "brand_name": "Nimbus",
+    "model_name": "Nimbus Pocket Coil",
+    "category": "Pocket Coil Hybrid",
+    "height_inches": "13in",
+    "trial_period": "365-night trial",
+    "warranty": "Lifetime",
+    "firmness": "Medium",
+    "retailers": ["NimbusHome"]
+  },
+  {
+    "brand_name": "Stratus",
+    "model_name": "Stratus Latex Hybrid",
+    "category": "Latex Hybrid",
+    "height_inches": "12.5 in",
+    "trial_period": "180 nights",
+    "warranty": "20 years",
+    "firmness": "Medium-Soft",
+    "retailers": "Stratus Direct, GreenBed"
+  },
+  {
+    "brand_name": "Baseline",
+    "model_name": "Baseline Firm Innerspring",
+    "category": "Innerspring",
+    "height_inches": "9in",
+    "trial_period": "30 nights",
+    "warranty": "5 years",
+    "firmness": "Firm",
+    "retailers": ["BudgetBeds"]
+  },
+  {
+    "brand_name": "Drift",
+    "model_name": "Drift Plush Foam",
+    "category": "Memory Foam",
+    "height_inches": "30cm",
+    "trial_period": "100 nights",
+    "warranty": "10 years",
+    "firmness": "Plush",
+    "retailers": "DriftSleep"
+  },
+  {
+    "brand_name": "Anchor",
+    "model_name": "Anchor Hybrid Support",
+    "category": "Hybrid",
+    "height_inches": 14,
+    "trial_period": "101 nights",
+    "warranty": "15 years",
+    "firmness": null,
+    "retailers": ["AnchorHome", "BedBarn"]
+  },
+  {
+    "brand_name": "Coastal",
+    "model_name": "Coastal Cool Gel Foam",
+    "category": "Gel Memory Foam",
+    "height_inches": "12in",
+    "trial_period": "120-night trial",
+    "warranty": "10 years",
+    "firmness": "Medium-Firm (7/10)",
+    "retailers": "CoastalSleep"
+  },
+  {
+    "brand_name": "Summit",
+    "model_name": "Summit Innerspring Classic",
+    "category": "Innerspring",
+    "height_inches": "8in",
+    "trial_period": "30 nights",
+    "warranty": "10 years",
+    "firmness": "Firm",
+    "retailers": ["SummitDirect"]
+  },
+  {
+    "brand_name": "Halcyon",
+    "model_name": "Halcyon Hybrid Plus",
+    "category": "Pocket Spring Hybrid",
+    "height_inches": "12in",
+    "trial_period": "365 nights",
+    "warranty": "Lifetime",
+    "firmness": "Medium",
+    "retailers": ["Halcyon.com", "SleepMart"]
+  },
+  {
+    "brand_name": "Vale",
+    "model_name": "Vale Budget Foam",
+    "category": "Foam",
+    "height_inches": "9in",
+    "trial_period": "60 nights",
+    "warranty": "3 years",
+    "firmness": "Medium-Firm",
+    "retailers": "ValeDirect"
+  }
+]

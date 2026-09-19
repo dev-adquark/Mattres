@@ -1,0 +1,90 @@
+{
+  "vocabularyVersion": "0.1",
+  "description": "Controlled vocabulary of review highlight tags. `triggerPhrases` are used by scripts/ingest-mattresses.js for deterministic, rule-based (not ML) keyword matching against raw review text. Matching is case-insensitive substring matching.",
+
+  "confidenceTiers": {
+    "high": { "minMatches": 3 },
+    "medium": { "minMatches": 2 },
+    "low": { "minMatches": 1 }
+  },
+
+  "tags": [
+    {
+      "tag": "sleepsHot",
+      "label": "Sleeps hot",
+      "sentiment": "negative",
+      "category": "heat",
+      "triggerPhrases": ["run hot", "runs hot", "sleep hot", "sleeps hot", "sleeps warm", "wake up sweaty", "too warm"]
+    },
+    {
+      "tag": "coolSleeper",
+      "label": "Sleeps cool",
+      "sentiment": "positive",
+      "category": "heat",
+      "triggerPhrases": ["stays cool", "sleeps cool", "surprised me for a foam"]
+    },
+    {
+      "tag": "greatEdgeSupport",
+      "label": "Great edge support",
+      "sentiment": "positive",
+      "category": "edge",
+      "triggerPhrases": ["edge support is fantastic", "edges feel sturdy", "solid edge support", "great edge support", "won't roll off", "never feel like we'll roll off"]
+    },
+    {
+      "tag": "poorEdgeSupport",
+      "label": "Weak edge support",
+      "sentiment": "negative",
+      "category": "edge",
+      "triggerPhrases": ["edge support could be better", "roll off if i sit near the side", "weak edge"]
+    },
+    {
+      "tag": "tooFirm",
+      "label": "Too firm",
+      "sentiment": "negative",
+      "category": "firmness",
+      "triggerPhrases": ["too firm", "definitely too firm"]
+    },
+    {
+      "tag": "tooSoft",
+      "label": "Too soft",
+      "sentiment": "negative",
+      "category": "firmness",
+      "triggerPhrases": ["sinks in a lot", "no support at all", "too soft"]
+    },
+    {
+      "tag": "offGassing",
+      "label": "Off-gassing / chemical smell",
+      "sentiment": "negative",
+      "category": "chemical",
+      "triggerPhrases": ["chemical smell", "chemical odor", "off-gassing", "off gassing", "strange smell when we unboxed"]
+    },
+    {
+      "tag": "motionIsolationGood",
+      "label": "Good motion isolation",
+      "sentiment": "positive",
+      "category": "motion",
+      "triggerPhrases": ["don't feel a thing", "barely notice when my partner", "great motion isolation", "motion isolation"]
+    },
+    {
+      "tag": "sagsAfterTime",
+      "label": "Sags after time",
+      "sentiment": "negative",
+      "category": "durability",
+      "triggerPhrases": ["started to sag", "started sagging", "sag right in the middle", "sagging after"]
+    },
+    {
+      "tag": "pressureReliefGood",
+      "label": "Good pressure relief",
+      "sentiment": "positive",
+      "category": "pressure",
+      "triggerPhrases": ["contours to my hips", "pressure relief", "hip and shoulder relief"]
+    },
+    {
+      "tag": "greatValue",
+      "label": "Great value",
+      "sentiment": "positive",
+      "category": "value",
+      "triggerPhrases": ["great value", "worth the price"]
+    }
+  ]
+}

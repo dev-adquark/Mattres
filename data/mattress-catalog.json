@@ -1,0 +1,289 @@
+{
+  "catalogVersion": "0.1",
+  "generatedFrom": "data/raw/mattresses-raw.json",
+  "mattressCount": 12,
+  "mattresses": [
+    {
+      "id": "aurora-sleep-aurora-hybrid",
+      "brand": "Aurora Sleep",
+      "model": "Aurora Hybrid",
+      "type": "hybrid",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "Aurora Direct",
+        "Sleepworld"
+      ],
+      "height": {
+        "inches": 12,
+        "raw": "12in"
+      },
+      "trialDays": 100,
+      "warrantyYears": 10,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 6,
+        "max": 7.5
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "cloudline-cloudline-original",
+      "brand": "Cloudline",
+      "model": "Cloudline Original",
+      "type": "foam",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "Cloudline.com",
+        "Mattress Depot"
+      ],
+      "height": {
+        "inches": 10,
+        "raw": "10"
+      },
+      "trialDays": 100,
+      "warrantyYears": 10,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 4,
+        "max": 6
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "terrafoam-terrafoam-cool",
+      "brand": "TerraFoam",
+      "model": "TerraFoam Cool",
+      "type": "foam",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "TerraFoam Direct"
+      ],
+      "height": {
+        "inches": 11,
+        "raw": "11"
+      },
+      "trialDays": 120,
+      "warrantyYears": 12,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 6.75,
+        "max": 8.25
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "nimbus-nimbus-pocket-coil",
+      "brand": "Nimbus",
+      "model": "Nimbus Pocket Coil",
+      "type": "hybrid",
+      "coreMaterialNotes": "Pocket coil support core.",
+      "retailPartners": [
+        "NimbusHome"
+      ],
+      "height": {
+        "inches": 13,
+        "raw": "13in"
+      },
+      "trialDays": 365,
+      "warrantyYears": null,
+      "warrantyLifetime": true,
+      "firmnessRange": {
+        "min": 4,
+        "max": 6
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "stratus-stratus-latex-hybrid",
+      "brand": "Stratus",
+      "model": "Stratus Latex Hybrid",
+      "type": "hybrid",
+      "coreMaterialNotes": "Includes a latex layer.",
+      "retailPartners": [
+        "Stratus Direct",
+        "GreenBed"
+      ],
+      "height": {
+        "inches": 12.5,
+        "raw": "12.5 in"
+      },
+      "trialDays": 180,
+      "warrantyYears": 20,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 3,
+        "max": 5
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "baseline-baseline-firm-innerspring",
+      "brand": "Baseline",
+      "model": "Baseline Firm Innerspring",
+      "type": "innerspring",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "BudgetBeds"
+      ],
+      "height": {
+        "inches": 9,
+        "raw": "9in"
+      },
+      "trialDays": 30,
+      "warrantyYears": 5,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 7.5,
+        "max": 9
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "drift-drift-plush-foam",
+      "brand": "Drift",
+      "model": "Drift Plush Foam",
+      "type": "foam",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "DriftSleep"
+      ],
+      "height": {
+        "inches": 11.8,
+        "raw": "30cm"
+      },
+      "trialDays": 100,
+      "warrantyYears": 10,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 1,
+        "max": 3
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": [
+        "Height given in cm (\"30cm\"); converted to 11.8in."
+      ]
+    },
+    {
+      "id": "anchor-anchor-hybrid-support",
+      "brand": "Anchor",
+      "model": "Anchor Hybrid Support",
+      "type": "hybrid",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "AnchorHome",
+        "BedBarn"
+      ],
+      "height": {
+        "inches": 14,
+        "raw": "14"
+      },
+      "trialDays": 101,
+      "warrantyYears": 15,
+      "warrantyLifetime": false,
+      "firmnessRange": null,
+      "sourceConfidence": "medium",
+      "dataQualityNotes": [
+        "No firmness value supplied."
+      ]
+    },
+    {
+      "id": "coastal-coastal-cool-gel-foam",
+      "brand": "Coastal",
+      "model": "Coastal Cool Gel Foam",
+      "type": "foam",
+      "coreMaterialNotes": "Gel-infused foam.",
+      "retailPartners": [
+        "CoastalSleep"
+      ],
+      "height": {
+        "inches": 12,
+        "raw": "12in"
+      },
+      "trialDays": 120,
+      "warrantyYears": 10,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 6.25,
+        "max": 7.75
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "summit-summit-innerspring-classic",
+      "brand": "Summit",
+      "model": "Summit Innerspring Classic",
+      "type": "innerspring",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "SummitDirect"
+      ],
+      "height": {
+        "inches": 8,
+        "raw": "8in"
+      },
+      "trialDays": 30,
+      "warrantyYears": 10,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 7.5,
+        "max": 9
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "halcyon-halcyon-hybrid-plus",
+      "brand": "Halcyon",
+      "model": "Halcyon Hybrid Plus",
+      "type": "hybrid",
+      "coreMaterialNotes": "Pocket coil support core.",
+      "retailPartners": [
+        "Halcyon.com",
+        "SleepMart"
+      ],
+      "height": {
+        "inches": 12,
+        "raw": "12in"
+      },
+      "trialDays": 365,
+      "warrantyYears": null,
+      "warrantyLifetime": true,
+      "firmnessRange": {
+        "min": 4,
+        "max": 6
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    },
+    {
+      "id": "vale-vale-budget-foam",
+      "brand": "Vale",
+      "model": "Vale Budget Foam",
+      "type": "foam",
+      "coreMaterialNotes": null,
+      "retailPartners": [
+        "ValeDirect"
+      ],
+      "height": {
+        "inches": 9,
+        "raw": "9in"
+      },
+      "trialDays": 60,
+      "warrantyYears": 3,
+      "warrantyLifetime": false,
+      "firmnessRange": {
+        "min": 6,
+        "max": 7.5
+      },
+      "sourceConfidence": "high",
+      "dataQualityNotes": []
+    }
+  ]
+}
