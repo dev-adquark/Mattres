@@ -1,0 +1,8 @@
+{
+  "sleepPosition": "side",
+  "weightLb": 210,
+  "preferredFirmnessLabel": "medium-firm",
+  "sleepTemperature": "hot",
+  "motionSensitivity": "couple-high",
+  "painFocus": ["shoulder", "hip"]
+}

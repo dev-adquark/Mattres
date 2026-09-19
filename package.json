@@ -1,0 +1,14 @@
+{
+  "name": "mattress-match-score",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Match Scoring Engine skeleton (v0.1) and static frontend mockups for Mattress Match Score.",
+  "main": "src/scoreEngine.js",
+  "scripts": {
+    "score-demo": "node scripts/score-demo.js",
+    "test": "node scripts/test-score-engine.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

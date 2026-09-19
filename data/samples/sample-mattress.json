@@ -1,0 +1,12 @@
+{
+  "id": "cloudline-original",
+  "name": "Cloudline Original",
+  "type": "foam",
+  "firmnessRating": 3,
+  "heightIn": 10,
+  "hasCoolingCover": false,
+  "edgeSupportReinforced": false,
+  "topFoamDensityLbFt3": 1.5,
+  "warrantyYears": 10,
+  "trialNights": 100
+}
