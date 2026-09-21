@@ -1441,7 +1441,6 @@
           <a href="#disclosures" class="btn btn-primary cc-cta">View at retailer
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <span class="aff-note">Sponsored placement · affiliate link — see disclosure</span>
         </article>
 
         <article class="compare-card">
@@ -2247,7 +2246,7 @@
           '<a href="#disclosures" class="btn btn-primary cc-cta">View at retailer' +
             '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
           '</a>' +
-          '<span class="aff-note">' + (entry.sponsored ? 'Sponsored placement \u00b7 affiliate link \u2014 see disclosure' : 'Affiliate link \u2014 we may earn a commission') + '</span>' +
+          (entry.sponsored ? '' : '<span class="aff-note">Affiliate link \u2014 we may earn a commission</span>') +
         '</article>'
       );
     }).join('');
