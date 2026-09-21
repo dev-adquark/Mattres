@@ -772,16 +772,23 @@
     padding:8px 10px;margin:0 -10px;border-radius:10px;
     transition:transform .25s cubic-bezier(.16,1,.3,1),background .25s ease,box-shadow .25s ease;
     transform:perspective(600px) rotateX(0deg) translateY(0);
-    cursor:default;
+    cursor:pointer;position:relative;
   }
-  .sm-row:hover{
+  .sm-row:hover, .sm-row:focus-visible{
     background:rgba(63,212,255,0.06);
     box-shadow:0 10px 24px -12px rgba(63,212,255,0.35);
     transform:perspective(600px) rotateX(3deg) translateY(-2px);
+    outline:none;
   }
-  .sm-row:hover .dim-icon{color:var(--cyan-300);filter:drop-shadow(0 0 5px rgba(63,212,255,0.6));}
-  .sm-row:hover .sm-bar i{filter:brightness(1.15);}
-  @media (prefers-reduced-motion: reduce){ .sm-row,.sm-row:hover{transform:none;transition:background .2s ease;} }
+  .sm-row:focus-visible{box-shadow:0 0 0 2px var(--cyan-400),0 10px 24px -12px rgba(63,212,255,0.35);}
+  .sm-row:hover .dim-icon, .sm-row:focus-visible .dim-icon{color:var(--cyan-300);filter:drop-shadow(0 0 5px rgba(63,212,255,0.6));}
+  .sm-row:hover .sm-bar i, .sm-row:focus-visible .sm-bar i{filter:brightness(1.15);}
+  .sm-row .sm-hint{
+    position:absolute;right:2px;bottom:2px;font-size:10px;color:var(--cyan-300);opacity:0;
+    transition:opacity .2s ease;pointer-events:none;white-space:nowrap;
+  }
+  .sm-row:hover .sm-hint, .sm-row:focus-visible .sm-hint{opacity:0.85;}
+  @media (prefers-reduced-motion: reduce){ .sm-row,.sm-row:hover,.sm-row:focus-visible{transform:none;transition:background .2s ease;} }
   .sm-ic{color:var(--cyan-400);font-size:14px;}
   .sm-label{color:var(--ink-dim);font-size:13.5px;}
   .sm-bar{height:8px;border-radius:5px;background:rgba(255,255,255,0.08);overflow:hidden;}
@@ -1169,12 +1176,12 @@
     </div>
     <div class="score-metrics" id="scoreMetrics">
       <div class="score-connector" aria-hidden="true"><span class="conn-pulse"></span></div>
-      <div class="sm-row" data-cat="pressureRelief"><span class="dim-icon dim-pressure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="5.5" opacity="0.5"/><circle cx="12" cy="12" r="9" opacity="0.25"/></svg></span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="support"><span class="dim-icon dim-support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 19h18M6 19V9M12 19V5M18 19v12" stroke-linecap="round"/></svg></span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="heat"><span class="dim-icon dim-heat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="flow" d="M2 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2"/><path class="flow" d="M2 16c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2" opacity="0.5"/></svg></span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="motion"><span class="dim-icon dim-motion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="wave" d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" stroke-linecap="round" transform-origin="12px 12px"/></svg></span><span class="sm-label">Motion Isolation</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="edge"><span class="dim-icon dim-edge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="7" width="10" height="10" rx="1.5" opacity="0.4"/></svg></span><span class="sm-label">Edge Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="durability"><span class="dim-icon dim-durability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="15" width="16" height="4" rx="1"/><rect x="4" y="9.5" width="16" height="4" rx="1" opacity="0.65"/><rect x="4" y="4" width="16" height="4" rx="1" opacity="0.4"/></svg></span><span class="sm-label">Durability</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="pressureRelief"><span class="dim-icon dim-pressure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="5.5" opacity="0.5"/><circle cx="12" cy="12" r="9" opacity="0.25"/></svg></span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
+      <div class="sm-row" data-cat="support"><span class="dim-icon dim-support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 19h18M6 19V9M12 19V5M18 19v12" stroke-linecap="round"/></svg></span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
+      <div class="sm-row" data-cat="heat"><span class="dim-icon dim-heat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="flow" d="M2 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2"/><path class="flow" d="M2 16c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2" opacity="0.5"/></svg></span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
+      <div class="sm-row" data-cat="motion"><span class="dim-icon dim-motion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="wave" d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" stroke-linecap="round" transform-origin="12px 12px"/></svg></span><span class="sm-label">Motion Isolation</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
+      <div class="sm-row" data-cat="edge"><span class="dim-icon dim-edge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="7" width="10" height="10" rx="1.5" opacity="0.4"/></svg></span><span class="sm-label">Edge Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
+      <div class="sm-row" data-cat="durability"><span class="dim-icon dim-durability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="15" width="16" height="4" rx="1"/><rect x="4" y="9.5" width="16" height="4" rx="1" opacity="0.65"/><rect x="4" y="4" width="16" height="4" rx="1" opacity="0.4"/></svg></span><span class="sm-label">Durability</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b><span class="sm-hint">View in X-Ray →</span></div>
 
       <div class="radar-wrap" id="radarWrap">
         <svg class="radar-svg" viewBox="-40 -10 300 240" aria-hidden="true">
@@ -1557,7 +1564,7 @@
             <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:88%"></i></div><b>8.8</b></div>
             <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:90%"></i></div><b>9.0</b></div>
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:85%"></i></div><b>8.5</b></div>
-            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:80%"></i></div><b>8.0</b></div>
+            <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:80%"></i></div><b>8.0</b></div>
           </div>
           <div class="flags">
             <span class="flag flag-ok">✓ No flags for your profile</span>
@@ -1582,7 +1589,7 @@
             <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:58%"></i></div><b>5.8</b></div>
             <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:93%"></i></div><b>9.3</b></div>
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:70%"></i></div><b>7.0</b></div>
-            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:62%"></i></div><b>6.2</b></div>
+            <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:62%"></i></div><b>6.2</b></div>
           </div>
           <div class="flags">
             <span class="flag flag-warn" title="All-foam construction retains more body heat; you told us you sleep warm.">⚠ Heat retention likely</span>
@@ -1607,7 +1614,7 @@
             <div class="ss-row"><span>Heat &amp; airflow</span><div class="ss-bar"><i style="width:84%"></i></div><b>8.4</b></div>
             <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:81%"></i></div><b>8.1</b></div>
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:60%"></i></div><b>6.0</b></div>
-            <div class="ss-row"><span>Responsiveness</span><div class="ss-bar"><i style="width:75%"></i></div><b>7.5</b></div>
+            <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:75%"></i></div><b>7.5</b></div>
           </div>
           <div class="flags">
             <span class="flag flag-warn" title="Firmness is above the typical comfort band for side sleepers in your weight range.">⚠ Support threshold mismatch</span>
@@ -1670,9 +1677,9 @@
           <p>Stability and sag risk when sitting or sleeping near the perimeter of the mattress.</p>
         </div>
         <div class="method-card">
-          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="weight-badge">10% weight</span></div>
-          <h4>Responsiveness</h4>
-          <p>How quickly the surface adapts as you change position through the night.</p>
+          <div class="mc-top"><span class="p-num" style="margin:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="15" width="16" height="4" rx="1"/><rect x="4" y="9.5" width="16" height="4" rx="1" opacity="0.65"/><rect x="4" y="4" width="16" height="4" rx="1" opacity="0.4"/></svg></span><span class="weight-badge">10% weight</span></div>
+          <h4>Durability</h4>
+          <p>How well the mattress resists sagging over time, based on top foam density relative to your body weight.</p>
         </div>
       </div>
     </div>
@@ -1897,21 +1904,21 @@
 
   // X-Ray layer isolation buttons
   var xrayButtons = document.querySelectorAll('.xray-btn');
-  xrayButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      xrayButtons.forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      var layer = btn.getAttribute('data-layer');
-      var isolating = layer !== 'all';
-      if (m3d) m3d.classList.toggle('isolated', isolating);
-      if (xraySceneWrap) xraySceneWrap.classList.toggle('isolating', isolating);
-      document.querySelectorAll('.mattress-3d .layer').forEach(function (l) {
-        l.classList.toggle('xray-active', isolating && l.getAttribute('data-layer') === layer);
-      });
-      document.querySelectorAll('.xray-scene-wrap .callout').forEach(function (c) {
-        c.classList.toggle('xray-active', isolating && c.getAttribute('data-for') === layer);
-      });
+  function activateXrayLayer(layer) {
+    xrayButtons.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-layer') === layer); });
+    var isolating = layer !== 'all';
+    if (m3d) m3d.classList.toggle('isolated', isolating);
+    if (xraySceneWrap) xraySceneWrap.classList.toggle('isolating', isolating);
+    document.querySelectorAll('.mattress-3d .layer').forEach(function (l) {
+      l.classList.toggle('xray-active', isolating && l.getAttribute('data-layer') === layer);
     });
+    document.querySelectorAll('.xray-scene-wrap .callout').forEach(function (c) {
+      c.classList.toggle('xray-active', isolating && c.getAttribute('data-for') === layer);
+    });
+  }
+  window.MMS_activateXrayLayer = activateXrayLayer;
+  xrayButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () { activateXrayLayer(btn.getAttribute('data-layer')); });
   });
 
   // Lightweight page router (single-file, multi-"page" site)
@@ -3259,6 +3266,31 @@
     }, { threshold: 0.4 });
     scoreIO.observe(scoreSection);
   }
+
+  // Dimension -> X-Ray layer connection: clicking a score dimension jumps to
+  // the X-Ray section with the conceptually-related layer isolated. The
+  // mapping is illustrative (which layer a dimension mainly relates to in a
+  // typical hybrid construction), not a claim about the specific
+  // recommended mattress's exact internal materials, which the catalog
+  // doesn't carry yet.
+  var DIMENSION_TO_LAYER = {
+    pressureRelief: 'comfort', support: 'support', heat: 'cover',
+    motion: 'transition', edge: 'support', durability: 'support',
+  };
+  document.querySelectorAll('.sm-row[data-cat]').forEach(function (row) {
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('role', 'button');
+    row.setAttribute('aria-label', 'See the related X-Ray layer for ' + (row.querySelector('.sm-label') || {}).textContent);
+    function jumpToLayer() {
+      var layer = DIMENSION_TO_LAYER[row.getAttribute('data-cat')];
+      if (!layer || !window.MMS_activateXrayLayer) return;
+      window.MMS_activateXrayLayer(layer);
+      var xray = document.getElementById('xray');
+      if (xray) xray.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+    }
+    row.addEventListener('click', jumpToLayer);
+    row.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToLayer(); } });
+  });
 
   // ---------------------------------------------------------------
   // Build the 3D scenes (or CSS fallbacks) once the DOM is ready
