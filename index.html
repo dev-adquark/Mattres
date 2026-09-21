@@ -19,6 +19,13 @@
     --teal-400:#3fe0c9;
     --teal-500:#22c9b0;
     --teal-600:#14a893;
+    --cyan-300:#7fe9ff;
+    --cyan-400:#3fd4ff;
+    --cyan-500:#12b8f0;
+    --electric-400:#5b8dff;
+    --electric-500:#3b6cf6;
+    --glass-border:rgba(127,233,255,0.16);
+    --glass-bg:rgba(12,24,44,0.55);
     --paper:#f3f7fa;
     --paper-2:#e7eff4;
     --slate-900:#0e1f33;
@@ -255,6 +262,7 @@
   .callout.c-core{right:-10%;bottom:2%;}
   @media (max-width:960px){
     .callout{display:none;}
+    .xray-scene-wrap{overflow:hidden;}
   }
 
   /* ---------- SECTION HEADS ---------- */
@@ -389,6 +397,9 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .layer,.callout,.glow-floor{transition:none !important;}
+    .dna-label{animation:none !important;}
+    .journey-step{transition:none !important;}
+    .ring-progress,.sm-bar i{transition:none !important;}
   }
 
   /* ---------- PAGE ROUTER ---------- */
@@ -590,6 +601,189 @@
   .comparison-table th{background:#f6f9fb;font-size:11.5px;text-transform:uppercase;letter-spacing:0.02em;color:var(--slate-600);}
   .comparison-table tr:last-child td{border-bottom:none;}
   .comparison-table td.metric-label{font-weight:600;color:var(--slate-900);white-space:nowrap;}
+
+  /* ============================================================
+     SLEEP DNA REDESIGN — hero canvas, DNA orb, universe, score ring,
+     reasoning, x-ray interaction, journey steps
+     ============================================================ */
+
+  .dna-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;}
+  .dna-fallback{
+    position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%, rgba(63,212,255,0.35), rgba(59,108,246,0.12) 55%, transparent 75%);
+    filter:blur(2px);
+  }
+  h1 span{
+    background:linear-gradient(100deg,var(--cyan-300),var(--electric-400));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .section-head h2 .hl{color:var(--teal-600);}
+  .why-head h2 .hl, .sleep-dna-section h2 .hl{color:var(--cyan-400);}
+
+  .dna-scene-wrap{position:relative;height:480px;}
+  @media (max-width:960px){ .dna-scene-wrap{height:380px;margin-top:10px;} }
+  @media (max-width:480px){ .dna-scene-wrap{height:320px;} }
+  .dna-label{
+    position:absolute;display:flex;flex-direction:column;gap:2px;
+    padding:8px 14px 8px 30px;border-radius:10px;
+    background:var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    font-size:11.5px;color:var(--ink-dim);white-space:nowrap;z-index:3;
+    animation:dnaFloat 6s ease-in-out infinite;
+  }
+  .dna-label b{color:var(--ink);font-size:11.5px;font-weight:700;letter-spacing:0.01em;}
+  .dna-label i{font-style:normal;color:var(--cyan-300);font-size:10.5px;}
+  .dl-dot{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);}
+  .dl-1{left:-6%;top:6%;animation-delay:0s;}
+  .dl-2{right:2%;top:4%;animation-delay:.4s;}
+  .dl-3{left:-4%;top:42%;animation-delay:.8s;}
+  .dl-4{right:0%;top:46%;animation-delay:1.2s;}
+  .dl-5{left:-2%;bottom:4%;animation-delay:1.6s;}
+  .dl-6{right:4%;bottom:10%;animation-delay:2s;}
+  @keyframes dnaFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+  @media (max-width:640px){
+    .dna-label{position:static;display:inline-flex;flex-direction:row;align-items:center;gap:6px;margin:4px 6px 0 0;padding:7px 12px 7px 22px;animation:none;}
+    .dna-scene-wrap{height:260px;display:flex;flex-direction:column;}
+    .dl-dot{left:8px;}
+  }
+
+  /* ---- Sleep DNA analysis section ---- */
+  .sleep-dna-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));position:relative;overflow:hidden;}
+  .sleep-dna-section::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 400px at 15% 20%, rgba(63,212,255,0.1), transparent 60%);}
+  .sleep-dna-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2;}
+  @media (max-width:960px){ .sleep-dna-grid{grid-template-columns:1fr;} }
+  .dna-copy{color:var(--ink-dim);font-size:15px;line-height:1.7;margin:16px 0 28px;max-width:460px;}
+  .dna-example-note{font-size:12px;color:var(--ink-dim);opacity:0.7;margin-top:14px;font-style:italic;}
+  .dna-orb-wrap{position:relative;height:440px;}
+  @media (max-width:960px){ .dna-orb-wrap{height:380px;margin-top:20px;} }
+  .orb-metric{
+    position:absolute;display:flex;flex-direction:column;gap:2px;
+    padding:8px 14px;border-radius:10px;background:var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(8px);font-size:11px;z-index:3;
+  }
+  .om-k{color:var(--ink-dim);font-size:10.5px;}
+  .om-v{color:var(--ink);font-weight:700;font-size:12.5px;}
+  .om-1{left:2%;top:6%;} .om-2{right:0%;top:2%;} .om-3{right:2%;top:44%;}
+  .om-4{left:0%;top:48%;} .om-5{left:8%;bottom:8%;} .om-6{right:8%;bottom:4%;}
+  @media (max-width:640px){
+    .orb-metric{position:static;display:inline-flex;flex-direction:row;gap:6px;margin:4px 6px 0 0;}
+    .dna-orb-wrap{display:flex;flex-direction:column;height:auto;}
+    .dna-orb-wrap canvas{height:220px;}
+  }
+
+  /* ---- Mattress Universe ---- */
+  .universe-section{background:var(--navy-950);position:relative;}
+  .universe-wrap{position:relative;height:560px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);background:radial-gradient(ellipse at center, #0c1c33, #060d1a 75%);}
+  @media (max-width:768px){ .universe-wrap{height:440px;} }
+  .universe-labels{position:absolute;inset:0;pointer-events:none;z-index:3;}
+  .universe-node-label{
+    position:absolute;transform:translate(-50%,-50%);
+    padding:5px 10px;border-radius:8px;font-size:10.5px;font-weight:600;color:var(--ink);
+    background:rgba(8,20,36,0.75);border:1px solid var(--glass-border);white-space:nowrap;
+    opacity:0;transition:opacity .2s ease;
+  }
+  .universe-node-label.center{color:#04231e;background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));border:none;font-weight:700;opacity:1 !important;}
+  .universe-top-matches{
+    position:absolute;left:20px;bottom:20px;z-index:4;
+    background:rgba(8,20,36,0.7);border:1px solid var(--glass-border);border-radius:14px;
+    padding:14px 16px;backdrop-filter:blur(8px);
+  }
+  .utm-label{font-size:11px;color:var(--ink-dim);display:block;margin-bottom:8px;}
+  .utm-list{display:flex;gap:8px;flex-wrap:wrap;max-width:260px;}
+  .utm-chip{font-size:11px;padding:5px 10px;border-radius:999px;background:rgba(63,212,255,0.12);color:var(--cyan-300);border:1px solid rgba(63,212,255,0.3);}
+
+  /* ---- Match Score section ---- */
+  .match-score-section{background:linear-gradient(180deg,var(--navy-900),var(--navy-950));position:relative;}
+  .match-score-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;}
+  @media (max-width:900px){ .match-score-grid{grid-template-columns:1fr;} }
+  .score-ring-wrap{text-align:left;}
+  .score-ring-visual{position:relative;width:220px;height:220px;margin:0 0 22px;}
+  .score-ring-svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .ring-track{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:10;}
+  .ring-progress{
+    fill:none;stroke:url(#ringGrad);stroke-width:10;stroke-linecap:round;
+    stroke-dasharray:540;stroke-dashoffset:540;
+    filter:drop-shadow(0 0 10px rgba(63,212,255,0.55));
+    transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1);
+  }
+  .score-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .score-ring-num{font-family:'Sora',sans-serif;font-size:52px;font-weight:800;color:var(--ink);line-height:1;}
+  .score-ring-label{font-size:10.5px;letter-spacing:0.08em;color:var(--cyan-400);font-weight:700;margin-top:6px;}
+  .score-ring-note{color:var(--ink-dim);font-size:13.5px;line-height:1.6;max-width:340px;margin:0 0 22px;}
+  .score-metrics{display:flex;flex-direction:column;gap:16px;}
+  .sm-row{display:grid;grid-template-columns:22px 150px 1fr 34px;align-items:center;gap:12px;}
+  .sm-ic{color:var(--cyan-400);font-size:14px;}
+  .sm-label{color:var(--ink-dim);font-size:13.5px;}
+  .sm-bar{height:8px;border-radius:5px;background:rgba(255,255,255,0.08);overflow:hidden;}
+  .sm-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:5px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+  .sm-row b{color:var(--ink);font-size:13px;text-align:right;}
+  @media (max-width:560px){ .sm-row{grid-template-columns:20px 100px 1fr 30px;gap:8px;} }
+
+  /* ---- Match Reasoning ---- */
+  .reasoning-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+  .reason-row{
+    display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-radius:14px;
+    background:#fff;border:1px solid #e4ecf1;font-size:14px;color:var(--slate-900);line-height:1.55;
+  }
+  .reason-row .rr-check{color:var(--teal-600);font-weight:800;flex:none;}
+  .reason-row.reason-empty{justify-content:center;color:var(--slate-600);background:#f6f9fb;text-align:center;}
+
+  /* ---- X-Ray View ---- */
+  .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));}
+  .xray-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:50px;align-items:center;}
+  @media (max-width:900px){ .xray-grid{grid-template-columns:1fr;} }
+  .xray-layer-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .xray-btn{
+    padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,0.16);
+    background:transparent;color:var(--ink-dim);font-size:12.5px;font-weight:600;cursor:pointer;
+    transition:all .18s ease;
+  }
+  .xray-btn:hover{border-color:var(--cyan-400);color:var(--ink);}
+  .xray-btn.active{background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));border-color:transparent;color:#04182e;}
+  .xray-scene-wrap{position:relative;height:480px;cursor:grab;user-select:none;}
+  .xray-scene-wrap:active{cursor:grabbing;}
+  @media (max-width:768px){ .xray-scene-wrap{height:360px;} }
+  .xray-hint{
+    position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
+    display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-dim);opacity:0.7;
+  }
+  .mattress-3d.isolated .layer{opacity:0.22;filter:none;}
+  .mattress-3d.isolated .layer.xray-active{opacity:1;filter:drop-shadow(0 0 16px rgba(63,212,255,0.65));}
+  .callout{transition:opacity .25s ease,transform .25s ease;}
+  .xray-scene-wrap.isolating .callout{opacity:0 !important;pointer-events:none;}
+  .xray-scene-wrap.isolating .callout.xray-active{opacity:1 !important;transform:none !important;}
+
+  /* ---- Journey steps ---- */
+  .journey-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+  @media (max-width:860px){ .journey-row{grid-template-columns:1fr 1fr;gap:28px;} }
+  @media (max-width:480px){ .journey-row{grid-template-columns:1fr;} }
+  .journey-step{position:relative;text-align:center;padding:0 14px;opacity:0.45;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;}
+  .journey-step.in-view{opacity:1;transform:translateY(0);}
+  .j-icon{
+    width:64px;height:64px;border-radius:50%;margin:0 auto 18px;
+    display:grid;place-items:center;color:var(--teal-600);
+    background:#fff;border:2px solid #d9ecE7;position:relative;z-index:2;
+    transition:border-color .3s ease,color .3s ease,box-shadow .3s ease;
+  }
+  .journey-step.in-view .j-icon{border-color:var(--teal-500);box-shadow:0 0 0 6px rgba(34,201,176,0.12);}
+  .j-icon svg{width:26px;height:26px;}
+  .j-connector{
+    position:absolute;top:32px;left:calc(50% + 40px);right:calc(-50% + 40px);
+    height:2px;background:#d9e4ea;z-index:1;
+  }
+  .journey-step.in-view .j-connector{background:linear-gradient(90deg,var(--teal-500),#d9e4ea);}
+  @media (max-width:860px){ .j-connector{display:none;} }
+  .journey-step h3{font-size:15px;margin:0 0 8px;color:var(--slate-900);font-weight:700;}
+  .journey-step p{font-size:13px;color:var(--slate-600);line-height:1.55;margin:0;}
+
+  /* ---- Final CTA glow ---- */
+  .final-cta{position:relative;overflow:hidden;}
+  .final-cta-glow{
+    position:absolute;inset:0;
+    background:radial-gradient(500px 300px at 85% 30%, rgba(63,212,255,0.16), transparent 65%),
+               radial-gradient(400px 260px at 10% 80%, rgba(59,108,246,0.12), transparent 65%);
+    pointer-events:none;
+  }
 </style>
 </head>
 <body>
@@ -611,7 +805,7 @@
       <button class="icon-btn" aria-label="Search">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       </button>
-      <a href="#find-match" class="btn btn-primary">Get Started</a>
+      <a href="#find-match" class="btn btn-primary">Find My Match</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -631,13 +825,13 @@
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow"><span class="dot"></span>AI powered · personalized</span>
-      <h1>Find your perfect<span>mattress match</span></h1>
-      <p class="lead">Take our sleep assessment and get a personalized match score based on your sleep position, comfort preferences, and lifestyle — no guesswork, no showroom pressure.</p>
+      <h1>Your <span>Sleep DNA</span><br>Finds the Perfect Mattress</h1>
+      <p class="lead">Answer a few questions about your sleep position, body, firmness preference, temperature, motion sensitivity and budget — our model turns it into a personalized profile and scores real mattresses against it.</p>
       <div class="hero-ctas">
-        <a href="#find-match" class="btn btn-primary">Take the quiz
+        <a href="#find-match" class="btn btn-primary">Start Your Sleep Profile
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#why" class="play-link">
+        <a href="#journey" class="play-link">
           <span class="play-circle">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </span>
@@ -660,69 +854,196 @@
       </div>
     </div>
 
-    <div class="scene-wrap">
+    <div class="dna-scene-wrap">
+      <canvas id="dnaHeroCanvas" class="dna-canvas" aria-hidden="true"></canvas>
+      <div class="dna-label dl-1"><span class="dl-dot"></span><b>Sleep Position</b><i>Side · Back · Stomach</i></div>
+      <div class="dna-label dl-2"><span class="dl-dot"></span><b>Body Weight</b><i>Under · Normal · Over</i></div>
+      <div class="dna-label dl-3"><span class="dl-dot"></span><b>Temperature</b><i>Hot · Neutral · Cool</i></div>
+      <div class="dna-label dl-4"><span class="dl-dot"></span><b>Firmness Preference</b><i>Soft · Medium · Firm</i></div>
+      <div class="dna-label dl-5"><span class="dl-dot"></span><b>Motion Sensitivity</b><i>Low · Medium · High</i></div>
+      <div class="dna-label dl-6"><span class="dl-dot"></span><b>Budget</b><i>Budget · Mid · Premium</i></div>
+      <div class="dna-fallback" id="dnaFallback" hidden></div>
+    </div>
+  </div>
+</header>
+
+
+<section class="section" id="journey">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-dark">How it works</span>
+      <h2>Your Sleep Journey <span class="hl">in 4 Simple Steps</span></h2>
+      <p>A smarter way to find your perfect match.</p>
+    </div>
+    <div class="journey-row" id="journeyRow">
+      <div class="journey-step" data-step="1">
+        <div class="j-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <div class="j-connector"></div>
+        <h3>1. Your Profile</h3>
+        <p>Tell us about your sleep habits and preferences.</p>
+      </div>
+      <div class="journey-step" data-step="2">
+        <div class="j-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3c0 5 12 5 12 9s-12 4-12 9M18 3c0 5-12 5-12 9s12 4 12 9"/></svg></div>
+        <div class="j-connector"></div>
+        <h3>2. Sleep DNA</h3>
+        <p>Your preferences become a personalized sleep profile.</p>
+      </div>
+      <div class="journey-step" data-step="3">
+        <div class="j-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.4"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="6" r="1.8"/><circle cx="5" cy="18" r="1.8"/><circle cx="19" cy="18" r="1.8"/><path d="M10 11 6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg></div>
+        <div class="j-connector"></div>
+        <h3>3. Mattress Universe</h3>
+        <p>Analyze and compare relevant mattresses.</p>
+      </div>
+      <div class="journey-step" data-step="4">
+        <div class="j-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16l-1.5 9.5a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>4. Your Match</h3>
+        <p>Receive personalized recommendations and transparent scores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section sleep-dna-section" id="sleep-dna">
+  <div class="wrap sleep-dna-grid">
+    <div>
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">Personalized analysis</span>
+      <h2 style="color:var(--ink)">Your Sleep DNA</h2>
+      <p class="dna-copy">Your unique sleep profile is converted into a Sleep DNA — a combination of six key factors that determine your ideal mattress.</p>
+      <a href="#find-match" class="btn btn-primary">Take Your Quiz
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <p class="dna-example-note" id="dnaExampleNote">Showing an illustrative example — take the quiz to generate your own.</p>
+    </div>
+    <div class="dna-orb-wrap">
+      <canvas id="dnaOrbCanvas" class="dna-canvas" aria-hidden="true"></canvas>
+      <div class="orb-metric om-1"><span class="om-k">Sleep Position</span><span class="om-v" id="dnaValPosition">Side Sleeper</span></div>
+      <div class="orb-metric om-2"><span class="om-k">Body Weight</span><span class="om-v" id="dnaValWeight">68 kg</span></div>
+      <div class="orb-metric om-3"><span class="om-k">Firmness</span><span class="om-v" id="dnaValFirmness">Medium</span></div>
+      <div class="orb-metric om-4"><span class="om-k">Temperature</span><span class="om-v" id="dnaValTemp">Cool</span></div>
+      <div class="orb-metric om-5"><span class="om-k">Motion Sensitivity</span><span class="om-v" id="dnaValMotion">Low</span></div>
+      <div class="orb-metric om-6"><span class="om-k">Budget</span><span class="om-v" id="dnaValBudget">Premium</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section universe-section" id="universe">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">AI powered matching</span>
+      <h2 style="color:var(--ink)">Explore the Mattress Universe</h2>
+      <p style="color:var(--ink-dim)">Our model compares your Sleep DNA against every mattress in the catalog to surface the best matches for you.</p>
+    </div>
+    <div class="universe-wrap">
+      <canvas id="universeCanvas" class="dna-canvas" aria-hidden="true"></canvas>
+      <div class="universe-labels" id="universeLabels"></div>
+      <div class="universe-top-matches" id="universeTopMatches">
+        <span class="utm-label">Your Top Matches</span>
+        <div class="utm-list" id="utmList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section match-score-section" id="match-score">
+  <div class="wrap match-score-grid">
+    <div class="score-ring-wrap">
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">Your perfect match</span>
+      <h2 style="color:var(--ink);margin-bottom:22px;">Match Score</h2>
+      <div class="score-ring-visual">
+        <svg viewBox="0 0 200 200" class="score-ring-svg">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3fd4ff"/>
+              <stop offset="100%" stop-color="#3b6cf6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="86" class="ring-track"/>
+          <circle cx="100" cy="100" r="86" class="ring-progress" id="ringProgress"/>
+        </svg>
+        <div class="score-ring-center">
+          <span class="score-ring-num" id="scoreRingNum">—</span>
+          <span class="score-ring-label" id="scoreRingLabel">TAKE THE QUIZ</span>
+        </div>
+      </div>
+      <p class="score-ring-note" id="scoreRingNote">Based on 6 real scoring dimensions, computed live from your answers — no fake numbers.</p>
+      <a href="#find-match" class="btn btn-primary" id="scoreRingCta">Find my match
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="score-metrics" id="scoreMetrics">
+      <div class="sm-row" data-cat="pressureRelief"><span class="sm-ic">◐</span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="support"><span class="sm-ic">◑</span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="heat"><span class="sm-ic">❄</span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="motion"><span class="sm-ic">◒</span><span class="sm-label">Motion Isolation</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="edge"><span class="sm-ic">◓</span><span class="sm-label">Edge Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="durability"><span class="sm-ic">◔</span><span class="sm-label">Durability</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section reasoning-section" id="reasoning">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-dark">Transparent by design</span>
+      <h2>Why This Mattress Matches You</h2>
+      <p id="reasoningIntro">Take the quiz to see the exact rules and thresholds behind your score — the same audit trail our scoring engine produces internally.</p>
+    </div>
+    <div class="reasoning-list" id="reasoningList">
+      <div class="reason-row reason-empty">Your personalized reasons will appear here once you've completed your Sleep Profile.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section xray-section" id="xray">
+  <div class="wrap xray-grid">
+    <div>
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">Explore inside</span>
+      <h2 style="color:var(--ink)">X-Ray View</h2>
+      <p style="color:var(--ink-dim)">See what makes this mattress special. Select a layer to isolate it, or drag to rotate.</p>
+      <div class="xray-layer-buttons" id="xrayLayerButtons">
+        <button type="button" class="xray-btn active" data-layer="all">Full mattress</button>
+        <button type="button" class="xray-btn" data-layer="cover">Cooling Cover</button>
+        <button type="button" class="xray-btn" data-layer="comfort">Comfort Layer</button>
+        <button type="button" class="xray-btn" data-layer="transition">Transition Layer</button>
+        <button type="button" class="xray-btn" data-layer="support">Core Support</button>
+      </div>
+    </div>
+    <div class="xray-scene-wrap" id="xraySceneWrap">
       <div class="ring r1"></div>
       <div class="ring r2"></div>
       <div class="glow-floor"></div>
       <div class="mattress-stage">
         <div class="mattress-3d" id="mattress3d">
-          <div class="layer layer-support"></div>
-          <div class="layer layer-transition"></div>
-          <div class="layer layer-comfort"></div>
-          <div class="layer layer-cover"></div>
+          <div class="layer layer-support" data-layer="support"></div>
+          <div class="layer layer-transition" data-layer="transition"></div>
+          <div class="layer layer-comfort" data-layer="comfort"></div>
+          <div class="layer layer-cover" data-layer="cover"></div>
           <div class="pillow"></div>
           <div class="pillow pillow-2"></div>
         </div>
       </div>
-
-      <div class="callout c-cool">
+      <div class="callout c-cool" data-for="cover">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg></span>
-        <span><span class="tt">Cooling cover</span><br><span class="sb">Stays cool all night</span></span>
+        <span><span class="tt">Cooling Cover</span><br><span class="sb">Breathable surface designed for cooler sleep.</span></span>
       </div>
-      <div class="callout c-comfort">
+      <div class="callout c-comfort" data-for="comfort">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h10"/></svg></span>
-        <span><span class="tt">Comfort layer</span><br><span class="sb">Perfect balance</span></span>
+        <span><span class="tt">Comfort Layer</span><br><span class="sb">Contours to pressure points for a balanced feel.</span></span>
       </div>
-      <div class="callout c-transition">
+      <div class="callout c-transition" data-for="transition">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg></span>
-        <span><span class="tt">Transition layer</span><br><span class="sb">Better support</span></span>
+        <span><span class="tt">Transition Layer</span><br><span class="sb">Smooths the handoff to the support core.</span></span>
       </div>
-      <div class="callout c-core">
+      <div class="callout c-core" data-for="support">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/></svg></span>
-        <span><span class="tt">Core support</span><br><span class="sb">Long-lasting comfort</span></span>
+        <span><span class="tt">Core Support</span><br><span class="sb">Long-lasting structure that holds its shape.</span></span>
       </div>
-    </div>
-  </div>
-</header>
-
-<section class="section" id="process">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow-dark">The process</span>
-      <h2>Simple steps to better sleep</h2>
-      <p>Answer a few questions, get your match score, and find the mattress that actually fits how you sleep.</p>
-    </div>
-    <div class="process-row">
-      <div class="p-card">
-        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
-        <h3>1. Take the quiz</h3>
-        <p>Tell us about your sleep style, body type, and the comfort preferences that matter most to you.</p>
-      </div>
-      <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-      <div class="p-card">
-        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
-        <h3>2. Get your match score</h3>
-        <p>Our model scores mattresses against your answers and ranks the best fits for you.</p>
-      </div>
-      <div class="p-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-      <div class="p-card">
-        <div class="p-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16l-1.5 9.5a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-        <h3>3. Shop with confidence</h3>
-        <p>Compare your top matches, read verified reviews, and lock in the best price available.</p>
-      </div>
+      <div class="xray-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg> Drag to explore</div>
     </div>
   </div>
 </section>
+
+
 
 <section class="section why" id="why">
   <div class="wrap why-grid">
@@ -799,16 +1120,17 @@
   </div>
 </section>
 
-<section class="cta" id="cta">
+<section class="cta final-cta" id="cta">
+  <div class="final-cta-glow" aria-hidden="true"></div>
   <div class="wrap cta-inner">
     <div class="cta-left">
       <div class="cta-moon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.3A8.5 8.5 0 0 1 9.7 4a8.5 8.5 0 1 0 10.3 10.3Z"/></svg></div>
       <div>
-        <h3>Better sleep starts here</h3>
-        <p>Take the quiz now and find your perfect mattress match.</p>
+        <h3>Better Sleep Starts With the Right Match</h3>
+        <p>Discover mattresses scored against your own sleep profile — not a generic star rating.</p>
       </div>
     </div>
-    <a href="#find-match" class="btn btn-primary">Take the quiz
+    <a href="#find-match" class="btn btn-primary">Find My Match
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </div>
@@ -1274,7 +1596,7 @@
           <svg viewBox="0 0 32 32" fill="none"><path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="5" y1="5" x2="27" y2="27"><stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/></linearGradient></defs></svg>
           Mattress Match Score
         </a>
-        <p>Personalized mattress recommendations backed by real sleep data — so you buy once, and buy right.</p>
+        <p>Smarter Sleep. Better You.</p>
       </div>
       <div class="foot-links">
         <a href="#home">Home</a>
@@ -1312,12 +1634,14 @@
     a.addEventListener('click', function(){ mobileMenu.classList.remove('open'); });
   });
 
-  // Scroll-driven mattress layer separation
-  var hero = document.querySelector('.hero');
+  // Scroll-driven mattress layer separation, retargeted from the old hero to the X-Ray section
+  var xraySection = document.getElementById('xray');
+  var xraySceneWrap = document.getElementById('xraySceneWrap');
   function updateExplode(){
-    var rect = hero.getBoundingClientRect();
-    var total = rect.height * 0.6;
-    var scrolled = Math.min(Math.max(-rect.top, 0), total);
+    if (!xraySection) return;
+    var rect = xraySection.getBoundingClientRect();
+    var total = rect.height * 0.7;
+    var scrolled = Math.min(Math.max(window.innerHeight * 0.5 - rect.top, 0), total);
     var progress = total > 0 ? scrolled / total : 0;
     document.documentElement.style.setProperty('--explode', progress.toFixed(3));
   }
@@ -1325,16 +1649,56 @@
   window.addEventListener('resize', updateExplode);
   updateExplode();
 
-  // Slight cinematic drift on the mattress tied to scroll, on top of layer separation
+  // Slight cinematic drift on the mattress tied to scroll, plus a manual drag offset ("Drag to explore")
   var m3d = document.getElementById('mattress3d');
+  var dragOffsetX = 0, dragOffsetY = 0, isDragging = false, dragStartX = 0, dragStartY = 0;
   function updateTilt(){
     var p = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--explode')) || 0;
-    var rx = 46 - p * 6;
-    var rz = -36 + p * 6;
-    m3d.style.transform = 'rotateX(' + rx + 'deg) rotateZ(' + rz + 'deg)';
+    var rx = clampNum(46 - p * 6 + dragOffsetY, 20, 70);
+    var rz = clampNum(-36 + p * 6 + dragOffsetX, -60, -10);
+    if (m3d) m3d.style.transform = 'rotateX(' + rx + 'deg) rotateZ(' + rz + 'deg)';
     requestAnimationFrame(updateTilt);
   }
+  function clampNum(v, min, max){ return Math.min(max, Math.max(min, v)); }
   requestAnimationFrame(updateTilt);
+
+  if (xraySceneWrap) {
+    var onDragStart = function (clientX, clientY) { isDragging = true; dragStartX = clientX; dragStartY = clientY; };
+    var onDragMove = function (clientX, clientY) {
+      if (!isDragging) return;
+      dragOffsetX += (clientX - dragStartX) * 0.15;
+      dragOffsetY += (clientY - dragStartY) * -0.1;
+      dragOffsetX = clampNum(dragOffsetX, -20, 20);
+      dragOffsetY = clampNum(dragOffsetY, -14, 14);
+      dragStartX = clientX; dragStartY = clientY;
+    };
+    var onDragEnd = function () { isDragging = false; };
+    xraySceneWrap.addEventListener('mousedown', function (e) { onDragStart(e.clientX, e.clientY); });
+    window.addEventListener('mousemove', function (e) { onDragMove(e.clientX, e.clientY); });
+    window.addEventListener('mouseup', onDragEnd);
+    xraySceneWrap.addEventListener('touchstart', function (e) { var t = e.touches[0]; onDragStart(t.clientX, t.clientY); }, { passive: true });
+    xraySceneWrap.addEventListener('touchmove', function (e) { var t = e.touches[0]; onDragMove(t.clientX, t.clientY); }, { passive: true });
+    xraySceneWrap.addEventListener('touchend', onDragEnd);
+  }
+
+  // X-Ray layer isolation buttons
+  var xrayButtons = document.querySelectorAll('.xray-btn');
+  xrayButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      xrayButtons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var layer = btn.getAttribute('data-layer');
+      var isolating = layer !== 'all';
+      if (m3d) m3d.classList.toggle('isolated', isolating);
+      if (xraySceneWrap) xraySceneWrap.classList.toggle('isolating', isolating);
+      document.querySelectorAll('.mattress-3d .layer').forEach(function (l) {
+        l.classList.toggle('xray-active', isolating && l.getAttribute('data-layer') === layer);
+      });
+      document.querySelectorAll('.xray-scene-wrap .callout').forEach(function (c) {
+        c.classList.toggle('xray-active', isolating && c.getAttribute('data-for') === layer);
+      });
+    });
+  });
 
   // Review carousel
   var reviews = [
@@ -1412,6 +1776,10 @@
   var RULES = {"version": "0.1", "description": "Initial scoring model skeleton. Weights, baselines, and thresholds below are placeholders for design/demo purposes and have not been calibrated against real product data.", "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"], "weights": {"pressureRelief": 0.2, "support": 0.25, "heat": 0.15, "motion": 0.15, "edge": 0.15, "durability": 0.1}, "weightBands": [{"key": "under-130", "maxLb": 130}, {"key": "130-180", "minLb": 130, "maxLb": 180}, {"key": "180-230", "minLb": 180, "maxLb": 230}, {"key": "over-230", "minLb": 230}], "firmnessLabelScale": {"soft": 2, "medium-soft": 4, "medium": 5.5, "medium-firm": 7, "firm": 8.5, "extra-firm": 10}, "firmnessComfortBands": {"side": {"under-130": [2, 5], "130-180": [3, 6], "180-230": [5, 8], "over-230": [6, 9]}, "back": {"under-130": [4, 7], "130-180": [5, 8], "180-230": [6, 9], "over-230": [7, 10]}, "stomach": {"under-130": [5, 8], "130-180": [6, 9], "180-230": [7, 10], "over-230": [8, 10]}, "combination": {"under-130": [4, 7], "130-180": [5, 8], "180-230": [6, 9], "over-230": [7, 10]}}, "mattressTypeBaselines": {"hybrid": {"pressureRelief": 7, "support": 8, "heat": 7, "motion": 7, "edge": 7, "durability": 7}, "foam": {"pressureRelief": 9, "support": 6, "heat": 4, "motion": 9, "edge": 5, "durability": 6}, "innerspring": {"pressureRelief": 4, "support": 7, "heat": 8, "motion": 4, "edge": 8, "durability": 6}, "latex": {"pressureRelief": 8, "support": 8, "heat": 6, "motion": 6, "edge": 6, "durability": 9}, "default": {"pressureRelief": 6, "support": 6, "heat": 6, "motion": 6, "edge": 6, "durability": 6}}, "adjustments": {"supportPenaltyPerFirmnessPoint": 0.6, "supportBonusInBand": 0.5, "pressureReliefPenaltyPerFirmnessPoint": 0.4, "pressureReliefBonusWhenSofterThanBand": 0.5, "coolingCoverHeatBonus": 1, "noCoolingFoamHeatPenalty": 1, "reinforcedEdgeBonus": 1.5, "coupleHighMotionPenaltyLowIsolationTypes": 1, "lowDensityHighWeightDurabilityPenalty": 2, "highDensityDurabilityBonus": 0.5}, "thresholds": {"heatRetentionMaxHeatScore": 6, "edgeSupportMinScore": 6, "durabilityMinFoamDensityLbFt3": 1.8, "durabilityHighWeightLb": 200, "lowIsolationTypesForCoupleHigh": ["innerspring"]}, "categoryRuleCatalog": [{"id": "BASELINE_BY_TYPE", "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"], "description": "Starting sub-scores come from mattressTypeBaselines for the mattress's construction type, before any profile-specific adjustment."}, {"id": "SUPPORT_BAND_BONUS", "categories": ["support"], "description": "Firmness rating falls inside the sleeper's comfort band; a small bonus is applied to the support sub-score."}, {"id": "SUPPORT_BAND_PENALTY", "categories": ["support"], "description": "Firmness rating falls outside the sleeper's comfort band; support is penalized proportionally to how many points outside the band it sits."}, {"id": "PRESSURE_RELIEF_SOFTER_BONUS", "categories": ["pressureRelief"], "description": "Firmness rating is softer than the comfort band, which typically improves pressure relief; a small bonus is applied."}, {"id": "PRESSURE_RELIEF_FIRMER_PENALTY", "categories": ["pressureRelief"], "description": "Firmness rating is firmer than the comfort band, which typically reduces pressure relief; a penalty proportional to the overage is applied."}, {"id": "HEAT_COOLING_COVER_BONUS", "categories": ["heat"], "description": "Mattress has a cooling cover; a bonus is applied to the heat & airflow sub-score."}, {"id": "HEAT_NO_COOLING_FOAM_PENALTY", "categories": ["heat"], "description": "Mattress is all-foam with no cooling cover; a penalty is applied to the heat & airflow sub-score, since foam alone tends to retain more heat."}, {"id": "MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY", "categories": ["motion"], "description": "Sleeper reports high motion sensitivity (shares the bed, easily woken) and the mattress type is on the low-isolation list; a penalty is applied to motion isolation."}, {"id": "EDGE_REINFORCED_BONUS", "categories": ["edge"], "description": "Mattress has a reinforced perimeter; a bonus is applied to the edge support sub-score."}, {"id": "DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY", "categories": ["durability"], "description": "Top foam density is below the durability threshold and the sleeper's weight is at or above the high-weight threshold; a penalty is applied for elevated long-term sag risk."}, {"id": "DURABILITY_HIGH_DENSITY_BONUS", "categories": ["durability"], "description": "Top foam density comfortably exceeds the durability threshold; a small bonus is applied."}], "riskFlagRules": [{"code": "SUPPORT_THRESHOLD_MISMATCH", "category": "support", "description": "Fires when the mattress's firmness rating falls outside the firmness comfort band resolved for the sleeper's position and weight band.", "thresholdId": "firmnessComfortBands.<sleepPosition>.<weightBand>", "mitigation": "Consider a firmer or softer variant in the same line, or add a mattress topper to move the feel into your comfort band."}, {"code": "HEAT_RETENTION_LIKELY", "category": "heat", "description": "Fires when the sleeper reports sleeping hot and the computed heat sub-score is at or below the heat retention threshold.", "thresholdId": "thresholds.heatRetentionMaxHeatScore", "mitigation": "Look for gel-infused foam, a hybrid coil layer, or an added cooling cover/topper if you tend to sleep warm."}, {"code": "EDGE_SUPPORT_CONCERN", "category": "edge", "description": "Fires when the mattress has no reinforced perimeter and the computed edge sub-score is below the edge support threshold.", "thresholdId": "thresholds.edgeSupportMinScore", "mitigation": "Fine for sleepers who stay centered; worth weighing a model with reinforced perimeter coils if you sit on the edge often."}, {"code": "DURABILITY_SAG_RISK", "category": "durability", "description": "Fires when top foam density is below the durability density threshold and the sleeper's weight is at or above the high-weight threshold.", "thresholdId": "thresholds.durabilityMinFoamDensityLbFt3 & thresholds.durabilityHighWeightLb", "mitigation": "Check the warranty's sag-depth threshold and prioritize using the full in-home trial period to catch early sagging."}]}
 ;
   var CATALOG = [{"id": "aurora-sleep-aurora-hybrid", "brand": "Aurora Sleep", "model": "Aurora Hybrid", "type": "hybrid", "coreMaterialNotes": null, "retailPartners": ["Aurora Direct", "Sleepworld"], "heightIn": 12, "trialDays": 100, "warrantyYears": 10, "warrantyLifetime": false, "firmnessRange": {"min": 6, "max": 7.5}, "priceUsd": 1005, "sponsored": false, "reviewHighlights": [{"tag": "greatEdgeSupport", "label": "Great edge support", "sentiment": "positive", "category": "edge", "confidence": "medium", "matchCount": 2, "snippet": "The edge support is fantastic, we never feel like we'll roll off even sitting right on the side."}, {"tag": "motionIsolationGood", "label": "Good motion isolation", "sentiment": "positive", "category": "motion", "confidence": "low", "matchCount": 1, "snippet": "I barely notice when my partner gets up at night, motion isolation is great."}]}, {"id": "cloudline-cloudline-original", "brand": "Cloudline", "model": "Cloudline Original", "type": "foam", "coreMaterialNotes": null, "retailPartners": ["Cloudline.com", "Mattress Depot"], "heightIn": 10, "trialDays": 100, "warrantyYears": 10, "warrantyLifetime": false, "firmnessRange": {"min": 4, "max": 6}, "priceUsd": 755, "sponsored": true, "reviewHighlights": [{"tag": "sleepsHot", "label": "Sleeps hot", "sentiment": "negative", "category": "heat", "confidence": "high", "matchCount": 3, "snippet": "I run hot on this one, wish it slept cooler."}, {"tag": "pressureReliefGood", "label": "Good pressure relief", "sentiment": "positive", "category": "pressure", "confidence": "low", "matchCount": 1, "snippet": "Contours to my hips and shoulder without ever feeling stuck, great pressure relief."}]}, {"id": "terrafoam-terrafoam-cool", "brand": "TerraFoam", "model": "TerraFoam Cool", "type": "foam", "coreMaterialNotes": null, "retailPartners": ["TerraFoam Direct"], "heightIn": 11, "trialDays": 120, "warrantyYears": 12, "warrantyLifetime": false, "firmnessRange": {"min": 6.75, "max": 8.25}, "priceUsd": 796, "sponsored": false, "reviewHighlights": [{"tag": "coolSleeper", "label": "Sleeps cool", "sentiment": "positive", "category": "heat", "confidence": "low", "matchCount": 1, "snippet": "Stays cool all night which surprised me for a foam mattress."}, {"tag": "tooFirm", "label": "Too firm", "sentiment": "negative", "category": "firmness", "confidence": "low", "matchCount": 1, "snippet": "Way too firm for my side-sleeping shoulder, definitely too firm out of the box."}]}, {"id": "nimbus-nimbus-pocket-coil", "brand": "Nimbus", "model": "Nimbus Pocket Coil", "type": "hybrid", "coreMaterialNotes": "Pocket coil support core.", "retailPartners": ["NimbusHome"], "heightIn": 13, "trialDays": 365, "warrantyYears": null, "warrantyLifetime": true, "firmnessRange": {"min": 4, "max": 6}, "priceUsd": 1100, "sponsored": true, "reviewHighlights": [{"tag": "greatValue", "label": "Great value", "sentiment": "positive", "category": "value", "confidence": "low", "matchCount": 1, "snippet": "Great value for a mattress in this price range, would recommend to a friend."}, {"tag": "sagsAfterTime", "label": "Sags after time", "sentiment": "negative", "category": "durability", "confidence": "low", "matchCount": 1, "snippet": "After about eight months it started to sag right in the middle of the bed."}]}, {"id": "stratus-stratus-latex-hybrid", "brand": "Stratus", "model": "Stratus Latex Hybrid", "type": "hybrid", "coreMaterialNotes": "Includes a latex layer.", "retailPartners": ["Stratus Direct", "GreenBed"], "heightIn": 12.5, "trialDays": 180, "warrantyYears": 20, "warrantyLifetime": false, "firmnessRange": {"min": 3, "max": 5}, "priceUsd": 1098, "sponsored": false, "reviewHighlights": [{"tag": "offGassing", "label": "Off-gassing / chemical smell", "sentiment": "negative", "category": "chemical", "confidence": "low", "matchCount": 1, "snippet": "There was a strange smell when we unboxed it, definitely some off-gassing the first week."}, {"tag": "poorEdgeSupport", "label": "Weak edge support", "sentiment": "negative", "category": "edge", "confidence": "low", "matchCount": 1, "snippet": "Edge support could be better, I feel like I might roll off if I sit near the side."}]}, {"id": "baseline-baseline-firm-innerspring", "brand": "Baseline", "model": "Baseline Firm Innerspring", "type": "innerspring", "coreMaterialNotes": null, "retailPartners": ["BudgetBeds"], "heightIn": 9, "trialDays": 30, "warrantyYears": 5, "warrantyLifetime": false, "firmnessRange": {"min": 7.5, "max": 9}, "priceUsd": 590, "sponsored": false, "reviewHighlights": [{"tag": "tooFirm", "label": "Too firm", "sentiment": "negative", "category": "firmness", "confidence": "low", "matchCount": 1, "snippet": "Definitely too firm for anyone who likes a softer feel, my hips ached the first few nights."}]}, {"id": "drift-drift-plush-foam", "brand": "Drift", "model": "Drift Plush Foam", "type": "foam", "coreMaterialNotes": null, "retailPartners": ["DriftSleep"], "heightIn": 11.8, "trialDays": 100, "warrantyYears": 10, "warrantyLifetime": false, "firmnessRange": {"min": 1, "max": 3}, "priceUsd": 800, "sponsored": false, "reviewHighlights": [{"tag": "offGassing", "label": "Off-gassing / chemical smell", "sentiment": "negative", "category": "chemical", "confidence": "low", "matchCount": 1, "snippet": "We could smell a chemical odor when we first unboxed it, took a few days to fade."}, {"tag": "tooSoft", "label": "Too soft", "sentiment": "negative", "category": "firmness", "confidence": "low", "matchCount": 1, "snippet": "Sinks in a lot, sometimes feels like there's no support at all for my lower back."}]}, {"id": "anchor-anchor-hybrid-support", "brand": "Anchor", "model": "Anchor Hybrid Support", "type": "hybrid", "coreMaterialNotes": null, "retailPartners": ["AnchorHome", "BedBarn"], "heightIn": 14, "trialDays": 101, "warrantyYears": 15, "warrantyLifetime": false, "firmnessRange": null, "priceUsd": 1095, "sponsored": false, "reviewHighlights": [{"tag": "motionIsolationGood", "label": "Good motion isolation", "sentiment": "positive", "category": "motion", "confidence": "low", "matchCount": 1, "snippet": "My partner moves around a lot and I don't feel a thing, great motion isolation on this one."}]}, {"id": "coastal-coastal-cool-gel-foam", "brand": "Coastal", "model": "Coastal Cool Gel Foam", "type": "foam", "coreMaterialNotes": "Gel-infused foam.", "retailPartners": ["CoastalSleep"], "heightIn": 12, "trialDays": 120, "warrantyYears": 10, "warrantyLifetime": false, "firmnessRange": {"min": 6.25, "max": 7.75}, "priceUsd": 805, "sponsored": false, "reviewHighlights": [{"tag": "sleepsHot", "label": "Sleeps hot", "sentiment": "negative", "category": "heat", "confidence": "medium", "matchCount": 2, "snippet": "This one runs really hot, I wake up sweaty most nights even with the gel foam."}]}, {"id": "summit-summit-innerspring-classic", "brand": "Summit", "model": "Summit Innerspring Classic", "type": "innerspring", "coreMaterialNotes": null, "retailPartners": ["SummitDirect"], "heightIn": 8, "trialDays": 30, "warrantyYears": 10, "warrantyLifetime": false, "firmnessRange": {"min": 7.5, "max": 9}, "priceUsd": 605, "sponsored": false, "reviewHighlights": [{"tag": "sagsAfterTime", "label": "Sags after time", "sentiment": "negative", "category": "durability", "confidence": "low", "matchCount": 1, "snippet": "Started sagging after about a year of regular use, disappointing for an innerspring."}]}, {"id": "halcyon-halcyon-hybrid-plus", "brand": "Halcyon", "model": "Halcyon Hybrid Plus", "type": "hybrid", "coreMaterialNotes": "Pocket coil support core.", "retailPartners": ["Halcyon.com", "SleepMart"], "heightIn": 12, "trialDays": 365, "warrantyYears": null, "warrantyLifetime": true, "firmnessRange": {"min": 4, "max": 6}, "priceUsd": 1075, "sponsored": false, "reviewHighlights": [{"tag": "greatEdgeSupport", "label": "Great edge support", "sentiment": "positive", "category": "edge", "confidence": "low", "matchCount": 1, "snippet": "Really solid edge support, great for sitting on the side to put on shoes in the morning."}]}, {"id": "vale-vale-budget-foam", "brand": "Vale", "model": "Vale Budget Foam", "type": "foam", "coreMaterialNotes": null, "retailPartners": ["ValeDirect"], "heightIn": 9, "trialDays": 60, "warrantyYears": 3, "warrantyLifetime": false, "firmnessRange": {"min": 6, "max": 7.5}, "priceUsd": 674, "sponsored": false, "reviewHighlights": [{"tag": "tooFirm", "label": "Too firm", "sentiment": "negative", "category": "firmness", "confidence": "low", "matchCount": 1, "snippet": "A bit too firm out of the box but softened slightly after a few weeks of use."}]}]
+
+  // Expose to the rest of the site (home page Sleep DNA / Universe / Match Score sections).
+  window.MMS_RULES = RULES;
+  window.MMS_CATALOG = CATALOG;
 ;
 
   // ---------- Scoring engine (ported from src/scoreEngine.js v0.1) ----------
@@ -1746,6 +2114,7 @@
     if (entry.model.toLowerCase().indexOf(firstBrandWord) === 0) return entry.model;
     return entry.brand + ' ' + entry.model;
   }
+  window.MMS_displayTitle = displayTitle;
 
   function badgeFor(entry, isTopMatch) {
     if (entry.sponsored) return { label: 'Sponsored Verified', className: 'badge-sponsored' };
@@ -1770,6 +2139,15 @@
     });
 
     scored.sort(function (a, b) { return b.result.overallScore - a.result.overallScore; });
+
+    // Expose the real result to the rest of the site (Sleep DNA / Universe / Match Score /
+    // Reasoning sections on the home page) — persisted so it survives navigating away and back.
+    try {
+      var topForBroadcast = scored[0];
+      var payload = { profile: profile, top: { entry: topForBroadcast.entry, result: topForBroadcast.result }, all: scored.map(function (s) { return { id: s.entry.id, brand: s.entry.brand, model: s.entry.model, score: s.result.overallScore }; }) };
+      sessionStorage.setItem('mms_last_result', JSON.stringify(payload));
+      if (window.MMS_onResults) window.MMS_onResults(payload);
+    } catch (e) { /* sessionStorage unavailable (e.g. private mode) — non-fatal, home page just keeps showing examples */ }
 
     var firstNonSponsoredSeen = false;
     lastResults = {};
@@ -1929,6 +2307,446 @@
     comparisonSection.hidden = true;
     document.getElementById('matchResultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var HAS_THREE = typeof THREE !== 'undefined';
+
+  /** De-duplicates brand/model titles (e.g. "Aurora Sleep Aurora Hybrid" -> "Aurora Hybrid"). */
+  function dt(entry) {
+    if (window.MMS_displayTitle) return window.MMS_displayTitle(entry);
+    return entry.brand + ' ' + entry.model;
+  }
+
+  function supportsWebGL() {
+    if (!HAS_THREE) return false;
+    try {
+      var canvas = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch (e) { return false; }
+  }
+  var WEBGL_OK = supportsWebGL();
+
+  /** Generates a soft radial-gradient sprite texture at runtime (cheap stand-in for a bloom pass). */
+  function makeGlowTexture(hexColor) {
+    var size = 128;
+    var c = document.createElement('canvas');
+    c.width = c.height = size;
+    var ctx = c.getContext('2d');
+    var g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    g.addColorStop(0, hexColor + 'ff'.replace('ff', 'cc'));
+    g.addColorStop(0, 'rgba(255,255,255,0.9)');
+    g.addColorStop(0.4, hexColor);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    return new THREE.CanvasTexture(c);
+  }
+
+  /** Pauses a render loop when its canvas scrolls off-screen. */
+  function makeVisibilityGate(el) {
+    var visible = true;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { visible = e.isIntersecting; });
+      }, { threshold: 0.05 });
+      io.observe(el);
+    }
+    return function () { return visible; };
+  }
+
+  function fitRendererToCanvas(renderer, camera, canvas) {
+    var w = canvas.clientWidth || canvas.parentElement.clientWidth || 300;
+    var h = canvas.clientHeight || canvas.parentElement.clientHeight || 300;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+
+  // ---------------------------------------------------------------
+  // Sleep DNA scene (used for both the hero canvas and the smaller orb canvas)
+  // ---------------------------------------------------------------
+  function buildDNAScene(canvas, opts) {
+    opts = opts || {};
+    var scale = opts.scale || 1;
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.set(0, 0, 11 / scale);
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    // Double helix strands
+    var strandPoints1 = [], strandPoints2 = [];
+    var turns = 3.4, pointsPerTurn = 26, radius = 1.1 * scale, height = 5.2 * scale;
+    var total = Math.floor(turns * pointsPerTurn);
+    for (var i = 0; i <= total; i++) {
+      var t = i / pointsPerTurn * Math.PI * 2;
+      var y = (i / total - 0.5) * height;
+      strandPoints1.push(new THREE.Vector3(Math.cos(t) * radius, y, Math.sin(t) * radius));
+      strandPoints2.push(new THREE.Vector3(Math.cos(t + Math.PI) * radius, y, Math.sin(t + Math.PI) * radius));
+    }
+    var geo1 = new THREE.BufferGeometry().setFromPoints(strandPoints1);
+    var geo2 = new THREE.BufferGeometry().setFromPoints(strandPoints2);
+    var lineMat1 = new THREE.LineBasicMaterial({ color: 0x3fd4ff, transparent: true, opacity: 0.85 });
+    var lineMat2 = new THREE.LineBasicMaterial({ color: 0x3b6cf6, transparent: true, opacity: 0.85 });
+    group.add(new THREE.Line(geo1, lineMat1));
+    group.add(new THREE.Line(geo2, lineMat2));
+
+    // Rungs connecting the two strands at intervals
+    var rungMat = new THREE.LineBasicMaterial({ color: 0x7fe9ff, transparent: true, opacity: 0.25 });
+    for (var j = 0; j < strandPoints1.length; j += 3) {
+      var rg = new THREE.BufferGeometry().setFromPoints([strandPoints1[j], strandPoints2[j]]);
+      group.add(new THREE.Line(rg, rungMat));
+    }
+
+    // Small glowing nodes along the strands
+    var nodeGeo = new THREE.SphereGeometry(0.045 * scale, 8, 8);
+    var nodeMat1 = new THREE.MeshBasicMaterial({ color: 0x3fd4ff });
+    var nodeMat2 = new THREE.MeshBasicMaterial({ color: 0x5b8dff });
+    for (var k = 0; k < strandPoints1.length; k += 2) {
+      var n1 = new THREE.Mesh(nodeGeo, nodeMat1); n1.position.copy(strandPoints1[k]); group.add(n1);
+      var n2 = new THREE.Mesh(nodeGeo, nodeMat2); n2.position.copy(strandPoints2[k]); group.add(n2);
+    }
+
+    // Orbital rings
+    [1.9, 2.4].forEach(function (r, idx) {
+      var ringGeo = new THREE.TorusGeometry(r * scale, 0.006 * scale, 8, 64);
+      var ringMat = new THREE.MeshBasicMaterial({ color: idx === 0 ? 0x3fd4ff : 0x5b8dff, transparent: true, opacity: 0.22 });
+      var ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 2 + idx * 0.5;
+      ring.rotation.y = idx * 0.3;
+      group.add(ring);
+      ring.userData.spin = 0.0015 + idx * 0.0007;
+    });
+
+    // Soft core glow sprite
+    var glowTex = makeGlowTexture('#3fd4ff');
+    var glowMat = new THREE.SpriteMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.55 });
+    var glow = new THREE.Sprite(glowMat);
+    glow.scale.set(3.2 * scale, 3.2 * scale, 1);
+    scene.add(glow);
+
+    scene.add(new THREE.AmbientLight(0x223355, 1.2));
+
+    var gate = makeVisibilityGate(canvas);
+    var raf = null;
+    function animate() {
+      raf = requestAnimationFrame(animate);
+      if (!gate()) return;
+      fitRendererToCanvas(renderer, camera, canvas);
+      if (!REDUCED_MOTION) {
+        group.rotation.y += 0.0022;
+        group.children.forEach(function (child) { if (child.userData.spin) child.rotation.z += child.userData.spin; });
+      }
+      renderer.render(scene, camera);
+    }
+    fitRendererToCanvas(renderer, camera, canvas);
+    renderer.render(scene, camera); // paint one frame immediately (covers reduced-motion + first paint)
+    if (!REDUCED_MOTION) animate();
+    window.addEventListener('resize', function () { fitRendererToCanvas(renderer, camera, canvas); if (REDUCED_MOTION) renderer.render(scene, camera); });
+  }
+
+  // ---------------------------------------------------------------
+  // Mattress Universe scene — driven by the real embedded catalog
+  // ---------------------------------------------------------------
+  function buildUniverseScene(canvas, labelsContainer, catalog, highlightId) {
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+    camera.position.set(0, 5.2, 8.2);
+    camera.lookAt(0, 0, 0);
+
+    scene.add(new THREE.AmbientLight(0x334466, 1.4));
+    var pointLight = new THREE.PointLight(0x3fd4ff, 1.2, 30);
+    pointLight.position.set(0, 5, 5);
+    scene.add(pointLight);
+
+    var typeColor = { foam: 0x8ff2e4, hybrid: 0x3fd4ff, innerspring: 0x5b8dff };
+    var nodes = [];
+    var centerIndex = Math.max(0, catalog.findIndex(function (m) { return m.id === highlightId; }));
+    var others = catalog.filter(function (_, i) { return i !== centerIndex; });
+    var centerEntry = catalog[centerIndex];
+
+    function makeMattressMesh(entry, isCenter) {
+      var w = isCenter ? 1.5 : 1.0, d = isCenter ? 1.0 : 0.68, h = isCenter ? 0.26 : 0.18;
+      var geo = new THREE.BoxGeometry(w, h, d);
+      var mat = new THREE.MeshStandardMaterial({
+        color: typeColor[entry.type] || 0x9fb3c8,
+        emissive: isCenter ? 0x1a3a4a : 0x0a1a24,
+        emissiveIntensity: isCenter ? 0.7 : 0.25,
+        roughness: 0.4, metalness: 0.15,
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.userData.entry = entry;
+      mesh.userData.baseEmissive = mat.emissiveIntensity;
+      return mesh;
+    }
+
+    var centerMesh = makeMattressMesh(centerEntry, true);
+    centerMesh.position.set(0, 0, 0);
+    scene.add(centerMesh);
+    nodes.push(centerMesh);
+
+    var ringRadius = 5.2;
+    others.forEach(function (entry, i) {
+      var angle = (i / others.length) * Math.PI * 2;
+      var mesh = makeMattressMesh(entry, false);
+      mesh.position.set(Math.cos(angle) * ringRadius, Math.sin(i * 1.7) * 1.1, Math.sin(angle) * ringRadius * 0.62);
+      mesh.userData.angle = angle;
+      mesh.userData.bobSeed = i;
+      scene.add(mesh);
+      nodes.push(mesh);
+    });
+
+    // Faint orbit ring outline
+    var orbitGeo = new THREE.RingGeometry(ringRadius - 0.01, ringRadius + 0.01, 96);
+    var orbitMat = new THREE.MeshBasicMaterial({ color: 0x2a5a7a, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+    var orbitRing = new THREE.Mesh(orbitGeo, orbitMat);
+    orbitRing.rotation.x = Math.PI / 2 - 0.35;
+    scene.add(orbitRing);
+
+    // Labels
+    var labelEls = nodes.map(function (mesh, i) {
+      var el = document.createElement('div');
+      el.className = 'universe-node-label' + (i === 0 ? ' center' : '');
+      el.textContent = dt(mesh.userData.entry);
+      labelsContainer.appendChild(el);
+      return el;
+    });
+
+    var raycaster = new THREE.Raycaster();
+    var mouseNDC = new THREE.Vector2(-10, -10);
+    var hovered = null;
+    canvas.addEventListener('mousemove', function (e) {
+      var rect = canvas.getBoundingClientRect();
+      mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+    canvas.addEventListener('mouseleave', function () { mouseNDC.set(-10, -10); });
+
+    var gate = makeVisibilityGate(canvas);
+    var t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!gate()) return;
+      fitRendererToCanvas(renderer, camera, canvas);
+      t += 0.01;
+      if (!REDUCED_MOTION) {
+        nodes.forEach(function (mesh, i) {
+          if (i === 0) { mesh.rotation.y += 0.004; return; }
+          var a = mesh.userData.angle + t * 0.06;
+          mesh.position.x = Math.cos(a) * ringRadius;
+          mesh.position.z = Math.sin(a) * ringRadius * 0.62;
+          mesh.position.y = Math.sin(t + mesh.userData.bobSeed) * 0.7;
+          mesh.rotation.y += 0.003;
+        });
+      }
+
+      raycaster.setFromCamera(mouseNDC, camera);
+      var hits = raycaster.intersectObjects(nodes);
+      if (hovered && (!hits.length || hits[0].object !== hovered)) {
+        hovered.material.emissiveIntensity = hovered.userData.baseEmissive;
+        hovered = null;
+      }
+      if (hits.length && hits[0].object !== centerMesh) {
+        hovered = hits[0].object;
+        hovered.material.emissiveIntensity = 0.9;
+      }
+
+      nodes.forEach(function (mesh, i) {
+        var pos = mesh.position.clone().project(camera);
+        var x = (pos.x * 0.5 + 0.5) * canvas.clientWidth;
+        var y = (-pos.y * 0.5 + 0.5) * canvas.clientHeight;
+        var behind = pos.z > 1;
+        labelEls[i].style.left = x + 'px';
+        labelEls[i].style.top = y + 'px';
+        labelEls[i].style.opacity = behind ? '0' : (i === 0 ? '1' : (mesh === hovered ? '1' : '0.32'));
+      });
+
+      renderer.render(scene, camera);
+    }
+    fitRendererToCanvas(renderer, camera, canvas);
+    renderer.render(scene, camera);
+    if (!REDUCED_MOTION) animate();
+    window.addEventListener('resize', function () { fitRendererToCanvas(renderer, camera, canvas); });
+
+    return { setHighlight: function () {} };
+  }
+
+  // ---------------------------------------------------------------
+  // Real-data wiring: Sleep DNA values, Match Score ring, Reasoning
+  // ---------------------------------------------------------------
+  var CATEGORY_DISPLAY = {
+    pressureRelief: 'Pressure Relief', support: 'Support', heat: 'Cooling',
+    motion: 'Motion Isolation', edge: 'Edge Support', durability: 'Durability',
+  };
+
+  function animateNumber(el, from, to, ms) {
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / ms);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(from + (to - from) * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    if (REDUCED_MOTION) { el.textContent = Math.round(to); return; }
+    requestAnimationFrame(step);
+  }
+
+  function applyScoreResult(payload) {
+    var profile = payload.profile, top = payload.top;
+
+    // Sleep DNA orb + hero labels: real submitted values, no more "example" note.
+    var posMap = { side: 'Side Sleeper', back: 'Back Sleeper', stomach: 'Stomach Sleeper', combination: 'Combination Sleeper' };
+    var tempMap = { hot: 'Warm', cold: 'Cool', neutral: 'Neutral' };
+    setText('dnaValPosition', posMap[profile.sleepPosition] || profile.sleepPosition);
+    setText('dnaValWeight', profile.weightLb + ' lb');
+    setText('dnaValFirmness', profile.preferredFirmnessLabel);
+    setText('dnaValTemp', tempMap[profile.sleepTemperature] || profile.sleepTemperature);
+    setText('dnaValMotion', profile.motionSensitivity === 'couple-high' ? 'High' : (profile.motionSensitivity === 'couple-low' ? 'Medium' : 'Low'));
+    setText('dnaValBudget', profile.budgetUsd ? ('$' + profile.budgetUsd.min + '\u2013$' + (isFinite(profile.budgetUsd.max) ? profile.budgetUsd.max : '+')) : 'No preference set');
+    var note = document.getElementById('dnaExampleNote');
+    if (note) note.textContent = 'This is your real Sleep DNA, generated from your quiz answers.';
+
+    // Universe: real top-3 chips
+    var utmList = document.getElementById('utmList');
+    if (utmList && payload.all) {
+      utmList.innerHTML = payload.all.slice(0, 3).map(function (m) {
+        return '<span class="utm-chip">' + dt(m) + ' \u00b7 ' + m.score + '</span>';
+      }).join('');
+    }
+
+    // Match Score ring
+    var overall = top.result.overallScore;
+    var circumference = 2 * Math.PI * 86;
+    var ringEl = document.getElementById('ringProgress');
+    if (ringEl) {
+      requestAnimationFrame(function () {
+        ringEl.style.strokeDashoffset = String(circumference * (1 - overall / 100));
+      });
+    }
+    var scoreNumEl = document.getElementById('scoreRingNum');
+    if (scoreNumEl) animateNumber(scoreNumEl, 0, overall, 1200);
+    setText('scoreRingLabel', 'MATCH \u00b7 ' + top.entry.brand.toUpperCase());
+    setText('scoreRingNote', 'Your top match is the ' + dt(top.entry) + ', scored ' + overall + '/100 with model v' + top.result.modelVersion + '.');
+    var cta = document.getElementById('scoreRingCta');
+    if (cta) cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+    // Sub-score bars
+    document.querySelectorAll('.sm-row').forEach(function (row) {
+      var cat = row.getAttribute('data-cat');
+      var val = top.result.subScores[cat];
+      if (val == null) return;
+      var bar = row.querySelector('.sm-bar i');
+      var num = row.querySelector('b');
+      requestAnimationFrame(function () { bar.style.width = (val / 10 * 100) + '%'; });
+      num.textContent = val.toFixed(1);
+    });
+
+    // Reasoning
+    var reasoningIntro = document.getElementById('reasoningIntro');
+    if (reasoningIntro) reasoningIntro.textContent = 'Real rules from our scoring engine, applied to the ' + dt(top.entry) + ' against your Sleep DNA.';
+    var list = document.getElementById('reasoningList');
+    if (list) {
+      var bullets = [];
+      (top.result.trace.categoryRulesUsed || []).forEach(function (r) {
+        if (r.delta <= 0) return;
+        bullets.push((CATEGORY_DISPLAY[r.category] || 'Overall') + ': ' + r.note);
+      });
+      if (top.result.riskFlags.length === 0) {
+        bullets.push('No risk flags for your profile \u2014 no support, heat, edge, or durability mismatches detected.');
+      } else {
+        top.result.riskFlags.forEach(function (f) { bullets.push('Worth knowing: ' + f.rationale); });
+      }
+      if (bullets.length === 0) bullets.push('This mattress starts from its type baseline with no additional adjustments for your profile.');
+      list.innerHTML = bullets.map(function (b) {
+        return '<div class="reason-row"><span class="rr-check">\u2713</span><span>' + b + '</span></div>';
+      }).join('');
+    }
+  }
+  window.MMS_onResults = applyScoreResult;
+
+  function setText(id, text) { var el = document.getElementById(id); if (el) el.textContent = text; }
+
+  // Restore last real result on load, if any (survives navigating away and back).
+  try {
+    var stored = sessionStorage.getItem('mms_last_result');
+    if (stored) applyScoreResult(JSON.parse(stored));
+  } catch (e) { /* ignore — falls back to the illustrative example state already in the HTML */ }
+
+  // ---------------------------------------------------------------
+  // Journey steps: sequential scroll activation
+  // ---------------------------------------------------------------
+  var journeySteps = document.querySelectorAll('.journey-step');
+  if ('IntersectionObserver' in window && journeySteps.length) {
+    var jio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var idx = Array.prototype.indexOf.call(journeySteps, entry.target);
+          setTimeout(function () { entry.target.classList.add('in-view'); }, idx * 120);
+          jio.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    journeySteps.forEach(function (el) { jio.observe(el); });
+  } else {
+    journeySteps.forEach(function (el) { el.classList.add('in-view'); });
+  }
+
+  // ---------------------------------------------------------------
+  // Build the 3D scenes (or CSS fallbacks) once the DOM is ready
+  // ---------------------------------------------------------------
+  function initScenes() {
+    var heroCanvas = document.getElementById('dnaHeroCanvas');
+    var orbCanvas = document.getElementById('dnaOrbCanvas');
+    var universeCanvas = document.getElementById('universeCanvas');
+    var universeLabels = document.getElementById('universeLabels');
+
+    if (!WEBGL_OK) {
+      var fb = document.getElementById('dnaFallback');
+      if (fb) fb.hidden = false;
+      if (orbCanvas) orbCanvas.style.background = 'radial-gradient(circle, rgba(63,212,255,0.25), transparent 70%)';
+      if (universeCanvas) universeCanvas.style.background = 'radial-gradient(circle, rgba(63,212,255,0.12), transparent 70%)';
+      return; // No WebGL — leave the graceful CSS fallback in place, never a blank section.
+    }
+
+    if (heroCanvas) buildDNAScene(heroCanvas, { scale: 1 });
+    if (orbCanvas) buildDNAScene(orbCanvas, { scale: 0.85 });
+    if (universeCanvas && universeLabels && window.MMS_CATALOG) {
+      var storedTop = null;
+      try {
+        var raw = sessionStorage.getItem('mms_last_result');
+        if (raw) storedTop = JSON.parse(raw).top.entry.id;
+      } catch (e) { /* no stored result yet */ }
+      buildUniverseScene(universeCanvas, universeLabels, window.MMS_CATALOG, storedTop || window.MMS_CATALOG[0].id);
+
+      if (!storedTop) {
+        var utmList = document.getElementById('utmList');
+        if (utmList) {
+          utmList.innerHTML = window.MMS_CATALOG.slice(0, 3).map(function (m) {
+            return '<span class="utm-chip">' + dt(m) + '</span>';
+          }).join('');
+        }
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScenes);
+  } else {
+    initScenes();
+  }
 })();
 </script>
 
