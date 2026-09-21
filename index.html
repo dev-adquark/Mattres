@@ -354,6 +354,10 @@
   .reviewer .who{font-size:13px;font-weight:600;color:var(--ink);}
   .reviewer .role{font-size:11.5px;color:var(--ink-dim);}
   .review-nav{position:absolute;right:18px;top:18px;display:flex;gap:8px;z-index:3;}
+  .transparency-points{display:flex;flex-direction:column;gap:12px;margin-top:6px;}
+  .tp-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--ink-dim);line-height:1.5;}
+  .tp-check{color:var(--teal-400);font-weight:800;flex:none;}
+  .tp-row a{color:var(--cyan-400);font-weight:600;}
   .review-nav button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:background .15s ease;}
   .review-nav button:hover{background:rgba(255,255,255,0.12);}
   .review-nav svg{width:14px;height:14px;}
@@ -654,6 +658,46 @@
   @media (max-width:960px){ .sleep-dna-grid{grid-template-columns:1fr;} }
   .dna-copy{color:var(--ink-dim);font-size:15px;line-height:1.7;margin:16px 0 28px;max-width:460px;}
   .dna-example-note{font-size:12px;color:var(--ink-dim);opacity:0.7;margin-top:14px;font-style:italic;}
+  .demo-badge{
+    position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:4;
+    font-size:10.5px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;color:#ffb020;
+    background:rgba(255,176,32,0.12);border:1px solid rgba(255,176,32,0.4);
+    white-space:nowrap;
+  }
+  .demo-badge.is-real{color:var(--teal-400);background:rgba(63,224,201,0.12);border-color:rgba(63,224,201,0.4);}
+  .demo-badge-inline{
+    display:inline-block;margin-left:8px;font-size:9.5px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:999px;color:#ffb020;background:rgba(255,176,32,0.12);border:1px solid rgba(255,176,32,0.4);
+    vertical-align:middle;
+  }
+  .demo-badge-inline.is-real{color:var(--teal-400);background:rgba(63,224,201,0.12);border-color:rgba(63,224,201,0.4);}
+
+  .funnel-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+  .funnel-step{
+    font-size:11.5px;font-weight:700;letter-spacing:0.02em;color:var(--ink-dim);
+    padding:9px 16px;border-radius:999px;border:1px solid var(--glass-border);background:var(--glass-bg);
+    transition:color .3s ease,border-color .3s ease,background .3s ease;
+  }
+  .funnel-step.active{color:#04182e;background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));border-color:transparent;}
+  .funnel-arrow{color:var(--ink-dim);opacity:0.5;font-size:13px;}
+  @media (max-width:640px){ .funnel-row{gap:6px;} .funnel-step{font-size:10px;padding:7px 11px;} }
+
+  .universe-info-panel{
+    position:absolute;right:20px;top:20px;z-index:5;max-width:260px;
+    background:rgba(8,20,36,0.85);border:1px solid var(--glass-border);border-radius:14px;
+    padding:16px 18px;backdrop-filter:blur(10px);
+  }
+  .uip-name{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 4px;}
+  .uip-meta{font-size:11.5px;color:var(--ink-dim);margin:0 0 10px;}
+  .uip-score{font-size:22px;font-weight:800;color:var(--cyan-400);font-family:'Sora',sans-serif;}
+  .uip-score span{font-size:11px;color:var(--ink-dim);font-weight:600;margin-left:3px;}
+  .uip-reasons{margin:10px 0 12px;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .uip-reasons li{font-size:11.5px;color:var(--ink-dim);line-height:1.4;padding-left:14px;position:relative;}
+  .uip-reasons li::before{content:"✓";position:absolute;left:0;color:var(--teal-400);}
+  .uip-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:14px;line-height:1;}
+  .uip-cta{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#04182e;background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));padding:8px 14px;border-radius:999px;text-decoration:none;}
+  @media (max-width:640px){ .universe-info-panel{left:16px;right:16px;max-width:none;top:auto;bottom:16px;} }
   .dna-orb-wrap{position:relative;height:440px;}
   @media (max-width:960px){ .dna-orb-wrap{height:380px;margin-top:20px;} }
   .orb-metric{
@@ -698,6 +742,12 @@
   @media (max-width:900px){ .match-score-grid{grid-template-columns:1fr;} }
   .score-ring-wrap{text-align:left;}
   .score-ring-visual{position:relative;width:220px;height:220px;margin:0 0 22px;}
+  .ring-orbit{position:absolute;inset:-14px;border-radius:50%;animation:ringSpin 14s linear infinite;}
+  .ring-particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--cyan-300);box-shadow:0 0 8px var(--cyan-300);}
+  .ring-particle.p1{top:0;left:50%;margin-left:-2.5px;}
+  .ring-particle.p2{bottom:6%;right:8%;background:var(--electric-400);box-shadow:0 0 8px var(--electric-400);}
+  @keyframes ringSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){ .ring-orbit{animation:none;} }
   .score-ring-svg{width:100%;height:100%;transform:rotate(-90deg);}
   .ring-track{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:10;}
   .ring-progress{
@@ -727,6 +777,20 @@
   }
   .reason-row .rr-check{color:var(--teal-600);font-weight:800;flex:none;}
   .reason-row.reason-empty{justify-content:center;color:var(--slate-600);background:#f6f9fb;text-align:center;}
+
+  .reason-flow-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:20px;}
+  @media (max-width:960px){ .reason-flow-grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:560px){ .reason-flow-grid{grid-template-columns:repeat(2,1fr);} }
+  .reason-flow-card{
+    background:#fff;border:1px solid #e4ecf1;border-radius:14px;padding:16px 10px;text-align:center;
+  }
+  .rf-trait{font-size:11px;font-weight:700;color:var(--slate-900);line-height:1.3;min-height:28px;}
+  .rf-arrow{color:var(--slate-600);opacity:0.5;font-size:12px;margin:2px 0;}
+  .rf-category{font-size:10.5px;color:var(--slate-600);font-weight:600;text-transform:uppercase;letter-spacing:0.02em;}
+  .rf-score{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-top:4px;}
+  .rf-score.rf-high{color:var(--teal-600);}
+  .rf-score.rf-mid{color:#b7791f;}
+  .rf-score.rf-low{color:#b23b3b;}
 
   /* ---- X-Ray View ---- */
   .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));}
@@ -799,7 +863,7 @@
       <a href="#find-match" data-nav="find-match">Match Score</a>
       <a href="#compare" data-nav="compare">Compare</a>
       <a href="#methodology" data-nav="methodology">Guides</a>
-      <a href="#cta">About</a>
+      <a href="#disclosures" data-nav="disclosures">About</a>
     </div>
     <div class="nav-right">
       <button class="icon-btn" aria-label="Search">
@@ -816,7 +880,7 @@
     <a href="#find-match" data-nav="find-match">Match Score</a>
     <a href="#compare" data-nav="compare">Compare</a>
     <a href="#methodology" data-nav="methodology">Guides</a>
-    <a href="#cta">About</a>
+    <a href="#disclosures" data-nav="disclosures">About</a>
   </div>
 </nav>
 
@@ -824,7 +888,7 @@
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span>AI powered · personalized</span>
+      <span class="eyebrow"><span class="dot"></span>Personalized · data-driven</span>
       <h1>Your <span>Sleep DNA</span><br>Finds the Perfect Mattress</h1>
       <p class="lead">Answer a few questions about your sleep position, body, firmness preference, temperature, motion sensitivity and budget — our model turns it into a personalized profile and scores real mattresses against it.</p>
       <div class="hero-ctas">
@@ -915,6 +979,7 @@
       <p class="dna-example-note" id="dnaExampleNote">Showing an illustrative example — take the quiz to generate your own.</p>
     </div>
     <div class="dna-orb-wrap">
+      <span class="demo-badge" id="dnaDemoBadge">Example profile</span>
       <canvas id="dnaOrbCanvas" class="dna-canvas" aria-hidden="true"></canvas>
       <div class="orb-metric om-1"><span class="om-k">Sleep Position</span><span class="om-v" id="dnaValPosition">Side Sleeper</span></div>
       <div class="orb-metric om-2"><span class="om-k">Body Weight</span><span class="om-v" id="dnaValWeight">68 kg</span></div>
@@ -929,15 +994,25 @@
 <section class="section universe-section" id="universe">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark" style="color:var(--cyan-400)">AI powered matching</span>
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">Personalized matching</span>
       <h2 style="color:var(--ink)">Explore the Mattress Universe</h2>
       <p style="color:var(--ink-dim)">Our model compares your Sleep DNA against every mattress in the catalog to surface the best matches for you.</p>
+    </div>
+    <div class="funnel-row" id="funnelRow">
+      <span class="funnel-step" data-funnel="analyzed">12 Mattresses Analyzed</span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step" data-funnel="filtering">Profile Filtering</span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step" data-funnel="bestfits">Best Fits</span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step" data-funnel="topmatch">Your Top Match</span>
     </div>
     <div class="universe-wrap">
       <canvas id="universeCanvas" class="dna-canvas" aria-hidden="true"></canvas>
       <div class="universe-labels" id="universeLabels"></div>
+      <div class="universe-info-panel" id="universeInfoPanel" hidden></div>
       <div class="universe-top-matches" id="universeTopMatches">
-        <span class="utm-label">Your Top Matches</span>
+        <span class="utm-label">Your Top Matches <span class="demo-badge-inline" id="utmDemoBadge">Example</span></span>
         <div class="utm-list" id="utmList"></div>
       </div>
     </div>
@@ -950,6 +1025,7 @@
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Your perfect match</span>
       <h2 style="color:var(--ink);margin-bottom:22px;">Match Score</h2>
       <div class="score-ring-visual">
+        <div class="ring-orbit" aria-hidden="true"><span class="ring-particle p1"></span><span class="ring-particle p2"></span></div>
         <svg viewBox="0 0 200 200" class="score-ring-svg">
           <defs>
             <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1054,11 +1130,11 @@
       <div class="feat-grid">
         <div class="feat">
           <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 2.4 6.9L21 11l-6.6 2.1L12 20l-2.4-6.9L3 11l6.6-2.1z"/></svg></div>
-          <div><h4>AI-powered matching</h4><p>Smart recommendations built for your unique needs.</p></div>
+          <div><h4>Personalized matching</h4><p>Recommendations built from your specific sleep profile, not a generic star rating.</p></div>
         </div>
         <div class="feat">
           <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/></svg></div>
-          <div><h4>Trusted reviews</h4><p>Real customer feedback and independent ratings.</p></div>
+          <div><h4>Review highlights</h4><p>Key themes surfaced from tagged review data, not star-rating guesswork.</p></div>
         </div>
         <div class="feat">
           <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
@@ -1102,19 +1178,12 @@
       </div>
     </div>
     <div class="duo-card">
-      <h3>Real customer reviews</h3>
-      <p>Every review is verified — no incentives, no filtering, just honest feedback.</p>
-      <div class="review-nav">
-        <button aria-label="Previous review" id="revPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 6-6 6 6 6"/></svg></button>
-        <button aria-label="Next review" id="revNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></button>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★<span id="revScore">4.9 / 5</span></div>
-        <q id="revText">I finally sleep through the night. The match score nailed my firmness preference on the first try.</q>
-        <div class="reviewer">
-          <div class="avatar" id="revInit">S</div>
-          <div><div class="who" id="revWho">Sarah L.</div><div class="role">Verified buyer</div></div>
-        </div>
+      <h3>Transparent by design</h3>
+      <p>Every recommendation ships with the exact rules and thresholds that produced it — no hidden weighting, no black box.</p>
+      <div class="transparency-points">
+        <div class="tp-row"><span class="tp-check">✓</span> Real scoring engine, not a marketing script</div>
+        <div class="tp-row"><span class="tp-check">✓</span> Sponsored listings labeled and separated from rankings</div>
+        <div class="tp-row"><span class="tp-check">✓</span> Full audit trail on the <a href="#methodology">methodology page</a></div>
       </div>
     </div>
   </div>
@@ -1126,7 +1195,7 @@
     <div class="cta-left">
       <div class="cta-moon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.3A8.5 8.5 0 0 1 9.7 4a8.5 8.5 0 1 0 10.3 10.3Z"/></svg></div>
       <div>
-        <h3>Better Sleep Starts With the Right Match</h3>
+        <h3>Your Sleep DNA is unique.<br>Your mattress should be too.</h3>
         <p>Discover mattresses scored against your own sleep profile — not a generic star rating.</p>
       </div>
     </div>
@@ -1582,7 +1651,7 @@
       <div class="disc-block contact-block">
         <h3>Questions about a listing?</h3>
         <p>If something looks off — outdated pricing, a missing disclosure, a flag you disagree with — tell us and we'll look into it.</p>
-        <a href="#" class="btn btn-ghost-dark">Contact the editorial team</a>
+        <a href="mailto:hello@mattressmatchscore.example" class="btn btn-ghost-dark">Contact the editorial team</a>
       </div>
     </div>
   </section>
@@ -1603,21 +1672,14 @@
         <a href="#find-match">Match Score</a>
         <a href="#compare">Compare</a>
         <a href="#methodology">Guides</a>
-        <a href="#cta">About</a>
+        <a href="#disclosures" data-nav="disclosures">About</a>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Mattress Match Score. All rights reserved.</span>
       <div class="legal">
         <a href="#disclosures">Affiliate disclosure</a>
-        <a href="#">Privacy policy</a>
-        <a href="#">Terms</a>
-        <a href="#">Contact</a>
-      </div>
-      <div class="socials">
-        <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Z"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 6 3-6 3Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="mailto:hello@mattressmatchscore.example">Contact</a>
       </div>
     </div>
   </div>
@@ -1699,23 +1761,6 @@
       });
     });
   });
-
-  // Review carousel
-  var reviews = [
-    {stars:'4.9 / 5', text:'"I finally sleep through the night. The match score nailed my firmness preference on the first try."', who:'Sarah L.', role:'Verified buyer', init:'S'},
-    {stars:'4.8 / 5', text:'"Comparing brands side by side saved me hours of showroom visits and a lot of second-guessing."', who:'Marcus D.', role:'Verified buyer', init:'M'},
-    {stars:'5.0 / 5', text:'"The cooling layer recommendation was spot on — I stopped waking up overheated within a week."', who:'Priya K.', role:'Verified buyer', init:'P'}
-  ];
-  var ri = 0;
-  function renderReview(){
-    var r = reviews[ri];
-    document.getElementById('revScore').textContent = r.stars;
-    document.getElementById('revText').textContent = r.text;
-    document.getElementById('revWho').textContent = r.who;
-    document.getElementById('revInit').textContent = r.init;
-  }
-  document.getElementById('revPrev').addEventListener('click', function(){ ri = (ri - 1 + reviews.length) % reviews.length; renderReview(); });
-  document.getElementById('revNext').addEventListener('click', function(){ ri = (ri + 1) % reviews.length; renderReview(); });
 
   // Lightweight page router (single-file, multi-"page" site)
   var PAGE_KEYS = ['home', 'find-match', 'compare', 'methodology', 'disclosures'];
@@ -2459,6 +2504,41 @@
   // ---------------------------------------------------------------
   // Mattress Universe scene — driven by the real embedded catalog
   // ---------------------------------------------------------------
+  /**
+   * Renders the click-to-inspect panel for one Universe node using whatever
+   * real scoring data currently exists (window.MMS_lastPayload), never
+   * fabricated numbers. Falls back to catalog-only info if no quiz has
+   * been taken yet.
+   */
+  function showUniverseInfoPanel(entry, isCenter) {
+    var panel = document.getElementById('universeInfoPanel');
+    if (!panel) return;
+    var payload = window.MMS_lastPayload;
+    var scoreEntry = payload && payload.all ? payload.all.find(function (m) { return m.id === entry.id; }) : null;
+    var scoreHtml = scoreEntry
+      ? '<div class="uip-score">' + scoreEntry.score + '<span>/100</span></div>'
+      : '<div class="uip-score" style="color:var(--ink-dim);font-size:14px;">Take the quiz to see your score</div>';
+
+    var reasonsHtml = '';
+    if (isCenter && payload && payload.top && payload.top.entry.id === entry.id) {
+      var bullets = (payload.top.result.trace.categoryRulesUsed || [])
+        .filter(function (r) { return r.delta > 0; })
+        .slice(0, 3)
+        .map(function (r) { return '<li>' + r.note + '</li>'; })
+        .join('');
+      if (bullets) reasonsHtml = '<ul class="uip-reasons">' + bullets + '</ul>';
+    }
+
+    panel.innerHTML =
+      '<button class="uip-close" aria-label="Close">\u2715</button>' +
+      '<div class="uip-name">' + dt(entry) + '</div>' +
+      '<div class="uip-meta">' + entry.type.charAt(0).toUpperCase() + entry.type.slice(1) + ' \u00b7 $' + entry.priceUsd.toLocaleString() + ' \u00b7 ' + entry.trialDays + '-night trial</div>' +
+      scoreHtml + reasonsHtml +
+      '<a href="#disclosures" class="uip-cta" style="margin-top:10px;">View at retailer \u2192</a>';
+    panel.hidden = false;
+    panel.querySelector('.uip-close').addEventListener('click', function () { panel.hidden = true; });
+  }
+
   function buildUniverseScene(canvas, labelsContainer, catalog, highlightId) {
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     var scene = new THREE.Scene();
@@ -2534,6 +2614,19 @@
     });
     canvas.addEventListener('mouseleave', function () { mouseNDC.set(-10, -10); });
 
+    var infoPanel = document.getElementById('universeInfoPanel');
+    canvas.addEventListener('click', function (e) {
+      var rect = canvas.getBoundingClientRect();
+      var clickNDC = new THREE.Vector2(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1
+      );
+      raycaster.setFromCamera(clickNDC, camera);
+      var hits = raycaster.intersectObjects(nodes);
+      if (!hits.length) { if (infoPanel) infoPanel.hidden = true; return; }
+      showUniverseInfoPanel(hits[0].object.userData.entry, hits[0].object === centerMesh);
+    });
+
     var gate = makeVisibilityGate(canvas);
     var t = 0;
     function animate() {
@@ -2551,6 +2644,18 @@
           mesh.rotation.y += 0.003;
         });
       }
+
+      // Smoothly ease toward the real-top-match highlight targets, if set.
+      nodes.forEach(function (mesh) {
+        if (mesh.userData.targetScale != null) {
+          var s = mesh.scale.x + (mesh.userData.targetScale - mesh.scale.x) * 0.06;
+          mesh.scale.set(s, s, s);
+        }
+        if (mesh.userData.targetEmissive != null) {
+          mesh.userData.baseEmissive = mesh.userData.baseEmissive + (mesh.userData.targetEmissive - mesh.userData.baseEmissive) * 0.06;
+          if (mesh !== hovered) mesh.material.emissiveIntensity = mesh.userData.baseEmissive;
+        }
+      });
 
       raycaster.setFromCamera(mouseNDC, camera);
       var hits = raycaster.intersectObjects(nodes);
@@ -2570,7 +2675,8 @@
         var behind = pos.z > 1;
         labelEls[i].style.left = x + 'px';
         labelEls[i].style.top = y + 'px';
-        labelEls[i].style.opacity = behind ? '0' : (i === 0 ? '1' : (mesh === hovered ? '1' : '0.32'));
+        var baseOpacity = mesh.userData.isRealTop ? '1' : (i === 0 ? '1' : '0.32');
+        labelEls[i].style.opacity = behind ? '0' : (mesh === hovered ? '1' : baseOpacity);
       });
 
       renderer.render(scene, camera);
@@ -2580,7 +2686,20 @@
     if (!REDUCED_MOTION) animate();
     window.addEventListener('resize', function () { fitRendererToCanvas(renderer, camera, canvas); });
 
-    return { setHighlight: function () {} };
+    /**
+     * Makes the real top-match node visually dominant once a quiz result
+     * exists, without a full scene rebuild: boosts its scale/glow, gently
+     * dims everything else so the "best fit" reads as obviously selected.
+     */
+    function highlightReal(topId) {
+      nodes.forEach(function (mesh) {
+        var isTop = mesh.userData.entry.id === topId;
+        mesh.userData.targetScale = isTop ? 1.6 : 0.85;
+        mesh.userData.targetEmissive = isTop ? 1.0 : 0.12;
+        mesh.userData.isRealTop = isTop;
+      });
+    }
+    return { highlightReal: highlightReal };
   }
 
   // ---------------------------------------------------------------
@@ -2604,30 +2723,13 @@
     requestAnimationFrame(step);
   }
 
-  function applyScoreResult(payload) {
-    var profile = payload.profile, top = payload.top;
-
-    // Sleep DNA orb + hero labels: real submitted values, no more "example" note.
-    var posMap = { side: 'Side Sleeper', back: 'Back Sleeper', stomach: 'Stomach Sleeper', combination: 'Combination Sleeper' };
-    var tempMap = { hot: 'Warm', cold: 'Cool', neutral: 'Neutral' };
-    setText('dnaValPosition', posMap[profile.sleepPosition] || profile.sleepPosition);
-    setText('dnaValWeight', profile.weightLb + ' lb');
-    setText('dnaValFirmness', profile.preferredFirmnessLabel);
-    setText('dnaValTemp', tempMap[profile.sleepTemperature] || profile.sleepTemperature);
-    setText('dnaValMotion', profile.motionSensitivity === 'couple-high' ? 'High' : (profile.motionSensitivity === 'couple-low' ? 'Medium' : 'Low'));
-    setText('dnaValBudget', profile.budgetUsd ? ('$' + profile.budgetUsd.min + '\u2013$' + (isFinite(profile.budgetUsd.max) ? profile.budgetUsd.max : '+')) : 'No preference set');
-    var note = document.getElementById('dnaExampleNote');
-    if (note) note.textContent = 'This is your real Sleep DNA, generated from your quiz answers.';
-
-    // Universe: real top-3 chips
-    var utmList = document.getElementById('utmList');
-    if (utmList && payload.all) {
-      utmList.innerHTML = payload.all.slice(0, 3).map(function (m) {
-        return '<span class="utm-chip">' + dt(m) + ' \u00b7 ' + m.score + '</span>';
-      }).join('');
-    }
-
-    // Match Score ring
+  // Deferred to the moment the Match Score section actually scrolls into view
+  // (see the IntersectionObserver near the journey/funnel steps below) - not to
+  // the moment the quiz was submitted, so the "0 -> real score" reveal is
+  // something the user is actually looking at when it plays.
+  var pendingScoreReveal = null;
+  var scoreSectionRevealed = false;
+  function playScoreReveal(top) {
     var overall = top.result.overallScore;
     var circumference = 2 * Math.PI * 86;
     var ringEl = document.getElementById('ringProgress');
@@ -2638,42 +2740,107 @@
     }
     var scoreNumEl = document.getElementById('scoreRingNum');
     if (scoreNumEl) animateNumber(scoreNumEl, 0, overall, 1200);
-    setText('scoreRingLabel', 'MATCH \u00b7 ' + top.entry.brand.toUpperCase());
-    setText('scoreRingNote', 'Your top match is the ' + dt(top.entry) + ', scored ' + overall + '/100 with model v' + top.result.modelVersion + '.');
-    var cta = document.getElementById('scoreRingCta');
-    if (cta) cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-    // Sub-score bars
-    document.querySelectorAll('.sm-row').forEach(function (row) {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.sm-row'));
+    rows.forEach(function (row, i) {
       var cat = row.getAttribute('data-cat');
       var val = top.result.subScores[cat];
       if (val == null) return;
       var bar = row.querySelector('.sm-bar i');
       var num = row.querySelector('b');
-      requestAnimationFrame(function () { bar.style.width = (val / 10 * 100) + '%'; });
-      num.textContent = val.toFixed(1);
+      var delay = REDUCED_MOTION ? 0 : i * 120;
+      setTimeout(function () { bar.style.width = (val / 10 * 100) + '%'; }, delay);
+      setTimeout(function () { num.textContent = val.toFixed(1); }, delay);
     });
+  }
 
-    // Reasoning
-    var reasoningIntro = document.getElementById('reasoningIntro');
-    if (reasoningIntro) reasoningIntro.textContent = 'Real rules from our scoring engine, applied to the ' + dt(top.entry) + ' against your Sleep DNA.';
-    var list = document.getElementById('reasoningList');
-    if (list) {
-      var bullets = [];
-      (top.result.trace.categoryRulesUsed || []).forEach(function (r) {
-        if (r.delta <= 0) return;
-        bullets.push((CATEGORY_DISPLAY[r.category] || 'Overall') + ': ' + r.note);
-      });
-      if (top.result.riskFlags.length === 0) {
-        bullets.push('No risk flags for your profile \u2014 no support, heat, edge, or durability mismatches detected.');
-      } else {
-        top.result.riskFlags.forEach(function (f) { bullets.push('Worth knowing: ' + f.rationale); });
-      }
-      if (bullets.length === 0) bullets.push('This mattress starts from its type baseline with no additional adjustments for your profile.');
-      list.innerHTML = bullets.map(function (b) {
-        return '<div class="reason-row"><span class="rr-check">\u2713</span><span>' + b + '</span></div>';
+  function applyScoreResult(payload) {
+    var profile = payload.profile, top = payload.top;
+    window.MMS_lastPayload = payload; // used by the Universe click-to-inspect panel
+
+    // Sleep DNA orb: real submitted values, demo badge flips to "real" state.
+    var posMap = { side: 'Side Sleeper', back: 'Back Sleeper', stomach: 'Stomach Sleeper', combination: 'Combination Sleeper' };
+    var tempMap = { hot: 'Warm', cold: 'Cool', neutral: 'Neutral' };
+    setText('dnaValPosition', posMap[profile.sleepPosition] || profile.sleepPosition);
+    setText('dnaValWeight', profile.weightLb + ' lb');
+    setText('dnaValFirmness', profile.preferredFirmnessLabel);
+    setText('dnaValTemp', tempMap[profile.sleepTemperature] || profile.sleepTemperature);
+    setText('dnaValMotion', profile.motionSensitivity === 'couple-high' ? 'High' : (profile.motionSensitivity === 'couple-low' ? 'Medium' : 'Low'));
+    setText('dnaValBudget', profile.budgetUsd ? ('$' + profile.budgetUsd.min + '\u2013$' + (isFinite(profile.budgetUsd.max) ? profile.budgetUsd.max : '+')) : 'No preference set');
+    var note = document.getElementById('dnaExampleNote');
+    if (note) note.textContent = 'This is your real Sleep DNA, generated from your quiz answers.';
+    var dnaBadge = document.getElementById('dnaDemoBadge');
+    if (dnaBadge) { dnaBadge.textContent = 'Your profile'; dnaBadge.classList.add('is-real'); }
+    var utmBadge = document.getElementById('utmDemoBadge');
+    if (utmBadge) { utmBadge.textContent = 'Live'; utmBadge.classList.add('is-real'); }
+
+    // Universe: real top-3 chips
+    var utmList = document.getElementById('utmList');
+    if (utmList && payload.all) {
+      utmList.innerHTML = payload.all.slice(0, 3).map(function (m) {
+        return '<span class="utm-chip">' + dt(m) + ' \u00b7 ' + m.score + '</span>';
       }).join('');
     }
+
+    // Funnel row: mark every step as reached now that a real match exists.
+    document.querySelectorAll('.funnel-step').forEach(function (s) { s.classList.add('active'); });
+
+    // Universe: make the real top match visually dominant in the live scene, if it's already built.
+    if (window.MMS_universeAPI) window.MMS_universeAPI.highlightReal(top.entry.id);
+
+    // Match Score: text/labels update immediately (nothing cinematic to spoil there);
+    // the ring/number/bar animation itself is deferred to playScoreReveal(), triggered
+    // by scroll-into-view so the "0 -> real score" moment is something the user actually
+    // sees rather than something that already finished before they scrolled down.
+    var overall = top.result.overallScore;
+    setText('scoreRingLabel', 'MATCH \u00b7 ' + top.entry.brand.toUpperCase());
+    setText('scoreRingNote', 'Your top match is the ' + dt(top.entry) + ', scored ' + overall + '/100 with model v' + top.result.modelVersion + '.');
+    var cta = document.getElementById('scoreRingCta');
+    if (cta) cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+    pendingScoreReveal = top;
+    if (scoreSectionRevealed) playScoreReveal(top); // section already visible/played once - update live
+
+    // Reasoning: PROFILE TRAIT -> SLEEP DNA FACTOR -> SCORE flow cards, built only
+    // from traits the profile actually collected (never an invented preference).
+    var reasoningIntro = document.getElementById('reasoningIntro');
+    if (reasoningIntro) reasoningIntro.textContent = 'How your real answers connect to the ' + dt(top.entry) + '\u2019s score.';
+
+    var motionTrait = profile.motionSensitivity === 'single' ? 'Sleeps Alone' : 'Shares the Bed';
+    var traitByCategory = {
+      pressureRelief: posMap[profile.sleepPosition] || profile.sleepPosition,
+      support: profile.preferredFirmnessLabel.charAt(0).toUpperCase() + profile.preferredFirmnessLabel.slice(1) + ' Preference',
+      heat: (tempMap[profile.sleepTemperature] || profile.sleepTemperature) + ' Sleeper',
+      motion: motionTrait,
+      edge: 'Mattress Construction',
+      durability: profile.weightLb + ' lb Body Weight',
+    };
+    var flowOrder = ['pressureRelief', 'support', 'heat', 'motion', 'edge', 'durability'];
+    var flowHtml = flowOrder.map(function (cat) {
+      var val = top.result.subScores[cat];
+      var scoreClass = val >= 8 ? 'rf-high' : (val >= 6 ? 'rf-mid' : 'rf-low');
+      return (
+        '<div class="reason-flow-card">' +
+          '<div class="rf-trait">' + traitByCategory[cat] + '</div>' +
+          '<div class="rf-arrow">\u2193</div>' +
+          '<div class="rf-category">' + CATEGORY_DISPLAY[cat] + '</div>' +
+          '<div class="rf-arrow">\u2193</div>' +
+          '<div class="rf-score ' + scoreClass + '">' + val.toFixed(0) + '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    var flagsNote;
+    if (top.result.riskFlags.length === 0) {
+      flagsNote = '<div class="reason-row"><span class="rr-check">\u2713</span><span>No risk flags for your profile \u2014 no support, heat, edge, or durability mismatches detected.</span></div>';
+    } else {
+      flagsNote = top.result.riskFlags.map(function (f) {
+        return '<div class="reason-row"><span class="rr-check" style="color:#b7791f;">!</span><span>Worth knowing: ' + f.rationale + '</span></div>';
+      }).join('');
+    }
+
+    var list = document.getElementById('reasoningList');
+    if (list) list.innerHTML = '<div class="reason-flow-grid">' + flowHtml + '</div>' + flagsNote;
   }
   window.MMS_onResults = applyScoreResult;
 
@@ -2704,6 +2871,42 @@
     journeySteps.forEach(function (el) { el.classList.add('in-view'); });
   }
 
+  // Funnel row (Mattress Universe): sequential activation, same pattern as journey steps.
+  // If a real result already exists (sessionStorage), all steps are marked active by
+  // applyScoreResult() instead, since the funnel has genuinely completed for this user.
+  var funnelSteps = document.querySelectorAll('.funnel-step');
+  if ('IntersectionObserver' in window && funnelSteps.length) {
+    var fio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          if (window.MMS_lastPayload) { fio.disconnect(); return; } // already real - skip the demo sequence
+          var idx = Array.prototype.indexOf.call(funnelSteps, entry.target);
+          setTimeout(function () { entry.target.classList.add('active'); }, idx * 200);
+        }
+      });
+    }, { threshold: 0.6 });
+    funnelSteps.forEach(function (el) { fio.observe(el); });
+  }
+
+  // Match Score section: play the ring/number/bar reveal the first time it
+  // actually scrolls into view, using whatever real result exists at that
+  // moment (set by applyScoreResult, possibly restored from sessionStorage
+  // on page load). If no quiz has been taken yet, this simply never fires -
+  // the honest "-- / TAKE THE QUIZ" markup already in the HTML stands as-is.
+  var scoreSection = document.getElementById('match-score');
+  if (scoreSection && 'IntersectionObserver' in window) {
+    var scoreIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !scoreSectionRevealed) {
+          scoreSectionRevealed = true;
+          if (pendingScoreReveal) playScoreReveal(pendingScoreReveal);
+          scoreIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    scoreIO.observe(scoreSection);
+  }
+
   // ---------------------------------------------------------------
   // Build the 3D scenes (or CSS fallbacks) once the DOM is ready
   // ---------------------------------------------------------------
@@ -2729,7 +2932,8 @@
         var raw = sessionStorage.getItem('mms_last_result');
         if (raw) storedTop = JSON.parse(raw).top.entry.id;
       } catch (e) { /* no stored result yet */ }
-      buildUniverseScene(universeCanvas, universeLabels, window.MMS_CATALOG, storedTop || window.MMS_CATALOG[0].id);
+      window.MMS_universeAPI = buildUniverseScene(universeCanvas, universeLabels, window.MMS_CATALOG, storedTop || window.MMS_CATALOG[0].id);
+      if (storedTop) window.MMS_universeAPI.highlightReal(storedTop);
 
       if (!storedTop) {
         var utmList = document.getElementById('utmList');
