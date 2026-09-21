@@ -378,7 +378,7 @@
   .cta p{color:var(--ink-dim);margin:0;font-size:14px;}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--navy-950);color:var(--ink-dim);padding:60px 0 30px;}
+  footer{background:var(--navy-950);color:var(--ink-dim);padding:60px 0 30px;position:relative;overflow:hidden;}
   .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.08);}
   .foot-brand{max-width:280px;}
   .foot-brand .brand{margin-bottom:14px;}
@@ -611,6 +611,7 @@
      ============================================================ */
 
   .dna-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;}
+  #universeCanvas{pointer-events:auto;} /* needs hover/click for node inspection, unlike the purely-decorative DNA canvases */
   .dna-fallback{
     position:absolute;inset:0;border-radius:50%;
     background:radial-gradient(circle at 50% 40%, rgba(63,212,255,0.35), rgba(59,108,246,0.12) 55%, transparent 75%);
@@ -792,7 +793,7 @@
   .rf-score.rf-low{color:#b23b3b;}
 
   /* ---- X-Ray View ---- */
-  .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));}
+  .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));position:relative;overflow:hidden;}
   .xray-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:50px;align-items:center;}
   @media (max-width:900px){ .xray-grid{grid-template-columns:1fr;} }
   .xray-layer-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
@@ -847,6 +848,78 @@
                radial-gradient(400px 260px at 10% 80%, rgba(59,108,246,0.12), transparent 65%);
     pointer-events:none;
   }
+
+  /* ============================================================
+     VISUAL DEPTH PASS — ambient particles, section seams,
+     score-dimension mini-icons, radar chart, journey energy thread,
+     X-Ray technical graphics. All additive; nothing above is changed.
+     ============================================================ */
+
+  .ambient-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;}
+
+  .section-seam{
+    position:relative;max-width:1240px;margin:0 auto;padding:26px 32px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .seam-line{flex:1;max-width:420px;height:1px;background:linear-gradient(90deg,transparent,rgba(63,212,255,0.4),transparent);}
+  .seam-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan-400);box-shadow:0 0 8px var(--cyan-400);flex:none;margin:0 14px;animation:seamPulse 3s ease-in-out infinite;}
+  .seam-dot.d2{animation-delay:1.5s;background:var(--electric-400);box-shadow:0 0 8px var(--electric-400);}
+  @keyframes seamPulse{0%,100%{opacity:0.3;transform:scale(0.8);}50%{opacity:1;transform:scale(1.3);}}
+  .seam-on-light .seam-line{background:linear-gradient(90deg,transparent,rgba(20,168,147,0.35),transparent);}
+  .seam-on-light .seam-dot{background:var(--teal-500);box-shadow:0 0 8px var(--teal-500);}
+  .seam-on-light .seam-dot.d2{background:var(--cyan-500);box-shadow:0 0 8px var(--cyan-500);}
+
+  /* Score-dimension mini-icons (replace the plain unicode glyphs in .sm-ic / process cards) */
+  .dim-icon{width:20px;height:20px;flex:none;position:relative;color:var(--cyan-400);}
+  .dim-icon svg{width:100%;height:100%;}
+  .dim-icon.dim-pressure circle{animation:dimPulse 2.4s ease-in-out infinite;}
+  .dim-icon.dim-heat .flow{animation:dimFlow 2.6s linear infinite;}
+  .dim-icon.dim-motion .wave{animation:dimWave 2.2s ease-in-out infinite;}
+  @keyframes dimPulse{0%,100%{opacity:0.35;r:2;}50%{opacity:1;r:3.4;}}
+  @keyframes dimFlow{0%{stroke-dashoffset:12;}100%{stroke-dashoffset:0;}}
+  @keyframes dimWave{0%,100%{transform:scaleY(0.6);}50%{transform:scaleY(1.15);}}
+  @media (prefers-reduced-motion: reduce){
+    .dim-icon.dim-pressure circle,.dim-icon.dim-heat .flow,.dim-icon.dim-motion .wave{animation:none !important;}
+  }
+
+  /* Radar chart */
+  .radar-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .radar-svg{width:100%;max-width:260px;height:auto;}
+  .radar-fill{fill:rgba(63,212,255,0.18);stroke:var(--cyan-400);stroke-width:1.6;transition:d 1s cubic-bezier(.16,1,.3,1);}
+  .radar-axis{stroke:rgba(255,255,255,0.1);stroke-width:1;}
+  .radar-grid{fill:none;stroke:rgba(255,255,255,0.07);stroke-width:1;}
+  .radar-label{font-size:8.5px;fill:var(--ink-dim);font-family:'Inter',sans-serif;}
+  .radar-wrap.on-light .radar-grid{stroke:#e4ecf1;}
+  .radar-wrap.on-light .radar-axis{stroke:#e4ecf1;}
+  .radar-wrap.on-light .radar-label{fill:var(--slate-600);}
+  .radar-wrap.on-light .radar-fill{fill:rgba(34,201,176,0.14);stroke:var(--teal-600);}
+
+  /* Journey energy thread */
+  .j-connector{overflow:visible;}
+  .j-connector::after{
+    content:"";position:absolute;top:-1px;left:0;width:8px;height:4px;border-radius:2px;
+    background:var(--cyan-300);box-shadow:0 0 8px var(--cyan-300);opacity:0;
+  }
+  .journey-step.in-view .j-connector::after{animation:threadTravel 1.4s ease-out forwards;}
+  @keyframes threadTravel{
+    0%{left:0;opacity:1;}
+    90%{opacity:1;}
+    100%{left:calc(100% - 8px);opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){ .journey-step.in-view .j-connector::after{animation:none;} }
+
+  /* X-Ray technical measurement graphics */
+  .xray-tech-layer{position:absolute;inset:0;pointer-events:none;z-index:1;}
+  .xray-tick{position:absolute;display:flex;align-items:center;gap:6px;font-size:9.5px;color:var(--ink-dim);opacity:0.6;letter-spacing:0.03em;}
+  .xray-tick .tick-line{width:26px;height:1px;background:rgba(255,255,255,0.25);}
+  .xray-tick.tk-height{left:2%;top:3%;flex-direction:column;align-items:flex-start;}
+  .xray-tick.tk-height .tick-line{width:1px;height:36px;background:rgba(255,255,255,0.2);}
+  .xray-tick.tk-width{bottom:4%;left:6%;}
+  .xray-grid-plane{
+    position:absolute;left:10%;right:10%;bottom:8%;height:1px;
+    background-image:linear-gradient(90deg,rgba(63,212,255,0.15) 1px,transparent 1px);
+    background-size:28px 100%;opacity:0.5;
+  }
 </style>
 </head>
 <body>
@@ -885,6 +958,7 @@
 
 <div class="page active" data-page="home">
 <header class="hero" id="top">
+  <canvas class="ambient-canvas" id="ambientHero" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow"><span class="dot"></span>Personalized · data-driven</span>
@@ -967,6 +1041,8 @@
 </section>
 
 <section class="section sleep-dna-section" id="sleep-dna">
+  <canvas class="ambient-canvas" id="ambientSleepDna" aria-hidden="true"></canvas>
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap sleep-dna-grid">
     <div>
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Personalized analysis</span>
@@ -991,6 +1067,7 @@
 </section>
 
 <section class="section universe-section" id="universe">
+  <canvas class="ambient-canvas" id="ambientUniverseBg" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Personalized matching</span>
@@ -1019,6 +1096,7 @@
 </section>
 
 <section class="section match-score-section" id="match-score">
+  <canvas class="ambient-canvas" id="ambientMatchScore" aria-hidden="true"></canvas>
   <div class="wrap match-score-grid">
     <div class="score-ring-wrap">
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Your perfect match</span>
@@ -1046,17 +1124,40 @@
       </a>
     </div>
     <div class="score-metrics" id="scoreMetrics">
-      <div class="sm-row" data-cat="pressureRelief"><span class="sm-ic">◐</span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="support"><span class="sm-ic">◑</span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="heat"><span class="sm-ic">❄</span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="motion"><span class="sm-ic">◒</span><span class="sm-label">Motion Isolation</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="edge"><span class="sm-ic">◓</span><span class="sm-label">Edge Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
-      <div class="sm-row" data-cat="durability"><span class="sm-ic">◔</span><span class="sm-label">Durability</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="pressureRelief"><span class="dim-icon dim-pressure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="5.5" opacity="0.5"/><circle cx="12" cy="12" r="9" opacity="0.25"/></svg></span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="support"><span class="dim-icon dim-support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 19h18M6 19V9M12 19V5M18 19v12" stroke-linecap="round"/></svg></span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="heat"><span class="dim-icon dim-heat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="flow" d="M2 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2"/><path class="flow" d="M2 16c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2" opacity="0.5"/></svg></span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="motion"><span class="dim-icon dim-motion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="wave" d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" stroke-linecap="round" transform-origin="12px 12px"/></svg></span><span class="sm-label">Motion Isolation</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="edge"><span class="dim-icon dim-edge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="7" width="10" height="10" rx="1.5" opacity="0.4"/></svg></span><span class="sm-label">Edge Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+      <div class="sm-row" data-cat="durability"><span class="dim-icon dim-durability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="15" width="16" height="4" rx="1"/><rect x="4" y="9.5" width="16" height="4" rx="1" opacity="0.65"/><rect x="4" y="4" width="16" height="4" rx="1" opacity="0.4"/></svg></span><span class="sm-label">Durability</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
+
+      <div class="radar-wrap" id="radarWrap">
+        <svg class="radar-svg" viewBox="-40 -10 300 240" aria-hidden="true">
+          <polygon class="radar-grid" points="110,80 136,95 136,125 110,140 84,125 84,95"/>
+          <polygon class="radar-grid" points="110,50 162,80 162,140 110,170 58,140 58,80"/>
+          <polygon class="radar-grid" points="110,20 187.9,65 187.9,155 110,200 32.1,155 32.1,65"/>
+          <line class="radar-axis" x1="110" y1="110" x2="110" y2="20"/>
+          <line class="radar-axis" x1="110" y1="110" x2="187.9" y2="65"/>
+          <line class="radar-axis" x1="110" y1="110" x2="187.9" y2="155"/>
+          <line class="radar-axis" x1="110" y1="110" x2="110" y2="200"/>
+          <line class="radar-axis" x1="110" y1="110" x2="32.1" y2="155"/>
+          <line class="radar-axis" x1="110" y1="110" x2="32.1" y2="65"/>
+          <polygon class="radar-fill" id="radarPolygon" points="110,110 110,110 110,110 110,110 110,110 110,110"/>
+          <text class="radar-label" x="110" y="12" text-anchor="middle">Pressure</text>
+          <text class="radar-label" x="196" y="62" text-anchor="start">Support</text>
+          <text class="radar-label" x="196" y="160" text-anchor="start">Cooling</text>
+          <text class="radar-label" x="110" y="214" text-anchor="middle">Motion</text>
+          <text class="radar-label" x="24" y="160" text-anchor="end">Edge</text>
+          <text class="radar-label" x="24" y="62" text-anchor="end">Durability</text>
+        </svg>
+        <span style="font-size:11px;color:var(--ink-dim);">Six-dimension profile</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section reasoning-section" id="reasoning">
+  <div class="section-seam seam-on-light" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">Transparent by design</span>
@@ -1070,6 +1171,8 @@
 </section>
 
 <section class="section xray-section" id="xray">
+  <canvas class="ambient-canvas" id="ambientXray" aria-hidden="true"></canvas>
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap xray-grid">
     <div>
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Explore inside</span>
@@ -1084,6 +1187,10 @@
       </div>
     </div>
     <div class="xray-scene-wrap" id="xraySceneWrap">
+      <div class="xray-tech-layer" aria-hidden="true">
+        <span class="xray-tick tk-width"><span class="tick-line"></span>Construction reference</span>
+        <div class="xray-grid-plane"></div>
+      </div>
       <div class="ring r1"></div>
       <div class="ring r2"></div>
       <div class="glow-floor"></div>
@@ -1163,6 +1270,7 @@
 </section>
 
 <section class="section" id="home-compare">
+  <div class="section-seam seam-on-light" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap duo">
     <div class="duo-card">
       <h3>Compare top mattress brands</h3>
@@ -1189,6 +1297,8 @@
 </section>
 
 <section class="cta final-cta" id="cta">
+  <canvas class="ambient-canvas" id="ambientCta" aria-hidden="true"></canvas>
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="final-cta-glow" aria-hidden="true"></div>
   <div class="wrap cta-inner">
     <div class="cta-left">
@@ -1654,6 +1764,7 @@
 </div><!-- /page: disclosures -->
 
 <footer>
+  <canvas class="ambient-canvas" id="ambientFooter" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
@@ -2412,6 +2523,72 @@
   }
 
   // ---------------------------------------------------------------
+  // Ambient particle field — a lightweight plain-Canvas2D layer (not
+  // Three.js/WebGL; a page can only host so many WebGL contexts, and this
+  // effect is simple enough that 2D canvas is both cheaper and plenty).
+  // One instance per dark section; pauses off-screen, adapts count to
+  // viewport width, and renders a single static frame under
+  // prefers-reduced-motion instead of animating.
+  // ---------------------------------------------------------------
+  function createAmbientParticles(canvas, opts) {
+    if (!canvas) return;
+    opts = opts || {};
+    var color = opts.color || '127,233,255'; // --cyan-300
+    var maxParticles = opts.max || 46;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    var gate = makeVisibilityGate(canvas);
+    var particles = [], w = 0, h = 0;
+
+    function resize() {
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      if (!w || !h) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var count = Math.min(maxParticles, Math.max(10, Math.round((w * h) / 26000)));
+      if (window.innerWidth < 640) count = Math.round(count * 0.45);
+      particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w, y: Math.random() * h,
+          r: Math.random() * 1.3 + 0.4,
+          vy: -(Math.random() * 0.12 + 0.02),
+          vx: (Math.random() - 0.5) * 0.04,
+          tw: Math.random() * Math.PI * 2,
+          o: Math.random() * 0.45 + 0.15,
+        });
+      }
+    }
+
+    function paint() {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(function (p) {
+        var alpha = p.o * (0.6 + 0.4 * Math.sin(p.tw));
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(' + color + ',' + alpha.toFixed(3) + ')';
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function frame() {
+      requestAnimationFrame(frame);
+      if (!gate() || document.hidden || !w || !h) return;
+      particles.forEach(function (p) {
+        p.y += p.vy; p.x += p.vx; p.tw += 0.015;
+        if (p.y < -4) p.y = h + 4;
+        if (p.x < -4) p.x = w + 4; else if (p.x > w + 4) p.x = -4;
+      });
+      paint();
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    if (REDUCED_MOTION) { paint(); } else { requestAnimationFrame(frame); }
+  }
+
+
   // Sleep DNA scene (used for both the hero canvas and the smaller orb canvas)
   // ---------------------------------------------------------------
   function buildDNAScene(canvas, opts) {
@@ -2747,6 +2924,22 @@
       setTimeout(function () { bar.style.width = (val / 10 * 100) + '%'; }, delay);
       setTimeout(function () { num.textContent = val.toFixed(1); }, delay);
     });
+
+    // Radar chart: same six dimensions, same order as the axis labels in the static SVG.
+    var radarPoly = document.getElementById('radarPolygon');
+    if (radarPoly) {
+      var axisOrder = ['pressureRelief', 'support', 'heat', 'motion', 'edge', 'durability'];
+      var angles = [-90, -30, 30, 90, 150, 210];
+      var cx = 110, cy = 110, maxR = 90;
+      var pts = axisOrder.map(function (cat, i) {
+        var val = top.result.subScores[cat] || 0;
+        var r = (val / 10) * maxR;
+        var rad = angles[i] * Math.PI / 180;
+        return (cx + r * Math.cos(rad)).toFixed(1) + ',' + (cy + r * Math.sin(rad)).toFixed(1);
+      }).join(' ');
+      var radarDelay = REDUCED_MOTION ? 0 : rows.length * 120 + 200;
+      setTimeout(function () { radarPoly.setAttribute('points', pts); }, radarDelay);
+    }
   }
 
   function applyScoreResult(payload) {
@@ -2906,6 +3099,12 @@
   // Build the 3D scenes (or CSS fallbacks) once the DOM is ready
   // ---------------------------------------------------------------
   function initScenes() {
+    // Ambient particle layer is plain Canvas2D, independent of WebGL support,
+    // so it's instantiated unconditionally (including in the no-WebGL fallback).
+    ['ambientHero', 'ambientSleepDna', 'ambientUniverseBg', 'ambientMatchScore', 'ambientXray', 'ambientCta', 'ambientFooter'].forEach(function (id) {
+      createAmbientParticles(document.getElementById(id));
+    });
+
     var heroCanvas = document.getElementById('dnaHeroCanvas');
     var orbCanvas = document.getElementById('dnaOrbCanvas');
     var universeCanvas = document.getElementById('universeCanvas');
