@@ -44,7 +44,7 @@
     color:var(--slate-900);
     font-family:'Inter',system-ui,-apple-system,sans-serif;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    overflow-x:clip;
   }
   h1,h2,h3,.font-display{font-family:'Sora',system-ui,sans-serif;}
   img,svg{max-width:100%;display:block;}
@@ -841,10 +841,9 @@
   .rf-score.rf-low{color:#b23b3b;}
 
   /* ---- X-Ray View ---- */
-  .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));position:relative;overflow:hidden;}
-  .xray-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:50px;align-items:center;}
-  @media (max-width:900px){ .xray-grid{grid-template-columns:1fr;} }
-  .xray-layer-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .xray-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));position:relative;}
+  .xray-intro{max-width:640px;margin:0 auto 8px;text-align:center;}
+  .xray-layer-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;justify-content:center;}
   .xray-btn{
     padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,0.16);
     background:transparent;color:var(--ink-dim);font-size:12.5px;font-weight:600;cursor:pointer;
@@ -852,9 +851,39 @@
   }
   .xray-btn:hover{border-color:var(--cyan-400);color:var(--ink);}
   .xray-btn.active{background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));border-color:transparent;color:#04182e;}
-  .xray-scene-wrap{position:relative;height:480px;cursor:grab;user-select:none;}
+
+  /* Pinned scroll-track: the mattress stays fixed in the viewport while the
+     user scrolls through this tall region; scroll position drives which
+     layer is highlighted. Falls back to a normal (non-pinned, non-tall)
+     section under prefers-reduced-motion, so no one is forced to
+     scroll-scrub who has asked not to. */
+  .xray-scroll-track{position:relative;height:320vh;}
+  .xray-sticky-stage{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden;}
+  .xray-pin-grid{display:grid;grid-template-columns:0.75fr 1.25fr;gap:50px;align-items:center;width:100%;}
+  @media (max-width:900px){ .xray-pin-grid{grid-template-columns:1fr;gap:20px;} }
+  @media (prefers-reduced-motion: reduce){
+    .xray-scroll-track{height:auto;}
+    .xray-sticky-stage{position:static;height:auto;padding:20px 0;}
+  }
+
+  .xray-step-copy{text-align:left;}
+  @media (max-width:900px){ .xray-step-copy{text-align:center;} }
+  .xray-step-index{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--cyan-400);text-transform:uppercase;}
+  .xray-step-copy h3{color:var(--ink);font-size:clamp(24px,3vw,32px);margin:10px 0 10px;font-weight:700;transition:opacity .25s ease;}
+  .xray-step-copy p{color:var(--ink-dim);font-size:14.5px;line-height:1.6;max-width:360px;margin:0 0 22px;transition:opacity .25s ease;}
+  @media (max-width:900px){ .xray-step-copy p{margin-left:auto;margin-right:auto;} }
+  .xray-progress{display:flex;gap:10px;}
+  @media (max-width:900px){ .xray-progress{justify-content:center;} }
+  .xp-dot{
+    width:28px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15);border:none;padding:0;cursor:pointer;
+    transition:background .3s ease,width .3s ease;
+  }
+  .xp-dot.active{background:linear-gradient(90deg,var(--cyan-400),var(--electric-500));width:40px;}
+
+  .xray-scene-wrap{position:relative;height:60vh;max-height:460px;cursor:grab;user-select:none;}
   .xray-scene-wrap:active{cursor:grabbing;}
-  @media (max-width:768px){ .xray-scene-wrap{height:360px;} }
+  @media (max-width:900px){ .xray-scene-wrap{height:45vh;max-height:340px;} }
+  @media (prefers-reduced-motion: reduce){ .xray-scene-wrap{height:420px;max-height:none;} }
   .xray-hint{
     position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
     display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-dim);opacity:0.7;
@@ -1225,11 +1254,11 @@
 <section class="section xray-section" id="xray">
   <canvas class="ambient-canvas" id="ambientXray" aria-hidden="true"></canvas>
   <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
-  <div class="wrap xray-grid">
-    <div>
+  <div class="wrap">
+    <div class="xray-intro">
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Explore inside</span>
       <h2 style="color:var(--ink)">X-Ray View</h2>
-      <p style="color:var(--ink-dim)">See what makes this mattress special. Select a layer to isolate it, or drag to rotate.</p>
+      <p style="color:var(--ink-dim)">Scroll to peel back each layer, or jump straight to one below.</p>
       <div class="xray-layer-buttons" id="xrayLayerButtons">
         <button type="button" class="xray-btn active" data-layer="all">Full mattress</button>
         <button type="button" class="xray-btn" data-layer="cover">Cooling Cover</button>
@@ -1238,41 +1267,60 @@
         <button type="button" class="xray-btn" data-layer="support">Core Support</button>
       </div>
     </div>
-    <div class="xray-scene-wrap" id="xraySceneWrap">
-      <div class="xray-tech-layer" aria-hidden="true">
-        <span class="xray-tick tk-width"><span class="tick-line"></span>Construction reference</span>
-        <div class="xray-grid-plane"></div>
-      </div>
-      <div class="ring r1"></div>
-      <div class="ring r2"></div>
-      <div class="glow-floor"></div>
-      <div class="mattress-stage">
-        <div class="mattress-3d" id="mattress3d">
-          <div class="layer layer-support" data-layer="support"></div>
-          <div class="layer layer-transition" data-layer="transition"></div>
-          <div class="layer layer-comfort" data-layer="comfort"></div>
-          <div class="layer layer-cover" data-layer="cover"></div>
-          <div class="pillow"></div>
-          <div class="pillow pillow-2"></div>
+  </div>
+
+  <div class="xray-scroll-track" id="xrayScrollTrack">
+    <div class="xray-sticky-stage">
+      <div class="wrap xray-pin-grid">
+        <div class="xray-step-copy">
+          <span class="xray-step-index" id="xrayStepIndex">01 / 05</span>
+          <h3 id="xrayStepTitle">Full Mattress</h3>
+          <p id="xrayStepDesc">One complete, premium construction — nothing separated yet.</p>
+          <div class="xray-progress" id="xrayProgress" role="tablist" aria-label="X-Ray layer steps">
+            <span class="xp-dot active" data-step="0" role="tab" aria-selected="true" tabindex="0"></span>
+            <span class="xp-dot" data-step="1" role="tab" aria-selected="false" tabindex="-1"></span>
+            <span class="xp-dot" data-step="2" role="tab" aria-selected="false" tabindex="-1"></span>
+            <span class="xp-dot" data-step="3" role="tab" aria-selected="false" tabindex="-1"></span>
+            <span class="xp-dot" data-step="4" role="tab" aria-selected="false" tabindex="-1"></span>
+          </div>
+        </div>
+        <div class="xray-scene-wrap" id="xraySceneWrap">
+          <div class="xray-tech-layer" aria-hidden="true">
+            <span class="xray-tick tk-width"><span class="tick-line"></span>Construction reference</span>
+            <div class="xray-grid-plane"></div>
+          </div>
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="glow-floor"></div>
+          <div class="mattress-stage">
+            <div class="mattress-3d" id="mattress3d">
+              <div class="layer layer-support" data-layer="support"></div>
+              <div class="layer layer-transition" data-layer="transition"></div>
+              <div class="layer layer-comfort" data-layer="comfort"></div>
+              <div class="layer layer-cover" data-layer="cover"></div>
+              <div class="pillow"></div>
+              <div class="pillow pillow-2"></div>
+            </div>
+          </div>
+          <div class="callout c-cool" data-for="cover">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg></span>
+            <span><span class="tt">Cooling Cover</span><br><span class="sb">Breathable surface designed for cooler sleep.</span></span>
+          </div>
+          <div class="callout c-comfort" data-for="comfort">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h10"/></svg></span>
+            <span><span class="tt">Comfort Layer</span><br><span class="sb">Contours to pressure points for a balanced feel.</span></span>
+          </div>
+          <div class="callout c-transition" data-for="transition">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg></span>
+            <span><span class="tt">Transition Layer</span><br><span class="sb">Smooths the handoff to the support core.</span></span>
+          </div>
+          <div class="callout c-core" data-for="support">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/></svg></span>
+            <span><span class="tt">Core Support</span><br><span class="sb">Long-lasting structure that holds its shape.</span></span>
+          </div>
+          <div class="xray-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg> Drag to explore</div>
         </div>
       </div>
-      <div class="callout c-cool" data-for="cover">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg></span>
-        <span><span class="tt">Cooling Cover</span><br><span class="sb">Breathable surface designed for cooler sleep.</span></span>
-      </div>
-      <div class="callout c-comfort" data-for="comfort">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h10"/></svg></span>
-        <span><span class="tt">Comfort Layer</span><br><span class="sb">Contours to pressure points for a balanced feel.</span></span>
-      </div>
-      <div class="callout c-transition" data-for="transition">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg></span>
-        <span><span class="tt">Transition Layer</span><br><span class="sb">Smooths the handoff to the support core.</span></span>
-      </div>
-      <div class="callout c-core" data-for="support">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/></svg></span>
-        <span><span class="tt">Core Support</span><br><span class="sb">Long-lasting structure that holds its shape.</span></span>
-      </div>
-      <div class="xray-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg> Drag to explore</div>
     </div>
   </div>
 </section>
@@ -1856,22 +1904,109 @@
   });
 
   // Scroll-driven mattress layer separation, retargeted from the old hero to the X-Ray section
-  var xraySection = document.getElementById('xray');
   var xraySceneWrap = document.getElementById('xraySceneWrap');
+  var REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var xrayTrack = document.getElementById('xrayScrollTrack');
+  var m3d = document.getElementById('mattress3d');
+  var xrayButtons = document.querySelectorAll('.xray-btn');
+  var xrayDots = document.querySelectorAll('.xp-dot');
+
+  var XRAY_STEPS = [
+    { layer: 'all', title: 'Full Mattress', desc: 'One complete, premium construction \u2014 nothing separated yet.' },
+    { layer: 'cover', title: 'Cooling Cover', desc: 'Breathable surface designed for cooler sleep.' },
+    { layer: 'comfort', title: 'Comfort Layer', desc: 'Contours to pressure points for a balanced feel.' },
+    { layer: 'transition', title: 'Transition Layer', desc: 'Smooths the handoff to the support core.' },
+    { layer: 'support', title: 'Core Support', desc: 'Long-lasting structure that holds its shape.' },
+  ];
+
+  function clampNum(v, min, max){ return Math.min(max, Math.max(min, v)); }
+
+  /** Updates all visuals (layer isolation, buttons, step copy, dots) for one layer — no scrolling. */
+  function applyXrayVisual(layer) {
+    var stepIndex = -1;
+    for (var i = 0; i < XRAY_STEPS.length; i++) { if (XRAY_STEPS[i].layer === layer) { stepIndex = i; break; } }
+    if (stepIndex === -1) stepIndex = 0;
+    var step = XRAY_STEPS[stepIndex];
+
+    xrayButtons.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-layer') === layer); });
+    var isolating = layer !== 'all';
+    if (m3d) m3d.classList.toggle('isolated', isolating);
+    if (xraySceneWrap) xraySceneWrap.classList.toggle('isolating', isolating);
+    document.querySelectorAll('.mattress-3d .layer').forEach(function (l) {
+      l.classList.toggle('xray-active', isolating && l.getAttribute('data-layer') === layer);
+    });
+    document.querySelectorAll('.xray-scene-wrap .callout').forEach(function (c) {
+      c.classList.toggle('xray-active', isolating && c.getAttribute('data-for') === layer);
+    });
+
+    var titleEl = document.getElementById('xrayStepTitle');
+    var descEl = document.getElementById('xrayStepDesc');
+    var idxEl = document.getElementById('xrayStepIndex');
+    if (titleEl) titleEl.textContent = step.title;
+    if (descEl) descEl.textContent = step.desc;
+    if (idxEl) idxEl.textContent = ('0' + (stepIndex + 1)).slice(-2) + ' / 0' + XRAY_STEPS.length;
+    xrayDots.forEach(function (d, i) {
+      var active = i === stepIndex;
+      d.classList.toggle('active', active);
+      d.setAttribute('aria-selected', active ? 'true' : 'false');
+      d.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    return stepIndex;
+  }
+
+  /** Computes the page scrollY that puts the pinned stage at the given step. */
+  function scrollYForXrayStep(stepIndex) {
+    if (!xrayTrack) return null;
+    var rect = xrayTrack.getBoundingClientRect();
+    var trackTop = rect.top + window.scrollY;
+    var totalScrollable = xrayTrack.offsetHeight - window.innerHeight;
+    if (totalScrollable <= 0) return trackTop; // reduced-motion: track isn't tall/pinned, just scroll to it
+    var progress = stepIndex / (XRAY_STEPS.length - 1);
+    return trackTop + progress * totalScrollable;
+  }
+
+  /** The one entry point buttons, dots, and other sections (Match Score) all call. */
+  function goToXrayStep(stepIndex, opts) {
+    opts = opts || {};
+    stepIndex = clampNum(stepIndex, 0, XRAY_STEPS.length - 1);
+    applyXrayVisual(XRAY_STEPS[stepIndex].layer);
+    if (!opts.scroll) return;
+    if (REDUCED_MOTION) {
+      var xray = document.getElementById('xray');
+      if (xray) xray.scrollIntoView({ behavior: 'auto', block: 'start' });
+      return;
+    }
+    var y = scrollYForXrayStep(stepIndex);
+    if (y != null) window.scrollTo({ top: y + 2, behavior: 'smooth' });
+  }
+  function layerToStepIndex(layer) {
+    for (var i = 0; i < XRAY_STEPS.length; i++) { if (XRAY_STEPS[i].layer === layer) return i; }
+    return 0;
+  }
+
+  // Scroll-driven step advancement while the stage is pinned.
+  var lastXrayStepIndex = -1;
   function updateExplode(){
-    if (!xraySection) return;
-    var rect = xraySection.getBoundingClientRect();
-    var total = rect.height * 0.7;
-    var scrolled = Math.min(Math.max(window.innerHeight * 0.5 - rect.top, 0), total);
-    var progress = total > 0 ? scrolled / total : 0;
+    if (!xrayTrack) return;
+    var rect = xrayTrack.getBoundingClientRect();
+    var totalScrollable = rect.height - window.innerHeight;
+    if (totalScrollable <= 0) { document.documentElement.style.setProperty('--explode', '0'); return; }
+    var scrolled = clampNum(-rect.top, 0, totalScrollable);
+    var progress = scrolled / totalScrollable;
     document.documentElement.style.setProperty('--explode', progress.toFixed(3));
+    if (!REDUCED_MOTION) {
+      var stepIndex = Math.round(progress * (XRAY_STEPS.length - 1));
+      if (stepIndex !== lastXrayStepIndex) {
+        lastXrayStepIndex = stepIndex;
+        applyXrayVisual(XRAY_STEPS[stepIndex].layer);
+      }
+    }
   }
   window.addEventListener('scroll', updateExplode, {passive:true});
   window.addEventListener('resize', updateExplode);
   updateExplode();
 
   // Slight cinematic drift on the mattress tied to scroll, plus a manual drag offset ("Drag to explore")
-  var m3d = document.getElementById('mattress3d');
   var dragOffsetX = 0, dragOffsetY = 0, isDragging = false, dragStartX = 0, dragStartY = 0;
   function updateTilt(){
     var p = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--explode')) || 0;
@@ -1880,7 +2015,6 @@
     if (m3d) m3d.style.transform = 'rotateX(' + rx + 'deg) rotateZ(' + rz + 'deg)';
     requestAnimationFrame(updateTilt);
   }
-  function clampNum(v, min, max){ return Math.min(max, Math.max(min, v)); }
   requestAnimationFrame(updateTilt);
 
   if (xraySceneWrap) {
@@ -1902,24 +2036,19 @@
     xraySceneWrap.addEventListener('touchend', onDragEnd);
   }
 
-  // X-Ray layer isolation buttons
-  var xrayButtons = document.querySelectorAll('.xray-btn');
-  function activateXrayLayer(layer) {
-    xrayButtons.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-layer') === layer); });
-    var isolating = layer !== 'all';
-    if (m3d) m3d.classList.toggle('isolated', isolating);
-    if (xraySceneWrap) xraySceneWrap.classList.toggle('isolating', isolating);
-    document.querySelectorAll('.mattress-3d .layer').forEach(function (l) {
-      l.classList.toggle('xray-active', isolating && l.getAttribute('data-layer') === layer);
-    });
-    document.querySelectorAll('.xray-scene-wrap .callout').forEach(function (c) {
-      c.classList.toggle('xray-active', isolating && c.getAttribute('data-for') === layer);
-    });
-  }
-  window.MMS_activateXrayLayer = activateXrayLayer;
+  // X-Ray layer isolation buttons + progress dots — both jump to the step and scroll the pinned stage there.
   xrayButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () { activateXrayLayer(btn.getAttribute('data-layer')); });
+    btn.addEventListener('click', function () { goToXrayStep(layerToStepIndex(btn.getAttribute('data-layer')), { scroll: true }); });
   });
+  xrayDots.forEach(function (dot) {
+    function activateDot() { goToXrayStep(parseInt(dot.getAttribute('data-step'), 10) || 0, { scroll: true }); }
+    dot.addEventListener('click', activateDot);
+    dot.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activateDot(); } });
+  });
+
+  // Exposed so the Match Score section's dimension rows can jump straight to
+  // the related X-Ray layer, scrolled to the exact right point in the pinned track.
+  window.MMS_activateXrayLayer = function (layer) { goToXrayStep(layerToStepIndex(layer), { scroll: true }); };
 
   // Lightweight page router (single-file, multi-"page" site)
   var PAGE_KEYS = ['home', 'find-match', 'compare', 'methodology', 'disclosures'];
@@ -3283,10 +3412,10 @@
     row.setAttribute('aria-label', 'See the related X-Ray layer for ' + (row.querySelector('.sm-label') || {}).textContent);
     function jumpToLayer() {
       var layer = DIMENSION_TO_LAYER[row.getAttribute('data-cat')];
-      if (!layer || !window.MMS_activateXrayLayer) return;
-      window.MMS_activateXrayLayer(layer);
-      var xray = document.getElementById('xray');
-      if (xray) xray.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'start' });
+      // window.MMS_activateXrayLayer now scrolls to the exact pinned-stage
+      // position for that layer itself (X-Ray is a scroll-track now), so no
+      // separate scrollIntoView here — that would just fight it.
+      if (layer && window.MMS_activateXrayLayer) window.MMS_activateXrayLayer(layer);
     }
     row.addEventListener('click', jumpToLayer);
     row.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToLayer(); } });
