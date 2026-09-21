@@ -24,6 +24,9 @@
     --cyan-500:#12b8f0;
     --electric-400:#5b8dff;
     --electric-500:#3b6cf6;
+    --violet-400:#8f6bff;
+    --violet-500:#6d3ff5;
+    --magenta-400:#c85bea;
     --glass-border:rgba(127,233,255,0.16);
     --glass-bg:rgba(12,24,44,0.55);
     --paper:#f3f7fa;
@@ -741,7 +744,10 @@
   .match-score-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;}
   @media (max-width:900px){ .match-score-grid{grid-template-columns:1fr;} }
   .score-ring-wrap{text-align:left;}
-  .score-ring-visual{position:relative;width:220px;height:220px;margin:0 0 22px;}
+  .score-core-wrap{position:relative;width:340px;height:340px;margin:0 0 22px;}
+  @media (max-width:480px){ .score-core-wrap{width:280px;height:280px;} }
+  .score-core-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;}
+  .score-ring-visual{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:220px;height:220px;}
   .ring-orbit{position:absolute;inset:-14px;border-radius:50%;animation:ringSpin 14s linear infinite;}
   .ring-particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--cyan-300);box-shadow:0 0 8px var(--cyan-300);}
   .ring-particle.p1{top:0;left:50%;margin-left:-2.5px;}
@@ -760,14 +766,49 @@
   .score-ring-num{font-family:'Sora',sans-serif;font-size:52px;font-weight:800;color:var(--ink);line-height:1;}
   .score-ring-label{font-size:10.5px;letter-spacing:0.08em;color:var(--cyan-400);font-weight:700;margin-top:6px;}
   .score-ring-note{color:var(--ink-dim);font-size:13.5px;line-height:1.6;max-width:340px;margin:0 0 22px;}
-  .score-metrics{display:flex;flex-direction:column;gap:16px;}
-  .sm-row{display:grid;grid-template-columns:22px 150px 1fr 34px;align-items:center;gap:12px;}
+  .score-metrics{display:flex;flex-direction:column;gap:16px;position:relative;}
+  .sm-row{
+    display:grid;grid-template-columns:22px 150px 1fr 34px;align-items:center;gap:12px;
+    padding:8px 10px;margin:0 -10px;border-radius:10px;
+    transition:transform .25s cubic-bezier(.16,1,.3,1),background .25s ease,box-shadow .25s ease;
+    transform:perspective(600px) rotateX(0deg) translateY(0);
+    cursor:default;
+  }
+  .sm-row:hover{
+    background:rgba(63,212,255,0.06);
+    box-shadow:0 10px 24px -12px rgba(63,212,255,0.35);
+    transform:perspective(600px) rotateX(3deg) translateY(-2px);
+  }
+  .sm-row:hover .dim-icon{color:var(--cyan-300);filter:drop-shadow(0 0 5px rgba(63,212,255,0.6));}
+  .sm-row:hover .sm-bar i{filter:brightness(1.15);}
+  @media (prefers-reduced-motion: reduce){ .sm-row,.sm-row:hover{transform:none;transition:background .2s ease;} }
   .sm-ic{color:var(--cyan-400);font-size:14px;}
   .sm-label{color:var(--ink-dim);font-size:13.5px;}
   .sm-bar{height:8px;border-radius:5px;background:rgba(255,255,255,0.08);overflow:hidden;}
-  .sm-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:5px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+  .sm-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:5px;transition:width 1.2s cubic-bezier(.16,1,.3,1),filter .2s ease;}
   .sm-row b{color:var(--ink);font-size:13px;text-align:right;}
   @media (max-width:560px){ .sm-row{grid-template-columns:20px 100px 1fr 30px;gap:8px;} }
+
+  /* Profile -> Score connecting energy thread (desktop only, decorative) */
+  .score-connector{
+    position:absolute;left:-38px;top:8%;bottom:8%;width:2px;
+    background:linear-gradient(180deg,transparent,rgba(63,212,255,0.35) 15%,rgba(63,212,255,0.35) 85%,transparent);
+    display:none;
+  }
+  @media (min-width:901px){ .match-score-grid .score-metrics{padding-left:0;} .score-connector{display:block;} }
+  .score-connector .conn-pulse{
+    position:absolute;left:50%;top:-4px;width:6px;height:6px;margin-left:-3px;border-radius:50%;
+    background:var(--cyan-300);box-shadow:0 0 8px var(--cyan-300);
+    animation:connFlow 3.2s ease-in-out infinite;
+  }
+  @keyframes connFlow{0%{top:0%;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{top:100%;opacity:0;}}
+  @media (prefers-reduced-motion: reduce){ .score-connector .conn-pulse{animation:none;opacity:0.6;top:50%;} }
+
+  /* Score reveal: brief "analyzing" pulse before the ring/number/bars lock in */
+  .score-core-wrap.analyzing .score-ring-visual{animation:analyzePulse 1.6s ease-in-out infinite;}
+  .score-core-wrap.analyzing .score-ring-label{opacity:1;}
+  @keyframes analyzePulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.35);}}
+  @media (prefers-reduced-motion: reduce){ .score-core-wrap.analyzing .score-ring-visual{animation:none;} }
 
   /* ---- Match Reasoning ---- */
   .reasoning-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
@@ -1101,21 +1142,24 @@
     <div class="score-ring-wrap">
       <span class="eyebrow-dark" style="color:var(--cyan-400)">Your perfect match</span>
       <h2 style="color:var(--ink);margin-bottom:22px;">Match Score</h2>
-      <div class="score-ring-visual">
-        <div class="ring-orbit" aria-hidden="true"><span class="ring-particle p1"></span><span class="ring-particle p2"></span></div>
-        <svg viewBox="0 0 200 200" class="score-ring-svg">
-          <defs>
-            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#3fd4ff"/>
-              <stop offset="100%" stop-color="#3b6cf6"/>
-            </linearGradient>
-          </defs>
-          <circle cx="100" cy="100" r="86" class="ring-track"/>
-          <circle cx="100" cy="100" r="86" class="ring-progress" id="ringProgress"/>
-        </svg>
-        <div class="score-ring-center">
-          <span class="score-ring-num" id="scoreRingNum">—</span>
-          <span class="score-ring-label" id="scoreRingLabel">TAKE THE QUIZ</span>
+      <div class="score-core-wrap" id="scoreCoreWrap">
+        <canvas id="scoreCoreCanvas" class="score-core-canvas" aria-hidden="true"></canvas>
+        <div class="score-ring-visual" id="scoreRingVisual">
+          <div class="ring-orbit" aria-hidden="true"><span class="ring-particle p1"></span><span class="ring-particle p2"></span></div>
+          <svg viewBox="0 0 200 200" class="score-ring-svg">
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3fd4ff"/>
+                <stop offset="100%" stop-color="#3b6cf6"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="86" class="ring-track"/>
+            <circle cx="100" cy="100" r="86" class="ring-progress" id="ringProgress"/>
+          </svg>
+          <div class="score-ring-center">
+            <span class="score-ring-num" id="scoreRingNum">—</span>
+            <span class="score-ring-label" id="scoreRingLabel">TAKE THE QUIZ</span>
+          </div>
         </div>
       </div>
       <p class="score-ring-note" id="scoreRingNote">Based on 6 real scoring dimensions, computed live from your answers — no fake numbers.</p>
@@ -1124,6 +1168,7 @@
       </a>
     </div>
     <div class="score-metrics" id="scoreMetrics">
+      <div class="score-connector" aria-hidden="true"><span class="conn-pulse"></span></div>
       <div class="sm-row" data-cat="pressureRelief"><span class="dim-icon dim-pressure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="5.5" opacity="0.5"/><circle cx="12" cy="12" r="9" opacity="0.25"/></svg></span><span class="sm-label">Pressure Relief</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
       <div class="sm-row" data-cat="support"><span class="dim-icon dim-support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 19h18M6 19V9M12 19V5M18 19v12" stroke-linecap="round"/></svg></span><span class="sm-label">Support</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
       <div class="sm-row" data-cat="heat"><span class="dim-icon dim-heat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path class="flow" d="M2 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2"/><path class="flow" d="M2 16c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke-linecap="round" stroke-dasharray="4 2" opacity="0.5"/></svg></span><span class="sm-label">Cooling</span><div class="sm-bar"><i style="width:0%"></i></div><b>—</b></div>
@@ -2674,6 +2719,109 @@
   }
 
   // ---------------------------------------------------------------
+  // Sleep Intelligence Core — the 3D environment behind the Match Score
+  // ring. Same lightweight techniques as buildDNAScene (emissive core +
+  // glow sprite + orbital rings + a sparse particle field), scaled up and
+  // slowed down to read as a deep instrument rather than a logo.
+  // ---------------------------------------------------------------
+  function buildScoreCoreScene(canvas) {
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 9);
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    // Glowing core sphere
+    var coreGeo = new THREE.IcosahedronGeometry(1.15, 2);
+    var coreMat = new THREE.MeshStandardMaterial({
+      color: 0x0c2740, emissive: 0x3fd4ff, emissiveIntensity: 0.55,
+      roughness: 0.35, metalness: 0.2, wireframe: false,
+    });
+    var core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+    var wireGeo = new THREE.IcosahedronGeometry(1.22, 1);
+    var wireMat = new THREE.MeshBasicMaterial({ color: 0x7fe9ff, wireframe: true, transparent: true, opacity: 0.18 });
+    group.add(new THREE.Mesh(wireGeo, wireMat));
+
+    // Orbital rings — cyan, electric blue, and one subtle violet accent per the expanded palette
+    [
+      { r: 2.0, color: 0x3fd4ff, opacity: 0.3, tilt: 0.35 },
+      { r: 2.55, color: 0x5b8dff, opacity: 0.24, tilt: -0.5 },
+      { r: 3.05, color: 0x8f6bff, opacity: 0.16, tilt: 1.1 },
+    ].forEach(function (ring, idx) {
+      var geo = new THREE.TorusGeometry(ring.r, 0.008, 8, 80);
+      var mat = new THREE.MeshBasicMaterial({ color: ring.color, transparent: true, opacity: ring.opacity });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.rotation.x = Math.PI / 2 + ring.tilt;
+      mesh.userData.spin = 0.001 + idx * 0.0006;
+      group.add(mesh);
+    });
+
+    // Sparse orbiting particle field
+    var particleGroup = new THREE.Group();
+    var pGeo = new THREE.SphereGeometry(0.035, 6, 6);
+    var pMatCyan = new THREE.MeshBasicMaterial({ color: 0x7fe9ff });
+    var pMatViolet = new THREE.MeshBasicMaterial({ color: 0xc85bea });
+    for (var i = 0; i < 22; i++) {
+      var mesh = new THREE.Mesh(pGeo, i % 6 === 0 ? pMatViolet : pMatCyan);
+      var r = 1.7 + Math.random() * 1.6;
+      var theta = Math.random() * Math.PI * 2;
+      var phi = Math.acos((Math.random() * 2) - 1);
+      mesh.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
+      mesh.userData.orbitSpeed = 0.0015 + Math.random() * 0.0025;
+      mesh.userData.orbitAxis = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+      particleGroup.add(mesh);
+    }
+    group.add(particleGroup);
+
+    // Soft core glow sprite
+    var glowTex = makeGlowTexture('#3fd4ff');
+    var glowMat = new THREE.SpriteMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.6 });
+    var glow = new THREE.Sprite(glowMat);
+    glow.scale.set(4.2, 4.2, 1);
+    scene.add(glow);
+
+    scene.add(new THREE.AmbientLight(0x223355, 1.3));
+    var pointLight = new THREE.PointLight(0x3fd4ff, 1.1, 20);
+    pointLight.position.set(2, 2, 4);
+    scene.add(pointLight);
+
+    var gate = makeVisibilityGate(canvas);
+    var pulseUntil = 0, pulseStrength = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!gate()) return;
+      fitRendererToCanvas(renderer, camera, canvas);
+      var now = performance.now();
+      var pulsing = now < pulseUntil;
+      if (!REDUCED_MOTION) {
+        var speedMul = pulsing ? 2.6 : 1;
+        group.rotation.y += 0.0016 * speedMul;
+        core.rotation.y -= 0.0012 * speedMul;
+        core.rotation.x += 0.0006 * speedMul;
+        group.children.forEach(function (child) { if (child.userData.spin) child.rotation.z += child.userData.spin * speedMul; });
+        particleGroup.children.forEach(function (p) { p.position.applyAxisAngle(p.userData.orbitAxis, p.userData.orbitSpeed * speedMul); });
+      }
+      var targetEmissive = pulsing ? 1.1 : 0.55;
+      coreMat.emissiveIntensity += (targetEmissive - coreMat.emissiveIntensity) * 0.08;
+      glowMat.opacity = 0.6 + (pulsing ? 0.25 : 0) * Math.sin(now / 90);
+      renderer.render(scene, camera);
+    }
+    fitRendererToCanvas(renderer, camera, canvas);
+    renderer.render(scene, camera);
+    if (!REDUCED_MOTION) animate(); else { coreMat.emissiveIntensity = 0.7; renderer.render(scene, camera); }
+    window.addEventListener('resize', function () { fitRendererToCanvas(renderer, camera, canvas); if (REDUCED_MOTION) renderer.render(scene, camera); });
+
+    return {
+      /** Briefly speeds up rotation and brightens the core — called at the start of the score reveal. */
+      pulse: function (ms) { pulseUntil = performance.now() + (ms || 1400); },
+    };
+  }
+
+  // ---------------------------------------------------------------
   // Mattress Universe scene — driven by the real embedded catalog
   // ---------------------------------------------------------------
   /**
@@ -2904,6 +3052,23 @@
   function playScoreReveal(top) {
     var overall = top.result.overallScore;
     var circumference = 2 * Math.PI * 86;
+    var coreWrap = document.getElementById('scoreCoreWrap');
+
+    // Short "analysis" beat before the real numbers lock in: the core scene
+    // spins up and brightens (via .pulse()), a scan-line pulse plays on the
+    // ring itself, then the actual reveal (below) begins. Skipped entirely
+    // under reduced-motion, where the real values just appear directly.
+    var analysisDelay = REDUCED_MOTION ? 0 : 650;
+    if (coreWrap && !REDUCED_MOTION) coreWrap.classList.add('analyzing');
+    if (window.MMS_scoreCoreAPI) window.MMS_scoreCoreAPI.pulse(analysisDelay + 700);
+
+    setTimeout(function () {
+      if (coreWrap) coreWrap.classList.remove('analyzing');
+      runScoreRevealSequence(top, overall, circumference);
+    }, analysisDelay);
+  }
+
+  function runScoreRevealSequence(top, overall, circumference) {
     var ringEl = document.getElementById('ringProgress');
     if (ringEl) {
       requestAnimationFrame(function () {
@@ -3109,17 +3274,20 @@
     var orbCanvas = document.getElementById('dnaOrbCanvas');
     var universeCanvas = document.getElementById('universeCanvas');
     var universeLabels = document.getElementById('universeLabels');
+    var scoreCoreCanvas = document.getElementById('scoreCoreCanvas');
 
     if (!WEBGL_OK) {
       var fb = document.getElementById('dnaFallback');
       if (fb) fb.hidden = false;
       if (orbCanvas) orbCanvas.style.background = 'radial-gradient(circle, rgba(63,212,255,0.25), transparent 70%)';
       if (universeCanvas) universeCanvas.style.background = 'radial-gradient(circle, rgba(63,212,255,0.12), transparent 70%)';
+      if (scoreCoreCanvas) scoreCoreCanvas.style.background = 'radial-gradient(circle, rgba(63,212,255,0.3), rgba(143,107,255,0.08) 55%, transparent 75%)';
       return; // No WebGL — leave the graceful CSS fallback in place, never a blank section.
     }
 
     if (heroCanvas) buildDNAScene(heroCanvas, { scale: 1 });
     if (orbCanvas) buildDNAScene(orbCanvas, { scale: 0.85 });
+    if (scoreCoreCanvas) window.MMS_scoreCoreAPI = buildScoreCoreScene(scoreCoreCanvas);
     if (universeCanvas && universeLabels && window.MMS_CATALOG) {
       var storedTop = null;
       try {
