@@ -313,8 +313,11 @@
   .why-head p{color:var(--ink-dim);font-size:15px;line-height:1.65;margin:0 0 36px;max-width:460px;}
   .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 30px;}
   @media (max-width:480px){ .feat-grid{grid-template-columns:1fr;} }
-  .feat{display:flex;gap:14px;align-items:flex-start;}
-  .feat-ic{width:42px;height:42px;border-radius:12px;background:rgba(63,224,201,0.12);border:1px solid rgba(63,224,201,0.25);display:grid;place-items:center;color:var(--teal-400);flex:none;}
+  .feat{display:flex;gap:14px;align-items:flex-start;padding:8px;margin:-8px;border-radius:12px;transition:background .25s ease,transform .25s ease;}
+  .feat:hover{background:rgba(63,224,201,0.05);transform:translateX(3px);}
+  .feat:hover .feat-ic{transform:scale(1.1) rotate(-4deg);border-color:var(--teal-400);}
+  .feat-ic{width:42px;height:42px;border-radius:12px;background:rgba(63,224,201,0.12);border:1px solid rgba(63,224,201,0.25);display:grid;place-items:center;color:var(--teal-400);flex:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .25s ease;}
+  @media (prefers-reduced-motion: reduce){ .feat:hover{transform:none;} .feat:hover .feat-ic{transform:none;} }
   .feat-ic svg{width:20px;height:20px;}
   .feat h4{margin:2px 0 5px;font-size:14.5px;font-weight:700;color:var(--ink);}
   .feat p{margin:0;font-size:13px;color:var(--ink-dim);line-height:1.55;}
@@ -447,7 +450,14 @@
   .compare-card{
     background:#fff;border:1px solid #e4ecf1;border-radius:20px;padding:26px;
     display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 2px rgba(15,33,64,0.04);
+    transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;
   }
+  .compare-card:hover{transform:translateY(-5px);box-shadow:0 20px 36px -18px rgba(15,33,64,0.22);}
+  @media (prefers-reduced-motion: reduce){ .compare-card:hover{transform:none;} }
+  .cc-radar-mini{display:flex;justify-content:center;margin:2px 0;}
+  .cc-radar-mini svg{width:110px;height:110px;}
+  .cc-radar-mini .radar-grid{fill:none;stroke:#e4ecf1;stroke-width:1;}
+  .cc-radar-mini .radar-fill{fill:rgba(34,201,176,0.16);stroke:var(--teal-600);stroke-width:1.6;}
   .listing-badge{
     align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:0.01em;
     padding:6px 11px;border-radius:999px;
@@ -484,7 +494,21 @@
   .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   @media (max-width:860px){ .method-grid{grid-template-columns:1fr 1fr;} }
   @media (max-width:560px){ .method-grid{grid-template-columns:1fr;} }
-  .method-card{background:#fff;border:1px solid #e4ecf1;border-radius:16px;padding:24px;}
+  .method-card{
+    background:#fff;border:1px solid #e4ecf1;border-radius:16px;padding:24px;
+    transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease,border-color .3s ease;
+  }
+  .method-card:hover{
+    transform:perspective(700px) rotateX(2deg) translateY(-4px);
+    box-shadow:0 16px 32px -16px rgba(20,60,100,0.22);
+    border-color:var(--teal-500);
+  }
+  .method-card:hover .p-num{color:var(--teal-600);transform:scale(1.1);}
+  .method-card .p-num{transition:color .25s ease,transform .25s ease;display:inline-flex;}
+  @media (prefers-reduced-motion: reduce){ .method-card{transition:box-shadow .2s ease;} .method-card:hover{transform:none;} }
+
+  .weight-radar-wrap{display:flex;justify-content:center;margin:8px 0 36px;}
+  .weight-radar-wrap .radar-svg{max-width:280px;}
   .mc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
   .weight-badge{font-size:11px;font-weight:700;color:var(--teal-600);background:#e6f7f3;padding:5px 10px;border-radius:999px;}
   .method-card h4{margin:0 0 8px;font-size:15.5px;color:var(--slate-900);font-weight:700;}
@@ -525,6 +549,12 @@
 
   /* ---------- DISCLOSURES PAGE ---------- */
   .disc-wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:36px;}
+  .disc-block{padding:22px 24px;border-radius:16px;border:1px solid #e4ecf1;background:#fff;transition:box-shadow .3s ease,transform .3s ease;}
+  .disc-block:hover{box-shadow:0 14px 28px -18px rgba(15,33,64,0.2);transform:translateY(-2px);}
+  @media (prefers-reduced-motion: reduce){ .disc-block:hover{transform:none;} }
+  .disc-block h3{display:flex;align-items:center;gap:10px;margin:0 0 10px;}
+  .disc-ic{width:32px;height:32px;border-radius:9px;background:rgba(34,201,176,0.12);color:var(--teal-600);display:grid;place-items:center;flex:none;}
+  .disc-ic svg{width:17px;height:17px;}
   .disc-block h3{font-size:19px;color:var(--slate-900);margin:0 0 12px;font-weight:700;}
   .disc-block p{margin:0;font-size:14.5px;color:var(--slate-600);line-height:1.75;}
   .disc-block p + p{margin-top:12px;}
@@ -1496,6 +1526,7 @@
 
 <div class="page" data-page="find-match">
   <header class="page-hero">
+    <canvas class="ambient-canvas" id="ambientFindMatchHero" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Find your match</span>
       <h1 class="ph-title">Find your perfect mattress match</h1>
@@ -1657,6 +1688,7 @@
 
 <div class="page" data-page="compare">
   <header class="page-hero">
+    <canvas class="ambient-canvas" id="ambientCompareHero" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Compare · Side sleepers under $1,000</span>
       <h1 class="ph-title">Best mattresses for side sleepers under $1,000</h1>
@@ -1694,6 +1726,14 @@
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:85%"></i></div><b>8.5</b></div>
             <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:80%"></i></div><b>8.0</b></div>
           </div>
+          <div class="cc-radar-mini" aria-hidden="true">
+            <svg viewBox="0 0 220 220">
+              <polygon class="radar-grid" points="110,80 136,95 136,125 110,140 84,125 84,95"/>
+              <polygon class="radar-grid" points="110,50 162,80 162,140 110,170 58,140 58,80"/>
+              <polygon class="radar-grid" points="110,20 187.9,65 187.9,155 110,200 32.1,155 32.1,65"/>
+              <polygon class="radar-fill" points="110,25.4 180.9,69.0 178.6,149.6 110,191 43.75,148.25 47.65,74"/>
+            </svg>
+          </div>
           <div class="flags">
             <span class="flag flag-ok">✓ No flags for your profile</span>
           </div>
@@ -1719,6 +1759,14 @@
             <div class="ss-row"><span>Motion isolation</span><div class="ss-bar"><i style="width:93%"></i></div><b>9.3</b></div>
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:70%"></i></div><b>7.0</b></div>
             <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:62%"></i></div><b>6.2</b></div>
+          </div>
+          <div class="cc-radar-mini" aria-hidden="true">
+            <svg viewBox="0 0 220 220">
+              <polygon class="radar-grid" points="110,80 136,95 136,125 110,140 84,125 84,95"/>
+              <polygon class="radar-grid" points="110,50 162,80 162,140 110,170 58,140 58,80"/>
+              <polygon class="radar-grid" points="110,20 187.9,65 187.9,155 110,200 32.1,155 32.1,65"/>
+              <polygon class="radar-fill" points="110,23.6 173.9,73.1 155.2,136.1 110,193.7 55.44,141.5 61.7,82.1"/>
+            </svg>
           </div>
           <div class="flags">
             <span class="flag flag-warn" title="All-foam construction retains more body heat; you told us you sleep warm.">⚠ Heat retention likely</span>
@@ -1746,6 +1794,14 @@
             <div class="ss-row"><span>Edge support</span><div class="ss-bar"><i style="width:60%"></i></div><b>6.0</b></div>
             <div class="ss-row"><span>Durability</span><div class="ss-bar"><i style="width:75%"></i></div><b>7.5</b></div>
           </div>
+          <div class="cc-radar-mini" aria-hidden="true">
+            <svg viewBox="0 0 220 220">
+              <polygon class="radar-grid" points="110,80 136,95 136,125 110,140 84,125 84,95"/>
+              <polygon class="radar-grid" points="110,50 162,80 162,140 110,170 58,140 58,80"/>
+              <polygon class="radar-grid" points="110,20 187.9,65 187.9,155 110,200 32.1,155 32.1,65"/>
+              <polygon class="radar-fill" points="110,48.8 180.15,69.5 175.47,147.8 110,182.9 63.24,137 51.54,76.25"/>
+            </svg>
+          </div>
           <div class="flags">
             <span class="flag flag-warn" title="Firmness is above the typical comfort band for side sleepers in your weight range.">⚠ Support threshold mismatch</span>
           </div>
@@ -1766,6 +1822,7 @@
 
 <div class="page" data-page="methodology">
   <header class="page-hero">
+    <canvas class="ambient-canvas" id="ambientMethodologyHero" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Methodology · Scoring model v1.4</span>
       <h1 class="ph-title">How the Match Score works</h1>
@@ -1779,6 +1836,28 @@
         <span class="eyebrow-dark">The model</span>
         <h2>Six scoring categories</h2>
         <p>Your sleep profile is weighed against each category below. Weights shown are defaults — some shift slightly based on your sleep position and weight range.</p>
+      </div>
+      <div class="weight-radar-wrap">
+        <div class="radar-wrap on-light">
+          <svg class="radar-svg" viewBox="-40 -10 300 240" aria-hidden="true">
+            <polygon class="radar-grid" points="110,80 136,95 136,125 110,140 84,125 84,95"/>
+            <polygon class="radar-grid" points="110,50 162,80 162,140 110,170 58,140 58,80"/>
+            <polygon class="radar-grid" points="110,20 187.9,65 187.9,155 110,200 32.1,155 32.1,65"/>
+            <line class="radar-axis" x1="110" y1="110" x2="110" y2="20"/>
+            <line class="radar-axis" x1="110" y1="110" x2="187.9" y2="65"/>
+            <line class="radar-axis" x1="110" y1="110" x2="187.9" y2="155"/>
+            <line class="radar-axis" x1="110" y1="110" x2="110" y2="200"/>
+            <line class="radar-axis" x1="110" y1="110" x2="32.1" y2="155"/>
+            <line class="radar-axis" x1="110" y1="110" x2="32.1" y2="65"/>
+            <polygon class="radar-fill" points="110,50 174.95,72.5 148.97,132.5 110,155 71.03,132.5 84.02,95"/>
+            <text class="radar-label" x="110" y="12" text-anchor="middle">Pressure 20%</text>
+            <text class="radar-label" x="196" y="62" text-anchor="start">Support 25%</text>
+            <text class="radar-label" x="196" y="160" text-anchor="start">Heat 15%</text>
+            <text class="radar-label" x="110" y="214" text-anchor="middle">Motion 15%</text>
+            <text class="radar-label" x="24" y="160" text-anchor="end">Edge 15%</text>
+            <text class="radar-label" x="24" y="62" text-anchor="end">Durability 10%</text>
+          </svg>
+        </div>
       </div>
       <div class="method-grid">
         <div class="method-card">
@@ -1901,6 +1980,7 @@
 
 <div class="page" data-page="disclosures">
   <header class="page-hero">
+    <canvas class="ambient-canvas" id="ambientDisclosuresHero" aria-hidden="true"></canvas>
     <div class="wrap">
       <span class="eyebrow">Policies</span>
       <h1 class="ph-title">Affiliate &amp; sponsored listing disclosures</h1>
@@ -1911,18 +1991,18 @@
   <section class="section">
     <div class="wrap disc-wrap">
       <div class="disc-block">
-        <h3>How we make money</h3>
+        <h3><span class="disc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.4 1.2-2.5 2.5-2.5s2.5.8 2.5 2c0 1.5-1.5 2-2.5 2.3-1.3.4-2.5 1-2.5 2.7 0 1.2 1.2 2 2.5 2s2.5-.9 2.5-2.3"/></svg></span>How we make money</h3>
         <p>Mattress Match Score is free to use. We earn a commission when you buy through certain links on this site, and some listings are paid placements from mattress brands and retailers. Neither arrangement is required for a mattress to appear in your results.</p>
       </div>
 
       <div class="disc-block">
-        <h3>Affiliate links</h3>
+        <h3><span class="disc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 14a4 4 0 0 0 5.66 0l2.34-2.34a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0L6 12.34a4 4 0 0 0 5.66 5.66l1-1"/></svg></span>Affiliate links</h3>
         <p>“View at retailer” buttons route through an affiliate link. If you make a purchase, we may earn a commission at no additional cost to you. Affiliate links are tagged with tracking parameters so the retailer can credit the referral — they never change the price you pay.</p>
         <div class="callout-box">This site contains affiliate links. As an affiliate, we may earn a commission on qualifying purchases, in accordance with FTC guidelines on endorsements and disclosures.</div>
       </div>
 
       <div class="disc-block">
-        <h3>Sponsored listings</h3>
+        <h3><span class="disc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11v2a2 2 0 0 0 2 2h1l4 4V5L6 9H5a2 2 0 0 0-2 2Z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg></span>Sponsored listings</h3>
         <p>Brands and retailers can pay to appear in a labeled “Sponsored” slot. Sponsored listings are refreshed on a set schedule — the badge shows the date a listing's specs and pricing were last verified.</p>
         <div class="badge-examples">
           <span class="listing-badge badge-sponsored">Sponsored · verified Mar 2026</span>
@@ -1932,7 +2012,7 @@
       </div>
 
       <div class="disc-block">
-        <h3>Editorial independence</h3>
+        <h3><span class="disc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z"/><path d="m8.5 12 2.2 2.2L15.5 9"/></svg></span>Editorial independence</h3>
         <p>Match Scores are generated by the scoring model described in our <a href="#methodology">methodology</a>. Advertisers cannot purchase a higher score, alter sub-scores, or remove a risk flag.</p>
       </div>
 
@@ -3560,7 +3640,7 @@
   function initScenes() {
     // Ambient particle layer is plain Canvas2D, independent of WebGL support,
     // so it's instantiated unconditionally (including in the no-WebGL fallback).
-    ['ambientHero', 'ambientSleepDna', 'ambientUniverseBg', 'ambientMatchScore', 'ambientXray', 'ambientCta', 'ambientFooter'].forEach(function (id) {
+    ['ambientHero', 'ambientSleepDna', 'ambientUniverseBg', 'ambientMatchScore', 'ambientXray', 'ambientCta', 'ambientFooter', 'ambientFindMatchHero', 'ambientCompareHero', 'ambientMethodologyHero', 'ambientDisclosuresHero'].forEach(function (id) {
       createAmbientParticles(document.getElementById(id));
     });
 
