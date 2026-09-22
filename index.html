@@ -961,6 +961,13 @@
   .score-ring-num{font-family:'Sora',sans-serif;font-size:52px;font-weight:800;color:var(--ink);line-height:1;}
   .score-ring-label{font-size:10.5px;letter-spacing:0.08em;color:var(--cyan-400);font-weight:700;margin-top:6px;}
   .score-ring-note{color:var(--ink-dim);font-size:13.5px;line-height:1.6;max-width:340px;margin:0 0 22px;}
+  .ms-confidence-badge{
+    display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+    padding:6px 12px;border-radius:999px;margin:-10px 0 20px;
+  }
+  .ms-confidence-badge.ok{color:var(--teal-400);background:rgba(20,168,147,0.1);border:1px solid rgba(34,201,176,0.3);}
+  .ms-confidence-badge.warn{color:#e08a3f;background:rgba(224,138,63,0.1);border:1px solid rgba(224,138,63,0.3);}
+  .ms-confidence-badge svg{width:13px;height:13px;flex:none;}
   .score-metrics{display:flex;flex-direction:column;gap:16px;position:relative;}
   .sm-row{
     display:grid;grid-template-columns:22px 150px 1fr 34px;align-items:center;gap:12px;
@@ -1181,8 +1188,15 @@
   .dv-panel{
     background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
     padding:16px 14px 18px;text-align:center;transition:transform .25s ease,border-color .25s ease;
+    position:relative;overflow:hidden;
   }
   .dv-panel:hover{transform:translateY(-3px);border-color:rgba(63,212,255,0.35);}
+  .dv-panel::before{
+    content:"";position:absolute;top:0;left:-60%;width:35%;height:100%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,0.1),transparent);
+    transform:skewX(-15deg);transition:left .7s ease;pointer-events:none;
+  }
+  .dv-panel:hover::before{left:130%;}
   .dv-panel svg{width:100%;height:64px;margin-bottom:10px;color:var(--cyan-400);}
   .dv-panel h4{color:var(--ink);font-size:13px;margin:0 0 6px;}
   .dv-panel p{color:var(--ink-dim);font-size:11.5px;line-height:1.5;margin:0 0 10px;min-height:48px;}
@@ -1191,6 +1205,10 @@
   .dv-score-fill{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1);}
   .dv-score-mid{position:absolute;top:-2px;left:50%;width:1px;height:8px;background:rgba(255,255,255,0.35);}
   .dv-score b{color:var(--ink);font-size:11px;font-weight:700;min-width:24px;text-align:right;}
+  .dv-vs-typical{font-size:10px;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:4px;height:14px;opacity:0;transition:opacity .4s ease;}
+  .dv-vs-typical.show{opacity:1;}
+  .dv-vs-typical.up{color:var(--teal-400);} .dv-vs-typical.down{color:#e08a3f;} .dv-vs-typical.even{color:var(--ink-dim);}
+  .dv-vs-typical svg{width:10px;height:10px;margin:0;flex:none;}
 
   .dv-ring{fill:none;stroke:var(--cyan-300);stroke-width:1.3;transform-origin:center;animation:dvPulse 2.6s ease-in-out infinite;}
   .dv-ring.r2{animation-delay:.3s;} .dv-ring.r3{animation-delay:.6s;}
@@ -1502,6 +1520,7 @@
         </div>
       </div>
       <p class="score-ring-note" id="scoreRingNote">Based on 6 real scoring dimensions, computed live from your answers — no fake numbers.</p>
+      <div class="ms-confidence-badge" id="msConfidenceBadge" hidden></div>
       <a href="#find-match" class="btn btn-primary" id="scoreRingCta">Find my match
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -1557,7 +1576,7 @@
         </svg>
         <h4>Pressure Relief</h4>
         <p>Contact points where the surface yields to your shape.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
 
       <div class="dv-panel" data-cat="support">
@@ -1573,7 +1592,7 @@
         </svg>
         <h4>Support</h4>
         <p>An even base keeps your spine level, not sagging or arching.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
 
       <div class="dv-panel" data-cat="heat">
@@ -1584,7 +1603,7 @@
         </svg>
         <h4>Cooling</h4>
         <p>Airflow through the surface carries heat away as you sleep.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
 
       <div class="dv-panel" data-cat="motion">
@@ -1599,7 +1618,7 @@
         </svg>
         <h4>Motion Isolation</h4>
         <p>Movement on one side fades out before it reaches the other.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
 
       <div class="dv-panel" data-cat="edge">
@@ -1611,7 +1630,7 @@
         </svg>
         <h4>Edge Support</h4>
         <p>A reinforced perimeter so the edge holds when you sit or sleep near it.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
 
       <div class="dv-panel" data-cat="durability">
@@ -1623,7 +1642,7 @@
         </svg>
         <h4>Durability</h4>
         <p>Material density holds its shape instead of sagging over years of use.</p>
-        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div>
+        <div class="dv-score"><i><span class="dv-score-fill"></span><span class="dv-score-mid" title="Midpoint reference (5/10)"></span></i><b>—</b></div><div class="dv-vs-typical"></div>
       </div>
     </div>
   </div>
@@ -3845,10 +3864,26 @@
       if (val == null) return;
       var fill = panel.querySelector('.dv-score-fill');
       var num = panel.querySelector('.dv-score b');
+      var vsTypical = panel.querySelector('.dv-vs-typical');
       var delay = REDUCED_MOTION ? 0 : i * 100;
       setTimeout(function () {
         if (fill) fill.style.width = (val / 10 * 100) + '%';
         if (num) num.textContent = val.toFixed(1);
+        if (vsTypical) {
+          // Honest comparison against 5/10, the neutral mathematical midpoint of the
+          // real 0-10 scale (same reference as the tick mark) - never a fabricated
+          // "average mattress" figure, which the catalog doesn't track.
+          var diff = val - 5;
+          var dir = diff > 0.4 ? 'up' : (diff < -0.4 ? 'down' : 'even');
+          var arrow = dir === 'up'
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 15 6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            : (dir === 'down'
+              ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+              : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14" stroke-linecap="round"/></svg>');
+          var label = dir === 'up' ? 'Above typical' : (dir === 'down' ? 'Below typical' : 'Typical range');
+          vsTypical.className = 'dv-vs-typical show ' + dir;
+          vsTypical.innerHTML = arrow + label;
+        }
       }, delay);
     });
 
@@ -3932,6 +3967,18 @@
     var overall = top.result.overallScore;
     setText('scoreRingLabel', 'MATCH \u00b7 ' + top.entry.brand.toUpperCase());
     setText('scoreRingNote', 'Your top match is the ' + dt(top.entry) + ', scored ' + overall + '/100 with model v' + top.result.modelVersion + '.');
+    var confBadge = document.getElementById('msConfidenceBadge');
+    if (confBadge) {
+      confBadge.hidden = false;
+      var flagCount = top.result.riskFlags.length;
+      if (flagCount === 0) {
+        confBadge.className = 'ms-confidence-badge ok';
+        confBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>No risk flags for your profile';
+      } else {
+        confBadge.className = 'ms-confidence-badge warn';
+        confBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01M10.3 3.9 2.5 17.1a1.8 1.8 0 0 0 1.5 2.7h16a1.8 1.8 0 0 0 1.5-2.7L13.7 3.9a1.8 1.8 0 0 0-3.4 0Z" stroke-linejoin="round"/></svg>' + flagCount + ' factor' + (flagCount > 1 ? 's' : '') + ' worth reviewing below';
+      }
+    }
     var cta = document.getElementById('scoreRingCta');
     if (cta) cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
@@ -4105,6 +4152,29 @@
         if (isMajor) line.setAttribute('class', 'major');
         tickGroup.appendChild(line);
       }
+    }
+
+    // Subtle cursor-parallax on the Match Score constellation background —
+    // depth cue, not decoration for its own sake. Skipped under reduced-motion
+    // and on touch devices (no meaningful hover position there).
+    var msSection = document.querySelector('.match-score-section');
+    var msConstellation = document.querySelector('.ms-bg-constellation');
+    if (msSection && msConstellation && !REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
+      var parallaxRaf = null, targetX = 0, targetY = 0, curX = 0, curY = 0;
+      function stepParallax() {
+        curX += (targetX - curX) * 0.06;
+        curY += (targetY - curY) * 0.06;
+        msConstellation.style.transform = 'translate(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px)';
+        parallaxRaf = requestAnimationFrame(stepParallax);
+      }
+      msSection.addEventListener('mousemove', function (e) {
+        var rect = msSection.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        targetX = px * -14; targetY = py * -10;
+      });
+      msSection.addEventListener('mouseleave', function () { targetX = 0; targetY = 0; });
+      stepParallax();
     }
 
     var heroCanvas = document.getElementById('dnaHeroCanvas');
