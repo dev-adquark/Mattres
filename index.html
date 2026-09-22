@@ -2497,10 +2497,12 @@
   }
 
   /** The one entry point buttons, dots, and other sections (Match Score) all call. */
+  var xrayScrollSuppressUntil = 0;
   function goToXrayStep(stepIndex, opts) {
     opts = opts || {};
     stepIndex = clampNum(stepIndex, 0, XRAY_STEPS.length - 1);
     applyXrayVisual(XRAY_STEPS[stepIndex].layer);
+    lastXrayStepIndex = stepIndex; // keep scroll-driven tracking in sync with this explicit choice
     if (!opts.scroll) return;
     if (REDUCED_MOTION) {
       var xray = document.getElementById('xray');
@@ -2508,7 +2510,16 @@
       return;
     }
     var y = scrollYForXrayStep(stepIndex);
-    if (y != null) window.scrollTo({ top: y + 2, behavior: 'smooth' });
+    if (y != null) {
+      // Suppress scroll-driven step detection until the smooth-scroll this
+      // click just started has had time to settle - otherwise a fast second
+      // click (or the scroll position still being mid-transition from the
+      // first) lets updateExplode() below immediately override the choice
+      // with a stale in-flight scroll position. Verified this was a real,
+      // reproducible bug (not a test artifact) before fixing it.
+      xrayScrollSuppressUntil = performance.now() + 1000;
+      window.scrollTo({ top: y + 2, behavior: 'smooth' });
+    }
   }
   function layerToStepIndex(layer) {
     for (var i = 0; i < XRAY_STEPS.length; i++) { if (XRAY_STEPS[i].layer === layer) return i; }
@@ -2525,7 +2536,7 @@
     var scrolled = clampNum(-rect.top, 0, totalScrollable);
     var progress = scrolled / totalScrollable;
     document.documentElement.style.setProperty('--explode', progress.toFixed(3));
-    if (!REDUCED_MOTION) {
+    if (!REDUCED_MOTION && performance.now() >= xrayScrollSuppressUntil) {
       var stepIndex = Math.round(progress * (XRAY_STEPS.length - 1));
       if (stepIndex !== lastXrayStepIndex) {
         lastXrayStepIndex = stepIndex;
@@ -3980,7 +3991,10 @@
       }
     }
     var cta = document.getElementById('scoreRingCta');
-    if (cta) cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    if (cta) {
+      cta.href = '#reasoning'; // was still pointing at #find-match after a result exists - fixed
+      cta.innerHTML = 'See full breakdown <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    }
 
     pendingScoreReveal = top;
     if (scoreSectionRevealed) playScoreReveal(top); // section already visible/played once - update live
@@ -4159,7 +4173,7 @@
     // and on touch devices (no meaningful hover position there).
     var msSection = document.querySelector('.match-score-section');
     var msConstellation = document.querySelector('.ms-bg-constellation');
-    if (msSection && msConstellation && !REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
+    if (msSection && msConstellation && !REDUCED_MOTION && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
       var parallaxRaf = null, targetX = 0, targetY = 0, curX = 0, curY = 0;
       function stepParallax() {
         curX += (targetX - curX) * 0.06;
