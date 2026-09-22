@@ -96,11 +96,15 @@
     white-space:nowrap;
   }
   .btn-primary{
-    background:linear-gradient(135deg,var(--teal-400),var(--teal-600));
+    background:linear-gradient(120deg,var(--teal-400),var(--cyan-400),var(--electric-400),var(--teal-600));
+    background-size:300% 300%;
+    animation:btnShimmer 10s ease infinite;
     color:#04231e;
     box-shadow:0 10px 24px -8px rgba(34,201,176,0.55);
   }
   .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(34,201,176,0.7);}
+  @keyframes btnShimmer{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  @media (prefers-reduced-motion: reduce){ .btn-primary{animation:none;background-position:0% 50%;} }
   .btn-ghost{
     background:transparent;color:var(--ink);
     border:1.5px solid rgba(255,255,255,0.22);
@@ -423,6 +427,33 @@
   .foot-brand{max-width:280px;}
   .foot-brand .brand{margin-bottom:14px;}
   .foot-brand p{font-size:13.5px;line-height:1.6;color:var(--ink-dim);margin:0;}
+
+  /* Small rotating brand-word badge. A true 3D cylinder (the original
+     16-face version) was tried here first and reverted: at this small a
+     scale relative to the font size, the flat faces overlap instead of
+     cleanly hiding each other, so multiple words show at once and it
+     reads as broken rather than premium. A straightforward stacked
+     crossfade achieves the same "rotating brand words" idea reliably. */
+  .brand-cylinder{margin-top:16px;height:18px;position:relative;overflow:hidden;}
+  .bc-inner span{
+    position:absolute;left:0;top:0;font-size:13px;font-weight:700;letter-spacing:0.05em;
+    color:var(--teal-400);opacity:0;transform:translateY(8px);
+    animation:bcCycle 8s ease-in-out infinite;
+  }
+  .bc-inner span:nth-child(1){animation-delay:0s;}
+  .bc-inner span:nth-child(2){animation-delay:2s;}
+  .bc-inner span:nth-child(3){animation-delay:4s;}
+  .bc-inner span:nth-child(4){animation-delay:6s;}
+  @keyframes bcCycle{
+    0%{opacity:0;transform:translateY(8px);}
+    6%,19%{opacity:1;transform:translateY(0);}
+    25%{opacity:0;transform:translateY(-8px);}
+    100%{opacity:0;transform:translateY(-8px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bc-inner span{animation:none;opacity:0;}
+    .bc-inner span:nth-child(1){opacity:1;transform:translateY(0);}
+  }
   .foot-links{display:flex;gap:16px;}
   @media (max-width:600px){ .foot-links{gap:10px;font-size:13px;} }
   .foot-links a{font-size:14px;color:var(--ink-dim);}
@@ -680,7 +711,7 @@
   .form-actions{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;}
 
   /* ---------- FIND MATCH: RESULTS ---------- */
-  .owl-mascot-empty{position:static;width:70px;height:76px;margin:0 auto 14px;animation:owlBob 5s ease-in-out infinite;}
+  .owl-mascot-empty{position:relative;width:70px;height:76px;margin:0 auto 14px;animation:owlBob 5s ease-in-out infinite;}
   @media (prefers-reduced-motion: reduce){ .owl-mascot-empty{animation:none;} }
   .empty-state{
     max-width:900px;margin:40px auto 0;text-align:center;color:var(--slate-600);
@@ -879,9 +910,21 @@
   .mmc-z.z2{top:-14px;right:-16px;font-size:14px;animation-delay:1.3s;}
   .mmc-z.z3{top:-26px;right:-28px;font-size:17px;animation-delay:2.6s;}
   @keyframes mmcFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-  @keyframes mmcZ{0%{opacity:0;transform:translateY(4px) scale(0.8);}30%{opacity:0.8;}100%{opacity:0;transform:translateY(-14px) scale(1.1);}}
+  @keyframes mmcZ{0%{opacity:1;transform:translate(0,0) rotate(0deg) scale(0.8);}100%{opacity:0;transform:translate(11px,-16px) rotate(22deg) scale(1.1);}}
   @media (prefers-reduced-motion: reduce){ .ms-moon-cluster,.mmc-z{animation:none;opacity:0.3;} }
   @media (max-width:900px){ .ms-moon-cluster{display:none;} }
+
+  /* Small reusable "zzz" sleep-particle set for the owl mascots, adapted
+     from a sway-up-and-rotate motion the user provided - scaled down and
+     recolored to fit inline next to a ~70-90px mascot instead of a full
+     illustration. */
+  .owl-z{position:absolute;font-family:'Sora',sans-serif;font-weight:700;color:var(--cyan-300);opacity:0;pointer-events:none;}
+  .owl-z.z1{top:2px;right:-2px;font-size:10px;animation:owlZSway 2.6s ease-out infinite;}
+  .owl-z.z2{top:-6px;right:-9px;font-size:13px;animation:owlZSway 2.6s ease-out 0.55s infinite;}
+  .owl-z.z3{top:-15px;right:-17px;font-size:16px;animation:owlZSway 2.6s ease-out 1.1s infinite;}
+  @keyframes owlZSway{0%{transform:translate(0,0) rotate(0deg);opacity:0.85;}100%{transform:translate(13px,-16px) rotate(24deg);opacity:0;}}
+  @media (prefers-reduced-motion: reduce){ .owl-z{animation:none !important;opacity:0;} }
+  .owl-z-light{color:var(--teal-600);}
   .match-score-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;}
   @media (max-width:900px){ .match-score-grid{grid-template-columns:1fr;} }
   .score-ring-wrap{text-align:left;}
@@ -2026,6 +2069,7 @@
         <path d="M70 108 L67 115 M70 108 L73 115" stroke="#1a3350" stroke-width="2.5" stroke-linecap="round"/>
       </svg>
       <span class="owl-speech">Let's find your match</span>
+      <span class="owl-z z1">z</span><span class="owl-z z2">z</span><span class="owl-z z3">z</span>
     </div>
     <div class="wrap">
       <span class="eyebrow">Find your match</span>
@@ -2167,6 +2211,7 @@
             <path d="M50 108 L47 115 M50 108 L53 115" stroke="#1a3350" stroke-width="2.5" stroke-linecap="round"/>
             <path d="M70 108 L67 115 M70 108 L73 115" stroke="#1a3350" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
+          <span class="owl-z z1 owl-z-light">z</span><span class="owl-z z2 owl-z-light">z</span><span class="owl-z z3 owl-z-light">z</span>
         </div>
         <p>Answer the questions above and select <strong>“Find my matches”</strong> to see your personalized results.</p>
       </div>
@@ -2578,6 +2623,14 @@
           Mattress Match Score
         </a>
         <p>Smarter Sleep. Better You.</p>
+        <div class="brand-cylinder" aria-hidden="true">
+          <div class="bc-inner">
+            <span>Score</span>
+            <span>Sleep</span>
+            <span>Match</span>
+            <span>Repeat</span>
+          </div>
+        </div>
       </div>
       <div class="foot-links">
         <a href="#home">Home</a>
