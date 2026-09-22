@@ -95,6 +95,10 @@
     transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
     white-space:nowrap;
   }
+  .btn svg{transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+  .btn:hover svg{transform:translateX(3px);}
+  @media (prefers-reduced-motion: reduce){ .btn:hover svg{transform:none;} }
+  #navMagneticCta{transition:transform .15s ease, box-shadow .18s ease, background .18s ease;}
   .btn-primary{
     background:linear-gradient(120deg,var(--teal-400),var(--cyan-400),var(--electric-400),var(--teal-600));
     background-size:300% 300%;
@@ -987,9 +991,17 @@
 
   /* "Your Matched Mattress" panel */
   .matched-mattress-panel{
+    --sx:50%;--sy:50%;
     margin-top:56px;display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:center;
     background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;padding:36px;position:relative;overflow:hidden;
   }
+  .matched-mattress-panel::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .4s ease;
+    background:radial-gradient(220px circle at var(--sx) var(--sy),rgba(63,212,255,0.12),transparent 70%);
+  }
+  .matched-mattress-panel:hover::before{opacity:1;}
+  .matched-mattress-panel > *{position:relative;z-index:1;}
+  @media (prefers-reduced-motion: reduce), (hover: none){ .matched-mattress-panel::before{display:none;} }
   @media (max-width:768px){ .matched-mattress-panel{grid-template-columns:1fr;text-align:center;gap:24px;padding:28px 24px;} }
   .mmp-visual{position:relative;height:160px;}
   .mmp-thumb-wrap{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;}
@@ -1329,7 +1341,14 @@
   .dv-panel p{color:var(--ink-dim);font-size:11.5px;line-height:1.5;margin:0 0 10px;min-height:48px;}
   .dv-score{display:flex;align-items:center;gap:6px;}
   .dv-score i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);overflow:hidden;position:relative;display:block;}
-  .dv-score-fill{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1);}
+  .dv-score-fill{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;}
+  .dv-score-fill::after{
+    content:"";position:absolute;inset:0;width:40%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);
+    transform:translateX(-150%);animation:dvShimmer 2.6s ease-in-out 1.2s infinite;
+  }
+  @keyframes dvShimmer{to{transform:translateX(350%);}}
+  @media (prefers-reduced-motion: reduce){ .dv-score-fill::after{animation:none;display:none;} }
   .dv-score-mid{position:absolute;top:-2px;left:50%;width:1px;height:8px;background:rgba(255,255,255,0.35);}
   .dv-score b{color:var(--ink);font-size:11px;font-weight:700;min-width:24px;text-align:right;}
   .dv-vs-typical{font-size:10px;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:4px;height:14px;opacity:0;transition:opacity .4s ease;}
@@ -1425,7 +1444,9 @@
       <button class="icon-btn" aria-label="Search">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       </button>
-      <a href="#find-match" class="btn btn-primary">Find My Match</a>
+      <a href="#find-match" class="btn btn-primary" id="navMagneticCta">Find My Match
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -2673,6 +2694,22 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach(function (el) { revealIO.observe(el); });
   })();
+
+  // Magnetic hover on the nav CTA - the button subtly follows the pointer
+  // within a small range, snapping back on leave. Skipped for touch/no-hover
+  // devices and reduced-motion, where a magnetic-follow effect has no
+  // meaningful trigger or would just be unwanted motion.
+  var magneticCta = document.getElementById('navMagneticCta');
+  if (magneticCta && window.matchMedia && window.matchMedia('(hover: hover)').matches
+      && !(window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    magneticCta.addEventListener('mousemove', function (e) {
+      var rect = magneticCta.getBoundingClientRect();
+      var x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+      var y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+      magneticCta.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+    });
+    magneticCta.addEventListener('mouseleave', function () { magneticCta.style.transform = ''; });
+  }
 
   // Nav mobile toggle
   var navToggle = document.getElementById('navToggle');
@@ -4450,6 +4487,20 @@
       });
       msSection.addEventListener('mouseleave', function () { targetX = 0; targetY = 0; });
       stepParallax();
+    }
+
+    // Cursor spotlight on the Matched Mattress panel - a soft radial glow
+    // that follows the pointer, CSS-variable driven. Doesn't need the
+    // reduced-motion/hover-capability guards the parallax above uses in JS,
+    // since the CSS itself already hides the effect in both cases (no
+    // continuous animation to gate here, just a value the CSS reads).
+    var mmPanel = document.getElementById('matchedMattressPanel');
+    if (mmPanel) {
+      mmPanel.addEventListener('mousemove', function (e) {
+        var rect = mmPanel.getBoundingClientRect();
+        mmPanel.style.setProperty('--sx', (e.clientX - rect.left) + 'px');
+        mmPanel.style.setProperty('--sy', (e.clientY - rect.top) + 'px');
+      });
     }
 
     var heroCanvas = document.getElementById('dnaHeroCanvas');
