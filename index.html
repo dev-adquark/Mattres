@@ -81,6 +81,21 @@
   @media (prefers-reduced-motion: reduce){ .logo-glow,.logo-spark{animation:none;opacity:0.5;} }
   .brand svg{width:30px;height:30px;flex:none;}
   .nav-links{display:flex;align-items:center;gap:34px;}
+
+  /* Small sleeper character - shared visual language across its two uses
+     (nav, hero): a rounded blanket-mound body, a round head with a closed-
+     eye curve, a soft breathing scale pulse, and 2 floating "z"s reusing
+     the same sway-and-fade keyframes as the owl mascot's zzz. */
+  .nav-sleeper{width:30px;height:22px;position:relative;flex:none;margin-left:-6px;color:var(--cyan-300);}
+  .nav-sleeper svg{width:100%;height:100%;overflow:visible;}
+  @media (max-width:900px){ .nav-sleeper{display:none;} }
+  .sleeper-body{animation:sleeperBreathe 3.6s ease-in-out infinite;transform-origin:center;}
+  @keyframes sleeperBreathe{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.035);}}
+  .sleeper-z{position:absolute;font-family:'Sora',sans-serif;font-weight:700;color:var(--cyan-300);opacity:0;pointer-events:none;}
+  .sleeper-z.z1{top:-2px;right:2px;font-size:8px;animation:sleeperZSway 2.8s ease-out infinite;}
+  .sleeper-z.z2{top:-9px;right:-3px;font-size:11px;animation:sleeperZSway 2.8s ease-out .7s infinite;}
+  @keyframes sleeperZSway{0%{transform:translate(0,0) rotate(0deg);opacity:.85;}100%{transform:translate(7px,-11px) rotate(18deg);opacity:0;}}
+  @media (prefers-reduced-motion: reduce){ .sleeper-body{animation:none;} .sleeper-z{animation:none !important;opacity:0;} }
   .nav-links a{color:var(--ink-dim);font-size:14.5px;font-weight:500;position:relative;padding:6px 0;transition:color .18s ease;}
   .nav-links a:hover{color:var(--ink);}
   .nav-links a.active{color:var(--ink);}
@@ -148,6 +163,15 @@
     padding:76px 0 130px;
     overflow:hidden;
   }
+  .hero-sleeper{
+    position:absolute;left:6%;bottom:28px;width:110px;height:80px;z-index:1;
+    color:var(--cyan-300);opacity:0.9;animation:heroSleeperFloat 6s ease-in-out infinite;
+  }
+  .hero-sleeper svg{width:100%;height:100%;overflow:visible;}
+  @media (max-width:900px){ .hero-sleeper{width:80px;height:58px;bottom:14px;left:4%;opacity:0.7;} }
+  @media (max-width:600px){ .hero-sleeper{display:none;} }
+  @keyframes heroSleeperFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  @media (prefers-reduced-motion: reduce){ .hero-sleeper{animation:none;} }
   .hero::after{
     content:"";position:absolute;inset:auto 0 0 0;height:140px;
     background:linear-gradient(180deg, transparent, var(--paper));
@@ -1433,6 +1457,18 @@
       </svg>
       Mattress Match Score
     </a>
+    <div class="nav-sleeper" aria-hidden="true">
+      <svg viewBox="0 0 36 26">
+        <defs>
+          <linearGradient id="sBodyNav" x1="4" y1="6" x2="32" y2="24"><stop offset="0%" stop-color="#1a3350"/><stop offset="100%" stop-color="#0c1c30"/></linearGradient>
+        </defs>
+        <ellipse cx="9" cy="21" rx="7.5" ry="2.6" fill="rgba(255,255,255,0.12)"/>
+        <path class="sleeper-body" d="M3 23 Q3 11 17 11 Q31 11 31 23 Z" fill="url(#sBodyNav)" stroke="#3fd4ff" stroke-width="1" stroke-opacity="0.45"/>
+        <circle cx="11" cy="10" r="5.4" fill="url(#sBodyNav)" stroke="#3fd4ff" stroke-width="1" stroke-opacity="0.45"/>
+        <path d="M8.7 10.3q1.1 .9 2.2 0" fill="none" stroke="#3fd4ff" stroke-width=".9" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+      <span class="sleeper-z z1">z</span><span class="sleeper-z z2">z</span>
+    </div>
     <div class="nav-links">
       <a href="#home" data-nav="home">Home</a>
       <a href="#find-match" data-nav="find-match">Match Score</a>
@@ -1464,6 +1500,18 @@
 <div class="page active" data-page="home">
 <header class="hero" id="top">
   <canvas class="ambient-canvas" id="ambientHero" aria-hidden="true"></canvas>
+  <div class="hero-sleeper" aria-hidden="true">
+    <svg viewBox="0 0 36 26">
+      <defs>
+        <linearGradient id="sBodyHero" x1="4" y1="6" x2="32" y2="24"><stop offset="0%" stop-color="#1a3350"/><stop offset="100%" stop-color="#0c1c30"/></linearGradient>
+      </defs>
+      <ellipse cx="9" cy="21" rx="7.5" ry="2.6" fill="rgba(255,255,255,0.12)"/>
+      <path class="sleeper-body" d="M3 23 Q3 11 17 11 Q31 11 31 23 Z" fill="url(#sBodyHero)" stroke="#3fd4ff" stroke-width="1" stroke-opacity="0.45"/>
+      <circle cx="11" cy="10" r="5.4" fill="url(#sBodyHero)" stroke="#3fd4ff" stroke-width="1" stroke-opacity="0.45"/>
+      <path d="M8.7 10.3q1.1 .9 2.2 0" fill="none" stroke="#3fd4ff" stroke-width=".9" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+    <span class="sleeper-z z1">z</span><span class="sleeper-z z2">z</span>
+  </div>
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow"><span class="dot"></span>Personalized · data-driven</span>
