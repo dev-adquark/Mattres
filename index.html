@@ -64,6 +64,12 @@
   }
   .nav-row{display:flex;align-items:center;justify-content:space-between;height:76px;}
   .brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:17px;letter-spacing:-0.01em;}
+  .brand-logo{overflow:visible;}
+  .logo-glow{animation:logoBreathe 4s ease-in-out infinite;transform-origin:16px 16px;}
+  .logo-spark{animation:logoOrbit 9s linear infinite;transform-origin:16px 16px;}
+  @keyframes logoBreathe{0%,100%{opacity:0.35;transform:scale(0.88);}50%{opacity:0.85;transform:scale(1.06);}}
+  @keyframes logoOrbit{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){ .logo-glow,.logo-spark{animation:none;opacity:0.5;} }
   .brand svg{width:30px;height:30px;flex:none;}
   .nav-links{display:flex;align-items:center;gap:34px;}
   .nav-links a{color:var(--ink-dim);font-size:14.5px;font-weight:500;position:relative;padding:6px 0;transition:color .18s ease;}
@@ -1122,7 +1128,19 @@
 <nav class="nav">
   <div class="wrap nav-row">
     <a href="#top" class="brand">
-      <svg viewBox="0 0 32 32" fill="none"><path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#g1)"/><defs><linearGradient id="g1" x1="5" y1="5" x2="27" y2="27"><stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/></linearGradient></defs></svg>
+      <svg viewBox="0 0 32 32" fill="none" class="brand-logo" aria-hidden="true">
+        <defs>
+          <linearGradient id="gHeader" x1="5" y1="5" x2="27" y2="27">
+            <stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/>
+          </linearGradient>
+          <radialGradient id="glowHeader" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7bf2df" stop-opacity="0.55"/><stop offset="100%" stop-color="#7bf2df" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="16" cy="16" r="15" fill="url(#glowHeader)" class="logo-glow"/>
+        <path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#gHeader)"/>
+        <circle class="logo-spark" cx="26" cy="9" r="1.1" fill="#fff"/>
+      </svg>
       Mattress Match Score
     </a>
     <div class="nav-links">
@@ -2174,7 +2192,19 @@
     <div class="foot-top">
       <div class="foot-brand">
         <a href="#top" class="brand">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="5" y1="5" x2="27" y2="27"><stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/></linearGradient></defs></svg>
+          <svg viewBox="0 0 32 32" fill="none" class="brand-logo" aria-hidden="true">
+            <defs>
+              <linearGradient id="gFooter" x1="5" y1="5" x2="27" y2="27">
+                <stop stop-color="#7bf2df"/><stop offset="1" stop-color="#14a893"/>
+              </linearGradient>
+              <radialGradient id="glowFooter" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#7bf2df" stop-opacity="0.55"/><stop offset="100%" stop-color="#7bf2df" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="16" cy="16" r="15" fill="url(#glowFooter)" class="logo-glow"/>
+            <path d="M27 18.5A11 11 0 1 1 13.5 5a8.5 8.5 0 0 0 13.5 13.5Z" fill="url(#gFooter)"/>
+            <circle class="logo-spark" cx="26" cy="9" r="1.1" fill="#fff"/>
+          </svg>
           Mattress Match Score
         </a>
         <p>Smarter Sleep. Better You.</p>
