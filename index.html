@@ -576,7 +576,13 @@
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
   @media (max-width:640px){ .form-grid{grid-template-columns:1fr;} }
   .form-field{display:flex;flex-direction:column;gap:7px;}
-  .form-field label{font-size:13px;font-weight:700;color:var(--slate-900);}
+  .form-field label{font-size:13px;font-weight:700;color:var(--slate-900);display:flex;align-items:center;gap:8px;}
+  .field-icon{
+    display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;
+    border-radius:7px;background:rgba(20,168,147,0.1);color:var(--teal-600);
+  }
+  .field-icon svg{width:15px;height:15px;}
+  .field-icon:empty{display:none;}
   .form-field .req{color:#c0392b;}
   .form-field select, .form-field input[type="number"]{
     padding:11px 13px;border-radius:10px;border:1.5px solid #dde6ec;font-size:14px;
@@ -1035,6 +1041,54 @@
   .radar-wrap.on-light .radar-label{fill:var(--slate-600);}
   .radar-wrap.on-light .radar-fill{fill:rgba(34,201,176,0.14);stroke:var(--teal-600);}
 
+  /* Six-dimension illustrated gallery (Match Score) */
+  .dv-head{text-align:center;max-width:640px;margin:0 auto 30px;}
+  .dv-head p{margin:10px auto 0;}
+  .dv-gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  @media (max-width:1100px){ .dv-gallery{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:640px){ .dv-gallery{grid-template-columns:repeat(2,1fr);} }
+  .dv-panel{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
+    padding:16px 14px 18px;text-align:center;transition:transform .25s ease,border-color .25s ease;
+  }
+  .dv-panel:hover{transform:translateY(-3px);border-color:rgba(63,212,255,0.35);}
+  .dv-panel svg{width:100%;height:64px;margin-bottom:10px;color:var(--cyan-400);}
+  .dv-panel h4{color:var(--ink);font-size:13px;margin:0 0 6px;}
+  .dv-panel p{color:var(--ink-dim);font-size:11.5px;line-height:1.5;margin:0 0 10px;min-height:48px;}
+  .dv-score{display:flex;align-items:center;gap:6px;}
+  .dv-score i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);overflow:hidden;position:relative;display:block;}
+  .dv-score-fill{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--electric-500),var(--cyan-400));border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1);}
+  .dv-score b{color:var(--ink);font-size:11px;font-weight:700;min-width:24px;text-align:right;}
+
+  .dv-ring{fill:none;stroke:var(--cyan-300);stroke-width:1.3;transform-origin:center;animation:dvPulse 2.6s ease-in-out infinite;}
+  .dv-ring.r2{animation-delay:.3s;} .dv-ring.r3{animation-delay:.6s;}
+  @keyframes dvPulse{0%,100%{opacity:0.15;transform:scale(0.9);}50%{opacity:0.7;transform:scale(1.05);}}
+
+  .dv-align-line{stroke:var(--cyan-300);stroke-width:1.5;opacity:0.6;}
+  .dv-strut{fill:rgba(63,212,255,0.18);stroke:var(--cyan-400);stroke-width:1.4;}
+
+  .dv-flow{stroke:var(--cyan-300);stroke-width:1.6;animation:dvFlow 3.5s linear infinite;}
+  .dv-flow.f2{stroke:var(--electric-400);opacity:0.6;animation-duration:4.2s;animation-direction:reverse;}
+  @keyframes dvFlow{to{stroke-dashoffset:-90;}}
+
+  .dv-wave{fill:none;stroke:var(--electric-400);stroke-width:1.3;animation:dvWaveOut 2.8s ease-out infinite;}
+  .dv-wave.w2{animation-delay:.5s;} .dv-wave.w3{animation-delay:1s;}
+  @keyframes dvWaveOut{0%{opacity:0.7;stroke-width:2;}100%{opacity:0;stroke-width:0.5;}}
+
+  .dv-edge-band{stroke:var(--cyan-400);opacity:0.55;}
+  .dv-edge-arrow{stroke:var(--cyan-300);stroke-width:1.6;animation:dvPress 2.2s ease-in-out infinite;}
+  .dv-edge-guide{stroke:rgba(255,255,255,0.2);stroke-width:1;}
+  @keyframes dvPress{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+  .dv-layer{fill:rgba(63,212,255,0.16);stroke:var(--cyan-400);stroke-width:1.3;}
+  .dv-layer.l2{fill:rgba(91,141,255,0.16);stroke:var(--electric-400);}
+  .dv-layer.l3{fill:rgba(143,107,255,0.16);stroke:var(--violet-400);}
+  .dv-shield{stroke:var(--teal-400);stroke-width:1.4;opacity:0.6;}
+
+  @media (prefers-reduced-motion: reduce){
+    .dv-ring,.dv-flow,.dv-wave,.dv-edge-arrow{animation:none !important;opacity:0.55;}
+  }
+
   /* Journey energy thread */
   .j-connector{overflow:visible;}
   .j-connector::after{
@@ -1306,6 +1360,95 @@
   </div>
 
   <div class="wrap">
+    <div class="dv-head">
+      <span class="eyebrow-dark" style="color:var(--cyan-400)">The six dimensions, visualized</span>
+      <p style="color:var(--ink-dim);max-width:560px;">Each dimension gets its own read on your top match — brightness and motion scale with the real sub-score, not a fixed animation.</p>
+    </div>
+    <div class="dv-gallery" id="dvGallery">
+      <div class="dv-panel" data-cat="pressureRelief">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <path d="M14 82 Q40 58 66 74 T118 76 T150 80" stroke="#2a4a68" stroke-width="2" fill="none"/>
+          <g class="dv-rings" transform="translate(48,68)">
+            <circle r="7" class="dv-ring r1"/><circle r="14" class="dv-ring r2"/><circle r="21" class="dv-ring r3"/>
+          </g>
+          <g class="dv-rings" transform="translate(96,72)">
+            <circle r="6" class="dv-ring r1"/><circle r="12" class="dv-ring r2"/><circle r="18" class="dv-ring r3"/>
+          </g>
+        </svg>
+        <h4>Pressure Relief</h4>
+        <p>Contact points where the surface yields to your shape.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+
+      <div class="dv-panel" data-cat="support">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <line x1="18" y1="38" x2="142" y2="38" class="dv-align-line" stroke-dasharray="3 4"/>
+          <g class="dv-struts">
+            <rect x="26" y="42" width="10" height="34" rx="2" class="dv-strut"/>
+            <rect x="60" y="42" width="10" height="34" rx="2" class="dv-strut"/>
+            <rect x="94" y="42" width="10" height="34" rx="2" class="dv-strut"/>
+            <rect x="124" y="42" width="10" height="34" rx="2" class="dv-strut"/>
+          </g>
+          <line x1="14" y1="80" x2="146" y2="80" stroke="#2a4a68" stroke-width="2"/>
+        </svg>
+        <h4>Support</h4>
+        <p>An even base keeps your spine level, not sagging or arching.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+
+      <div class="dv-panel" data-cat="heat">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <rect x="14" y="30" width="132" height="50" rx="8" fill="none" stroke="#2a4a68" stroke-width="2"/>
+          <path class="dv-flow f1" d="M18 44c8 0 8 8 16 8s8-8 16-8 8 8 16 8 8-8 16-8 8 8 16 8 8-8 16-8 8 8 16 8" fill="none" stroke-dasharray="5 4"/>
+          <path class="dv-flow f2" d="M18 60c8 0 8 8 16 8s8-8 16-8 8 8 16 8 8-8 16-8 8 8 16 8 8-8 16-8 8 8 16 8" fill="none" stroke-dasharray="5 4"/>
+        </svg>
+        <h4>Cooling</h4>
+        <p>Airflow through the surface carries heat away as you sleep.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+
+      <div class="dv-panel" data-cat="motion">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <circle cx="30" cy="55" r="6" fill="#7fe9ff"/>
+          <circle cx="130" cy="55" r="6" fill="#8f6bff" opacity="0.6"/>
+          <g class="dv-waves">
+            <circle cx="30" cy="55" r="16" class="dv-wave w1"/>
+            <circle cx="30" cy="55" r="30" class="dv-wave w2"/>
+            <circle cx="30" cy="55" r="44" class="dv-wave w3"/>
+          </g>
+        </svg>
+        <h4>Motion Isolation</h4>
+        <p>Movement on one side fades out before it reaches the other.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+
+      <div class="dv-panel" data-cat="edge">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <rect x="20" y="26" width="120" height="58" rx="6" fill="none" stroke="#2a4a68" stroke-width="2"/>
+          <rect x="118" y="26" width="22" height="58" rx="6" fill="none" class="dv-edge-band" stroke-width="4"/>
+          <path d="M129 8 v14 M122 16 l7 7 7-7" class="dv-edge-arrow" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="118" y1="20" x2="118" y2="90" class="dv-edge-guide" stroke-dasharray="2 4"/>
+        </svg>
+        <h4>Edge Support</h4>
+        <p>A reinforced perimeter so the edge holds when you sit or sleep near it.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+
+      <div class="dv-panel" data-cat="durability">
+        <svg viewBox="0 0 160 110" aria-hidden="true">
+          <rect x="30" y="66" width="100" height="12" rx="3" class="dv-layer l1"/>
+          <rect x="30" y="50" width="100" height="12" rx="3" class="dv-layer l2"/>
+          <rect x="30" y="34" width="100" height="12" rx="3" class="dv-layer l3"/>
+          <path d="M22 82 Q80 20 138 82" class="dv-shield" fill="none" stroke-dasharray="4 5"/>
+        </svg>
+        <h4>Durability</h4>
+        <p>Material density holds its shape instead of sagging over years of use.</p>
+        <div class="dv-score"><i><span class="dv-score-fill"></span></i><b>—</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
     <div class="matched-mattress-panel" id="matchedMattressPanel">
       <div class="mmp-visual">
         <div class="mmp-thumb-wrap" id="mmpThumbWrap">
@@ -1541,7 +1684,7 @@
 
         <div class="form-grid">
           <div class="form-field">
-            <label for="fSleepPosition">Sleep position <span class="req">*</span></label>
+            <label for="fSleepPosition"><span class="field-icon" id="ficonPosition"></span>Sleep position <span class="req">*</span></label>
             <select id="fSleepPosition" name="sleepPosition" required>
               <option value="" disabled selected>Choose one…</option>
               <option value="side">Side</option>
@@ -1552,12 +1695,12 @@
           </div>
 
           <div class="form-field">
-            <label for="fWeight">Your weight (lb) <span class="req">*</span></label>
+            <label for="fWeight"><span class="field-icon" id="ficonWeight"></span>Your weight (lb) <span class="req">*</span></label>
             <input id="fWeight" name="weightLb" type="number" min="60" max="500" step="1" placeholder="e.g. 165" required>
           </div>
 
           <div class="form-field">
-            <label for="fFirmness">Firmness preference <span class="req">*</span></label>
+            <label for="fFirmness"><span class="field-icon" id="ficonFirmness"></span>Firmness preference <span class="req">*</span></label>
             <select id="fFirmness" name="firmnessPreference" required>
               <option value="" disabled selected>Choose one…</option>
               <option value="soft">Soft</option>
@@ -1570,7 +1713,7 @@
           </div>
 
           <div class="form-field">
-            <label for="fTemperature">How do you sleep, temperature-wise? <span class="req">*</span></label>
+            <label for="fTemperature"><span class="field-icon" id="ficonTemperature"></span>How do you sleep, temperature-wise? <span class="req">*</span></label>
             <select id="fTemperature" name="sleepTemperature" required>
               <option value="" disabled selected>Choose one…</option>
               <option value="cold">I sleep cold</option>
@@ -1588,7 +1731,7 @@
         <div class="more-options-panel" id="moreOptionsPanel" hidden>
           <div class="form-grid">
             <div class="form-field">
-              <label for="fMotion">Motion sensitivity</label>
+              <label for="fMotion"><span class="field-icon" id="ficonMotion"></span>Motion sensitivity</label>
               <select id="fMotion" name="motionSensitivity">
                 <option value="single" selected>I sleep alone / not sensitive</option>
                 <option value="couple-low">Share the bed, not easily woken</option>
@@ -1602,7 +1745,7 @@
             </div>
 
             <div class="form-field">
-              <label>Budget range (USD)</label>
+              <label><span class="field-icon" id="ficonBudget"></span>Budget range (USD)</label>
               <div class="budget-row">
                 <input name="budgetMin" type="number" min="0" step="50" placeholder="Min" aria-label="Minimum budget">
                 <span>–</span>
@@ -2491,6 +2634,62 @@
     edge: 'Edge support',
     durability: 'Durability',
   };
+
+  // Small contextual icons next to quiz fields, swapped based on the current
+  // selection so the icon reflects the actual answer (never fake/decorative
+  // data — purely a visual reflection of the value already in the <select>).
+  var FIELD_ICONS = {
+    position: {
+      side: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 16c0-4.5 2.7-7.5 6.8-7.5S17 11 17 14.5c0 2-1.6 3.2-4.2 3.2-2.3 0-4.8-.7-7.8-1.7Z"/><circle cx="15.5" cy="8" r="2"/></svg>',
+      back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="13" width="15" height="4" rx="2"/><circle cx="19" cy="10" r="2"/></svg>',
+      stomach: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="13" width="15" height="4" rx="2"/><circle cx="18.5" cy="9.5" r="2"/><path d="M18.5 9.5 20.5 8" stroke-linecap="round"/></svg>',
+      combination: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="13" width="12" height="4" rx="2"/><path d="M19 6a7 7 0 0 0-7-3M5 18a7 7 0 0 0 7 3" stroke-linecap="round"/><path d="M12 2.2 14 3.4 12 4.6M12 21.8 10 20.6 12 19.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    },
+    firmness: {
+      soft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 15c3-6 6-6 9 0s6 6 9 0" stroke-linecap="round"/></svg>',
+      medium: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13c3-3 6-3 9 0s6 3 9 0" stroke-linecap="round"/></svg>',
+      firm: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18" stroke-linecap="round"/></svg>',
+    },
+    temperature: {
+      cold: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M4.9 6l14.2 12M4.9 18 19.1 6M2 12h20"/></svg>',
+      neutral: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none" opacity="0.35"/></svg>',
+      hot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round"/></svg>',
+    },
+    motion: {
+      single: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.2"/></svg>',
+      'couple-low': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12c3-2 6-2 9 0s6 2 9 0" stroke-linecap="round"/></svg>',
+      'couple-high': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12c2-5 4-5 6 0s4 5 6 0 4-5 6 0 4 5 6 0" stroke-linecap="round"/></svg>',
+    },
+  };
+  var STATIC_FIELD_ICONS = {
+    weight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="9" width="4" height="6" rx="1"/><rect x="18" y="9" width="4" height="6" rx="1"/><line x1="6" y1="12" x2="18" y2="12"/></svg>',
+    budget: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 15.3c0 1 1.1 1.9 3 1.9s3-.9 3-1.9-1.1-1.6-3-1.9-3-.9-3-1.9 1.1-1.9 3-1.9 3 .9 3 1.9M12 5.8V7M12 17v1.2" stroke-linecap="round"/></svg>',
+  };
+  function wireFieldIcon(selectId, iconElId, map, firmnessTier) {
+    var select = document.getElementById(selectId);
+    var iconEl = document.getElementById(iconElId);
+    if (!select || !iconEl) return;
+    function update() {
+      var val = select.value;
+      if (firmnessTier) val = firmnessTier(val);
+      iconEl.innerHTML = map[val] || '';
+    }
+    select.addEventListener('change', update);
+    update();
+  }
+  wireFieldIcon('fSleepPosition', 'ficonPosition', FIELD_ICONS.position);
+  wireFieldIcon('fFirmness', 'ficonFirmness', FIELD_ICONS.firmness, function (v) {
+    if (v === 'soft' || v === 'medium-soft') return 'soft';
+    if (v === 'firm' || v === 'extra-firm') return 'firm';
+    if (v === 'medium' || v === 'medium-firm') return 'medium';
+    return '';
+  });
+  wireFieldIcon('fTemperature', 'ficonTemperature', FIELD_ICONS.temperature);
+  wireFieldIcon('fMotion', 'ficonMotion', FIELD_ICONS.motion);
+  var ficonWeight = document.getElementById('ficonWeight');
+  if (ficonWeight) ficonWeight.innerHTML = STATIC_FIELD_ICONS.weight;
+  var ficonBudget = document.getElementById('ficonBudget');
+  if (ficonBudget) ficonBudget.innerHTML = STATIC_FIELD_ICONS.budget;
 
   var form = document.getElementById('matchForm');
   var formError = document.getElementById('formError');
@@ -3420,6 +3619,21 @@
       var delay = REDUCED_MOTION ? 0 : i * 120;
       setTimeout(function () { bar.style.width = (val / 10 * 100) + '%'; }, delay);
       setTimeout(function () { num.textContent = val.toFixed(1); }, delay);
+    });
+
+    // Six-dimension illustrated gallery: same real subScores, own staggered reveal.
+    var dvPanels = Array.prototype.slice.call(document.querySelectorAll('.dv-panel'));
+    dvPanels.forEach(function (panel, i) {
+      var cat = panel.getAttribute('data-cat');
+      var val = top.result.subScores[cat];
+      if (val == null) return;
+      var fill = panel.querySelector('.dv-score-fill');
+      var num = panel.querySelector('.dv-score b');
+      var delay = REDUCED_MOTION ? 0 : i * 100;
+      setTimeout(function () {
+        if (fill) fill.style.width = (val / 10 * 100) + '%';
+        if (num) num.textContent = val.toFixed(1);
+      }, delay);
     });
 
     // Radar chart: same six dimensions, same order as the axis labels in the static SVG.
