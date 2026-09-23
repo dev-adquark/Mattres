@@ -2,6 +2,9 @@ import Link from 'next/link';
 import AmbientParticles from './AmbientParticles';
 import DnaHelixScene from './DnaHelixScene';
 import SleeperCharacter from './SleeperCharacter';
+import catalog from '@/lib/data/mattress-catalog.json';
+
+const brandCount = new Set(catalog.map((m) => m.brand)).size;
 
 export default function Hero() {
   return (
@@ -95,6 +98,21 @@ export default function Hero() {
             <b>Budget</b>
             <i>Budget · Mid · Premium</i>
           </div>
+        </div>
+      </div>
+
+      <div className="hero-stat-row" aria-label="Catalog stats">
+        <div className="hero-stat-chip">
+          <b>{catalog.length}</b>
+          <span>mattresses scored live</span>
+        </div>
+        <div className="hero-stat-chip">
+          <b>{brandCount}</b>
+          <span>brands in the catalog</span>
+        </div>
+        <div className="hero-stat-chip">
+          <b>6</b>
+          <span>real scoring dimensions</span>
         </div>
       </div>
     </header>

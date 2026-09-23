@@ -41,6 +41,8 @@ export default function HomePage() {
 
       <section className="section universe-section" id="universe">
         <AmbientParticles className="ambient-canvas" />
+        <div className="float-orb" style={{ width: 300, height: 300, left: '-4%', top: '10%', background: 'var(--electric-500)' }} aria-hidden="true" />
+        <div className="float-orb" style={{ width: 260, height: 260, right: '-3%', bottom: '5%', background: 'var(--violet-500)', animationDelay: '-8s' }} aria-hidden="true" />
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>

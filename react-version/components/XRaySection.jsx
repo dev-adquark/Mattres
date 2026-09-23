@@ -142,6 +142,7 @@ const XRaySection = forwardRef(function XRaySection(props, ref) {
   return (
     <section className="section xray-section" id="xray">
       <AmbientParticles className="ambient-canvas" />
+      <div className="float-orb" style={{ width: 280, height: 280, right: '1%', top: '8%', background: 'var(--teal-500)' }} aria-hidden="true" />
       <div className="section-seam" aria-hidden="true">
         <span className="seam-dot d1" />
         <span className="seam-line" />
