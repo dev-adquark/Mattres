@@ -18,6 +18,13 @@ export default function BrandCollabSlot({ collab = defaultCollab }) {
         </span>
         <h3>{collab.headline}</h3>
         <p>{collab.body}</p>
+        <span className="demo-label" style={{ marginTop: 10 }}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+            <path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z" />
+            <path d="M12 8v4M12 16h.01" />
+          </svg>
+          Placeholder — demo content, not a real partnership
+        </span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>

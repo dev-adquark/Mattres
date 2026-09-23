@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
 import BrandMarquee from '@/components/BrandMarquee';
+import PromoGrid from '@/components/PromoGrid';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
@@ -152,9 +153,12 @@ export default function HomePage() {
           <BrandCollabSlot />
           <div style={{ marginTop: 36 }}>
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
-              Mattress makers we work with
+              Mattress makers we work with <span style={{ opacity: 0.7, fontWeight: 500, textTransform: 'none', letterSpacing: 'normal' }}>(placeholder names for demo)</span>
             </span>
             <BrandMarquee />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <PromoGrid />
           </div>
         </div>
       </section>

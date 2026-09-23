@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import BrandMarquee from '@/components/BrandMarquee';
+import PromoGrid from '@/components/PromoGrid';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
@@ -81,6 +82,10 @@ export default function ComparePage() {
             <Link href="/find-match">Retake the quiz</Link> for your own results, or read the{' '}
             <Link href="/methodology">full methodology</Link>.
           </p>
+
+          <div style={{ marginTop: 48 }}>
+            <PromoGrid onLight />
+          </div>
         </div>
       </section>
     </div>

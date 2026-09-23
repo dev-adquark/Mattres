@@ -1743,3 +1743,51 @@
   }
   .hero-stat-chip b{ color:var(--cyan-300); font-size:16px; font-weight:800; }
   .hero-stat-chip span{ color:var(--ink-dim); font-size:12.5px; white-space:nowrap; }
+
+  /* Promo/collaboration card grid - more density on top of the single
+     collab slot, each card explicitly labeled as placeholder content
+     (never presented as a real offer). */
+  .promo-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  @media (max-width:960px){ .promo-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .promo-grid{ grid-template-columns:1fr; } }
+  .promo-card{
+    position:relative; border-radius:18px; padding:24px;
+    background:linear-gradient(160deg, rgba(12,24,44,0.92), rgba(15,33,64,0.78));
+    border:1px solid var(--glass-border);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .promo-card.on-light{
+    background:#fff; border-color:#e4ecf1; box-shadow:0 1px 3px rgba(15,33,64,0.05);
+  }
+  .promo-icon-wrap{
+    width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    color:#fff; margin-bottom:4px;
+  }
+  .promo-kicker{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--cyan-400); }
+  .promo-card.on-light .promo-kicker{ color:var(--teal-600); }
+  .promo-card h4{ font-size:16.5px; margin:0; color:var(--ink); }
+  .promo-card.on-light h4{ color:var(--slate-900,#0f2140); }
+  .promo-card p{ font-size:13.5px; line-height:1.55; color:var(--ink-dim); margin:0; flex-grow:1; }
+  .promo-card.on-light p{ color:var(--slate-600); }
+  .promo-card .promo-cta{
+    font-size:13px; font-weight:700; color:var(--cyan-400);
+    display:inline-flex; align-items:center; gap:5px; margin-top:4px;
+  }
+  .promo-card.on-light .promo-cta{ color:var(--teal-600); }
+
+  /* Explicit "not a real promotion" label - deliberately visible, not
+     buried, on every placeholder promo/collab element. */
+  .demo-label{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-weight:700; letter-spacing:.03em;
+    color:var(--ink-dim); opacity:0.75;
+    padding:3px 9px; border-radius:999px;
+    background:rgba(255,255,255,0.06); border:1px solid var(--glass-border);
+    width:fit-content;
+  }
+  .demo-label.on-light{
+    color:var(--slate-600); background:rgba(15,33,64,0.05); border-color:#e4ecf1;
+  }
+  .demo-label svg{ width:11px; height:11px; flex-shrink:0; }
