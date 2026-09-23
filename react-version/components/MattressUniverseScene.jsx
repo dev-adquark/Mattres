@@ -219,7 +219,6 @@ const MattressUniverseScene = forwardRef(function MattressUniverseScene({ catalo
       orbitGeo.dispose();
       nodes.forEach((m) => m.geometry.dispose());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog, initialHighlightId]);
 
   const scoreEntry = selected && payload?.all ? payload.all.find((m) => m.id === selected.entry.id) : null;

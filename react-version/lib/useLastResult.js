@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 const STORAGE_KEY = 'mms_last_result';
 
@@ -15,33 +15,71 @@ const STORAGE_KEY = 'mms_last_result';
  * has to survive real client-side navigation, not just being in different
  * DOM subtrees of one page - sessionStorage still does exactly that job.
  *
- * Returns [payload, setPayload]. payload is null until a quiz has actually
- * been submitted (this session) - every consumer must handle that null
- * case honestly (an empty/example state), never invent placeholder data.
+ * Returns { payload, setPayload, hydrated }. payload is null until a quiz
+ * has actually been submitted (this session) - every consumer must handle
+ * that null case honestly (an empty/example state), never invent
+ * placeholder data.
+ *
+ * Built on useSyncExternalStore rather than useState+useEffect (the
+ * original approach here) - not a style preference, but a fix for a real
+ * ESLint/React error: setting state synchronously inside an effect body
+ * causes an extra, avoidable render pass on every mount, which is exactly
+ * what useSyncExternalStore exists to solve for reading an external store
+ * (sessionStorage) without a hydration mismatch or a wasted render.
+ * getSnapshot caches its parsed result and only re-parses when the raw
+ * stored string actually changes, so repeated calls return a referentially
+ * stable value - required for useSyncExternalStore to avoid re-rendering
+ * on every call.
  */
-export function useLastResult() {
-  const [payload, setPayloadState] = useState(null);
-  const [hydrated, setHydrated] = useState(false);
+let cachedRaw;
+let cachedPayload;
 
-  useEffect(() => {
+function getSnapshot() {
+  let raw;
+  try {
+    raw = sessionStorage.getItem(STORAGE_KEY);
+  } catch {
+    raw = null; // sessionStorage unavailable (e.g. private mode) - non-fatal.
+  }
+  if (raw !== cachedRaw) {
+    cachedRaw = raw;
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      if (raw) setPayloadState(JSON.parse(raw));
+      cachedPayload = raw ? JSON.parse(raw) : null;
     } catch {
-      // sessionStorage unavailable (e.g. private mode) - non-fatal, caller
-      // just keeps showing its example/empty state.
+      cachedPayload = null;
     }
-    setHydrated(true);
-  }, []);
+  }
+  return cachedPayload;
+}
+
+function getServerSnapshot() {
+  return null; // No sessionStorage during SSR - honest "no result yet" state.
+}
+
+const listeners = new Set();
+function subscribe(callback) {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
+}
+
+export function useLastResult() {
+  const payload = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  // True once this has rendered on the client at least once - lets a
+  // consumer distinguish "still resolving" from "resolved to no result".
+  const hydrated = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  );
 
   const setPayload = useCallback((next) => {
-    setPayloadState(next);
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
       // Non-fatal - in-memory state (and thus the current page) still works,
       // it just won't survive navigating away and back.
     }
+    listeners.forEach((cb) => cb());
   }, []);
 
   return { payload, setPayload, hydrated };

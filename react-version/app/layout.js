@@ -2,6 +2,7 @@ import './globals.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // NOTE: next/font/google was tried here first (it self-hosts + optimizes
@@ -47,6 +48,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <ScrollReveal />
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
