@@ -8,6 +8,7 @@ import MattressUniverseScene from '@/components/MattressUniverseScene';
 import ScoreCoreScene from '@/components/ScoreCoreScene';
 import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
+import XRaySection from '@/components/XRaySection';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { useLastResult } from '@/lib/useLastResult';
 
@@ -127,6 +128,8 @@ export default function HomePage() {
           <MatchedMattressPanel top={top} />
         </div>
       </section>
+
+      <XRaySection />
     </div>
   );
 }
