@@ -6,6 +6,7 @@ import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
 import ScoreCoreScene from '@/components/ScoreCoreScene';
+import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { useLastResult } from '@/lib/useLastResult';
@@ -106,9 +107,20 @@ export default function HomePage() {
             )}
           </div>
 
-          <div>
-            <SixDimensionGallery subScores={top ? top.result.subScores : null} />
+          <ScoreMetrics subScores={top ? top.result.subScores : null} />
+        </div>
+
+        <div className="wrap">
+          <div className="dv-head">
+            <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
+              The six dimensions, visualized
+            </span>
+            <p style={{ color: 'var(--ink-dim)', maxWidth: 560 }}>
+              Each dimension gets its own read on your top match — brightness and motion scale with the real
+              sub-score, not a fixed animation.
+            </p>
           </div>
+          <SixDimensionGallery subScores={top ? top.result.subScores : null} />
         </div>
 
         <div className="wrap" style={{ marginTop: 56 }}>
