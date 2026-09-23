@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
@@ -10,6 +11,7 @@ import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
 import XRaySection from '@/components/XRaySection';
 import catalog from '@/lib/data/mattress-catalog.json';
+import { DIMENSION_TO_LAYER } from '@/lib/categories';
 import { useLastResult } from '@/lib/useLastResult';
 
 // Ring geometry matches the original project's SVG exactly (r=86, viewBox
@@ -23,6 +25,7 @@ export default function HomePage() {
   const top = payload?.top ?? null;
   const overallScore = top ? top.result.overallScore : null;
   const ringOffset = overallScore != null ? RING_CIRCUMFERENCE * (1 - overallScore / 100) : RING_CIRCUMFERENCE;
+  const xrayRef = useRef(null);
 
   return (
     <div>
@@ -108,7 +111,10 @@ export default function HomePage() {
             )}
           </div>
 
-          <ScoreMetrics subScores={top ? top.result.subScores : null} />
+          <ScoreMetrics
+            subScores={top ? top.result.subScores : null}
+            onDimensionClick={(cat) => xrayRef.current?.goToLayer(DIMENSION_TO_LAYER[cat])}
+          />
         </div>
 
         <div className="wrap">
@@ -129,7 +135,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <XRaySection />
+      <XRaySection ref={xrayRef} />
     </div>
   );
 }

@@ -24,3 +24,20 @@ export const CATEGORY_BLURB = {
   edge: 'A reinforced perimeter so the edge holds when you sit or sleep near it.',
   durability: 'Material density holds its shape instead of sagging over years of use.',
 };
+
+/**
+ * Ported exactly from the original project's DIMENSION_TO_LAYER: which
+ * X-Ray layer a score dimension jumps to when clicked. Illustrative
+ * (which layer a dimension mainly relates to in a typical hybrid
+ * construction), not a claim about the specific recommended mattress's
+ * exact internal materials, which the catalog doesn't carry yet - same
+ * caveat the original project documented alongside this mapping.
+ */
+export const DIMENSION_TO_LAYER = {
+  pressureRelief: 'comfort',
+  support: 'support',
+  heat: 'cover',
+  motion: 'transition',
+  edge: 'support',
+  durability: 'support',
+};

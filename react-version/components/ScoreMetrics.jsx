@@ -66,7 +66,7 @@ const DIM_ICONS = {
  * is deferred until the X-Ray section itself exists in this port - the
  * sm-hint text is shown but not yet wired to a real handler.
  */
-export default function ScoreMetrics({ subScores }) {
+export default function ScoreMetrics({ subScores, onDimensionClick }) {
   return (
     <div className="score-metrics">
       <div className="score-connector" aria-hidden="true">
@@ -76,8 +76,23 @@ export default function ScoreMetrics({ subScores }) {
         const value = subScores ? subScores[cat.key] : undefined;
         const hasValue = typeof value === 'number';
         const pct = hasValue ? Math.max(0, Math.min(100, (value / 10) * 100)) : 0;
+        const jump = () => onDimensionClick?.(cat.key);
         return (
-          <div className="sm-row" data-cat={cat.key} key={cat.key}>
+          <div
+            className="sm-row"
+            data-cat={cat.key}
+            key={cat.key}
+            tabIndex={0}
+            role="button"
+            aria-label={`See the related X-Ray layer for ${cat.label}`}
+            onClick={jump}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                jump();
+              }
+            }}
+          >
             <span className={`dim-icon dim-${cat.icon}`}>{DIM_ICONS[cat.key]}</span>
             <span className="sm-label">{cat.label}</span>
             <div className="sm-bar">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import AmbientParticles from './AmbientParticles';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
@@ -31,7 +31,7 @@ function clampNum(v, min, max) {
  * "current layer" state, exactly matching the original's single entry
  * point (goToXrayStep) that both call.
  */
-export default function XRaySection() {
+const XRaySection = forwardRef(function XRaySection(props, ref) {
   const trackRef = useRef(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -42,6 +42,18 @@ export default function XRaySection() {
 
   const activeLayer = XRAY_STEPS[stepIndex].layer;
   const isolating = activeLayer !== 'all';
+
+  function layerToStepIndex(layer) {
+    const idx = XRAY_STEPS.findIndex((s) => s.layer === layer);
+    return idx === -1 ? 0 : idx;
+  }
+
+  useImperativeHandle(ref, () => ({
+    /** Jumps to the given layer's pinned-stage position, same entry point buttons/dots use. */
+    goToLayer(layer) {
+      goToStep(layerToStepIndex(layer));
+    },
+  }));
 
   // Scroll-driven step advancement while the stage is pinned, ported
   // exactly (same rect math, same progress formula) from updateExplode().
@@ -107,11 +119,6 @@ export default function XRaySection() {
       window.scrollTo({ top: y + 2, behavior: 'smooth' });
     }
   }, [scrollYForStep]);
-
-  function layerToStepIndex(layer) {
-    const idx = XRAY_STEPS.findIndex((s) => s.layer === layer);
-    return idx === -1 ? 0 : idx;
-  }
 
   function onDragStart(e) {
     isDraggingRef.current = true;
@@ -286,4 +293,6 @@ export default function XRaySection() {
       </div>
     </section>
   );
-}
+});
+
+export default XRaySection;
