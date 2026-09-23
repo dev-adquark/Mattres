@@ -18,3 +18,20 @@ export const brandCollab = {
     to: 'var(--violet-500)',
   },
 };
+
+/**
+ * Generic placeholder partner list for the brand marquee strip. Real
+ * partner names/links later means editing this array, not the
+ * BrandMarquee component - same swap-via-config principle as
+ * brandCollab above.
+ */
+export const brandPartners = [
+  { name: 'Northline Sleep Co.' },
+  { name: 'Aurora Bedding' },
+  { name: 'Cedar & Stone' },
+  { name: 'Drift Supply' },
+  { name: 'Haven Mattress Lab' },
+  { name: 'Solace Home' },
+  { name: 'Restwell Studio' },
+  { name: 'Nightfall & Co.' },
+];

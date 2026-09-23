@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AnimatedLogo from './AnimatedLogo';
 import AmbientParticles from './AmbientParticles';
+import BrandMarquee from './BrandMarquee';
 
 export default function Footer() {
   return (
@@ -31,6 +32,14 @@ export default function Footer() {
             <Link href="/disclosures">About</Link>
           </div>
         </div>
+
+        <div style={{ margin: '8px 0 28px' }}>
+          <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
+            Mattress makers we work with
+          </span>
+          <BrandMarquee />
+        </div>
+
         <div className="foot-bottom">
           <span>© 2026 Mattress Match Score. All rights reserved.</span>
           <div className="legal">

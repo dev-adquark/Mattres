@@ -1639,3 +1639,73 @@
     filter:blur(22px);
     pointer-events:none;
   }
+
+  /* ============================================================
+     Fill-density additions: partner marquee, dot-grid texture for
+     otherwise-plain light sections, floating ambient orbs. Additive
+     only. Every animated rule paired with its reduced-motion override.
+     ============================================================ */
+
+  /* Subtle dot-grid texture for plain light sections (Compare/
+     Methodology/Disclosures/Buying-Guide content areas, dv-gallery
+     backdrop) so they don't read as flat empty space next to the
+     richer dark sections. Static - not motion, so no reduced-motion
+     branch needed. */
+  .dot-grid-bg{
+    position:relative;
+  }
+  .dot-grid-bg::before{
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(rgba(15,33,64,0.06) 1px, transparent 1px);
+    background-size:22px 22px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  .dot-grid-bg > *{ position:relative; z-index:1; }
+
+  /* Partner logo marquee: two duplicated rows so the CSS translateX
+     loop is seamless (the second copy is what scrolls into the gap
+     left by the first). Pauses on hover so it can actually be read,
+     and becomes a plain static wrapped row under reduced-motion
+     rather than an infinite loop that can't be turned off. */
+  .brand-marquee{
+    position:relative; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .brand-marquee-track{
+    display:flex; gap:48px; width:max-content;
+    animation:marqueeScroll 28s linear infinite;
+  }
+  .brand-marquee:hover .brand-marquee-track{ animation-play-state:paused; }
+  @keyframes marqueeScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){
+    .brand-marquee-track{ animation:none; flex-wrap:wrap; width:auto; }
+    .brand-marquee{ -webkit-mask-image:none; mask-image:none; }
+  }
+  .brand-chip{
+    display:flex; align-items:center; gap:9px; flex-shrink:0;
+    padding:10px 18px; border-radius:999px;
+    background:rgba(255,255,255,0.04); border:1px solid var(--glass-border);
+    color:var(--ink-dim); font-size:13.5px; font-weight:600; white-space:nowrap;
+  }
+  .brand-marquee.on-light .brand-chip{
+    background:#fff; border-color:#e4ecf1; color:var(--slate-600);
+    box-shadow:0 1px 2px rgba(15,33,64,0.04);
+  }
+  .brand-chip-dot{ width:7px; height:7px; border-radius:50%; background:var(--cyan-400); flex-shrink:0; }
+
+  /* Floating ambient glow orbs - decorative fillers for wide empty
+     margins next to text-heavy columns. Slow drift, full stop under
+     reduced-motion (purely decorative motion, same treatment as
+     .aurora-bg span). */
+  .float-orb{
+    position:absolute; border-radius:50%; filter:blur(50px); opacity:0.25;
+    pointer-events:none; z-index:0;
+    animation:orbFloat 16s ease-in-out infinite;
+  }
+  @keyframes orbFloat{
+    0%,100%{ transform:translate(0,0); }
+    50%{ transform:translate(3%,-6%); }
+  }
+  @media (prefers-reduced-motion: reduce){ .float-orb{ animation:none; } }

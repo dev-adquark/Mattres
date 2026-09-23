@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BrandMarquee from '@/components/BrandMarquee';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
@@ -51,7 +52,11 @@ export default function ComparePage() {
         </div>
       </header>
 
-      <section className="section">
+      <div className="wrap" style={{ padding: '26px 24px 0' }}>
+        <BrandMarquee onLight />
+      </div>
+
+      <section className="section dot-grid-bg">
         <div className="wrap">
           <div className="compare-toolbar">
             <div className="chips">

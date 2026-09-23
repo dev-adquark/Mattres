@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
+import BrandMarquee from '@/components/BrandMarquee';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
@@ -147,6 +148,12 @@ export default function HomePage() {
       <section className="section" style={{ paddingTop: 40, paddingBottom: 40 }}>
         <div className="wrap">
           <BrandCollabSlot />
+          <div style={{ marginTop: 36 }}>
+            <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
+              Mattress makers we work with
+            </span>
+            <BrandMarquee />
+          </div>
         </div>
       </section>
 

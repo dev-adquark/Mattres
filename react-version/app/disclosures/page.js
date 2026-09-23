@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BrandMarquee from '@/components/BrandMarquee';
 import SpotlightCard from '@/components/SpotlightCard';
 
 export const metadata = {
@@ -17,7 +18,11 @@ export default function DisclosuresPage() {
         </div>
       </header>
 
-      <section className="section">
+      <div className="wrap" style={{ padding: '26px 24px 0' }}>
+        <BrandMarquee onLight />
+      </div>
+
+      <section className="section dot-grid-bg">
         <div className="wrap disc-wrap">
           <SpotlightCard as="div" onLight className="disc-block">
             <h3>

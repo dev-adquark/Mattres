@@ -1,4 +1,5 @@
 import rules from '@/lib/rules/0.1.json';
+import BrandMarquee from '@/components/BrandMarquee';
 import SpotlightCard from '@/components/SpotlightCard';
 
 // Same radar formula as the original project's static methodology page
@@ -134,7 +135,11 @@ export default function MethodologyPage() {
         </div>
       </header>
 
-      <section className="section">
+      <div className="wrap" style={{ padding: '26px 24px 0' }}>
+        <BrandMarquee onLight />
+      </div>
+
+      <section className="section dot-grid-bg">
         <div className="wrap">
           <div className="section-head" style={{ marginBottom: 40 }}>
             <span className="eyebrow-dark">The model</span>
