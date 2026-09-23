@@ -3,12 +3,15 @@
 import Link from 'next/link';
 import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
+import BrandCollabSlot from '@/components/BrandCollabSlot';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
+import NumberTicker from '@/components/NumberTicker';
 import ScoreCoreScene from '@/components/ScoreCoreScene';
 import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
+import SpotlightCard from '@/components/SpotlightCard';
 import XRaySection from '@/components/XRaySection';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { DIMENSION_TO_LAYER } from '@/lib/categories';
@@ -25,6 +28,10 @@ export default function HomePage() {
   const top = payload?.top ?? null;
   const overallScore = top ? top.result.overallScore : null;
   const ringOffset = overallScore != null ? RING_CIRCUMFERENCE * (1 - overallScore / 100) : RING_CIRCUMFERENCE;
+  // Real-data glow: intensity scales with the actual score (0-100 -> a
+  // 0.15-0.55 opacity range), so a stronger match visibly glows more -
+  // never a fixed decorative value, and never shown at all pre-quiz.
+  const ringGlow = overallScore != null ? 0.15 + (overallScore / 100) * 0.4 : 0;
   const xrayRef = useRef(null);
 
   return (
@@ -66,7 +73,7 @@ export default function HomePage() {
             <h2 style={{ color: 'var(--ink)', marginBottom: 22 }}>Match Score</h2>
             <div className="score-core-wrap">
               <ScoreCoreScene />
-              <div className="score-ring-visual">
+              <div className="score-ring-visual" style={{ '--ring-glow': ringGlow }}>
                 <svg viewBox="0 0 200 200" className="score-ring-svg">
                   <defs>
                     <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -88,7 +95,9 @@ export default function HomePage() {
                   />
                 </svg>
                 <div className="score-ring-center">
-                  <span className="score-ring-num">{overallScore != null ? overallScore : '—'}</span>
+                  <span className="score-ring-num">
+                    <NumberTicker value={overallScore} />
+                  </span>
                   <span className="score-ring-label">
                     {top ? `MATCH · ${top.entry.brand.toUpperCase()}` : 'TAKE THE QUIZ'}
                   </span>
@@ -132,6 +141,12 @@ export default function HomePage() {
 
         <div className="wrap" style={{ marginTop: 56 }}>
           <MatchedMattressPanel top={top} />
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 40, paddingBottom: 40 }}>
+        <div className="wrap">
+          <BrandCollabSlot />
         </div>
       </section>
 

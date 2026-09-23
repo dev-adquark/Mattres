@@ -40,6 +40,7 @@ export default function ComparePage() {
   return (
     <div>
       <header className="page-hero">
+        <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
           <span className="eyebrow">Compare · Side sleepers under $1,000</span>
           <h1 className="ph-title">Best mattresses for side sleepers under $1,000</h1>

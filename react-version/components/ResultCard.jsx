@@ -2,6 +2,7 @@
 
 import { CATEGORIES } from '@/lib/categories';
 import MattressThumb from './MattressThumb';
+import SpotlightCard from './SpotlightCard';
 
 /**
  * Renders one scored mattress. Every value here comes from the API
@@ -13,7 +14,7 @@ export default function ResultCard({ item, compareChecked, onCompareToggle }) {
   const { entry, result, badge, displayTitle, whyThisMatch, preselect } = item;
 
   return (
-    <article className="compare-card" data-mattress-id={entry.id}>
+    <SpotlightCard as="article" beam onLight className="compare-card" data-mattress-id={entry.id}>
       <MattressThumb entry={entry} />
       <label className="result-select">
         <input
@@ -87,6 +88,6 @@ export default function ResultCard({ item, compareChecked, onCompareToggle }) {
           <path d="M5 12h14M13 6l6 6-6 6" />
         </svg>
       </a>
-    </article>
+    </SpotlightCard>
   );
 }

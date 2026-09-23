@@ -1,4 +1,5 @@
 import { CATEGORIES } from '@/lib/categories';
+import SpotlightCard from './SpotlightCard';
 
 // Ported exactly from the original project's radar chart computation
 // (index.html, the radarPolygon block): same axis order, same angles,
@@ -78,7 +79,8 @@ export default function ScoreMetrics({ subScores, onDimensionClick }) {
         const pct = hasValue ? Math.max(0, Math.min(100, (value / 10) * 100)) : 0;
         const jump = () => onDimensionClick?.(cat.key);
         return (
-          <div
+          <SpotlightCard
+            as="div"
             className="sm-row"
             data-cat={cat.key}
             key={cat.key}
@@ -100,7 +102,7 @@ export default function ScoreMetrics({ subScores, onDimensionClick }) {
             </div>
             <b>{hasValue ? value.toFixed(1) : '—'}</b>
             <span className="sm-hint">View in X-Ray →</span>
-          </div>
+          </SpotlightCard>
         );
       })}
 

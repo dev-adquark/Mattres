@@ -1,4 +1,5 @@
 import rules from '@/lib/rules/0.1.json';
+import SpotlightCard from '@/components/SpotlightCard';
 
 // Same radar formula as the original project's static methodology page
 // (reverse-engineered and verified against its exact points: r = weight
@@ -122,6 +123,7 @@ export default function MethodologyPage() {
   return (
     <div>
       <header className="page-hero">
+        <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
           <span className="eyebrow">Methodology · Scoring model v{rules.version}</span>
           <h1 className="ph-title">How the Match Score works</h1>
@@ -180,7 +182,7 @@ export default function MethodologyPage() {
 
           <div className="method-grid">
             {CATEGORIES.map((cat, i) => (
-              <div className="method-card" key={cat.key} style={{ transitionDelay: `${i * 80}ms` }}>
+              <SpotlightCard as="div" onLight className="method-card" key={cat.key} style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="mc-top">
                   <span className="p-num" style={{ margin: 0 }}>
                     {cat.icon}
@@ -189,7 +191,7 @@ export default function MethodologyPage() {
                 </div>
                 <h4>{cat.label}</h4>
                 <p>{cat.desc}</p>
-              </div>
+              </SpotlightCard>
             ))}
           </div>
         </div>

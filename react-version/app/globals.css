@@ -1432,3 +1432,144 @@
     background-image:linear-gradient(90deg,rgba(63,212,255,0.15) 1px,transparent 1px);
     background-size:28px 100%;opacity:0.5;
   }
+
+  /* ============================================================
+     Premium visual system additions: spotlight cards, border-beam,
+     aurora backgrounds, shimmer CTAs, glow rings. Additive utility
+     classes only - nothing existing is redefined or removed. Every
+     animated rule below has an immediate prefers-reduced-motion
+     override, matching the pattern already used throughout this file.
+     ============================================================ */
+
+  /* Spotlight card: a cursor-tracked radial highlight + soft border glow.
+     --mx/--my are set via pointermove in the SpotlightCard component;
+     with JS disabled or before first move they default to center, so
+     the card still looks intentional (a static soft glow), not broken. */
+  .spotlight-card{
+    position:relative;
+    --mx:50%; --my:50%;
+    isolation:isolate;
+  }
+  .spotlight-card::before{
+    content:"";
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    border-radius:inherit;
+    background:radial-gradient(480px circle at var(--mx) var(--my), rgba(63,212,255,0.14), transparent 62%);
+    opacity:0; transition:opacity .35s ease;
+  }
+  .spotlight-card:hover::before, .spotlight-card:focus-within::before{ opacity:1; }
+  .spotlight-card.on-light::before{
+    background:radial-gradient(480px circle at var(--mx) var(--my), rgba(34,201,176,0.12), transparent 62%);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spotlight-card::before{ transition:none; }
+  }
+
+  /* Border-beam: a slim conic-gradient light chasing the card's border.
+     Purely decorative motion, so it gets a full stop (not just a faster
+     transition) under reduced-motion, same treatment as .logo-glow above. */
+  .border-beam{ position:relative; }
+  .border-beam::after{
+    content:""; position:absolute; inset:-1px; z-index:-1; border-radius:inherit;
+    padding:1px;
+    background:conic-gradient(from var(--beam-angle,0deg), transparent 0 70%, var(--cyan-400) 78%, var(--electric-400) 84%, transparent 92%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    animation:beamRotate 5.5s linear infinite;
+    opacity:0; transition:opacity .3s ease;
+  }
+  .border-beam:hover::after, .border-beam:focus-within::after{ opacity:1; }
+  @keyframes beamRotate{ to{ --beam-angle:360deg; } }
+  @property --beam-angle{ syntax:'<angle>'; inherits:false; initial-value:0deg; }
+  @media (prefers-reduced-motion: reduce){
+    .border-beam::after{ animation:none; opacity:0 !important; }
+  }
+
+  /* Aurora background: slow, large-radius gradient blobs drifting behind
+     content. Used on otherwise-flat page heroes (Compare/Methodology/
+     Disclosures/Buying-Guide) to match the depth already present on the
+     homepage hero. Sits behind content via z-index/pointer-events:none,
+     same convention as .ambient-canvas. */
+  .aurora-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .aurora-bg span{
+    position:absolute; border-radius:50%; filter:blur(60px); opacity:0.35;
+    animation:auroraDrift 22s ease-in-out infinite;
+  }
+  .aurora-bg span:nth-child(1){ width:420px; height:420px; left:-8%; top:-20%; background:var(--electric-500); animation-delay:0s; }
+  .aurora-bg span:nth-child(2){ width:360px; height:360px; right:-10%; top:10%; background:var(--violet-500); animation-delay:-7s; }
+  .aurora-bg span:nth-child(3){ width:320px; height:320px; left:30%; bottom:-25%; background:var(--teal-500); animation-delay:-14s; }
+  @keyframes auroraDrift{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    33%{ transform:translate(4%,6%) scale(1.08); }
+    66%{ transform:translate(-3%,-4%) scale(0.96); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .aurora-bg span{ animation:none; }
+  }
+
+  /* Shimmer sweep for primary CTAs, layered on top of the existing
+     .btn-primary gradient-shift animation rather than replacing it. */
+  .btn-primary{ position:relative; overflow:hidden; }
+  .btn-primary::before{
+    content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform:skewX(-20deg);
+    transition:left .65s ease;
+    pointer-events:none;
+  }
+  .btn-primary:hover::before{ left:130%; }
+  @media (prefers-reduced-motion: reduce){
+    .btn-primary::before{ transition:none; }
+    .btn-primary:hover::before{ left:-60%; }
+  }
+
+  /* Score ring glow: intensity is driven inline (via the ringGlow CSS
+     var, set from the real overallScore in ScoreCoreScene/page.js) so a
+     higher real score reads as a visibly stronger glow - a real-data
+     visualization, not a decorative default. */
+  .score-ring-visual{ position:relative; }
+  .score-ring-visual::before{
+    content:""; position:absolute; inset:-18px; z-index:-1; border-radius:50%;
+    background:radial-gradient(circle, rgba(63,212,255, var(--ring-glow, 0.25)), transparent 68%);
+    filter:blur(6px);
+    transition:opacity .8s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .score-ring-visual::before{ transition:none; }
+  }
+
+  /* Number ticker: no animation keyframes needed (counted via rAF in
+     JS), just a tabular-nums lock so digits don't jitter the layout as
+     they change. */
+  .num-ticker{ font-variant-numeric:tabular-nums; }
+
+  /* Generic reveal-on-scroll wrapper for sections that don't already
+     have their own scroll-reveal treatment (ScrollReveal.jsx targets
+     .reveal already; this reuses that exact class, not a new one). */
+
+  /* Brand collab slot */
+  .collab-card{
+    position:relative; border-radius:22px; overflow:hidden;
+    background:linear-gradient(160deg, rgba(12,24,44,0.9), rgba(15,33,64,0.75));
+    border:1px solid var(--glass-border);
+    padding:36px;
+    display:grid; grid-template-columns:auto 1fr auto; gap:28px; align-items:center;
+  }
+  @media (max-width:760px){ .collab-card{ grid-template-columns:1fr; text-align:center; } }
+  .collab-logo-wrap{
+    width:64px; height:64px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.06); border:1px solid var(--glass-border);
+    color:var(--cyan-300); flex-shrink:0;
+  }
+  @media (max-width:760px){ .collab-logo-wrap{ margin:0 auto; } }
+  .collab-eyebrow{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan-400); margin-bottom:8px; }
+  .collab-eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan-400); }
+  .collab-card h3{ color:var(--ink); font-size:22px; margin:0 0 6px; }
+  .collab-card p{ color:var(--ink-dim); font-size:14.5px; margin:0; max-width:44ch; }
+  @media (max-width:760px){ .collab-card p{ margin:0 auto; } }
+  .collab-art-wrap{
+    width:96px; height:96px; border-radius:18px; flex-shrink:0; overflow:hidden;
+    background:linear-gradient(140deg, var(--electric-500), var(--violet-500));
+    display:flex; align-items:center; justify-content:center; color:#fff;
+  }
+  @media (max-width:760px){ .collab-art-wrap{ margin:0 auto; } }

@@ -1,3 +1,5 @@
+import SpotlightCard from '@/components/SpotlightCard';
+
 export const metadata = {
   title: 'Smart Buying Guide — Mattress Match Score',
   description:
@@ -8,6 +10,7 @@ export default function SmartBuyingGuidePage() {
   return (
     <div>
       <header className="page-hero">
+        <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
           <span className="eyebrow">Buying Guide</span>
           <h1 className="ph-title">Smart Buying Guide</h1>
@@ -21,7 +24,7 @@ export default function SmartBuyingGuidePage() {
 
       <section className="section">
         <div className="wrap disc-wrap">
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -42,9 +45,9 @@ export default function SmartBuyingGuidePage() {
               <li>Ignore both extremes; the useful detail sits in the middle ratings.</li>
             </ul>
             <p>One specific, repeated complaint is worth more than a hundred generic five-star ratings.</p>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -64,9 +67,9 @@ export default function SmartBuyingGuidePage() {
               <li>Track the price for a week before buying; discounts are often measured against inflated reference prices.</li>
               <li>If the improvement in the new model does not affect your requirement list, buy the old one.</li>
             </ul>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -90,9 +93,9 @@ export default function SmartBuyingGuidePage() {
               A shorter warranty from a company that answers the phone is often worth more than a longer one that
               requires a claim process.
             </div>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -111,9 +114,9 @@ export default function SmartBuyingGuidePage() {
               <li>Comparing a discounted price against a reference price that never applied.</li>
             </ul>
             <p>Urgency is the most reliable warning sign. A genuinely good option is still a good option tomorrow.</p>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block contact-block">
+          <SpotlightCard as="div" onLight className="disc-block contact-block">
             <h3>Before you commit — a short checklist</h3>
             <ul style={{ margin: '0 0 14px', paddingLeft: 20, color: 'var(--slate-600)' }}>
               <li>Does it meet every item on your requirement list?</li>
@@ -122,7 +125,7 @@ export default function SmartBuyingGuidePage() {
               <li>Do you understand the return window?</li>
             </ul>
             <p>If all four are yes, further research usually changes very little.</p>
-          </div>
+          </SpotlightCard>
         </div>
       </section>
     </div>

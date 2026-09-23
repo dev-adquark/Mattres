@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SpotlightCard from '@/components/SpotlightCard';
 
 export const metadata = {
   title: 'Affiliate & sponsored listing disclosures — Mattress Match Score',
@@ -8,6 +9,7 @@ export default function DisclosuresPage() {
   return (
     <div>
       <header className="page-hero">
+        <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
           <span className="eyebrow">Policies</span>
           <h1 className="ph-title">Affiliate &amp; sponsored listing disclosures</h1>
@@ -17,7 +19,7 @@ export default function DisclosuresPage() {
 
       <section className="section">
         <div className="wrap disc-wrap">
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -32,9 +34,9 @@ export default function DisclosuresPage() {
               site, and some listings are paid placements from mattress brands and retailers. Neither arrangement is
               required for a mattress to appear in your results.
             </p>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -52,9 +54,9 @@ export default function DisclosuresPage() {
               This site contains affiliate links. As an affiliate, we may earn a commission on qualifying purchases,
               in accordance with FTC guidelines on endorsements and disclosures.
             </div>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -77,9 +79,9 @@ export default function DisclosuresPage() {
               Sponsored slots are visually and structurally separate from algorithmic rankings — a sponsored listing
               is never blended into, or substituted for, a mattress&apos;s Match Score position.
             </p>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block">
+          <SpotlightCard as="div" onLight className="disc-block">
             <h3>
               <span className="disc-ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -94,9 +96,9 @@ export default function DisclosuresPage() {
               <Link href="/methodology">methodology</Link>. Advertisers cannot purchase a higher score, alter
               sub-scores, or remove a risk flag.
             </p>
-          </div>
+          </SpotlightCard>
 
-          <div className="disc-block contact-block">
+          <SpotlightCard as="div" onLight className="disc-block contact-block">
             <h3>Questions about a listing?</h3>
             <p>
               If something looks off — outdated pricing, a missing disclosure, a flag you disagree with — tell us
@@ -105,7 +107,7 @@ export default function DisclosuresPage() {
             <a href="mailto:hello@mattressmatchscore.example" className="btn btn-ghost-dark">
               Contact the editorial team
             </a>
-          </div>
+          </SpotlightCard>
         </div>
       </section>
     </div>
