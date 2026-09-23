@@ -42,10 +42,11 @@ export default function ResultsGrid({ results }) {
       </div>
 
       <div className="compare-grid" id="matchResultsGrid">
-        {results.map((item) => (
+        {results.map((item, i) => (
           <ResultCard
             key={item.entry.id}
             item={item}
+            index={i}
             compareChecked={selectedIds.includes(item.entry.id)}
             onCompareToggle={toggleCompare}
           />

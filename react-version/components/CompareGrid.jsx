@@ -17,8 +17,8 @@ export default function CompareGrid({ results }) {
 
   return (
     <div className="compare-grid">
-      {results.map((item) => (
-        <ResultCard key={item.entry.id} item={item} compareChecked={false} onCompareToggle={noOpToggle} />
+      {results.map((item, i) => (
+        <ResultCard key={item.entry.id} item={item} index={i} compareChecked={false} onCompareToggle={noOpToggle} />
       ))}
     </div>
   );

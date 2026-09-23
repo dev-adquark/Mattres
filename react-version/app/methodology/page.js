@@ -182,7 +182,7 @@ export default function MethodologyPage() {
 
           <div className="method-grid">
             {CATEGORIES.map((cat, i) => (
-              <SpotlightCard as="div" onLight className="method-card" key={cat.key} style={{ transitionDelay: `${i * 80}ms` }}>
+              <SpotlightCard as="div" onLight className="method-card reveal-up" key={cat.key} style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="mc-top">
                   <span className="p-num" style={{ margin: 0 }}>
                     {cat.icon}

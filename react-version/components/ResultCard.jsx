@@ -10,11 +10,21 @@ import SpotlightCard from './SpotlightCard';
  * this component. Ported from the original project's compare-card
  * template, one field at a time, rather than reconstructed from memory.
  */
-export default function ResultCard({ item, compareChecked, onCompareToggle }) {
+export default function ResultCard({ item, index = 0, compareChecked, onCompareToggle }) {
   const { entry, result, badge, displayTitle, whyThisMatch, preselect } = item;
+  // Capped stagger: a 12-card grid shouldn't push the last card's reveal
+  // delay out past what still feels responsive.
+  const staggerMs = Math.min(index, 7) * 70;
 
   return (
-    <SpotlightCard as="article" beam onLight className="compare-card" data-mattress-id={entry.id}>
+    <SpotlightCard
+      as="article"
+      beam
+      onLight
+      className="compare-card reveal-up"
+      data-mattress-id={entry.id}
+      style={{ transitionDelay: `${staggerMs}ms` }}
+    >
       <MattressThumb entry={entry} />
       <label className="result-select">
         <input
