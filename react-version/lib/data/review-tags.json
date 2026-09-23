@@ -1,0 +1,260 @@
+{
+  "vocabularyVersion": "0.1",
+  "generatedFrom": "data/raw/reviews-raw.json",
+  "controlledVocabulary": [
+    {
+      "tag": "sleepsHot",
+      "label": "Sleeps hot",
+      "sentiment": "negative",
+      "category": "heat"
+    },
+    {
+      "tag": "coolSleeper",
+      "label": "Sleeps cool",
+      "sentiment": "positive",
+      "category": "heat"
+    },
+    {
+      "tag": "greatEdgeSupport",
+      "label": "Great edge support",
+      "sentiment": "positive",
+      "category": "edge"
+    },
+    {
+      "tag": "poorEdgeSupport",
+      "label": "Weak edge support",
+      "sentiment": "negative",
+      "category": "edge"
+    },
+    {
+      "tag": "tooFirm",
+      "label": "Too firm",
+      "sentiment": "negative",
+      "category": "firmness"
+    },
+    {
+      "tag": "tooSoft",
+      "label": "Too soft",
+      "sentiment": "negative",
+      "category": "firmness"
+    },
+    {
+      "tag": "offGassing",
+      "label": "Off-gassing / chemical smell",
+      "sentiment": "negative",
+      "category": "chemical"
+    },
+    {
+      "tag": "motionIsolationGood",
+      "label": "Good motion isolation",
+      "sentiment": "positive",
+      "category": "motion"
+    },
+    {
+      "tag": "sagsAfterTime",
+      "label": "Sags after time",
+      "sentiment": "negative",
+      "category": "durability"
+    },
+    {
+      "tag": "pressureReliefGood",
+      "label": "Good pressure relief",
+      "sentiment": "positive",
+      "category": "pressure"
+    },
+    {
+      "tag": "greatValue",
+      "label": "Great value",
+      "sentiment": "positive",
+      "category": "value"
+    }
+  ],
+  "reviewHighlightsByMattress": {
+    "aurora-sleep-aurora-hybrid": [
+      {
+        "tag": "greatEdgeSupport",
+        "label": "Great edge support",
+        "sentiment": "positive",
+        "category": "edge",
+        "confidence": "medium",
+        "matchCount": 2,
+        "snippet": "The edge support is fantastic, we never feel like we'll roll off even sitting right on the side."
+      },
+      {
+        "tag": "motionIsolationGood",
+        "label": "Good motion isolation",
+        "sentiment": "positive",
+        "category": "motion",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "I barely notice when my partner gets up at night, motion isolation is great."
+      }
+    ],
+    "cloudline-cloudline-original": [
+      {
+        "tag": "sleepsHot",
+        "label": "Sleeps hot",
+        "sentiment": "negative",
+        "category": "heat",
+        "confidence": "high",
+        "matchCount": 3,
+        "snippet": "I run hot on this one, wish it slept cooler."
+      },
+      {
+        "tag": "pressureReliefGood",
+        "label": "Good pressure relief",
+        "sentiment": "positive",
+        "category": "pressure",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Contours to my hips and shoulder without ever feeling stuck, great pressure relief."
+      }
+    ],
+    "terrafoam-terrafoam-cool": [
+      {
+        "tag": "coolSleeper",
+        "label": "Sleeps cool",
+        "sentiment": "positive",
+        "category": "heat",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Stays cool all night which surprised me for a foam mattress."
+      },
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Way too firm for my side-sleeping shoulder, definitely too firm out of the box."
+      }
+    ],
+    "nimbus-nimbus-pocket-coil": [
+      {
+        "tag": "greatValue",
+        "label": "Great value",
+        "sentiment": "positive",
+        "category": "value",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Great value for a mattress in this price range, would recommend to a friend."
+      },
+      {
+        "tag": "sagsAfterTime",
+        "label": "Sags after time",
+        "sentiment": "negative",
+        "category": "durability",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "After about eight months it started to sag right in the middle of the bed."
+      }
+    ],
+    "stratus-stratus-latex-hybrid": [
+      {
+        "tag": "offGassing",
+        "label": "Off-gassing / chemical smell",
+        "sentiment": "negative",
+        "category": "chemical",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "There was a strange smell when we unboxed it, definitely some off-gassing the first week."
+      },
+      {
+        "tag": "poorEdgeSupport",
+        "label": "Weak edge support",
+        "sentiment": "negative",
+        "category": "edge",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Edge support could be better, I feel like I might roll off if I sit near the side."
+      }
+    ],
+    "baseline-baseline-firm-innerspring": [
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Definitely too firm for anyone who likes a softer feel, my hips ached the first few nights."
+      }
+    ],
+    "drift-drift-plush-foam": [
+      {
+        "tag": "offGassing",
+        "label": "Off-gassing / chemical smell",
+        "sentiment": "negative",
+        "category": "chemical",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "We could smell a chemical odor when we first unboxed it, took a few days to fade."
+      },
+      {
+        "tag": "tooSoft",
+        "label": "Too soft",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Sinks in a lot, sometimes feels like there's no support at all for my lower back."
+      }
+    ],
+    "anchor-anchor-hybrid-support": [
+      {
+        "tag": "motionIsolationGood",
+        "label": "Good motion isolation",
+        "sentiment": "positive",
+        "category": "motion",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "My partner moves around a lot and I don't feel a thing, great motion isolation on this one."
+      }
+    ],
+    "coastal-coastal-cool-gel-foam": [
+      {
+        "tag": "sleepsHot",
+        "label": "Sleeps hot",
+        "sentiment": "negative",
+        "category": "heat",
+        "confidence": "medium",
+        "matchCount": 2,
+        "snippet": "This one runs really hot, I wake up sweaty most nights even with the gel foam."
+      }
+    ],
+    "summit-summit-innerspring-classic": [
+      {
+        "tag": "sagsAfterTime",
+        "label": "Sags after time",
+        "sentiment": "negative",
+        "category": "durability",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Started sagging after about a year of regular use, disappointing for an innerspring."
+      }
+    ],
+    "halcyon-halcyon-hybrid-plus": [
+      {
+        "tag": "greatEdgeSupport",
+        "label": "Great edge support",
+        "sentiment": "positive",
+        "category": "edge",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Really solid edge support, great for sitting on the side to put on shoes in the morning."
+      }
+    ],
+    "vale-vale-budget-foam": [
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "A bit too firm out of the box but softened slightly after a few weeks of use."
+      }
+    ]
+  }
+}

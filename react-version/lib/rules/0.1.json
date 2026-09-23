@@ -1,0 +1,176 @@
+{
+  "version": "0.1",
+  "description": "Initial scoring model skeleton. Weights, baselines, and thresholds below are placeholders for design/demo purposes and have not been calibrated against real product data.",
+
+  "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"],
+
+  "weights": {
+    "pressureRelief": 0.20,
+    "support": 0.25,
+    "heat": 0.15,
+    "motion": 0.15,
+    "edge": 0.15,
+    "durability": 0.10
+  },
+
+  "weightBands": [
+    { "key": "under-130", "maxLb": 130 },
+    { "key": "130-180", "minLb": 130, "maxLb": 180 },
+    { "key": "180-230", "minLb": 180, "maxLb": 230 },
+    { "key": "over-230", "minLb": 230 }
+  ],
+
+  "firmnessLabelScale": {
+    "soft": 2,
+    "medium-soft": 4,
+    "medium": 5.5,
+    "medium-firm": 7,
+    "firm": 8.5,
+    "extra-firm": 10
+  },
+
+  "firmnessComfortBands": {
+    "side": {
+      "under-130": [2, 5],
+      "130-180": [3, 6],
+      "180-230": [5, 8],
+      "over-230": [6, 9]
+    },
+    "back": {
+      "under-130": [4, 7],
+      "130-180": [5, 8],
+      "180-230": [6, 9],
+      "over-230": [7, 10]
+    },
+    "stomach": {
+      "under-130": [5, 8],
+      "130-180": [6, 9],
+      "180-230": [7, 10],
+      "over-230": [8, 10]
+    },
+    "combination": {
+      "under-130": [4, 7],
+      "130-180": [5, 8],
+      "180-230": [6, 9],
+      "over-230": [7, 10]
+    }
+  },
+
+  "mattressTypeBaselines": {
+    "hybrid":      { "pressureRelief": 7, "support": 8, "heat": 7, "motion": 7, "edge": 7, "durability": 7 },
+    "foam":        { "pressureRelief": 9, "support": 6, "heat": 4, "motion": 9, "edge": 5, "durability": 6 },
+    "innerspring": { "pressureRelief": 4, "support": 7, "heat": 8, "motion": 4, "edge": 8, "durability": 6 },
+    "latex":       { "pressureRelief": 8, "support": 8, "heat": 6, "motion": 6, "edge": 6, "durability": 9 },
+    "default":     { "pressureRelief": 6, "support": 6, "heat": 6, "motion": 6, "edge": 6, "durability": 6 }
+  },
+
+  "adjustments": {
+    "supportPenaltyPerFirmnessPoint": 0.6,
+    "supportBonusInBand": 0.5,
+    "pressureReliefPenaltyPerFirmnessPoint": 0.4,
+    "pressureReliefBonusWhenSofterThanBand": 0.5,
+    "coolingCoverHeatBonus": 1.0,
+    "noCoolingFoamHeatPenalty": 1.0,
+    "reinforcedEdgeBonus": 1.5,
+    "coupleHighMotionPenaltyLowIsolationTypes": 1.0,
+    "lowDensityHighWeightDurabilityPenalty": 2.0,
+    "highDensityDurabilityBonus": 0.5
+  },
+
+  "thresholds": {
+    "heatRetentionMaxHeatScore": 6,
+    "edgeSupportMinScore": 6,
+    "durabilityMinFoamDensityLbFt3": 1.8,
+    "durabilityHighWeightLb": 200,
+    "lowIsolationTypesForCoupleHigh": ["innerspring"]
+  },
+
+  "categoryRuleCatalog": [
+    {
+      "id": "BASELINE_BY_TYPE",
+      "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"],
+      "description": "Starting sub-scores come from mattressTypeBaselines for the mattress's construction type, before any profile-specific adjustment."
+    },
+    {
+      "id": "SUPPORT_BAND_BONUS",
+      "categories": ["support"],
+      "description": "Firmness rating falls inside the sleeper's comfort band; a small bonus is applied to the support sub-score."
+    },
+    {
+      "id": "SUPPORT_BAND_PENALTY",
+      "categories": ["support"],
+      "description": "Firmness rating falls outside the sleeper's comfort band; support is penalized proportionally to how many points outside the band it sits."
+    },
+    {
+      "id": "PRESSURE_RELIEF_SOFTER_BONUS",
+      "categories": ["pressureRelief"],
+      "description": "Firmness rating is softer than the comfort band, which typically improves pressure relief; a small bonus is applied."
+    },
+    {
+      "id": "PRESSURE_RELIEF_FIRMER_PENALTY",
+      "categories": ["pressureRelief"],
+      "description": "Firmness rating is firmer than the comfort band, which typically reduces pressure relief; a penalty proportional to the overage is applied."
+    },
+    {
+      "id": "HEAT_COOLING_COVER_BONUS",
+      "categories": ["heat"],
+      "description": "Mattress has a cooling cover; a bonus is applied to the heat & airflow sub-score."
+    },
+    {
+      "id": "HEAT_NO_COOLING_FOAM_PENALTY",
+      "categories": ["heat"],
+      "description": "Mattress is all-foam with no cooling cover; a penalty is applied to the heat & airflow sub-score, since foam alone tends to retain more heat."
+    },
+    {
+      "id": "MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY",
+      "categories": ["motion"],
+      "description": "Sleeper reports high motion sensitivity (shares the bed, easily woken) and the mattress type is on the low-isolation list; a penalty is applied to motion isolation."
+    },
+    {
+      "id": "EDGE_REINFORCED_BONUS",
+      "categories": ["edge"],
+      "description": "Mattress has a reinforced perimeter; a bonus is applied to the edge support sub-score."
+    },
+    {
+      "id": "DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY",
+      "categories": ["durability"],
+      "description": "Top foam density is below the durability threshold and the sleeper's weight is at or above the high-weight threshold; a penalty is applied for elevated long-term sag risk."
+    },
+    {
+      "id": "DURABILITY_HIGH_DENSITY_BONUS",
+      "categories": ["durability"],
+      "description": "Top foam density comfortably exceeds the durability threshold; a small bonus is applied."
+    }
+  ],
+
+  "riskFlagRules": [
+    {
+      "code": "SUPPORT_THRESHOLD_MISMATCH",
+      "category": "support",
+      "description": "Fires when the mattress's firmness rating falls outside the firmness comfort band resolved for the sleeper's position and weight band.",
+      "thresholdId": "firmnessComfortBands.<sleepPosition>.<weightBand>",
+      "mitigation": "Consider a firmer or softer variant in the same line, or add a mattress topper to move the feel into your comfort band."
+    },
+    {
+      "code": "HEAT_RETENTION_LIKELY",
+      "category": "heat",
+      "description": "Fires when the sleeper reports sleeping hot and the computed heat sub-score is at or below the heat retention threshold.",
+      "thresholdId": "thresholds.heatRetentionMaxHeatScore",
+      "mitigation": "Look for gel-infused foam, a hybrid coil layer, or an added cooling cover/topper if you tend to sleep warm."
+    },
+    {
+      "code": "EDGE_SUPPORT_CONCERN",
+      "category": "edge",
+      "description": "Fires when the mattress has no reinforced perimeter and the computed edge sub-score is below the edge support threshold.",
+      "thresholdId": "thresholds.edgeSupportMinScore",
+      "mitigation": "Fine for sleepers who stay centered; worth weighing a model with reinforced perimeter coils if you sit on the edge often."
+    },
+    {
+      "code": "DURABILITY_SAG_RISK",
+      "category": "durability",
+      "description": "Fires when top foam density is below the durability density threshold and the sleeper's weight is at or above the high-weight threshold.",
+      "thresholdId": "thresholds.durabilityMinFoamDensityLbFt3 & thresholds.durabilityHighWeightLb",
+      "mitigation": "Check the warranty's sag-depth threshold and prioritize using the full in-home trial period to catch early sagging."
+    }
+  ]
+}
