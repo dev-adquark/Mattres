@@ -2,6 +2,7 @@ import './globals.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
+import { Analytics } from '@vercel/analytics/next';
 
 // NOTE: next/font/google was tried here first (it self-hosts + optimizes
 // Google Fonts at build time, which is genuinely better than a render-
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <ScrollReveal />
+        <Analytics />
       </body>
     </html>
   );
