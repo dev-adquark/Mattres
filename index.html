@@ -1008,9 +1008,15 @@
   @media (max-width:900px){ .ms-live-badge{position:static;justify-content:center;margin-bottom:8px;} }
 
   .ms-model-badge{
-    position:absolute;bottom:2%;right:-4%;font-size:9.5px;font-weight:700;color:var(--ink-dim);
-    background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);border-radius:999px;padding:3px 9px;z-index:3;
+    position:absolute;bottom:2%;right:-4%;z-index:3;
+    width:66px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding-top:4px;
+    clip-path:polygon(25% 4%,75% 4%,98% 50%,75% 96%,25% 96%,2% 50%);
+    background:linear-gradient(135deg,rgba(63,212,238,.22),rgba(139,92,246,.14));
+    border:1px solid var(--glass-border);
   }
+  .ms-model-badge span{font-size:6.5px;font-weight:700;letter-spacing:0.12em;color:var(--ink-dim);text-transform:uppercase;}
+  .ms-model-badge b{font-size:12px;font-weight:800;color:var(--ink);}
   @media (max-width:900px){ .ms-model-badge{display:none;} }
 
   /* "Your Matched Mattress" panel */
@@ -1696,7 +1702,7 @@
           <g class="mtr-ticks"></g>
         </svg>
         <div class="ms-live-badge"><span class="ms-live-dot"></span>Live · computed from your answers</div>
-        <div class="ms-model-badge" id="msModelBadge">Model v0.1</div>
+        <div class="ms-model-badge" id="msModelBadge"><span>Model</span><b>v0.1</b></div>
         <div class="score-ring-visual" id="scoreRingVisual">
           <div class="ring-orbit" aria-hidden="true"><span class="ring-particle p1"></span><span class="ring-particle p2"></span></div>
           <svg viewBox="0 0 200 200" class="score-ring-svg">
