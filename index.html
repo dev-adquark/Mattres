@@ -890,8 +890,9 @@
   .universe-node-label{
     position:absolute;transform:translate(-50%,-50%);
     padding:5px 10px;border-radius:8px;font-size:10.5px;font-weight:600;color:var(--ink);
-    background:rgba(8,20,36,0.75);border:1px solid var(--glass-border);white-space:nowrap;
-    opacity:0;transition:opacity .2s ease;
+    background:rgba(8,20,36,0.82);border:1px solid var(--glass-border);white-space:nowrap;
+    opacity:0;transition:opacity .2s ease;backdrop-filter:blur(4px);
+    box-shadow:0 2px 8px rgba(0,0,0,0.3);
   }
   .universe-node-label.center{color:#04231e;background:linear-gradient(135deg,var(--cyan-400),var(--electric-500));border:none;font-weight:700;opacity:1 !important;}
   .universe-top-matches{
@@ -1311,6 +1312,7 @@
   .seam-on-light .seam-line{background:linear-gradient(90deg,transparent,rgba(20,168,147,0.35),transparent);}
   .seam-on-light .seam-dot{background:var(--teal-500);box-shadow:0 0 8px var(--teal-500);}
   .seam-on-light .seam-dot.d2{background:var(--cyan-500);box-shadow:0 0 8px var(--cyan-500);}
+  @media (prefers-reduced-motion: reduce){ .seam-dot{animation:none;opacity:0.75;transform:none;} }
 
   /* Score-dimension mini-icons (replace the plain unicode glyphs in .sm-ic / process cards) */
   .dim-icon{width:20px;height:20px;flex:none;position:relative;color:var(--cyan-400);}
@@ -1565,6 +1567,7 @@
 
 
 <section class="section" id="journey">
+  <div class="section-seam seam-on-light" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">How it works</span>
@@ -1626,6 +1629,7 @@
 </section>
 
 <section class="section universe-section" id="universe">
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <canvas class="ambient-canvas" id="ambientUniverseBg" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="section-head">
@@ -1655,6 +1659,7 @@
 </section>
 
 <section class="section match-score-section" id="match-score">
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <canvas class="ambient-canvas" id="ambientMatchScore" aria-hidden="true"></canvas>
   <svg class="ms-bg-constellation" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <g class="msc-lines">
@@ -2008,6 +2013,7 @@
 
 
 <section class="section why" id="why">
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <div class="wrap why-grid">
     <div class="why-head">
       <span class="eyebrow-dark" style="color:var(--teal-400)">Why choose us</span>
@@ -2677,6 +2683,7 @@
 </div><!-- /page: disclosures -->
 
 <footer>
+  <div class="section-seam" aria-hidden="true"><span class="seam-dot d1"></span><span class="seam-line"></span><span class="seam-dot d2"></span></div>
   <canvas class="ambient-canvas" id="ambientFooter" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="foot-top">
@@ -4441,6 +4448,23 @@
   // moment (set by applyScoreResult, possibly restored from sessionStorage
   // on page load). If no quiz has been taken yet, this simply never fires -
   // the honest "-- / TAKE THE QUIZ" markup already in the HTML stands as-is.
+  //
+  // FIXED: this previously used threshold:0.4, which requires 40% of the
+  // ENTIRE section's height simultaneously visible to fire. That's fine on
+  // desktop (section height / viewport height ~= 2.06x, so ~48% is already
+  // visible the moment its top reaches the viewport top) but was silently
+  // impossible on mobile, where the six-dimension gallery and matched-
+  // mattress panel stack vertically and the section grows to ~4.24x the
+  // viewport height - meaning at most ~24% could EVER be visible at once,
+  // never reaching 0.4. The real score was correctly computed and stored,
+  // but the reveal that displays it could structurally never fire on phones
+  // - confirmed by measuring section-height/viewport-height directly on
+  // both a 1440x1000 and a 390x844 viewport before touching this line.
+  // Fixed by decoupling the trigger from the section's total height
+  // entirely: threshold:0 with a rootMargin that shrinks the effective
+  // viewport fires as soon as the section's top crosses into the upper
+  // half of the real viewport, regardless of how tall the section is at
+  // any given viewport width.
   var scoreSection = document.getElementById('match-score');
   if (scoreSection && 'IntersectionObserver' in window) {
     var scoreIO = new IntersectionObserver(function (entries) {
@@ -4451,7 +4475,7 @@
           scoreIO.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0, rootMargin: '0px 0px -50% 0px' });
     scoreIO.observe(scoreSection);
   }
 
