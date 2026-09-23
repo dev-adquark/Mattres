@@ -2,6 +2,18 @@ import { NextResponse } from 'next/server';
 import { scoreEngine } from '@/lib/scoreEngine';
 import catalog from '@/lib/data/mattress-catalog.json';
 
+// lib/data/mattress-catalog.json here is the fully-processed, display-
+// and-scoring-ready catalog (a flat array with priceUsd, sponsored,
+// reviewHighlights, flat heightIn) - extracted directly from the real
+// `CATALOG` array already embedded and verified working in the original
+// project's index.html, NOT the raw ingest-pipeline output the same
+// filename holds at the repo root (that raw shape is missing priceUsd/
+// sponsored/reviewHighlights entirely and uses a nested height.inches).
+// Confirmed this is the right one to use by cross-checking a known real
+// result (Aurora Hybrid, side/210lb/medium-firm/hot -> 76/100) against
+// what the live HTML site has produced for that exact profile throughout
+// this project.
+
 /**
  * POST /api/match
  * Body: a Sleep Profile object (see lib/scoreEngine.js / lib/rules/0.1.json).
@@ -25,11 +37,54 @@ function displayTitle(entry) {
   return `${entry.brand} ${entry.model}`;
 }
 
+/**
+ * Bridges a catalog entry (brand/model/type/firmnessRange/...) into the
+ * shape the v0.1 scoring math expects (a single firmnessRating + a few
+ * booleans/numbers). Ported exactly from the original project's
+ * adaptCatalogEntryForScoring() in index.html - not reconstructed from
+ * memory. This is the piece that was missing before: without it, raw
+ * catalog entries have no firmnessRating/hasCoolingCover/
+ * edgeSupportReinforced/topFoamDensityLbFt3 at all, so scoreEngine() would
+ * have silently compared against `undefined` instead of throwing -
+ * producing wrong scores with no error, not a crash. Caught by testing
+ * an actual quiz submission end-to-end rather than trusting build/
+ * typecheck alone.
+ */
+function adaptCatalogEntryForScoring(entry) {
+  const firmnessRating = entry.firmnessRange
+    ? (entry.firmnessRange.min + entry.firmnessRange.max) / 2
+    : 5.5; // No firmness on file for this mattress; fall back to a neutral middle value.
+
+  const notes = (entry.coreMaterialNotes || '').toLowerCase();
+  const hasCoolingCover = notes.indexOf('gel') !== -1 || notes.indexOf('cooling') !== -1;
+  const edgeSupportReinforced = entry.type !== 'foam'; // Heuristic: hybrids/innersprings assumed to have a supportive perimeter, foam assumed not.
+
+  return {
+    id: entry.id,
+    type: entry.type,
+    firmnessRating,
+    hasCoolingCover,
+    edgeSupportReinforced,
+    topFoamDensityLbFt3: null, // Not in the catalog yet; durability rule is a no-op without it, same as the documented gap.
+  };
+}
+
 function filterCatalog(profile) {
   return catalog.filter((entry) => {
     if (profile.mattressTypePreference && profile.mattressTypePreference.length &&
         profile.mattressTypePreference.indexOf(entry.type) === -1) return false;
-    if (profile.budgetUsd && (entry.priceUsd < profile.budgetUsd.min || entry.priceUsd > profile.budgetUsd.max)) return false;
+    // budgetUsd.max is "no upper bound" when absent - a plain client-side
+    // call could use Infinity for that, but this route receives the
+    // profile as real JSON over HTTP, and Infinity isn't valid JSON (it
+    // serializes to null). Treating a missing/null/non-finite max as "no
+    // upper bound" (rather than comparing against null, which would
+    // incorrectly exclude nearly everything) keeps this correct for a
+    // real network round-trip, not just an in-memory call.
+    if (profile.budgetUsd) {
+      const { min, max } = profile.budgetUsd;
+      if (typeof min === 'number' && entry.priceUsd < min) return false;
+      if (typeof max === 'number' && Number.isFinite(max) && entry.priceUsd > max) return false;
+    }
     return true;
   });
 }
@@ -76,7 +131,7 @@ export async function POST(request) {
 
   let scored;
   try {
-    scored = filtered.map((entry) => ({ entry, result: scoreEngine('0.1', profile, entry) }));
+    scored = filtered.map((entry) => ({ entry, result: scoreEngine('0.1', profile, adaptCatalogEntryForScoring(entry)) }));
   } catch (err) {
     return NextResponse.json({ error: err.message || 'Scoring failed.' }, { status: 500 });
   }

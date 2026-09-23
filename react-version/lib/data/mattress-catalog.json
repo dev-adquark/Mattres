@@ -1,289 +1,430 @@
-{
-  "catalogVersion": "0.1",
-  "generatedFrom": "data/raw/mattresses-raw.json",
-  "mattressCount": 12,
-  "mattresses": [
-    {
-      "id": "aurora-sleep-aurora-hybrid",
-      "brand": "Aurora Sleep",
-      "model": "Aurora Hybrid",
-      "type": "hybrid",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "Aurora Direct",
-        "Sleepworld"
-      ],
-      "height": {
-        "inches": 12,
-        "raw": "12in"
-      },
-      "trialDays": 100,
-      "warrantyYears": 10,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 6,
-        "max": 7.5
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+[
+  {
+    "id": "aurora-sleep-aurora-hybrid",
+    "brand": "Aurora Sleep",
+    "model": "Aurora Hybrid",
+    "type": "hybrid",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Aurora Direct",
+      "Sleepworld"
+    ],
+    "heightIn": 12,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6,
+      "max": 7.5
     },
-    {
-      "id": "cloudline-cloudline-original",
-      "brand": "Cloudline",
-      "model": "Cloudline Original",
-      "type": "foam",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "Cloudline.com",
-        "Mattress Depot"
-      ],
-      "height": {
-        "inches": 10,
-        "raw": "10"
+    "priceUsd": 1005,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "greatEdgeSupport",
+        "label": "Great edge support",
+        "sentiment": "positive",
+        "category": "edge",
+        "confidence": "medium",
+        "matchCount": 2,
+        "snippet": "The edge support is fantastic, we never feel like we'll roll off even sitting right on the side."
       },
-      "trialDays": 100,
-      "warrantyYears": 10,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 4,
-        "max": 6
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+      {
+        "tag": "motionIsolationGood",
+        "label": "Good motion isolation",
+        "sentiment": "positive",
+        "category": "motion",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "I barely notice when my partner gets up at night, motion isolation is great."
+      }
+    ]
+  },
+  {
+    "id": "cloudline-cloudline-original",
+    "brand": "Cloudline",
+    "model": "Cloudline Original",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Cloudline.com",
+      "Mattress Depot"
+    ],
+    "heightIn": 10,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 4,
+      "max": 6
     },
-    {
-      "id": "terrafoam-terrafoam-cool",
-      "brand": "TerraFoam",
-      "model": "TerraFoam Cool",
-      "type": "foam",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "TerraFoam Direct"
-      ],
-      "height": {
-        "inches": 11,
-        "raw": "11"
+    "priceUsd": 755,
+    "sponsored": true,
+    "reviewHighlights": [
+      {
+        "tag": "sleepsHot",
+        "label": "Sleeps hot",
+        "sentiment": "negative",
+        "category": "heat",
+        "confidence": "high",
+        "matchCount": 3,
+        "snippet": "I run hot on this one, wish it slept cooler."
       },
-      "trialDays": 120,
-      "warrantyYears": 12,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 6.75,
-        "max": 8.25
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+      {
+        "tag": "pressureReliefGood",
+        "label": "Good pressure relief",
+        "sentiment": "positive",
+        "category": "pressure",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Contours to my hips and shoulder without ever feeling stuck, great pressure relief."
+      }
+    ]
+  },
+  {
+    "id": "terrafoam-terrafoam-cool",
+    "brand": "TerraFoam",
+    "model": "TerraFoam Cool",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "TerraFoam Direct"
+    ],
+    "heightIn": 11,
+    "trialDays": 120,
+    "warrantyYears": 12,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6.75,
+      "max": 8.25
     },
-    {
-      "id": "nimbus-nimbus-pocket-coil",
-      "brand": "Nimbus",
-      "model": "Nimbus Pocket Coil",
-      "type": "hybrid",
-      "coreMaterialNotes": "Pocket coil support core.",
-      "retailPartners": [
-        "NimbusHome"
-      ],
-      "height": {
-        "inches": 13,
-        "raw": "13in"
+    "priceUsd": 796,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "coolSleeper",
+        "label": "Sleeps cool",
+        "sentiment": "positive",
+        "category": "heat",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Stays cool all night which surprised me for a foam mattress."
       },
-      "trialDays": 365,
-      "warrantyYears": null,
-      "warrantyLifetime": true,
-      "firmnessRange": {
-        "min": 4,
-        "max": 6
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Way too firm for my side-sleeping shoulder, definitely too firm out of the box."
+      }
+    ]
+  },
+  {
+    "id": "nimbus-nimbus-pocket-coil",
+    "brand": "Nimbus",
+    "model": "Nimbus Pocket Coil",
+    "type": "hybrid",
+    "coreMaterialNotes": "Pocket coil support core.",
+    "retailPartners": [
+      "NimbusHome"
+    ],
+    "heightIn": 13,
+    "trialDays": 365,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "firmnessRange": {
+      "min": 4,
+      "max": 6
     },
-    {
-      "id": "stratus-stratus-latex-hybrid",
-      "brand": "Stratus",
-      "model": "Stratus Latex Hybrid",
-      "type": "hybrid",
-      "coreMaterialNotes": "Includes a latex layer.",
-      "retailPartners": [
-        "Stratus Direct",
-        "GreenBed"
-      ],
-      "height": {
-        "inches": 12.5,
-        "raw": "12.5 in"
+    "priceUsd": 1100,
+    "sponsored": true,
+    "reviewHighlights": [
+      {
+        "tag": "greatValue",
+        "label": "Great value",
+        "sentiment": "positive",
+        "category": "value",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Great value for a mattress in this price range, would recommend to a friend."
       },
-      "trialDays": 180,
-      "warrantyYears": 20,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 3,
-        "max": 5
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+      {
+        "tag": "sagsAfterTime",
+        "label": "Sags after time",
+        "sentiment": "negative",
+        "category": "durability",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "After about eight months it started to sag right in the middle of the bed."
+      }
+    ]
+  },
+  {
+    "id": "stratus-stratus-latex-hybrid",
+    "brand": "Stratus",
+    "model": "Stratus Latex Hybrid",
+    "type": "hybrid",
+    "coreMaterialNotes": "Includes a latex layer.",
+    "retailPartners": [
+      "Stratus Direct",
+      "GreenBed"
+    ],
+    "heightIn": 12.5,
+    "trialDays": 180,
+    "warrantyYears": 20,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 3,
+      "max": 5
     },
-    {
-      "id": "baseline-baseline-firm-innerspring",
-      "brand": "Baseline",
-      "model": "Baseline Firm Innerspring",
-      "type": "innerspring",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "BudgetBeds"
-      ],
-      "height": {
-        "inches": 9,
-        "raw": "9in"
+    "priceUsd": 1098,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "offGassing",
+        "label": "Off-gassing / chemical smell",
+        "sentiment": "negative",
+        "category": "chemical",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "There was a strange smell when we unboxed it, definitely some off-gassing the first week."
       },
-      "trialDays": 30,
-      "warrantyYears": 5,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 7.5,
-        "max": 9
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+      {
+        "tag": "poorEdgeSupport",
+        "label": "Weak edge support",
+        "sentiment": "negative",
+        "category": "edge",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Edge support could be better, I feel like I might roll off if I sit near the side."
+      }
+    ]
+  },
+  {
+    "id": "baseline-baseline-firm-innerspring",
+    "brand": "Baseline",
+    "model": "Baseline Firm Innerspring",
+    "type": "innerspring",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "BudgetBeds"
+    ],
+    "heightIn": 9,
+    "trialDays": 30,
+    "warrantyYears": 5,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 7.5,
+      "max": 9
     },
-    {
-      "id": "drift-drift-plush-foam",
-      "brand": "Drift",
-      "model": "Drift Plush Foam",
-      "type": "foam",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "DriftSleep"
-      ],
-      "height": {
-        "inches": 11.8,
-        "raw": "30cm"
-      },
-      "trialDays": 100,
-      "warrantyYears": 10,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 1,
-        "max": 3
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": [
-        "Height given in cm (\"30cm\"); converted to 11.8in."
-      ]
+    "priceUsd": 590,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Definitely too firm for anyone who likes a softer feel, my hips ached the first few nights."
+      }
+    ]
+  },
+  {
+    "id": "drift-drift-plush-foam",
+    "brand": "Drift",
+    "model": "Drift Plush Foam",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "DriftSleep"
+    ],
+    "heightIn": 11.8,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 1,
+      "max": 3
     },
-    {
-      "id": "anchor-anchor-hybrid-support",
-      "brand": "Anchor",
-      "model": "Anchor Hybrid Support",
-      "type": "hybrid",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "AnchorHome",
-        "BedBarn"
-      ],
-      "height": {
-        "inches": 14,
-        "raw": "14"
+    "priceUsd": 800,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "offGassing",
+        "label": "Off-gassing / chemical smell",
+        "sentiment": "negative",
+        "category": "chemical",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "We could smell a chemical odor when we first unboxed it, took a few days to fade."
       },
-      "trialDays": 101,
-      "warrantyYears": 15,
-      "warrantyLifetime": false,
-      "firmnessRange": null,
-      "sourceConfidence": "medium",
-      "dataQualityNotes": [
-        "No firmness value supplied."
-      ]
+      {
+        "tag": "tooSoft",
+        "label": "Too soft",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Sinks in a lot, sometimes feels like there's no support at all for my lower back."
+      }
+    ]
+  },
+  {
+    "id": "anchor-anchor-hybrid-support",
+    "brand": "Anchor",
+    "model": "Anchor Hybrid Support",
+    "type": "hybrid",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "AnchorHome",
+      "BedBarn"
+    ],
+    "heightIn": 14,
+    "trialDays": 101,
+    "warrantyYears": 15,
+    "warrantyLifetime": false,
+    "firmnessRange": null,
+    "priceUsd": 1095,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "motionIsolationGood",
+        "label": "Good motion isolation",
+        "sentiment": "positive",
+        "category": "motion",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "My partner moves around a lot and I don't feel a thing, great motion isolation on this one."
+      }
+    ]
+  },
+  {
+    "id": "coastal-coastal-cool-gel-foam",
+    "brand": "Coastal",
+    "model": "Coastal Cool Gel Foam",
+    "type": "foam",
+    "coreMaterialNotes": "Gel-infused foam.",
+    "retailPartners": [
+      "CoastalSleep"
+    ],
+    "heightIn": 12,
+    "trialDays": 120,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6.25,
+      "max": 7.75
     },
-    {
-      "id": "coastal-coastal-cool-gel-foam",
-      "brand": "Coastal",
-      "model": "Coastal Cool Gel Foam",
-      "type": "foam",
-      "coreMaterialNotes": "Gel-infused foam.",
-      "retailPartners": [
-        "CoastalSleep"
-      ],
-      "height": {
-        "inches": 12,
-        "raw": "12in"
-      },
-      "trialDays": 120,
-      "warrantyYears": 10,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 6.25,
-        "max": 7.75
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+    "priceUsd": 805,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "sleepsHot",
+        "label": "Sleeps hot",
+        "sentiment": "negative",
+        "category": "heat",
+        "confidence": "medium",
+        "matchCount": 2,
+        "snippet": "This one runs really hot, I wake up sweaty most nights even with the gel foam."
+      }
+    ]
+  },
+  {
+    "id": "summit-summit-innerspring-classic",
+    "brand": "Summit",
+    "model": "Summit Innerspring Classic",
+    "type": "innerspring",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "SummitDirect"
+    ],
+    "heightIn": 8,
+    "trialDays": 30,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 7.5,
+      "max": 9
     },
-    {
-      "id": "summit-summit-innerspring-classic",
-      "brand": "Summit",
-      "model": "Summit Innerspring Classic",
-      "type": "innerspring",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "SummitDirect"
-      ],
-      "height": {
-        "inches": 8,
-        "raw": "8in"
-      },
-      "trialDays": 30,
-      "warrantyYears": 10,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 7.5,
-        "max": 9
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+    "priceUsd": 605,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "sagsAfterTime",
+        "label": "Sags after time",
+        "sentiment": "negative",
+        "category": "durability",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Started sagging after about a year of regular use, disappointing for an innerspring."
+      }
+    ]
+  },
+  {
+    "id": "halcyon-halcyon-hybrid-plus",
+    "brand": "Halcyon",
+    "model": "Halcyon Hybrid Plus",
+    "type": "hybrid",
+    "coreMaterialNotes": "Pocket coil support core.",
+    "retailPartners": [
+      "Halcyon.com",
+      "SleepMart"
+    ],
+    "heightIn": 12,
+    "trialDays": 365,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "firmnessRange": {
+      "min": 4,
+      "max": 6
     },
-    {
-      "id": "halcyon-halcyon-hybrid-plus",
-      "brand": "Halcyon",
-      "model": "Halcyon Hybrid Plus",
-      "type": "hybrid",
-      "coreMaterialNotes": "Pocket coil support core.",
-      "retailPartners": [
-        "Halcyon.com",
-        "SleepMart"
-      ],
-      "height": {
-        "inches": 12,
-        "raw": "12in"
-      },
-      "trialDays": 365,
-      "warrantyYears": null,
-      "warrantyLifetime": true,
-      "firmnessRange": {
-        "min": 4,
-        "max": 6
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
+    "priceUsd": 1075,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "greatEdgeSupport",
+        "label": "Great edge support",
+        "sentiment": "positive",
+        "category": "edge",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "Really solid edge support, great for sitting on the side to put on shoes in the morning."
+      }
+    ]
+  },
+  {
+    "id": "vale-vale-budget-foam",
+    "brand": "Vale",
+    "model": "Vale Budget Foam",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "ValeDirect"
+    ],
+    "heightIn": 9,
+    "trialDays": 60,
+    "warrantyYears": 3,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6,
+      "max": 7.5
     },
-    {
-      "id": "vale-vale-budget-foam",
-      "brand": "Vale",
-      "model": "Vale Budget Foam",
-      "type": "foam",
-      "coreMaterialNotes": null,
-      "retailPartners": [
-        "ValeDirect"
-      ],
-      "height": {
-        "inches": 9,
-        "raw": "9in"
-      },
-      "trialDays": 60,
-      "warrantyYears": 3,
-      "warrantyLifetime": false,
-      "firmnessRange": {
-        "min": 6,
-        "max": 7.5
-      },
-      "sourceConfidence": "high",
-      "dataQualityNotes": []
-    }
-  ]
-}
+    "priceUsd": 674,
+    "sponsored": false,
+    "reviewHighlights": [
+      {
+        "tag": "tooFirm",
+        "label": "Too firm",
+        "sentiment": "negative",
+        "category": "firmness",
+        "confidence": "low",
+        "matchCount": 1,
+        "snippet": "A bit too firm out of the box but softened slightly after a few weeks of use."
+      }
+    ]
+  }
+]
