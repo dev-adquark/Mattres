@@ -44,7 +44,7 @@ export default function FindMatchPage() {
         </div>
       </header>
 
-      <section className="section" style={{ paddingTop: 56 }}>
+      <section className="section dot-grid-bg" style={{ paddingTop: 56 }}>
         <div className="wrap">
           <QuizForm onResult={handleResult} onSubmittingChange={setSubmitting} />
 

@@ -39,7 +39,7 @@ export default function HomePage() {
     <div>
       <Hero />
 
-      <section className="section universe-section" id="universe">
+      <section className="section universe-section dot-grid-bg on-dark" id="universe">
         <AmbientParticles className="ambient-canvas" />
         <div className="float-orb" style={{ width: 300, height: 300, left: '-4%', top: '10%', background: 'var(--electric-500)' }} aria-hidden="true" />
         <div className="float-orb" style={{ width: 260, height: 260, right: '-3%', bottom: '5%', background: 'var(--violet-500)', animationDelay: '-8s' }} aria-hidden="true" />
@@ -66,7 +66,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section match-score-section" id="match-score">
+      <section className="section match-score-section dot-grid-bg on-dark" id="match-score">
         <AmbientParticles className="ambient-canvas" />
         <div className="wrap match-score-grid">
           <div className="score-ring-wrap">

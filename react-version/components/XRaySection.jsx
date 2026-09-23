@@ -140,7 +140,7 @@ const XRaySection = forwardRef(function XRaySection(props, ref) {
   const step = XRAY_STEPS[stepIndex];
 
   return (
-    <section className="section xray-section" id="xray">
+    <section className="section xray-section dot-grid-bg on-dark" id="xray">
       <AmbientParticles className="ambient-canvas" />
       <div className="float-orb" style={{ width: 280, height: 280, right: '1%', top: '8%', background: 'var(--teal-500)' }} aria-hidden="true" />
       <div className="section-seam" aria-hidden="true">

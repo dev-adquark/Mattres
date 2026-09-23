@@ -202,7 +202,7 @@ export default function MethodologyPage() {
         </div>
       </section>
 
-      <section className="section why" style={{ paddingTop: 80, paddingBottom: 80 }}>
+      <section className="section why dot-grid-bg on-dark" style={{ paddingTop: 80, paddingBottom: 80 }}>
         <div className="wrap">
           <div className="section-head" style={{ maxWidth: 680 }}>
             <span className="eyebrow-dark" style={{ color: 'var(--teal-400)' }}>

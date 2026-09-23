@@ -8,7 +8,7 @@ const brandCount = new Set(catalog.map((m) => m.brand)).size;
 
 export default function Hero() {
   return (
-    <header className="hero" id="top">
+    <header className="hero dot-grid-bg on-dark" id="top">
       <AmbientParticles className="ambient-canvas" />
       <SleeperCharacter placement="hero" />
       <div className="wrap hero-grid">

@@ -1655,13 +1655,27 @@
     position:relative;
   }
   .dot-grid-bg::before{
-    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
     background-image:radial-gradient(rgba(15,33,64,0.06) 1px, transparent 1px);
     background-size:22px 22px;
-    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
-    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    -webkit-mask-image:radial-gradient(ellipse 95% 90% at 50% 0%, #000 55%, transparent 100%);
+    mask-image:radial-gradient(ellipse 95% 90% at 50% 0%, #000 55%, transparent 100%);
   }
-  .dot-grid-bg > *{ position:relative; z-index:1; }
+
+  /* Dark-section variant: same idea, light-colored dots at very low
+     opacity so it reads as texture rather than noise against the dark
+     navy backgrounds. z-index:-1 (not forcing z-index on children,
+     unlike an earlier version of this rule) means it paints behind
+     ALL normal content automatically via standard stacking-context
+     order, without touching any existing element's own z-index - safe
+     even on sections with carefully-layered decorative children like
+     the hero (ambient particles, sleeper character). */
+  .dot-grid-bg.on-dark::before{
+    background-image:radial-gradient(rgba(127,233,255,0.07) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 95% 95% at 50% 50%, #000 50%, transparent 100%);
+    mask-image:radial-gradient(ellipse 95% 95% at 50% 50%, #000 50%, transparent 100%);
+  }
 
   /* Partner logo marquee: two duplicated rows so the CSS translateX
      loop is seamless (the second copy is what scrolls into the gap
@@ -1670,6 +1684,7 @@
      rather than an infinite loop that can't be turned off. */
   .brand-marquee{
     position:relative; overflow:hidden;
+    width:100%; max-width:100%;
     -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
