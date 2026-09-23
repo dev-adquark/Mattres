@@ -190,8 +190,17 @@
   }
   .hero h1 span{
     display:block;
-    background:linear-gradient(100deg,var(--teal-300,#7bf2df),var(--teal-500));
+    background:linear-gradient(100deg,var(--teal-300,#7bf2df),var(--cyan-400),var(--teal-500),var(--teal-300,#7bf2df));
+    background-size:300% 100%;
     -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:heroShimmer 6s ease-in-out infinite;
+  }
+  @keyframes heroShimmer{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero h1 span{ animation:none; background-position:0% 50%; }
   }
   .hero p.lead{
     color:var(--ink-dim);font-size:16.5px;line-height:1.65;
@@ -1573,3 +1582,60 @@
     display:flex; align-items:center; justify-content:center; color:#fff;
   }
   @media (max-width:760px){ .collab-art-wrap{ margin:0 auto; } }
+
+  /* Submit-button spinner, used while a real API call is in flight
+     (QuizForm's "Scoring..." state) - a small ring, not a full replace
+     of the button so its width doesn't jump. */
+  .btn-spinner{
+    width:15px; height:15px; border-radius:50%;
+    border:2px solid rgba(255,255,255,0.35); border-top-color:#fff;
+    animation:spin .7s linear infinite;
+    display:inline-block;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){
+    .btn-spinner{ animation:none; border-top-color:rgba(255,255,255,0.35); }
+  }
+
+  /* Premium scoring/loading state shown on /find-match while the real
+     API call is in flight - a pulsing scan line over a silhouette,
+     replacing the plain empty-state during that window only. */
+  .scoring-state{
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    gap:18px; padding:56px 20px;
+  }
+  .scoring-scan{
+    position:relative; width:120px; height:80px; border-radius:14px;
+    background:linear-gradient(180deg, rgba(63,212,255,0.08), rgba(63,212,255,0.02));
+    border:1px solid var(--glass-border, rgba(127,233,255,0.16)); overflow:hidden;
+  }
+  .scoring-scan::after{
+    content:""; position:absolute; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--cyan-400), transparent);
+    animation:scanline 1.6s ease-in-out infinite;
+    box-shadow:0 0 10px 1px var(--cyan-400);
+  }
+  @keyframes scanline{
+    0%{ top:0; opacity:0; }
+    10%{ opacity:1; }
+    90%{ opacity:1; }
+    100%{ top:100%; opacity:0; }
+  }
+  .scoring-state p{ color:var(--slate-600); font-size:14.5px; max-width:34ch; }
+  @media (prefers-reduced-motion: reduce){
+    .scoring-scan::after{ animation:none; top:50%; opacity:0.7; }
+  }
+
+  /* Soft ambient glow behind the DNA helix and Score Core Three.js
+     scenes - a pure CSS backdrop layer (negative z-index, blurred),
+     not touching the WebGL canvas or its rendering code at all. Adds
+     depth/framing around the existing 3D experiences per the brief's
+     "enhance only where useful, never replace" instruction. The
+     Mattress Universe scene already has its own radial-gradient
+     background (.universe-wrap) so it doesn't need this. */
+  .dna-scene-wrap::before, .score-core-wrap::before{
+    content:""; position:absolute; inset:-40px; z-index:-1;
+    background:radial-gradient(circle, rgba(63,212,255,0.12), transparent 65%);
+    filter:blur(22px);
+    pointer-events:none;
+  }

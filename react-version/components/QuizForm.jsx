@@ -30,7 +30,7 @@ function toggleValue(list, value) {
  * success. This component owns only form state/validation/the network
  * call, not what happens with the result - that's the page's job.
  */
-export default function QuizForm({ onResult }) {
+export default function QuizForm({ onResult, onSubmittingChange }) {
   const [fields, setFields] = useState(initialFields);
   const [errors, setErrors] = useState([]);
   const [invalidKeys, setInvalidKeys] = useState([]);
@@ -103,6 +103,7 @@ export default function QuizForm({ onResult }) {
 
     const profile = buildProfile();
     setSubmitting(true);
+    onSubmittingChange?.(true);
     try {
       const res = await fetch('/api/match', {
         method: 'POST',
@@ -119,6 +120,7 @@ export default function QuizForm({ onResult }) {
       setApiError('Could not reach the scoring service. Check your connection and try again.');
     } finally {
       setSubmitting(false);
+      onSubmittingChange?.(false);
     }
   }
 
@@ -329,10 +331,19 @@ export default function QuizForm({ onResult }) {
 
       <div className="form-actions">
         <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? 'Scoring…' : 'Find my matches'}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
+          {submitting ? (
+            <>
+              <span className="btn-spinner" aria-hidden="true" />
+              Scoring…
+            </>
+          ) : (
+            <>
+              Find my matches
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </>
+          )}
         </button>
         <button type="button" className="btn btn-ghost-dark" onClick={handleClear}>
           Clear answers

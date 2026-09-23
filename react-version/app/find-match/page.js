@@ -9,6 +9,7 @@ import { useLastResult } from '@/lib/useLastResult';
 
 export default function FindMatchPage() {
   const [apiData, setApiData] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const { setPayload } = useLastResult();
 
   function handleResult(profile, data) {
@@ -45,9 +46,16 @@ export default function FindMatchPage() {
 
       <section className="section" style={{ paddingTop: 56 }}>
         <div className="wrap">
-          <QuizForm onResult={handleResult} />
+          <QuizForm onResult={handleResult} onSubmittingChange={setSubmitting} />
 
-          {!apiData && (
+          {submitting && (
+            <div className="scoring-state">
+              <div className="scoring-scan" aria-hidden="true" />
+              <p>Scoring every mattress in the catalog against your real profile…</p>
+            </div>
+          )}
+
+          {!submitting && !apiData && (
             <div className="empty-state">
               <OwlMascot variant="empty" />
               <p>
