@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import BrandMarquee from '@/components/BrandMarquee';
 import PromoGrid from '@/components/PromoGrid';
+import TrustBadgeRow from '@/components/TrustBadgeRow';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
@@ -85,6 +86,9 @@ export default function ComparePage() {
 
           <div style={{ marginTop: 48 }}>
             <PromoGrid onLight />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <TrustBadgeRow onLight />
           </div>
         </div>
       </section>

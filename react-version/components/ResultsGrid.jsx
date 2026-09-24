@@ -19,6 +19,12 @@ export default function ResultsGrid({ results }) {
   }
 
   const selectedItems = selectedIds.map((id) => results.find((r) => r.entry.id === id)).filter(Boolean);
+  // The real cheapest priceUsd among the shown results - computed here,
+  // not decorative, so the "Best Value" badge only ever lands on an
+  // item that is actually the lowest real price in this set.
+  const bestValueId = results.length
+    ? results.reduce((min, r) => (r.entry.priceUsd < min.entry.priceUsd ? r : min), results[0]).entry.id
+    : null;
 
   return (
     <>
@@ -47,6 +53,7 @@ export default function ResultsGrid({ results }) {
             key={item.entry.id}
             item={item}
             index={i}
+            isBestValue={item.entry.id === bestValueId}
             compareChecked={selectedIds.includes(item.entry.id)}
             onCompareToggle={toggleCompare}
           />

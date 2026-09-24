@@ -1,5 +1,6 @@
 import rules from '@/lib/rules/0.1.json';
 import BrandMarquee from '@/components/BrandMarquee';
+import PressMentionRow from '@/components/PressMentionRow';
 import PromoGrid from '@/components/PromoGrid';
 import SpotlightCard from '@/components/SpotlightCard';
 
@@ -290,6 +291,9 @@ export default function MethodologyPage() {
       <section className="section dot-grid-bg" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <PromoGrid onLight />
+          <div style={{ marginTop: 40 }}>
+            <PressMentionRow onLight />
+          </div>
         </div>
       </section>
     </div>

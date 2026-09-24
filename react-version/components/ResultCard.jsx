@@ -10,7 +10,7 @@ import SpotlightCard from './SpotlightCard';
  * this component. Ported from the original project's compare-card
  * template, one field at a time, rather than reconstructed from memory.
  */
-export default function ResultCard({ item, index = 0, compareChecked, onCompareToggle }) {
+export default function ResultCard({ item, index = 0, isBestValue = false, compareChecked, onCompareToggle }) {
   const { entry, result, badge, displayTitle, whyThisMatch, preselect } = item;
   // Capped stagger: a 12-card grid shouldn't push the last card's reveal
   // delay out past what still feels responsive.
@@ -36,6 +36,14 @@ export default function ResultCard({ item, index = 0, compareChecked, onCompareT
         Compare
       </label>
       <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
+      {isBestValue && (
+        <span className="value-badge" title="Real lowest price among the results shown">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
+          Best value
+        </span>
+      )}
       <h3>{displayTitle}</h3>
       <div className="cc-meta">
         {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} · <strong>${entry.priceUsd.toLocaleString()}</strong> ·{' '}

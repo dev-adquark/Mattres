@@ -14,11 +14,21 @@ import ResultCard from './ResultCard';
  */
 export default function CompareGrid({ results }) {
   function noOpToggle() {}
+  const bestValueId = results.length
+    ? results.reduce((min, r) => (r.entry.priceUsd < min.entry.priceUsd ? r : min), results[0]).entry.id
+    : null;
 
   return (
     <div className="compare-grid">
       {results.map((item, i) => (
-        <ResultCard key={item.entry.id} item={item} index={i} compareChecked={false} onCompareToggle={noOpToggle} />
+        <ResultCard
+          key={item.entry.id}
+          item={item}
+          index={i}
+          isBestValue={item.entry.id === bestValueId}
+          compareChecked={false}
+          onCompareToggle={noOpToggle}
+        />
       ))}
     </div>
   );

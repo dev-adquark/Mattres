@@ -5,7 +5,11 @@ import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
 import BrandMarquee from '@/components/BrandMarquee';
+import CategoryIconGrid from '@/components/CategoryIconGrid';
+import DealBanner from '@/components/DealBanner';
+import PressMentionRow from '@/components/PressMentionRow';
 import PromoGrid from '@/components/PromoGrid';
+import TrustBadgeRow from '@/components/TrustBadgeRow';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
@@ -39,6 +43,21 @@ export default function HomePage() {
   return (
     <div>
       <Hero />
+
+      <section className="section" style={{ paddingTop: 44, paddingBottom: 44 }}>
+        <div className="wrap">
+          <TrustBadgeRow />
+          <div style={{ marginTop: 32 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)', display: 'block', marginBottom: 16 }}>
+              Browse by mattress type
+            </span>
+            <CategoryIconGrid />
+          </div>
+          <div style={{ marginTop: 32 }}>
+            <DealBanner />
+          </div>
+        </div>
+      </section>
 
       <section className="section universe-section dot-grid-bg on-dark" id="universe">
         <AmbientParticles className="ambient-canvas" />
@@ -159,6 +178,9 @@ export default function HomePage() {
           </div>
           <div style={{ marginTop: 40 }}>
             <PromoGrid />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <PressMentionRow />
           </div>
         </div>
       </section>
