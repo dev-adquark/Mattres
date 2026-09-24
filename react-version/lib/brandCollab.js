@@ -43,6 +43,13 @@ export const brandPartners = [
   { name: 'Layla' },
   { name: 'GhostBed' },
   { name: 'Tuft & Needle' },
+  { name: 'Nolah' },
+  { name: 'Amerisleep' },
+  { name: 'Awara' },
+  { name: 'Birch' },
+  { name: 'Nest Bedding' },
+  { name: 'Zinus' },
+  { name: 'Molecule' },
 ];
 
 /**

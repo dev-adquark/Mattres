@@ -559,5 +559,213 @@
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
     "id": "ghostbed-ghostbed-classic"
+  },
+  {
+    "brand": "Nolah",
+    "model": "Nolah Original 10",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 10,
+    "trialDays": 120,
+    "warrantyYears": 15,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5,
+      "max": 6.5
+    },
+    "priceUsd": 999,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "nolah-nolah-original-10"
+  },
+  {
+    "brand": "Amerisleep",
+    "model": "AS3",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 12,
+    "trialDays": 100,
+    "warrantyYears": 20,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 6.5
+    },
+    "priceUsd": 1349,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "amerisleep-as3"
+  },
+  {
+    "brand": "Awara",
+    "model": "Awara Natural Hybrid",
+    "type": "latex",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 13,
+    "trialDays": 365,
+    "warrantyYears": 0,
+    "warrantyLifetime": true,
+    "firmnessRange": {
+      "min": 6,
+      "max": 7
+    },
+    "priceUsd": 1399,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "awara-awara-natural-hybrid"
+  },
+  {
+    "brand": "Birch",
+    "model": "Birch Natural",
+    "type": "latex",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 11,
+    "trialDays": 100,
+    "warrantyYears": 25,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6.5,
+      "max": 7.5
+    },
+    "priceUsd": 1499,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "birch-birch-natural"
+  },
+  {
+    "brand": "Nest Bedding",
+    "model": "Nest Bedding Owl",
+    "type": "hybrid",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 13,
+    "trialDays": 365,
+    "warrantyYears": 15,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5,
+      "max": 7
+    },
+    "priceUsd": 1799,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "nest-bedding-nest-bedding-owl"
+  },
+  {
+    "brand": "Zinus",
+    "model": "Zinus Green Tea Memory Foam",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 12,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 6.5
+    },
+    "priceUsd": 399,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "zinus-zinus-green-tea-memory-foam"
+  },
+  {
+    "brand": "Brooklyn Bedding",
+    "model": "Titan Plus",
+    "type": "hybrid",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 13,
+    "trialDays": 120,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 7,
+      "max": 8.5
+    },
+    "priceUsd": 1449,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "brooklyn-bedding-titan-plus"
+  },
+  {
+    "brand": "Molecule",
+    "model": "Molecule 1",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 12,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 7
+    },
+    "priceUsd": 1199,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "molecule-molecule-1"
   }
 ]
