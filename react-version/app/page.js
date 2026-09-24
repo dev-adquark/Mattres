@@ -47,7 +47,7 @@ export default function HomePage() {
     <div>
       <Hero />
 
-      <section className="section" style={{ paddingTop: 44, paddingBottom: 24 }}>
+      <section className="section hiw-section" style={{ paddingTop: 44, paddingBottom: 24 }}>
         <div className="wrap">
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
@@ -59,7 +59,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 44, paddingBottom: 44 }}>
+      <section className="section promo-density-section" style={{ paddingTop: 44, paddingBottom: 44 }}>
         <div className="wrap">
           <TrustBadgeRow />
           <div style={{ marginTop: 28 }}>
@@ -185,7 +185,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 40, paddingBottom: 40 }}>
+      <section className="section promo-density-section" style={{ paddingTop: 40, paddingBottom: 40 }}>
         <div className="wrap">
           <BrandCollabSlot />
           <div style={{ marginTop: 36 }}>

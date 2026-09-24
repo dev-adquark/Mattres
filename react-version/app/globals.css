@@ -2072,3 +2072,18 @@
   @media (prefers-reduced-motion: reduce){
     .faq-chevron{ transition:none; } .faq-a{ transition:none; }
   }
+
+  /* Real bug fix: HowItWorks and the default (non-onLight) TrustBadgeRow/
+     CategoryIconGrid were built assuming a dark backdrop (light --ink
+     text, translucent-white glass surfaces) but were placed in a plain
+     .section, which has no background of its own and falls through to
+     body's light --paper color - making that text nearly illegible.
+     Confirmed via a real rendered screenshot, not assumed from CSS.
+     Fixing at the section level (matching the same dark gradient every
+     other dark section on this site already uses) rather than patching
+     each component individually, since several components in this zone
+     were genuinely designed for a dark backdrop. */
+  .hiw-section, .promo-density-section{
+    background:linear-gradient(180deg,var(--navy-950),var(--navy-900));
+    position:relative; overflow:hidden;
+  }
