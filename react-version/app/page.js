@@ -7,6 +7,8 @@ import BrandCarouselRow from '@/components/BrandCarouselRow';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
 import CategoryIconGrid from '@/components/CategoryIconGrid';
 import DealBanner from '@/components/DealBanner';
+import FaqAccordion from '@/components/FaqAccordion';
+import HowItWorks from '@/components/HowItWorks';
 import PressMentionRow from '@/components/PressMentionRow';
 import PromoCardCluster from '@/components/PromoCardCluster';
 import PromoGrid from '@/components/PromoGrid';
@@ -44,6 +46,18 @@ export default function HomePage() {
   return (
     <div>
       <Hero />
+
+      <section className="section" style={{ paddingTop: 44, paddingBottom: 24 }}>
+        <div className="wrap">
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
+              How it works
+            </span>
+            <h2 style={{ color: 'var(--ink)', fontSize: 26, margin: '8px 0 0' }}>From answers to a real score, in four steps</h2>
+          </div>
+          <HowItWorks />
+        </div>
+      </section>
 
       <section className="section" style={{ paddingTop: 44, paddingBottom: 44 }}>
         <div className="wrap">
@@ -186,6 +200,18 @@ export default function HomePage() {
           <div style={{ marginTop: 40 }}>
             <PressMentionRow />
           </div>
+        </div>
+      </section>
+
+      <section className="section dot-grid-bg" style={{ paddingBottom: 60 }}>
+        <div className="wrap">
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
+              Questions
+            </span>
+            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>Frequently asked</h2>
+          </div>
+          <FaqAccordion onLight />
         </div>
       </section>
 

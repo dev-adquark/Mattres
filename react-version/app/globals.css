@@ -2013,3 +2013,62 @@
   .fm-sponsor-icon{ width:48px; height:48px; border-radius:12px; flex-shrink:0; background:linear-gradient(140deg,var(--electric-500),var(--violet-500)); display:flex; align-items:center; justify-content:center; color:#fff; }
   .fm-sponsor-card h5{ font-size:14.5px; margin:0 0 3px; color:var(--ink); }
   .fm-sponsor-card p{ font-size:12px; margin:0 0 6px; color:var(--ink-dim); }
+
+  /* ============================================================
+     Homepage density batch 2: How It Works steps, FAQ accordion.
+     Original icons throughout, no copied/traced artwork.
+     ============================================================ */
+  .hiw-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media (max-width:900px){ .hiw-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .hiw-grid{ grid-template-columns:1fr; } }
+  .hiw-step{
+    position:relative; border-radius:16px; padding:22px 18px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);
+  }
+  .hiw-step-num{
+    position:absolute; top:14px; right:16px; font-size:26px; font-weight:800;
+    color:rgba(255,255,255,0.08);
+  }
+  .hiw-icon{
+    width:44px; height:44px; border-radius:13px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(140deg, var(--cyan-400), var(--electric-500)); color:#08131f; margin-bottom:12px;
+  }
+  .hiw-step h5{ font-size:14.5px; color:var(--ink); margin:0 0 6px; }
+  .hiw-step p{ font-size:12.5px; color:var(--ink-dim); margin:0; line-height:1.55; }
+  .hiw-connector{ display:none; }
+  @media (min-width:901px){
+    .hiw-step:not(:last-child)::after{
+      content:""; position:absolute; top:34px; right:-20px; width:20px; height:2px;
+      background:linear-gradient(90deg, var(--cyan-400), transparent);
+    }
+  }
+
+  .faq-list{ display:flex; flex-direction:column; gap:10px; max-width:760px; margin:0 auto; }
+  .faq-item{
+    border-radius:14px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.03);
+    overflow:hidden;
+  }
+  .faq-item.on-light{ background:#fff; border-color:#e4ecf1; }
+  .faq-q{
+    width:100%; display:flex; align-items:center; gap:12px; padding:16px 18px;
+    background:none; border:none; cursor:pointer; text-align:left;
+  }
+  .faq-q-icon{
+    width:30px; height:30px; border-radius:9px; flex-shrink:0;
+    background:rgba(63,212,255,0.12); color:var(--cyan-400);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .faq-item.on-light .faq-q-icon{ background:rgba(34,201,176,0.1); color:var(--teal-600,#0e8a72); }
+  .faq-q b{ flex-grow:1; font-size:13.5px; color:var(--ink); font-weight:600; }
+  .faq-item.on-light .faq-q b{ color:var(--slate-900,#0f2140); }
+  .faq-chevron{ flex-shrink:0; color:var(--ink-dim); transition:transform .25s ease; }
+  .faq-item.open .faq-chevron{ transform:rotate(180deg); }
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .faq-item.open .faq-a{ max-height:200px; }
+  .faq-a-inner{ padding:0 18px 16px 60px; font-size:12.5px; color:var(--ink-dim); line-height:1.6; }
+  .faq-item.on-light .faq-a-inner{ color:var(--slate-600); }
+  @media (prefers-reduced-motion: reduce){
+    .faq-chevron{ transition:none; } .faq-a{ transition:none; }
+  }
