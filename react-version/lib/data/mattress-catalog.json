@@ -38,7 +38,11 @@
         "matchCount": 1,
         "snippet": "I barely notice when my partner gets up at night, motion isolation is great."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "cloudline-cloudline-original",
@@ -79,7 +83,11 @@
         "matchCount": 1,
         "snippet": "Contours to my hips and shoulder without ever feeling stuck, great pressure relief."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "terrafoam-terrafoam-cool",
@@ -119,7 +127,11 @@
         "matchCount": 1,
         "snippet": "Way too firm for my side-sleeping shoulder, definitely too firm out of the box."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "nimbus-nimbus-pocket-coil",
@@ -159,7 +171,11 @@
         "matchCount": 1,
         "snippet": "After about eight months it started to sag right in the middle of the bed."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "stratus-stratus-latex-hybrid",
@@ -200,7 +216,11 @@
         "matchCount": 1,
         "snippet": "Edge support could be better, I feel like I might roll off if I sit near the side."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "baseline-baseline-firm-innerspring",
@@ -231,7 +251,11 @@
         "matchCount": 1,
         "snippet": "Definitely too firm for anyone who likes a softer feel, my hips ached the first few nights."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "drift-drift-plush-foam",
@@ -271,7 +295,11 @@
         "matchCount": 1,
         "snippet": "Sinks in a lot, sometimes feels like there's no support at all for my lower back."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "anchor-anchor-hybrid-support",
@@ -300,7 +328,11 @@
         "matchCount": 1,
         "snippet": "My partner moves around a lot and I don't feel a thing, great motion isolation on this one."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "coastal-coastal-cool-gel-foam",
@@ -331,7 +363,11 @@
         "matchCount": 2,
         "snippet": "This one runs really hot, I wake up sweaty most nights even with the gel foam."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "summit-summit-innerspring-classic",
@@ -362,7 +398,11 @@
         "matchCount": 1,
         "snippet": "Started sagging after about a year of regular use, disappointing for an innerspring."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "halcyon-halcyon-hybrid-plus",
@@ -394,7 +434,11 @@
         "matchCount": 1,
         "snippet": "Really solid edge support, great for sitting on the side to put on shoes in the morning."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   },
   {
     "id": "vale-vale-budget-foam",
@@ -425,6 +469,10 @@
         "matchCount": 1,
         "snippet": "A bit too firm out of the box but softened slightly after a few weeks of use."
       }
-    ]
+    ],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "placeholder-demo"
   }
 ]

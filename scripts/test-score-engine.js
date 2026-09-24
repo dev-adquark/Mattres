@@ -46,6 +46,7 @@ test('scoreEngine: bundled poor-match sample triggers all 4 required risk flags'
     'DURABILITY_SAG_RISK',
     'EDGE_SUPPORT_CONCERN',
     'HEAT_RETENTION_LIKELY',
+    'PREFERRED_FIRMNESS_MISMATCH',
     'SUPPORT_THRESHOLD_MISMATCH',
   ]);
 
@@ -117,19 +118,20 @@ test('scoreEngine: trace.categoryRulesUsed is non-empty and every entry is fully
   assert.strictEqual(baselineEntries.length, 1);
 });
 
-test('scoreEngine: trace.riskRulesUsed evaluates all 4 risk rules, triggered or not', () => {
+test('scoreEngine: trace.riskRulesUsed evaluates all 5 risk rules, triggered or not', () => {
   const profile = require('../data/samples/sample-profile.json');
   const mattress = require('../data/samples/sample-mattress.json');
   const result = scoreEngine('0.1', profile, mattress);
 
   assert.ok(Array.isArray(result.trace.riskRulesUsed));
-  assert.strictEqual(result.trace.riskRulesUsed.length, 4);
+  assert.strictEqual(result.trace.riskRulesUsed.length, 5);
 
   const ruleIds = result.trace.riskRulesUsed.map((e) => e.ruleId).sort();
   assert.deepStrictEqual(ruleIds, [
     'DURABILITY_SAG_RISK',
     'EDGE_SUPPORT_CONCERN',
     'HEAT_RETENTION_LIKELY',
+    'PREFERRED_FIRMNESS_MISMATCH',
     'SUPPORT_THRESHOLD_MISMATCH',
   ]);
 
@@ -167,7 +169,7 @@ test('scoreEngine: trace.riskRulesUsed records untriggered rules too (well-match
   };
   const result = scoreEngine('0.1', profile, mattress);
   assert.strictEqual(result.riskFlags.length, 0);
-  assert.strictEqual(result.trace.riskRulesUsed.length, 4);
+  assert.strictEqual(result.trace.riskRulesUsed.length, 5);
   assert.ok(result.trace.riskRulesUsed.every((e) => e.triggered === false));
 });
 

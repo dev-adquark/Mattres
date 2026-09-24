@@ -82,7 +82,8 @@
     "edgeSupportMinScore": 6,
     "durabilityMinFoamDensityLbFt3": 1.8,
     "durabilityHighWeightLb": 200,
-    "lowIsolationTypesForCoupleHigh": ["innerspring"]
+    "lowIsolationTypesForCoupleHigh": ["innerspring"],
+    "preferredFirmnessMismatchPoints": 2
   },
 
   "categoryRuleCatalog": [
@@ -171,6 +172,13 @@
       "description": "Fires when top foam density is below the durability density threshold and the sleeper's weight is at or above the high-weight threshold.",
       "thresholdId": "thresholds.durabilityMinFoamDensityLbFt3 & thresholds.durabilityHighWeightLb",
       "mitigation": "Check the warranty's sag-depth threshold and prioritize using the full in-home trial period to catch early sagging."
+    },
+    {
+      "code": "PREFERRED_FIRMNESS_MISMATCH",
+      "category": "support",
+      "description": "Fires when the sleeper's own stated firmness preference (converted via firmnessLabelScale) differs from the mattress's actual firmness rating by more than the mismatch threshold - independent of the position/weight comfort band, which SUPPORT_THRESHOLD_MISMATCH already covers. A mattress can be within the objectively-recommended comfort band for someone's position and weight while still not matching what they personally said they like, and that is worth surfacing on its own.",
+      "thresholdId": "thresholds.preferredFirmnessMismatchPoints",
+      "mitigation": "This still falls in the objectively recommended range for your position and weight, but it may feel different from what you said you prefer - worth trying in person or during the trial period if firmness feel matters a lot to you."
     }
   ]
 }

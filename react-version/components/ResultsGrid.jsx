@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import AuditBanner from './AuditBanner';
 import ResultCard from './ResultCard';
 import ComparisonTable from './ComparisonTable';
 
 const MAX_SELECTED = 4;
 
-export default function ResultsGrid({ results }) {
+export default function ResultsGrid({ results, catalogAudit }) {
   const [selectedIds, setSelectedIds] = useState(() => results.filter((r) => r.preselect).map((r) => r.entry.id));
   const [showComparison, setShowComparison] = useState(false);
 
@@ -28,6 +29,7 @@ export default function ResultsGrid({ results }) {
 
   return (
     <>
+      <AuditBanner audit={catalogAudit} />
       <div className="results-header">
         <div>
           <div className="chips">

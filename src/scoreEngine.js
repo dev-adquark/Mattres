@@ -290,6 +290,39 @@ function scoreV0_1(rules, profile, mattress) {
   }
 
   {
+    // Purely additive: the person's own stated firmness preference,
+    // resolved via resolveProfileFirmness() (already defined in this
+    // file, but never actually invoked before this change - the profile
+    // field it reads, preferredFirmnessLabel, was collected on every
+    // quiz submission and then silently dropped). This does not touch
+    // bandMin/bandMax, sub.support, or SUPPORT_THRESHOLD_MISMATCH above
+    // at all - it only evaluates whether the mattress's firmness lines
+    // up with what the person actually said they like, as a distinct,
+    // independent flag from the objective position/weight comfort band.
+    const rule = ruleByCode.PREFERRED_FIRMNESS_MISMATCH;
+    const preferredFirmness = resolveProfileFirmness(rules, profile);
+    const mismatchThreshold = thresholds.preferredFirmnessMismatchPoints;
+    const triggered =
+      preferredFirmness !== null && Math.abs(mattress.firmnessRating - preferredFirmness) > mismatchThreshold;
+    const rationale =
+      preferredFirmness === null
+        ? 'No firmness preference was given, so this check was skipped.'
+        : triggered
+          ? `You said you prefer a firmness around ${preferredFirmness}/10, but this mattress rates ${mattress.firmnessRating}/10 - a ${round1(Math.abs(mattress.firmnessRating - preferredFirmness))}-point difference.`
+          : `This mattress's firmness (${mattress.firmnessRating}/10) is close to your stated preference (${preferredFirmness}/10).`;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: 'thresholds.preferredFirmnessMismatchPoints',
+      thresholdValue: mismatchThreshold,
+      evaluatedValue: preferredFirmness === null ? null : round1(Math.abs(mattress.firmnessRating - preferredFirmness)),
+    });
+    if (triggered) {
+      riskFlags.push({ code: rule.code, category: rule.category, rationale, mitigation: rule.mitigation });
+    }
+  }
+
+  {
     const rule = ruleByCode.HEAT_RETENTION_LIKELY;
     const triggered = profile.sleepTemperature === 'hot' && sub.heat <= thresholds.heatRetentionMaxHeatScore;
     riskRulesUsed.push({

@@ -274,6 +274,35 @@ function scoreV0_1(rules, profile, mattress) {
   }
 
   {
+    // Ported from src/scoreEngine.js exactly (see that file for the full
+    // explanation): resolveProfileFirmness() was defined and exported
+    // here too but never actually invoked - the same orphaned-function
+    // bug existed in this duplicated copy. Purely additive: does not
+    // touch bandMin/bandMax, sub.support, or SUPPORT_THRESHOLD_MISMATCH.
+    const rule = ruleByCode.PREFERRED_FIRMNESS_MISMATCH;
+    const preferredFirmness = resolveProfileFirmness(rules, profile);
+    const mismatchThreshold = thresholds.preferredFirmnessMismatchPoints;
+    const triggered =
+      preferredFirmness !== null && Math.abs(mattress.firmnessRating - preferredFirmness) > mismatchThreshold;
+    const rationale =
+      preferredFirmness === null
+        ? 'No firmness preference was given, so this check was skipped.'
+        : triggered
+          ? `You said you prefer a firmness around ${preferredFirmness}/10, but this mattress rates ${mattress.firmnessRating}/10 - a ${round1(Math.abs(mattress.firmnessRating - preferredFirmness))}-point difference.`
+          : `This mattress's firmness (${mattress.firmnessRating}/10) is close to your stated preference (${preferredFirmness}/10).`;
+    riskRulesUsed.push({
+      ruleId: rule.code,
+      triggered,
+      thresholdId: 'thresholds.preferredFirmnessMismatchPoints',
+      thresholdValue: mismatchThreshold,
+      evaluatedValue: preferredFirmness === null ? null : round1(Math.abs(mattress.firmnessRating - preferredFirmness)),
+    });
+    if (triggered) {
+      riskFlags.push({ code: rule.code, category: rule.category, rationale, mitigation: rule.mitigation });
+    }
+  }
+
+  {
     const rule = ruleByCode.HEAT_RETENTION_LIKELY;
     const triggered = profile.sleepTemperature === 'hot' && sub.heat <= thresholds.heatRetentionMaxHeatScore;
     riskRulesUsed.push({

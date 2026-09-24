@@ -81,7 +81,9 @@ export default function FindMatchPage() {
                 </div>
               )}
 
-              {apiData && apiData.results.length > 0 && <ResultsGrid results={apiData.results} />}
+              {apiData && apiData.results.length > 0 && (
+                <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
+              )}
             </div>
 
             <div className="fm-side">

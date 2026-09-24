@@ -1,5 +1,6 @@
 import { scoreEngine } from '@/lib/scoreEngine';
 import catalog from '@/lib/data/mattress-catalog.json';
+import { auditCatalog, isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
 // lib/data/mattress-catalog.json here is the fully-processed, display-
 // and-scoring-ready catalog (a flat array with priceUsd, sponsored,
@@ -113,6 +114,11 @@ export function matchProfile(profile) {
       displayTitle: displayTitle(entry),
       whyThisMatch: buildWhyThisMatch(result),
       preselect: index < 3,
+      // Recomputed from the real underlying fields every time (see
+      // lib/dataIntegrity.js), not trusted from a stored flag - so a
+      // result can never claim verification it doesn't actually have.
+      verified: isRecordVerified(entry),
+      missingFields: missingFields(entry),
     };
   });
 
@@ -120,5 +126,9 @@ export function matchProfile(profile) {
     results,
     modelVersion: results[0]?.result.modelVersion ?? '0.1',
     all: results.map((r) => ({ id: r.entry.id, brand: r.entry.brand, model: r.entry.model, score: r.result.overallScore })),
+    // Catalog-wide honesty summary: how much of what's being shown is
+    // actually verified vs placeholder, surfaced so this is never a
+    // silent gap - see AuditBanner.jsx.
+    catalogAudit: auditCatalog(catalog),
   };
 }

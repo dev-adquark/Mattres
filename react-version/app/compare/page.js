@@ -2,6 +2,7 @@ import Link from 'next/link';
 import BrandMarquee from '@/components/BrandMarquee';
 import PromoGrid from '@/components/PromoGrid';
 import TrustBadgeRow from '@/components/TrustBadgeRow';
+import AuditBanner from '@/components/AuditBanner';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
@@ -38,7 +39,7 @@ export const metadata = {
 };
 
 export default function ComparePage() {
-  const { results, modelVersion } = matchProfile(DEMO_PROFILE);
+  const { results, modelVersion, catalogAudit } = matchProfile(DEMO_PROFILE);
 
   return (
     <div>
@@ -75,6 +76,7 @@ export default function ComparePage() {
             </div>
           </div>
 
+          <AuditBanner audit={catalogAudit} />
           <CompareGrid results={results} />
 
           <p className="compare-footnote">

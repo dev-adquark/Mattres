@@ -2094,3 +2094,23 @@
   .owl-mascot-nav{ width:22px; height:24px; flex-shrink:0; display:inline-block; }
   .owl-mascot-nav svg{ width:100%; height:100%; display:block; overflow:visible; }
   .btn .owl-mascot-nav{ width:16px; height:18px; margin-right:2px; }
+
+  /* Honest data-verification indicator - shown on every result card
+     until a record actually has a real sourceUrl + lastVerified date
+     (see lib/dataIntegrity.js). Intentionally uses the same warning
+     visual language as .flag-warn rather than a neutral badge, since
+     this is a real gap in the data, not a cosmetic label. */
+  .unverified-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px;
+    background:#fef3e2; color:#a8600f; border:1px solid rgba(168,96,15,0.25);
+    margin-left:6px;
+  }
+  .audit-banner{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    padding:14px 18px; border-radius:12px; margin-bottom: 24px;
+    background:#fef3e2; border:1px solid rgba(168,96,15,0.25); color:#a8600f;
+    font-size:13px;
+  }
+  .audit-banner svg{ flex-shrink:0; width:18px; height:18px; }
+  .audit-banner b{ font-weight:800; }
