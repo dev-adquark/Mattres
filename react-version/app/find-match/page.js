@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
+import FindMatchStats from '@/components/FindMatchStats';
 import OwlMascot from '@/components/OwlMascot';
 import QuizForm from '@/components/QuizForm';
 import ResultsGrid from '@/components/ResultsGrid';
+import SleepProfileChips from '@/components/SleepProfileChips';
+import SponsorPromoStrip from '@/components/SponsorPromoStrip';
 import { useLastResult } from '@/lib/useLastResult';
 
 export default function FindMatchPage() {
@@ -46,33 +49,49 @@ export default function FindMatchPage() {
 
       <section className="section dot-grid-bg" style={{ paddingTop: 56 }}>
         <div className="wrap">
-          <QuizForm onResult={handleResult} onSubmittingChange={setSubmitting} />
-
-          {submitting && (
-            <div className="scoring-state">
-              <div className="scoring-scan" aria-hidden="true" />
-              <p>Scoring every mattress in the catalog against your real profile…</p>
+          <div className="fm-layout">
+            <div className="fm-side">
+              <FindMatchStats />
             </div>
-          )}
 
-          {!submitting && !apiData && (
-            <div className="empty-state">
-              <OwlMascot variant="empty" />
-              <p>
-                Answer the questions above and select <strong>&ldquo;Find my matches&rdquo;</strong> to see your
-                personalized results.
-              </p>
+            <div>
+              <QuizForm onResult={handleResult} onSubmittingChange={setSubmitting} />
+
+              {submitting && (
+                <div className="scoring-state">
+                  <div className="scoring-scan" aria-hidden="true" />
+                  <p>Scoring every mattress in the catalog against your real profile…</p>
+                </div>
+              )}
+
+              {!submitting && !apiData && (
+                <div className="empty-state">
+                  <OwlMascot variant="empty" />
+                  <p>
+                    Answer the questions above and select <strong>&ldquo;Find my matches&rdquo;</strong> to see your
+                    personalized results.
+                  </p>
+                </div>
+              )}
+
+              {apiData && apiData.results.length === 0 && (
+                <div className="no-results">
+                  No mattresses in the catalog match your budget/type filters. Try widening your budget range or
+                  clearing the type preference.
+                </div>
+              )}
+
+              {apiData && apiData.results.length > 0 && <ResultsGrid results={apiData.results} />}
             </div>
-          )}
 
-          {apiData && apiData.results.length === 0 && (
-            <div className="no-results">
-              No mattresses in the catalog match your budget/type filters. Try widening your budget range or clearing
-              the type preference.
+            <div className="fm-side">
+              <SleepProfileChips />
             </div>
-          )}
+          </div>
 
-          {apiData && apiData.results.length > 0 && <ResultsGrid results={apiData.results} />}
+          <div style={{ marginTop: 48 }}>
+            <SponsorPromoStrip />
+          </div>
         </div>
       </section>
     </div>
