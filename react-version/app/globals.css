@@ -535,12 +535,12 @@
   .owl-glow{animation:owlGlow 3.2s ease-in-out infinite;}
   @keyframes owlGlow{0%,100%{opacity:0.55;}50%{opacity:1;}}
   .owl-speech{
-    position:absolute;top:100%;right:-10px;margin-top:6px;white-space:nowrap;
+    position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;white-space:nowrap;
     font-size:10.5px;font-weight:600;color:var(--cyan-300);background:rgba(8,20,36,0.85);
     border:1px solid rgba(63,212,255,0.3);border-radius:999px;padding:4px 10px;opacity:0;
     animation:owlSpeechIn 0.6s ease 1.1s forwards;
   }
-  @keyframes owlSpeechIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes owlSpeechIn{from{opacity:0;transform:translate(-50%,-4px);}to{opacity:1;transform:translate(-50%,0);}}
   @media (max-width:900px){ .owl-speech{display:none;} }
   @media (prefers-reduced-motion: reduce){
     .owl-mascot-hero{animation:none;}
@@ -2087,3 +2087,10 @@
     background:linear-gradient(180deg,var(--navy-950),var(--navy-900));
     position:relative; overflow:hidden;
   }
+
+  /* Compact owl mascot for the header brand mark and primary CTA
+     buttons - static positioning (inline, not floating over a hero),
+     no speech bubble or zzz's, sized to sit next to text. */
+  .owl-mascot-nav{ width:22px; height:24px; flex-shrink:0; display:inline-block; }
+  .owl-mascot-nav svg{ width:100%; height:100%; display:block; overflow:visible; }
+  .btn .owl-mascot-nav{ width:16px; height:18px; margin-right:2px; }

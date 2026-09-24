@@ -9,13 +9,18 @@
  * variant="hero"  -> floating + a "Let's find your match" speech bubble
  * variant="empty" -> static-position, light-background color variant for
  *                    use inside a light card (the find-match empty state)
+ * variant="nav"   -> small, static, inline icon for the header brand mark
+ *                    and primary CTA buttons - no absolute positioning,
+ *                    no speech bubble, no zzz's, sized to sit inline with
+ *                    text rather than floating over a hero.
  */
 export default function OwlMascot({ variant = 'hero', idSuffix }) {
   const suffix = idSuffix || variant;
   const bodyId = `owlBody${suffix}`;
   const eyeId = `owlEye${suffix}`;
   const wingId = `owlWing${suffix}`;
-  const wrapClass = variant === 'hero' ? 'owl-mascot owl-mascot-hero' : 'owl-mascot owl-mascot-empty';
+  const wrapClass =
+    variant === 'hero' ? 'owl-mascot owl-mascot-hero' : variant === 'nav' ? 'owl-mascot-nav' : 'owl-mascot owl-mascot-empty';
   const zClass = variant === 'empty' ? 'owl-z owl-z-light' : 'owl-z';
 
   return (
@@ -67,9 +72,13 @@ export default function OwlMascot({ variant = 'hero', idSuffix }) {
         <path d="M70 108 L67 115 M70 108 L73 115" stroke="#1a3350" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
       {variant === 'hero' && <span className="owl-speech">Let&apos;s find your match</span>}
-      <span className={`${zClass} z1`}>z</span>
-      <span className={`${zClass} z2`}>z</span>
-      <span className={`${zClass} z3`}>z</span>
+      {variant !== 'nav' && (
+        <>
+          <span className={`${zClass} z1`}>z</span>
+          <span className={`${zClass} z2`}>z</span>
+          <span className={`${zClass} z3`}>z</span>
+        </>
+      )}
     </div>
   );
 }

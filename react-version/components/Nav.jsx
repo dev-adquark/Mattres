@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import AnimatedLogo from './AnimatedLogo';
-import SleeperCharacter from './SleeperCharacter';
+import OwlMascot from './OwlMascot';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const NAV_LINKS = [
@@ -53,7 +53,7 @@ export default function Nav() {
           <AnimatedLogo idSuffix="Header" />
           Mattress Match Score
         </Link>
-        <SleeperCharacter placement="nav" />
+        <OwlMascot variant="nav" idSuffix="Nav" />
         <div className="nav-links">
           {NAV_LINKS.map((l) => (
             <Link key={l.href} href={l.href} data-nav={l.href} className={pathname === l.href ? 'active' : ''}>
@@ -69,6 +69,7 @@ export default function Nav() {
             </svg>
           </button>
           <Link href="/find-match" className="btn btn-primary" id="navMagneticCta" ref={magneticRef}>
+            <OwlMascot variant="nav" idSuffix="NavCta" />
             Find My Match
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
               <path d="M5 12h14M13 6l6 6-6 6" />
