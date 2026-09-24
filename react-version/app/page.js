@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
+import BrandCarouselRow from '@/components/BrandCarouselRow';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
-import BrandMarquee from '@/components/BrandMarquee';
 import CategoryIconGrid from '@/components/CategoryIconGrid';
 import DealBanner from '@/components/DealBanner';
 import PressMentionRow from '@/components/PressMentionRow';
+import PromoCardCluster from '@/components/PromoCardCluster';
 import PromoGrid from '@/components/PromoGrid';
 import TrustBadgeRow from '@/components/TrustBadgeRow';
 import Hero from '@/components/Hero';
@@ -47,6 +48,9 @@ export default function HomePage() {
       <section className="section" style={{ paddingTop: 44, paddingBottom: 44 }}>
         <div className="wrap">
           <TrustBadgeRow />
+          <div style={{ marginTop: 28 }}>
+            <PromoCardCluster />
+          </div>
           <div style={{ marginTop: 32 }}>
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)', display: 'block', marginBottom: 16 }}>
               Browse by mattress type
@@ -174,7 +178,7 @@ export default function HomePage() {
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
               Mattress makers we work with <span style={{ opacity: 0.7, fontWeight: 500, textTransform: 'none', letterSpacing: 'normal' }}>(placeholder names for demo)</span>
             </span>
-            <BrandMarquee />
+            <BrandCarouselRow />
           </div>
           <div style={{ marginTop: 40 }}>
             <PromoGrid />

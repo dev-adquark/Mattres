@@ -1870,3 +1870,87 @@
     font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
     background:rgba(34,201,176,0.12); color:var(--teal-600,#0e8a72); border:1px solid rgba(34,201,176,0.3);
   }
+
+  /* ============================================================
+     Promo card cluster (hero-adjacent) - matches the richer,
+     gradient-bordered floating-card look from the reference mockup,
+     as a safe in-flow grid rather than absolutely-positioned floats
+     over the 3D scene (avoids overlap/responsive risk on smaller
+     viewports). Every card that reads as a real offer (limited time,
+     % off, featured) carries the same explicit demo label used
+     elsewhere on this site.
+     ============================================================ */
+  .promo-cluster{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+  }
+  @media (max-width:900px){ .promo-cluster{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .promo-cluster{ grid-template-columns:1fr; } }
+  .pc-card{
+    position:relative; border-radius:18px; padding:20px;
+    background:linear-gradient(160deg, rgba(12,24,44,0.95), rgba(15,33,64,0.8));
+    border:1px solid var(--glass-border);
+    display:flex; flex-direction:column; gap:8px; overflow:hidden;
+  }
+  .pc-card::before{
+    content:""; position:absolute; inset:0; z-index:0;
+    background:radial-gradient(220px 140px at 100% 0%, rgba(63,212,255,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .pc-card > *{ position:relative; z-index:1; }
+  .pc-ribbon{
+    align-self:flex-start;
+    font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px; color:#08131f;
+    background:linear-gradient(100deg, var(--cyan-400), var(--teal-400));
+  }
+  .pc-ribbon.violet{ background:linear-gradient(100deg, var(--violet-400), var(--magenta-400)); color:#fff; }
+  .pc-icon-circle{
+    width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.06); border:1px solid var(--glass-border); color:var(--cyan-300);
+  }
+  .pc-card h5{ font-size:15px; margin:2px 0 0; color:var(--ink); line-height:1.3; }
+  .pc-card p{ font-size:12.5px; color:var(--ink-dim); margin:0; line-height:1.5; }
+  .pc-card .pc-cta{
+    margin-top:auto; font-size:12.5px; font-weight:700; color:var(--cyan-400);
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .pc-card .demo-label{ margin-top:2px; }
+
+  /* Bookended marquee row: two feature cards flanking the scrolling
+     brand strip, with manual prev/next controls layered on top of the
+     existing auto-scroll (clicking pauses/nudges, matching the
+     reference's carousel-with-arrows look). */
+  .marquee-row{
+    display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:stretch;
+  }
+  /* The marquee's grid track is the middle (1fr) column. CSS Grid items
+     default to min-width:auto, which lets an item overflow its track to
+     fit its content's natural width - and .brand-marquee-track's natural
+     width is the full un-clipped scrolling content (~3480px), not
+     anything meant to actually be visible at once. Without this, the
+     already-correct width:100%/max-width:100% fix on .brand-marquee
+     itself has nothing to be 100% OF, since its grid-item parent was
+     free to grow past the track to accommodate that content. This is
+     the actual fix, not a rename of the same rule. */
+  .marquee-row > *:nth-child(2){ min-width:0; }
+  @media (max-width:860px){ .marquee-row{ grid-template-columns:1fr; } .marquee-bookend{ display:none; } }
+  .marquee-bookend{
+    width:200px; border-radius:16px; padding:16px; flex-shrink:0;
+    background:linear-gradient(160deg, rgba(63,212,255,0.1), rgba(93,63,245,0.12));
+    border:1px solid var(--glass-border);
+    display:flex; flex-direction:column; justify-content:space-between; gap:10px;
+  }
+  .marquee-bookend b{ font-size:13.5px; color:var(--ink); display:block; }
+  .marquee-bookend span{ font-size:11.5px; color:var(--ink-dim); }
+  .marquee-nav-wrap{ display:flex; align-items:center; gap:10px; }
+  .marquee-nav-btn{
+    width:32px; height:32px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.06); border:1px solid var(--glass-border); color:var(--ink);
+    cursor:pointer;
+  }
+  .marquee-nav-btn:hover{ background:rgba(63,212,255,0.15); border-color:var(--cyan-400); }
+
+  /* Manual pause toggle for BrandCarouselRow - targets the existing
+     marquee track's own animation, doesn't redefine it. */
+  .marquee-paused .brand-marquee-track{ animation-play-state:paused; }
