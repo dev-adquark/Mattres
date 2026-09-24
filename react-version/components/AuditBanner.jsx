@@ -17,9 +17,10 @@ export default function AuditBanner({ audit }) {
         <b>
           {audit.verifiedCount} of {audit.total}
         </b>{' '}
-        catalog entries are verified (real sourceUrl + last-verified date on file). The remaining{' '}
-        <b>{audit.unverifiedCount}</b> are placeholder demo data built for this project — not real products — and are
-        labeled individually below. No result is shown as verified unless it actually is.
+        catalog entries are verified (real sourceUrl + last-verified date on file). Brand and model names shown are
+        real, but the specific specs, prices, and scores for the remaining <b>{audit.unverifiedCount}</b> have not
+        been independently confirmed against the manufacturer or retailer — treat those numbers as placeholders
+        until verification is added. No result is shown as verified unless it actually is.
       </span>
     </div>
   );

@@ -1,13 +1,13 @@
 [
   {
-    "id": "aurora-sleep-aurora-hybrid",
-    "brand": "Aurora Sleep",
-    "model": "Aurora Hybrid",
+    "id": "helix-helix-midnight",
+    "brand": "Helix",
+    "model": "Helix Midnight",
     "type": "hybrid",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "Aurora Direct",
-      "Sleepworld"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 12,
     "trialDays": 100,
@@ -42,17 +42,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "cloudline-cloudline-original",
-    "brand": "Cloudline",
-    "model": "Cloudline Original",
+    "id": "nectar-nectar-memory-foam",
+    "brand": "Nectar",
+    "model": "Nectar Memory Foam",
     "type": "foam",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "Cloudline.com",
-      "Mattress Depot"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 10,
     "trialDays": 100,
@@ -87,16 +87,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "terrafoam-terrafoam-cool",
-    "brand": "TerraFoam",
-    "model": "TerraFoam Cool",
+    "id": "bear-bear-original",
+    "brand": "Bear",
+    "model": "Bear Original",
     "type": "foam",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "TerraFoam Direct"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 11,
     "trialDays": 120,
@@ -131,16 +132,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "nimbus-nimbus-pocket-coil",
-    "brand": "Nimbus",
-    "model": "Nimbus Pocket Coil",
+    "id": "purple-purple-hybrid",
+    "brand": "Purple",
+    "model": "Purple Hybrid",
     "type": "hybrid",
     "coreMaterialNotes": "Pocket coil support core.",
     "retailPartners": [
-      "NimbusHome"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 13,
     "trialDays": 365,
@@ -175,17 +177,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "stratus-stratus-latex-hybrid",
-    "brand": "Stratus",
-    "model": "Stratus Latex Hybrid",
-    "type": "hybrid",
+    "id": "avocado-avocado-green-mattress",
+    "brand": "Avocado",
+    "model": "Avocado Green Mattress",
+    "type": "latex",
     "coreMaterialNotes": "Includes a latex layer.",
     "retailPartners": [
-      "Stratus Direct",
-      "GreenBed"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 12.5,
     "trialDays": 180,
@@ -220,16 +222,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "baseline-baseline-firm-innerspring",
-    "brand": "Baseline",
-    "model": "Baseline Firm Innerspring",
+    "id": "saatva-saatva-classic",
+    "brand": "Saatva",
+    "model": "Saatva Classic",
     "type": "innerspring",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "BudgetBeds"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 9,
     "trialDays": 30,
@@ -255,16 +258,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "drift-drift-plush-foam",
-    "brand": "Drift",
-    "model": "Drift Plush Foam",
+    "id": "leesa-leesa-original",
+    "brand": "Leesa",
+    "model": "Leesa Original",
     "type": "foam",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "DriftSleep"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 11.8,
     "trialDays": 100,
@@ -299,17 +303,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "anchor-anchor-hybrid-support",
-    "brand": "Anchor",
-    "model": "Anchor Hybrid Support",
+    "id": "dreamcloud-dreamcloud-original",
+    "brand": "DreamCloud",
+    "model": "DreamCloud Original",
     "type": "hybrid",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "AnchorHome",
-      "BedBarn"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 14,
     "trialDays": 101,
@@ -332,16 +336,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "coastal-coastal-cool-gel-foam",
-    "brand": "Coastal",
-    "model": "Coastal Cool Gel Foam",
+    "id": "layla-layla-memory-foam",
+    "brand": "Layla",
+    "model": "Layla Memory Foam",
     "type": "foam",
     "coreMaterialNotes": "Gel-infused foam.",
     "retailPartners": [
-      "CoastalSleep"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 12,
     "trialDays": 120,
@@ -367,16 +372,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "summit-summit-innerspring-classic",
-    "brand": "Summit",
-    "model": "Summit Innerspring Classic",
+    "id": "winkbed-winkbed",
+    "brand": "WinkBed",
+    "model": "WinkBed",
     "type": "innerspring",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "SummitDirect"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 8,
     "trialDays": 30,
@@ -402,17 +408,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "halcyon-halcyon-hybrid-plus",
-    "brand": "Halcyon",
-    "model": "Halcyon Hybrid Plus",
+    "id": "brooklyn-bedding-brooklyn-bedding-signature-hybrid",
+    "brand": "Brooklyn Bedding",
+    "model": "Brooklyn Bedding Signature Hybrid",
     "type": "hybrid",
     "coreMaterialNotes": "Pocket coil support core.",
     "retailPartners": [
-      "Halcyon.com",
-      "SleepMart"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 12,
     "trialDays": 365,
@@ -438,16 +444,17 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
   },
   {
-    "id": "vale-vale-budget-foam",
-    "brand": "Vale",
-    "model": "Vale Budget Foam",
+    "id": "tuft-needle-tuft-needle-original",
+    "brand": "Tuft & Needle",
+    "model": "Tuft & Needle Original",
     "type": "foam",
     "coreMaterialNotes": null,
     "retailPartners": [
-      "ValeDirect"
+      "Example Retailer A",
+      "Example Retailer B"
     ],
     "heightIn": 9,
     "trialDays": 60,
@@ -473,6 +480,84 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "placeholder-demo"
+    "dataOrigin": "real-brand-demo-specs"
+  },
+  {
+    "brand": "Casper",
+    "model": "Casper Original Hybrid",
+    "type": "hybrid",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 11,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6,
+      "max": 7
+    },
+    "priceUsd": 1295,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "casper-casper-original-hybrid"
+  },
+  {
+    "brand": "Tempur-Pedic",
+    "model": "TEMPUR-Adapt",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 11,
+    "trialDays": 90,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 5,
+      "max": 6.5
+    },
+    "priceUsd": 1799,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "tempur-pedic-tempur-adapt"
+  },
+  {
+    "brand": "GhostBed",
+    "model": "GhostBed Classic",
+    "type": "foam",
+    "coreMaterialNotes": null,
+    "retailPartners": [
+      "Example Retailer A",
+      "Example Retailer B"
+    ],
+    "heightIn": 11,
+    "trialDays": 101,
+    "warrantyYears": 20,
+    "warrantyLifetime": false,
+    "firmnessRange": {
+      "min": 6,
+      "max": 7.5
+    },
+    "priceUsd": 895,
+    "sponsored": false,
+    "reviewHighlights": [],
+    "verified": false,
+    "sourceUrl": null,
+    "lastVerified": null,
+    "dataOrigin": "real-brand-demo-specs",
+    "id": "ghostbed-ghostbed-classic"
   }
 ]

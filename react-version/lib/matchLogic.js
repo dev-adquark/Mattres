@@ -10,7 +10,7 @@ import { auditCatalog, isRecordVerified, missingFields } from '@/lib/dataIntegri
 // filename holds at the repo root (that raw shape is missing priceUsd/
 // sponsored/reviewHighlights entirely and uses a nested height.inches).
 // Confirmed this is the right one to use by cross-checking a known real
-// result (Aurora Hybrid, side/210lb/medium-firm/hot -> 76/100) against
+// result (Helix Midnight, side/210lb/medium-firm/hot -> 76/100) against
 // what the live HTML site has produced for that exact profile throughout
 // this project.
 

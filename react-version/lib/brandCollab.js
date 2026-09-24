@@ -20,20 +20,29 @@ export const brandCollab = {
 };
 
 /**
- * Generic placeholder partner list for the brand marquee strip. Real
- * partner names/links later means editing this array, not the
- * BrandMarquee component - same swap-via-config principle as
- * brandCollab above.
+ * Real mattress brands referenced in this site's comparisons - the same
+ * companies whose product lines appear in the catalog. Shown as "brands
+ * we compare," not "brands we work with": this project has no real
+ * partnership or affiliate relationship with any of these companies, so
+ * the surrounding copy deliberately avoids implying one, even though the
+ * names themselves are real.
  */
 export const brandPartners = [
-  { name: 'Northline Sleep Co.' },
-  { name: 'Aurora Bedding' },
-  { name: 'Cedar & Stone' },
-  { name: 'Drift Supply' },
-  { name: 'Haven Mattress Lab' },
-  { name: 'Solace Home' },
-  { name: 'Restwell Studio' },
-  { name: 'Nightfall & Co.' },
+  { name: 'Casper' },
+  { name: 'Purple' },
+  { name: 'Tempur-Pedic' },
+  { name: 'Saatva' },
+  { name: 'Nectar' },
+  { name: 'Helix' },
+  { name: 'DreamCloud' },
+  { name: 'Leesa' },
+  { name: 'Avocado' },
+  { name: 'Brooklyn Bedding' },
+  { name: 'Bear' },
+  { name: 'WinkBed' },
+  { name: 'Layla' },
+  { name: 'GhostBed' },
+  { name: 'Tuft & Needle' },
 ];
 
 /**
