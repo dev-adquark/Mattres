@@ -21,11 +21,16 @@ export default function FindMatchPage() {
     // Broadcast the real result to the home page's Sleep DNA / Universe /
     // Match Score sections via the same sessionStorage bridge the original
     // single-file project used - see lib/useLastResult.js for why.
+    // Stores the full results array (not just the top match) so any
+    // mattress detail page can look up its own real score/sub-scores/
+    // risk flags for the person's actual profile, not only whichever
+    // mattress happened to rank first.
     if (data.results && data.results.length) {
       const top = data.results[0];
       setPayload({
         profile,
         top,
+        results: data.results,
         all: data.all,
         modelVersion: data.modelVersion,
       });

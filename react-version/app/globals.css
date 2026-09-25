@@ -2114,3 +2114,21 @@
   }
   .audit-banner svg{ flex-shrink:0; width:18px; height:18px; }
   .audit-banner b{ font-weight:800; }
+
+  /* Mattress detail page (/mattress/[id]) */
+  .md-layout{ display:grid; grid-template-columns:1fr 320px; gap:32px; align-items:start; }
+  @media (max-width:900px){ .md-layout{ grid-template-columns:1fr; } }
+  .md-spec-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:20px 0 28px; }
+  @media (max-width:700px){ .md-spec-grid{ grid-template-columns:1fr 1fr; } }
+  .md-spec{ padding:14px 16px; border-radius:12px; background:#fff; border:1px solid #e4ecf1; }
+  .md-spec b{ display:block; font-size:16px; color:var(--slate-900,#0f2140); }
+  .md-spec span{ font-size:11.5px; color:var(--slate-600); text-transform:uppercase; letter-spacing:.04em; }
+  .md-side-card{ border-radius:16px; padding:20px; background:#fff; border:1px solid #e4ecf1; margin-bottom:16px; }
+  .md-side-card h5{ font-size:14px; margin:0 0 12px; color:var(--slate-900,#0f2140); }
+  .md-retailer-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-top:1px solid #eef2f5; }
+  .md-retailer-row:first-of-type{ border-top:none; }
+  .md-review-card{ padding:16px; border-radius:12px; background:#fff; border:1px solid #e4ecf1; margin-bottom:12px; }
+  .md-review-card .conf{ margin-left: 8px; }
+  .md-review-card p{ font-size:13.5px; color:var(--slate-600); font-style:italic; margin:8px 0 0; }
+  .md-score-box{ border-radius:16px; padding:20px; background:linear-gradient(160deg,rgba(12,24,44,0.95),rgba(15,33,64,0.85)); color:#fff; margin-bottom:16px; }
+  .md-score-box .score-big{ font-size:38px; font-weight:800; color:var(--cyan-300); }

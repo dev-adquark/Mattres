@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { CATEGORIES } from '@/lib/categories';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
@@ -60,7 +61,9 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           Best value
         </span>
       )}
-      <h3>{displayTitle}</h3>
+      <h3>
+        <Link href={`/mattress/${entry.id}`}>{displayTitle}</Link>
+      </h3>
       <div className="cc-meta">
         {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} · <strong>${entry.priceUsd.toLocaleString()}</strong> ·{' '}
         {entry.trialDays}-night trial
