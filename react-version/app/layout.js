@@ -21,9 +21,26 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 // const inter = Inter({ subsets: ['latin'], weight: ['400','500','600','700'], variable: '--font-inter' });
 
 export const metadata = {
-  title: 'Mattress Match Score — Find Your Perfect Mattress Match',
+  metadataBase: new URL('https://mattres-liart.vercel.app'),
+  title: {
+    default: 'Mattress Match Score — Find Your Perfect Mattress Match',
+    template: '%s',
+  },
   description:
     "Answer a few questions and we'll score every mattress in our catalog against your sleep profile — live, using a real, transparent scoring engine.",
+  openGraph: {
+    siteName: 'Mattress Match Score',
+    type: 'website',
+    title: 'Mattress Match Score — Find Your Perfect Mattress Match',
+    description:
+      "Answer a few questions and we'll score every mattress in our catalog against your sleep profile — live, using a real, transparent scoring engine.",
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Mattress Match Score — Find Your Perfect Mattress Match',
+    description: "A real, transparent mattress scoring engine — not a generic star rating.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport = {

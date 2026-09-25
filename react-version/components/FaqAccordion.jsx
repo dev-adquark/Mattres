@@ -52,6 +52,63 @@ const FAQS = [
       </svg>
     ),
   },
+  {
+    q: 'What are the firmness tradeoffs I should know about?',
+    a: 'Softer surfaces generally improve pressure relief but reduce edge support and can under-support heavier bodies; firmer surfaces do the reverse. The engine checks both your position/weight comfort band and your own stated preference against a mattress\u2019s real firmness rating — they can disagree, and both flags are worth reading.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <path d="M3 19h18M6 19V9M12 19V5M18 19v12" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    q: 'How should I actually use a trial period?',
+    a: 'A trial period exists because firmness feel is genuinely subjective — no score, real or not, replaces sleeping on it. Use the full window, not just the first few nights; initial adjustment discomfort is common and doesn\u2019t always predict long-term fit.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 3" />
+      </svg>
+    ),
+  },
+  {
+    q: 'What does the durability score actually predict?',
+    a: 'It flags sag risk based on top-foam density relative to your body weight \u2014 a real, checkable relationship, not a guess about how many years a specific mattress will last. Lower-density foam under higher body weight is the real trigger for the DURABILITY_SAG_RISK flag.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="4" y="15" width="16" height="4" rx="1" />
+        <rect x="4" y="9.5" width="16" height="4" rx="1" opacity="0.65" />
+        <rect x="4" y="4" width="16" height="4" rx="1" opacity="0.4" />
+      </svg>
+    ),
+  },
+  {
+    q: 'What should I actually expect from motion isolation?',
+    a: 'Motion isolation matters most if you share a bed and are sensitive to a partner\u2019s movement \u2014 it\u2019s scored higher for hybrids/foam with individually-responsive layers than for traditional innersprings, which transfer motion across the whole surface more readily.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <path d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    q: 'Why does the same mattress get a different heat score for different people?',
+    a: 'It doesn\u2019t \u2014 a mattress\u2019s real Heat sub-score reflects its own construction (type, cooling cover) and is the same for everyone. What changes per person is whether that real score triggers the HEAT_RETENTION_LIKELY risk flag, which only fires if you said you sleep hot.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <path d="M2 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" strokeDasharray="4 2" />
+      </svg>
+    ),
+  },
+  {
+    q: 'What is edge support, and when does it actually matter?',
+    a: 'Edge support is stability near the perimeter of the mattress \u2014 it matters most if you sit on the edge often, sleep near it, or share a bed and want the full usable surface. A reinforced perimeter (common in hybrids/innersprings, less common in all-foam) scores higher here.',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
 ];
 
 export default function FaqAccordion({ onLight = false }) {

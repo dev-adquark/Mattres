@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import BrandMarquee from '@/components/BrandMarquee';
 import SpotlightCard from '@/components/SpotlightCard';
 
@@ -131,6 +132,26 @@ export default function SmartBuyingGuidePage() {
             </ul>
             <p>If all four are yes, further research usually changes very little.</p>
           </SpotlightCard>
+
+          <div style={{ marginTop: 40 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)', display: 'block', marginBottom: 14 }}>
+              More guides
+            </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+              <Link href="/guides/pressure-relief-for-side-sleepers" className="chip" style={{ textDecoration: 'none' }}>
+                Pressure relief for side sleepers
+              </Link>
+              <Link href="/guides/back-support-for-heavier-sleepers" className="chip" style={{ textDecoration: 'none' }}>
+                Back support for heavier sleepers
+              </Link>
+              <Link href="/guides/cooling-mattress-comparison" className="chip" style={{ textDecoration: 'none' }}>
+                Cooling mattress comparison
+              </Link>
+              <Link href="/faq" className="chip" style={{ textDecoration: 'none' }}>
+                FAQ
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

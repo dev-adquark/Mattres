@@ -28,7 +28,8 @@ export default function Footer() {
             <Link href="/">Home</Link>
             <Link href="/find-match">Match Score</Link>
             <Link href="/compare">Compare</Link>
-            <Link href="/methodology">Guides</Link>
+            <Link href="/buying-guide">Guides</Link>
+            <Link href="/faq">FAQ</Link>
             <Link href="/disclosures">About</Link>
           </div>
         </div>

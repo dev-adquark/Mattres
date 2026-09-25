@@ -39,15 +39,41 @@ export default function NumberTicker({ value, duration = 1100, decimals = 0, suf
       return undefined;
     }
 
+    // A real bug lived here: if this effect ran more than once in quick
+    // succession (e.g. during hydration, when `value` genuinely transitions
+    // from null to the real score as two separate effect invocations),
+    // each invocation's tick() closure wrote to the SAME shared rafRef. If
+    // an older invocation's frame had already fired the instant before its
+    // own cleanup cancelled the ref, that stale closure could still call
+    // setDisplay with its own (now-outdated) from/delta after a newer
+    // invocation had already started - producing a genuinely wrong,
+    // out-of-range flash (observed as -317 mid-transition) that had
+    // nothing to do with the real score. `cancelled` is local to this one
+    // invocation's closure, not the shared ref, so a superseded invocation
+    // can never write display again regardless of what rafRef currently
+    // points at.
+    let cancelled = false;
     const start = performance.now();
     const from = fromRef.current;
     const delta = value - from;
 
     function tick(now) {
-      const t = Math.min(1, (now - start) / duration);
+      if (cancelled) return;
+      const t = Math.min(1, Math.max(0, (now - start) / duration));
       // ease-out cubic, matching the timing feel of this site's other reveals
       const eased = 1 - Math.pow(1 - t, 3);
-      setDisplay(from + delta * eased);
+      const next = from + delta * eased;
+      // Defensive clamp: a count-up ticker's displayed value can never
+      // legitimately fall outside the range between its start (0) and its
+      // real target - whatever upstream timing anomaly is still producing
+      // occasional out-of-range values even with the cancelled-flag fix
+      // above (observed as -294, -12 in repeated testing; not fully
+      // isolated), this makes it structurally impossible for a wrong
+      // number to ever reach the screen, rather than leaving a real user
+      // to see a nonsensical score during a page transition.
+      const lo = Math.min(from, value);
+      const hi = Math.max(from, value);
+      setDisplay(Math.min(hi, Math.max(lo, next)));
       if (t < 1) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
@@ -56,6 +82,7 @@ export default function NumberTicker({ value, duration = 1100, decimals = 0, suf
     }
     rafRef.current = requestAnimationFrame(tick);
     return () => {
+      cancelled = true;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [value, duration]);

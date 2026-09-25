@@ -33,8 +33,33 @@ export default async function MattressDetailPage({ params }) {
   const verified = isRecordVerified(entry);
   const gaps = missingFields(entry);
 
+  // Real Product structured data - built only from fields actually on
+  // file (never invented to fill out the schema), and its own
+  // description states plainly that price/specs are unverified when
+  // they are, rather than letting a generic schema imply confidence
+  // this page's own content doesn't claim.
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: displayTitle(entry),
+    brand: { '@type': 'Brand', name: entry.brand },
+    category: entry.type,
+    description: verified
+      ? `${displayTitle(entry)} - verified specs and pricing.`
+      : `${displayTitle(entry)} - real brand and product name; specs and pricing shown are placeholder values, not independently verified.`,
+    ...(entry.priceUsd != null && {
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: entry.priceUsd,
+        availability: 'https://schema.org/InStock',
+      },
+    }),
+  };
+
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
           <span />
