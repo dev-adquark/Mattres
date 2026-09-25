@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import MattressThumb from '@/components/MattressThumb';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
+import { buildRetailerLink } from '@/lib/affiliateLinks';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 import { displayTitle } from '@/lib/matchLogic';
@@ -31,22 +32,6 @@ export default async function MattressDetailPage({ params }) {
 
   const verified = isRecordVerified(entry);
   const gaps = missingFields(entry);
-
-  // UTM-tagged outbound retailer links: real, working query-parameter
-  // construction (source/medium/campaign/content), not just a bare
-  // placeholder href - this is the actual mechanism the original request
-  // asked for, even though the retailer names themselves are still
-  // generic placeholders (see retailPartners) since this project has no
-  // real retailer accounts or affiliate IDs to attach.
-  function retailerLink(retailerName) {
-    const p = new URLSearchParams({
-      utm_source: 'mattressmatchscore',
-      utm_medium: 'affiliate',
-      utm_campaign: entry.id,
-      utm_content: retailerName.toLowerCase().replace(/\s+/g, '-'),
-    });
-    return `https://example.com/${encodeURIComponent(retailerName)}?${p.toString()}`;
-  }
 
   return (
     <div>
@@ -139,7 +124,7 @@ export default async function MattressDetailPage({ params }) {
                 {entry.retailPartners?.map((r) => (
                   <div className="md-retailer-row" key={r}>
                     <span style={{ fontSize: 13.5 }}>{r}</span>
-                    <a href={retailerLink(r)} target="_blank" rel="noopener noreferrer sponsored" className="btn btn-ghost-dark" style={{ padding: '6px 12px', fontSize: 12.5 }}>
+                    <a href={buildRetailerLink(entry.id, r)} target="_blank" rel="noopener noreferrer sponsored" className="btn btn-ghost-dark" style={{ padding: '6px 12px', fontSize: 12.5 }}>
                       View
                     </a>
                   </div>

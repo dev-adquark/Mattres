@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/categories';
+import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
 
@@ -119,12 +120,21 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           )}
         </ul>
       </details>
-      <a href="/disclosures" className="btn btn-primary cc-cta">
-        View at retailer
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
-      </a>
+      {(() => {
+        const retailer = primaryRetailerLink(entry);
+        return retailer ? (
+          <a href={retailer.href} target="_blank" rel="noopener noreferrer sponsored" className="btn btn-primary cc-cta">
+            View at {retailer.retailer}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        ) : (
+          <span className="btn btn-ghost-dark cc-cta" style={{ pointerEvents: 'none', opacity: 0.6 }}>
+            No retailer on file
+          </span>
+        );
+      })()}
     </SpotlightCard>
   );
 }

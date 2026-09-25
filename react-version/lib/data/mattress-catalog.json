@@ -42,7 +42,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "nectar-nectar-memory-foam",
@@ -87,7 +91,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "sponsored",
+    "disclosureText": "Sponsored placement \u2014 this brand paid for placement in this slot. It does not affect the real Match Score calculation.",
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "bear-bear-original",
@@ -132,7 +140,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "purple-purple-hybrid",
@@ -177,7 +189,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "sponsored",
+    "disclosureText": "Sponsored placement \u2014 this brand paid for placement in this slot. It does not affect the real Match Score calculation.",
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "avocado-avocado-green-mattress",
@@ -222,7 +238,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "saatva-saatva-classic",
@@ -258,7 +278,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "leesa-leesa-original",
@@ -303,7 +327,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "dreamcloud-dreamcloud-original",
@@ -336,7 +364,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "layla-layla-memory-foam",
@@ -372,7 +404,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "winkbed-winkbed",
@@ -408,7 +444,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "brooklyn-bedding-brooklyn-bedding-signature-hybrid",
@@ -444,7 +484,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "id": "tuft-needle-tuft-needle-original",
@@ -480,7 +524,11 @@
     "verified": false,
     "sourceUrl": null,
     "lastVerified": null,
-    "dataOrigin": "real-brand-demo-specs"
+    "dataOrigin": "real-brand-demo-specs",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Casper",
@@ -506,7 +554,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "casper-casper-original-hybrid"
+    "id": "casper-casper-original-hybrid",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Tempur-Pedic",
@@ -532,7 +584,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "tempur-pedic-tempur-adapt"
+    "id": "tempur-pedic-tempur-adapt",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "GhostBed",
@@ -558,7 +614,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "ghostbed-ghostbed-classic"
+    "id": "ghostbed-ghostbed-classic",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Nolah",
@@ -584,7 +644,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "nolah-nolah-original-10"
+    "id": "nolah-nolah-original-10",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Amerisleep",
@@ -610,7 +674,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "amerisleep-as3"
+    "id": "amerisleep-as3",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Awara",
@@ -636,7 +704,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "awara-awara-natural-hybrid"
+    "id": "awara-awara-natural-hybrid",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Birch",
@@ -662,7 +734,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "birch-birch-natural"
+    "id": "birch-birch-natural",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Nest Bedding",
@@ -688,7 +764,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "nest-bedding-nest-bedding-owl"
+    "id": "nest-bedding-nest-bedding-owl",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Zinus",
@@ -714,7 +794,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "zinus-zinus-green-tea-memory-foam"
+    "id": "zinus-zinus-green-tea-memory-foam",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Brooklyn Bedding",
@@ -740,7 +824,11 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "brooklyn-bedding-titan-plus"
+    "id": "brooklyn-bedding-titan-plus",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   },
   {
     "brand": "Molecule",
@@ -766,6 +854,10 @@
     "sourceUrl": null,
     "lastVerified": null,
     "dataOrigin": "real-brand-demo-specs",
-    "id": "molecule-molecule-1"
+    "id": "molecule-molecule-1",
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "verificationStatus": "unverified",
+    "lastVerifiedAt": null
   }
 ]

@@ -87,6 +87,26 @@ export default function ComparePage() {
           </p>
 
           <div style={{ marginTop: 48 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)', display: 'block', marginBottom: 14 }}>
+              More comparisons
+            </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 40 }}>
+              <Link href="/compare/cooling-hybrids-for-couples" className="chip" style={{ textDecoration: 'none' }}>
+                Cooling hybrids for couples
+              </Link>
+              <Link href="/compare/motion-isolation-for-couples" className="chip" style={{ textDecoration: 'none' }}>
+                Motion isolation for couples
+              </Link>
+              <Link href="/compare/pressure-relief-for-side-sleepers" className="chip" style={{ textDecoration: 'none' }}>
+                Pressure relief for side sleepers
+              </Link>
+              <Link href="/compare/back-support-for-heavier-sleepers" className="chip" style={{ textDecoration: 'none' }}>
+                Back support for heavier sleepers
+              </Link>
+            </div>
+          </div>
+
+          <div style={{ marginTop: 48 }}>
             <PromoGrid onLight />
           </div>
           <div style={{ marginTop: 40 }}>
