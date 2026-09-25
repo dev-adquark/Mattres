@@ -28,6 +28,13 @@ const FILLER_WORDS = new Set(['the', 'mattress']);
 function normalizeText(text) {
   return (text || '')
     .toLowerCase()
+    // "&" and "and" are the same word in a brand name (this catalog
+    // stores "Tuft & Needle"; RTINGS's own data spells it "Tuft and
+    // Needle" - confirmed via a real sync run that this exact mismatch
+    // caused a genuine match to be missed entirely at the brand-filter
+    // stage, before model-token comparison even ran). Normalizing "&" to
+    // "and" up front means both spellings produce the same token set.
+    .replace(/&/g, ' and ')
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter(Boolean);

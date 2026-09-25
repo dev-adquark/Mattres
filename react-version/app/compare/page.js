@@ -43,8 +43,8 @@ export const metadata = {
   title: 'Best mattresses for side sleepers under $2,000 — Mattress Match Score',
 };
 
-export default function ComparePage() {
-  const { results, modelVersion, catalogAudit } = matchProfile(DEMO_PROFILE);
+export default async function ComparePage() {
+  const { results, modelVersion, catalogAudit } = await matchProfile(DEMO_PROFILE);
 
   return (
     <div>

@@ -1771,5 +1771,921 @@
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
     "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "silk-and-snow-mattress",
+    "brand": "Silk & Snow",
+    "model": "Mattress",
+    "slug": "silk-and-snow-mattress",
+    "manufacturer": "Silk & Snow",
+    "officialProductUrl": "https://www.silkandsnow.com/en-ca/mattress/",
+    "type": "foam",
+    "firmnessDescription": "Sold in three firmness options on Silk & Snow's own 8-point scale: Plush (4/8), Medium-Firm (6/8, recommended for back/side sleepers), Firm (7/8). Score below reflects Medium-Firm, scaled to this site's 1-10 range (6/8 * 1.25 = 7.5).",
+    "firmnessRange": {
+      "min": 5,
+      "max": 8.75
+    },
+    "firmnessNote": "Silk & Snow's own firmness scale is 1-8, not 1-10; converted by proportional scaling (multiply by 1.25), not independently measured. Multi-option product; Medium-Firm used as the representative value.",
+    "firmnessSource": "brand_scale_converted",
+    "heightIn": null,
+    "heightNote": "Height varies 9\"-12\" by firmness option; no single height recorded.",
+    "coreMaterialNotes": "Removable antimicrobial polyester cover (360-degree zipper); cooling gel-infused memory foam (2.5 lb density); transitional performance foam (1.8 lb); base foam foundation (1.8 lb); CertiPUR-US certified foams",
+    "cooling": "Open-cell memory foam infused with cooling gel (no separate branded name)",
+    "coolingRatingOutOf10": 6,
+    "motionIsolationRatingOutOf10": 8,
+    "edgeSupportRatingOutOf10": 6.5,
+    "durabilityRatingOutOf10": 6.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 365,
+    "warrantyYears": 15,
+    "warrantyLifetime": false,
+    "returnPolicy": "Free shipping and easy returns; full policy text not captured beyond that on the fetched page.",
+    "priceUsd": 658.75,
+    "priceCurrency": "unconfirmed_likely_CAD",
+    "priceNote": "Queen, Firm option, sale price ($775 list). Page shows only a bare \"$\" with no ISO currency code, even on the /en-ca/ regional URL - likely CAD given the Canadian brand/URL, but not literally stated, so not asserted as USD or CAD.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Aced motion isolation tests, absorbs virtually all surface-level vibrations (rated 8/10)."
+      },
+      {
+        "label": "edge support",
+        "sentiment": "negative",
+        "snippet": "Lacks reinforced edges, perimeter sinkage (rated 6.5/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/silk-and-snow-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://www.silkandsnow.com/en-ca/mattress/",
+    "sourceName": "Silk & Snow (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "big-fig-classic",
+    "brand": "Big Fig",
+    "model": "Classic Mattress",
+    "slug": "big-fig-classic-mattress",
+    "manufacturer": "Big Fig",
+    "officialProductUrl": "https://www.bigfigmattress.com/products/big-fig-classic-mattress-queen",
+    "type": "hybrid",
+    "firmnessDescription": "Medium-Firm Support, rated 7.5 on Big Fig's own \"Fig Scale\" (Luxe=6, Classic=7.5, Firm=9); marketed for larger/heavier sleepers.",
+    "firmnessRange": {
+      "min": 7.5,
+      "max": 7.5
+    },
+    "firmnessSource": "brand_stated_proprietary_scale",
+    "heightIn": 12.5,
+    "coreMaterialNotes": "Quilted top with ThermoGel Cooling; perforated gel-infused latex foam; 3 layers high-density polyfoam; 15-gauge individually wrapped steel coils (\"50% more\" than standard hybrids); high-density 80 ILD edge foam; 16 hand-tufted anchor points",
+    "cooling": "ThermoGel Cooling (stated \"4°F cooler at first touch\")",
+    "coolingRatingOutOf10": 8.5,
+    "motionIsolationRatingOutOf10": 6,
+    "edgeSupportRatingOutOf10": 8.5,
+    "durabilityRatingOutOf10": 8.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 120,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "returnPolicy": "120-night trial and returns; detailed return terms live on a separate page not captured beyond the trial length.",
+    "priceUsd": 1699,
+    "priceNote": "Queen, promo price (code FALLFIG350; list $2,049). Other sizes offered but per-size prices not shown on the fetched page.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Remained strong and firm, never buckled (rated 8.5/10)."
+      },
+      {
+        "label": "cooling",
+        "sentiment": "positive",
+        "snippet": "Slept very cool (rated 8.5/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/big-fig-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd"
+    ],
+    "sourceUrl": "https://www.bigfigmattress.com/products/big-fig-classic-mattress-queen",
+    "sourceName": "Big Fig (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "tuft-and-needle-mint-ii",
+    "brand": "Tuft & Needle",
+    "model": "Mint Mattress II",
+    "slug": "tuft-and-needle-mint-mattress-ii",
+    "manufacturer": "Tuft & Needle",
+    "officialProductUrl": "https://www.tuftandneedle.com/products/mint-mattress",
+    "type": "foam",
+    "firmnessDescription": "Medium Firm (manufacturer)",
+    "firmnessRange": {
+      "min": 7,
+      "max": 7
+    },
+    "firmnessNote": "RTINGS's review discovered this product under the plain name \"Mint\" - that exact name is discontinued; the current, live successor is \"Mint Mattress II,\" fetched here as the real current product.",
+    "firmnessSource": "label_mapped",
+    "heightIn": 13.5,
+    "coreMaterialNotes": "Cooling Cover; T&N Adaptive foam; Gel Memory Foam; Support Foam; Base Foam",
+    "cooling": "Cooling Cover + graphite/gel-infused T&N Adaptive foam, claimed up to 5 degrees cooler",
+    "coolingRatingOutOf10": 7,
+    "motionIsolationRatingOutOf10": 9,
+    "edgeSupportRatingOutOf10": 6.5,
+    "durabilityRatingOutOf10": 6.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "returnPolicy": null,
+    "priceUsd": 999,
+    "priceBySize": {
+      "Twin": 549,
+      "TwinXL": 699,
+      "Full": 849,
+      "Queen": 999,
+      "King": 1299,
+      "CalKing": 1299
+    },
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Absorbs a similar amount of motion to many all-foam models (rated 9/10)."
+      },
+      {
+        "label": "cooling",
+        "sentiment": "positive",
+        "snippet": "Sleeps cooler than most foam models via breathable cover, graphite, and ceramic gel beads (rated 7/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/tuft-and-needle-mint-mattress-review"
+      }
+    ],
+    "sourceConfidence": "medium",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
+    "sourceUrl": "https://www.tuftandneedle.com/products/mint-mattress",
+    "sourceName": "Tuft & Needle (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "dreamcloud-classic-hybrid",
+    "brand": "DreamCloud",
+    "model": "Classic Hybrid Mattress",
+    "slug": "dreamcloud-classic-hybrid",
+    "manufacturer": "DreamCloud (Resident/Nectar Sleep family)",
+    "officialProductUrl": "https://www.dreamcloudsleep.com/mattress",
+    "type": "hybrid",
+    "firmnessDescription": "Firm - the ideal balance between support and comfort, minimal contouring, ideal for back and stomach sleepers (manufacturer)",
+    "firmnessRange": {
+      "min": 8.5,
+      "max": 8.5
+    },
+    "firmnessSource": "label_mapped",
+    "heightIn": 12,
+    "coreMaterialNotes": "CloudQuilt Euro Top with cooling fibers and stitched foam; Contouring Memory Foam Layer; Adaptive Support Layer; Individually-Wrapped Coil System; Layer Stabilization System (reinforced edge); protective bottom cover",
+    "cooling": "CloudQuilt cover with cooling fibers",
+    "coolingRatingOutOf10": 7,
+    "motionIsolationRatingOutOf10": 7.5,
+    "edgeSupportRatingOutOf10": 7.5,
+    "durabilityRatingOutOf10": 7.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 365,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "returnPolicy": null,
+    "priceUsd": 699,
+    "priceNote": "Queen only; other sizes not listed on the fetched page.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Impressive motion isolation, limits vibrations from spreading (rated 7.5/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Coils + memory foam, ~8-9 year estimated lifespan (rated 7.5/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/dreamcloud-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd"
+    ],
+    "sourceUrl": "https://www.dreamcloudsleep.com/mattress",
+    "sourceName": "DreamCloud (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "avocado-green-mattress",
+    "brand": "Avocado",
+    "model": "Green Mattress",
+    "slug": "avocado-green-mattress",
+    "manufacturer": "Avocado Green Mattress",
+    "officialProductUrl": "https://www.avocadogreenmattress.com/products/green-natural-organic-mattress",
+    "type": "hybrid",
+    "firmnessDescription": "Sold in three firmness options: Firm (back/stomach sleepers), Medium (all sleep positions, most popular), Plush (side/back/combo). Score below reflects Medium.",
+    "firmnessRange": {
+      "min": 3,
+      "max": 8.5
+    },
+    "firmnessNote": "Multi-option product; no numeric scale stated by the brand; Medium used as the representative value (manufacturer's stated most-popular option).",
+    "firmnessSource": "label_mapped_range_representative",
+    "heightIn": 11,
+    "heightNote": "Firm 11.5\", Medium 11\", Plush 13\" - height varies by firmness option.",
+    "coreMaterialNotes": "GOLS-certified organic Dunlop latex (Firm 2\"+cocofiber pads; Medium 3\"; Plush 5\"); organic wool and cotton cover; up to ~1,350 individually wrapped recycled steel coils in 7 zones",
+    "cooling": "Organic wool absorbs ~35% of its weight in moisture vapor; latex breathes without trapping heat (no named cooling tech)",
+    "coolingRatingOutOf10": 8.5,
+    "motionIsolationRatingOutOf10": 6,
+    "edgeSupportRatingOutOf10": 7.5,
+    "durabilityRatingOutOf10": 8,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 365,
+    "warrantyYears": 25,
+    "warrantyLifetime": false,
+    "returnPolicy": "After 30 days, may return for a $99 return fee plus original shipping costs; pre-30-day terms not stated on the fetched page.",
+    "priceUsd": null,
+    "priceNote": "Not shown on the official page. An independent Sleep Foundation review separately cites $1,599-$2,999, but that is a third-party figure, not confirmed on the brand's own site, so not used as priceUsd.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "cooling",
+        "sentiment": "positive",
+        "snippet": "Slept the coolest among tested mattresses (rated 8.5/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "~10-year estimated lifespan (rated 8/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/avocado-mattress-review"
+      }
+    ],
+    "sourceConfidence": "medium",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://www.avocadogreenmattress.com/products/green-natural-organic-mattress",
+    "sourceName": "Avocado Green Mattress (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "sleep-on-latex-hybrid",
+    "brand": "Sleep On Latex",
+    "model": "Hybrid Mattress",
+    "slug": "sleep-on-latex-hybrid",
+    "manufacturer": "Sleep On Latex",
+    "officialProductUrl": "https://sleeponlatex.com/products/hybrid-mattress",
+    "type": "hybrid",
+    "firmnessDescription": "Medium (most popular) or Firm; no numeric scale stated by the brand. Score below reflects Medium.",
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 8.5
+    },
+    "firmnessNote": "Multi-option product; Medium used as the representative value.",
+    "firmnessSource": "label_mapped_range_representative",
+    "heightIn": 13,
+    "coreMaterialNotes": "4\" GOLS-certified organic latex foam; 8\" steel pocket-spring core (1,000-coil density, individually encased, unglued); organic cotton brushed-twill encasing; organic wool batting; organic hemp buffer layer. Certifications: GOTS, GOLS, Fair For Life Fair Trade Latex, Greenguard Gold.",
+    "cooling": "Organic wool regulates temperature; hemp layer aids airflow (no named cooling tech)",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": null,
+    "edgeSupportRatingOutOf10": null,
+    "durabilityRatingOutOf10": null,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "returnPolicy": "Free return within 100 days, no return fee.",
+    "priceUsd": null,
+    "priceNote": "Not shown on the official page (likely rendered by a JS size-selector widget).",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [],
+    "reviewSources": [],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://sleeponlatex.com/products/hybrid-mattress",
+    "sourceName": "Sleep On Latex (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "sleep-on-latex-pure-green-organic",
+    "brand": "Sleep On Latex",
+    "model": "Pure Green Organic Latex Mattress",
+    "slug": "sleep-on-latex-pure-green-organic",
+    "manufacturer": "Sleep On Latex",
+    "officialProductUrl": "https://sleeponlatex.com/products/natural-latex-mattress",
+    "type": "latex",
+    "firmnessDescription": "Medium or Firm; no numeric scale stated by the brand. Score below reflects Medium.",
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 8.5
+    },
+    "firmnessNote": "Multi-option product; Medium used as the representative value. Confirmed genuinely distinct from Sleep On Latex's own Hybrid model (all-latex, no coils, vs. latex+coil hybrid construction).",
+    "firmnessSource": "label_mapped_range_representative",
+    "heightIn": null,
+    "coreMaterialNotes": "8\" solid organic latex foam (comfort+base); organic cotton knit face; organic wool batting; organic cotton quilt backing. Certifications: GOLS, GOTS, Fair For Life Fair Trade Latex, Oeko-Tex Standard 100, Greenguard Gold. NOTE: independent Sleep Foundation review states \"6 inches of Dunlop latex\" vs. the brand's own stated 8\" - conflicting figures, both recorded, not reconciled.",
+    "cooling": "Breathable sleeping surface; materials minimize heat retention (no named cooling tech)",
+    "coolingRatingOutOf10": 7.5,
+    "motionIsolationRatingOutOf10": 6,
+    "edgeSupportRatingOutOf10": 6.5,
+    "durabilityRatingOutOf10": 8.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 100,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "returnPolicy": "Free return within 100 days; free pickup and full refund once pickup is completed.",
+    "priceUsd": null,
+    "priceNote": "Not shown on the official page.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Resists sagging (rated 8.5/10)."
+      },
+      {
+        "label": "motion isolation",
+        "sentiment": "negative",
+        "snippet": "Transfers more motion than most all-foam models (rated 6/10 on Medium)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/sleep-on-latex-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://sleeponlatex.com/products/natural-latex-mattress",
+    "sourceName": "Sleep On Latex (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "novaform-comfortgrande-plus",
+    "brand": "Novaform",
+    "model": "ComfortGrande Plus",
+    "slug": "novaform-comfortgrande-plus",
+    "manufacturer": "FXI (Novaform is a Costco house brand)",
+    "officialProductUrl": "https://www.costco.com/novaform-14-comfortgrande-plus-gel-memory-foam-mattress-medium,-queen.product.4000233364.html",
+    "type": "foam",
+    "firmnessDescription": "Medium (only firmness offered for this SKU) (manufacturer)",
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
+    "firmnessSource": "label_mapped",
+    "heightIn": 14,
+    "coreMaterialNotes": "Costco spec sheet: \"Gel Memory Foam\"; marketing bullets add \"Cooling Gel Memory Foam Plus Cool Touch Cover.\" No layer-by-layer density breakdown stated.",
+    "cooling": "Cool Touch Cover / Dual Cool Design (named on page, no lab-verified cooling metric)",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": 7.5,
+    "edgeSupportRatingOutOf10": 6.5,
+    "durabilityRatingOutOf10": 5.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": null,
+    "warrantyYears": null,
+    "warrantyLifetime": false,
+    "returnPolicy": "Page explicitly does not state trial length or warranty term (\"For manufacturer warranty information, please contact us\").",
+    "priceUsd": null,
+    "priceNote": "Costco's price is JS-rendered and was not present in the fetched page content.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [
+      "Costco"
+    ],
+    "retailerUrls": [
+      "https://www.costco.com/novaform-14-comfortgrande-plus-gel-memory-foam-mattress-medium,-queen.product.4000233364.html"
+    ],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "durability",
+        "sentiment": "negative",
+        "snippet": "Not likely to last more than six or seven years (rated 5.5/10)."
+      },
+      {
+        "label": "edge support",
+        "sentiment": "negative",
+        "snippet": "Iffy around the perimeter, weak but not unstable (rated 6.5/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/novaform-mattress-review"
+      }
+    ],
+    "sourceConfidence": "medium",
+    "verified": false,
+    "verificationStatus": "unknown",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling"
+    ],
+    "sourceUrl": "https://www.costco.com/novaform-14-comfortgrande-plus-gel-memory-foam-mattress-medium,-queen.product.4000233364.html",
+    "sourceName": "Costco.com",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "tempur-pedic-tempur-adapt",
+    "brand": "Tempur-Pedic",
+    "model": "TEMPUR-Adapt",
+    "slug": "tempur-pedic-tempur-adapt",
+    "manufacturer": "Tempur Sealy International",
+    "officialProductUrl": "https://www.tempurpedic.com/shop-mattresses/adapt-collection/",
+    "type": "foam",
+    "firmnessDescription": "Medium (manufacturer; page does not use the word \"hybrid\" for this model)",
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
+    "firmnessSource": "label_mapped",
+    "heightIn": 11,
+    "coreMaterialNotes": "TEMPUR-Material, described as responding to body weight, shape, and temperature. No layer-by-layer foam breakdown stated on this page.",
+    "cooling": null,
+    "coolingRatingOutOf10": 5.5,
+    "motionIsolationRatingOutOf10": 8.5,
+    "edgeSupportRatingOutOf10": 6,
+    "durabilityRatingOutOf10": 6.5,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 90,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "returnPolicy": null,
+    "priceUsd": 2299,
+    "priceNote": "Queen, Medium, as displayed on the fetched page.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Highly effective at isolating motion, absorbs vibrations and prevents them from spreading (rated 8.5/10)."
+      },
+      {
+        "label": "cooling",
+        "sentiment": "negative",
+        "snippet": "TEMPUR foam can collect heat through the night (rated 5.5/10)."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/tempurpedic-adapt-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
+    "sourceUrl": "https://www.tempurpedic.com/shop-mattresses/adapt-collection/",
+    "sourceName": "Tempur-Pedic (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "brooklyn-bedding-signature-hybrid",
+    "brand": "Brooklyn Bedding",
+    "model": "Signature Hybrid",
+    "slug": "brooklyn-bedding-signature-hybrid",
+    "manufacturer": "Brooklyn Bedding",
+    "officialProductUrl": "https://brooklynbedding.com/products/signature-hybrid",
+    "type": "hybrid",
+    "firmnessDescription": "Sold in three firmness options: Soft (4/10), Medium (6/10), Firm (8/10) - firmness numbers per an independent Sleep Foundation cross-check, not stated numerically on the Brooklyn Bedding page itself. Score below reflects Medium.",
+    "firmnessRange": {
+      "min": 4,
+      "max": 8
+    },
+    "firmnessNote": "Multi-option product; Medium (6/10) used as the representative value.",
+    "firmnessSource": "independent_numeric_range_representative",
+    "heightIn": 13.25,
+    "heightNote": "13.25\" standard; 14\" with pillow-top upgrade.",
+    "coreMaterialNotes": "GlacioTex cooling cover; 2 layers quilt foam; gel swirl memory foam; responsive foam; transition foam; 8\" Ascension X coil support core; supportive base foam. Pillow-top adds ThermoPhase phase-change foam layer.",
+    "cooling": "GlacioTex Cooling Cover (cool-to-touch); optional Cloud Cooling Pillow Top with ThermoPhase",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": null,
+    "edgeSupportRatingOutOf10": null,
+    "durabilityRatingOutOf10": null,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 120,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "returnPolicy": "$99 return/pickup fee; 30-night minimum before return during the 120-night trial; one-time use.",
+    "priceUsd": 1098.75,
+    "priceBySize": {
+      "Twin": 719.25,
+      "TwinXL": 874.75,
+      "Full": 999,
+      "Queen": 1098.75,
+      "King": 1398.75,
+      "CalKing": 1398.75
+    },
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "temperature",
+        "sentiment": "neutral",
+        "snippet": "Relatively neutral sleep temperature; gel-infused polyfoam with latex-like responsiveness."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/brooklyn-bedding-signature-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://brooklynbedding.com/products/signature-hybrid",
+    "sourceName": "Brooklyn Bedding (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "saatva-latex-hybrid",
+    "brand": "Saatva",
+    "model": "Latex Hybrid",
+    "slug": "saatva-latex-hybrid",
+    "manufacturer": "Saatva",
+    "officialProductUrl": "https://www.saatva.com/mattresses/saatva-latex-hybrid",
+    "type": "hybrid",
+    "firmnessDescription": "Medium Firm (manufacturer spec sheet states \"medium-firm (6)\")",
+    "firmnessRange": {
+      "min": 6,
+      "max": 6
+    },
+    "firmnessSource": "stated_numeric",
+    "heightIn": 12,
+    "coreMaterialNotes": "Organic cotton cover blended with organic wool; 3\" 5-zone natural latex foam layer with vented airflow channels (22-23 ILD); Caliper Edge Comfort Coils (14.5 gauge) and Caliper Edge Support Coils (13.75 gauge), individually wrapped, recycled steel; GOLS-certified organic latex, GOTS-certified organic wool",
+    "cooling": "No single named technology; attributed to material composition (latex + wool + cotton + coil airflow)",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": null,
+    "edgeSupportRatingOutOf10": null,
+    "durabilityRatingOutOf10": null,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 365,
+    "warrantyYears": null,
+    "warrantyLifetime": true,
+    "returnPolicy": "$99 processing fee for pickup; no mandatory minimum trial before return; full refund if dissatisfied; adjustable bases excluded.",
+    "priceUsd": 2434,
+    "priceNote": "Queen, sale price (list $2,759). Other sizes not itemized on the fetched page.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "support",
+        "sentiment": "positive",
+        "snippet": "Most reliable and complete support in testing for side sleepers over 130 lbs."
+      },
+      {
+        "label": "cooling",
+        "sentiment": "positive",
+        "snippet": "Resists overheating well via wool/latex/cotton/coil airflow."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-latex-hybrid-mattress-review"
+      }
+    ],
+    "sourceConfidence": "high",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd",
+      "returnPolicy"
+    ],
+    "sourceUrl": "https://www.saatva.com/mattresses/saatva-latex-hybrid",
+    "sourceName": "Saatva (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "casper-cooling-select",
+    "brand": "Casper",
+    "model": "Cooling Select",
+    "slug": "casper-cooling-select",
+    "manufacturer": "Casper Sleep Inc.",
+    "officialProductUrl": "https://casper.com/pages/casper-costco-select",
+    "type": "foam",
+    "firmnessDescription": "Not stated on the official page (unknown)",
+    "firmnessRange": null,
+    "firmnessSource": "unknown",
+    "heightIn": 12,
+    "coreMaterialNotes": "\"4 Layers of Premium Foam\" with zoned support (3 zones); CertiPUR-US certified foams, low VOC. Exact per-layer breakdown not stated.",
+    "cooling": "\"Cooling Select\" is itself the branded product name; no further-named cooling-technology component (e.g. a gel/phase-change name) stated beyond the product name",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": null,
+    "edgeSupportRatingOutOf10": null,
+    "durabilityRatingOutOf10": null,
+    "topFoamDensityLbFt3": null,
+    "trialDays": null,
+    "warrantyYears": 10,
+    "warrantyLifetime": false,
+    "returnPolicy": "Page links to a general returns page; no return terms specific to this model were stated on the fetched page.",
+    "priceUsd": null,
+    "priceNote": "Not listed on Casper's page - the mattress is exclusively sold at Costco; Casper's page links out to Costco.com for purchase/pricing, but the specific Costco product URL was not captured.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [
+      "Costco"
+    ],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [],
+    "reviewSources": [],
+    "sourceConfidence": "medium",
+    "verified": false,
+    "verificationStatus": "unknown",
+    "verifiedFields": [
+      "type",
+      "heightIn",
+      "coreMaterialNotes",
+      "warrantyYears"
+    ],
+    "sourceUrl": "https://casper.com/pages/casper-costco-select",
+    "sourceName": "Casper (official)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
+  },
+  {
+    "id": "helix-midnight-luxe",
+    "brand": "Helix",
+    "model": "Midnight Luxe",
+    "slug": "helix-midnight-luxe",
+    "manufacturer": "Helix Sleep",
+    "officialProductUrl": "https://helixsleep.com/products/midnight-luxe",
+    "type": "hybrid",
+    "firmnessDescription": "Medium feel, \"not too firm, not too soft\" (manufacturer; no numeric scale given, unlike some other Helix models)",
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
+    "firmnessNote": "Confirmed a genuinely distinct, currently-sold product from this catalog's existing \"Helix Midnight\" base model - Helix's own support content and Sleep Foundation both carry separate pages for the two tiers, and the Luxe tier adds zoned lumbar-support coils, a premium quilted pillow top, cooling cover options, and 2 inches of additional height over the base Midnight. RTINGS independently measured 48 Pa/mm firmness on its review of this model - a lab measurement, not something Helix itself states, so not treated as the brand's own numeric firmness.",
+    "firmnessSource": "label_mapped",
+    "firmnessPaPerMm": 48,
+    "firmnessLabelFromRtings": "Hybrid (RTINGS mattress-type confirmation only; RTINGS does not publish a firmness label, only the Pa/mm figure)",
+    "heightIn": 13.5,
+    "coreMaterialNotes": "Premium quilted top (TENCEL or GlacioTex Cooling Cover option); High Grade Polyfoam; Copper Gel Memory Foam (medium IFD); Memory Plus Foam transition layer; 1,000+ zoned wrapped coils (softer under shoulders, firmer under hips); DuraDense Foam base",
+    "cooling": "GlacioTex Cooling Cover (optional upsell) or standard TENCEL cover",
+    "coolingRatingOutOf10": null,
+    "motionIsolationRatingOutOf10": null,
+    "edgeSupportRatingOutOf10": null,
+    "durabilityRatingOutOf10": null,
+    "topFoamDensityLbFt3": null,
+    "trialDays": 100,
+    "warrantyYears": 15,
+    "warrantyLifetime": false,
+    "returnPolicy": "TRIAL/WARRANTY CONFLICT: Helix's own official page states a 100-night trial and 15-year limited warranty (recorded here as primary, official-source-first). An independent Sleep Foundation page separately states 120 nights (30-night minimum) and a lifetime warranty for the same model - not reconciled, both figures on file. Return-policy terms specifically were not stated on the fetched official page.",
+    "priceUsd": null,
+    "priceNote": "No size-to-price table found on the fetched official page (JS-rendered size selector, no visible prices in fetched content). An independent source separately states $1,874, unconfirmed against the brand site.",
+    "priceUpdatedAt": "2026-09-25",
+    "retailPartners": [],
+    "retailerUrls": [],
+    "sponsored": false,
+    "placementSlot": "algorithmic",
+    "disclosureText": null,
+    "dataOrigin": "manufacturer-official-source",
+    "reviewHighlights": [
+      {
+        "label": "editorial recognition",
+        "sentiment": "positive",
+        "snippet": "Named Best Mattress Overall and Best Mattress in a Box for 2026 by Sleep Foundation, citing standout motion isolation, edge support, and durability - ratings given for the wider Helix Midnight line, not broken out specifically for Luxe."
+      }
+    ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/best-mattress/helix-midight-luxe-best-mattress-overall"
+      },
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-mattress-review"
+      }
+    ],
+    "sourceConfidence": "medium",
+    "verified": false,
+    "verificationStatus": "partially_verified",
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears"
+    ],
+    "sourceUrl": "https://checkout.helixsleep.com/products/midnight-luxe",
+    "sourceName": "Helix Sleep (official site, checkout mirror)",
+    "lastVerified": "2026-09-25",
+    "lastVerifiedAt": "2026-09-25",
+    "sourceCheckedAt": "2026-09-25"
   }
 ]

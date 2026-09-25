@@ -3,22 +3,19 @@ import { notFound } from 'next/navigation';
 import MattressThumb from '@/components/MattressThumb';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
 import { buildRetailerLink } from '@/lib/affiliateLinks';
-import catalog from '@/lib/data/mattress-catalog.json';
+import { getCatalog, getMattressById } from '@/lib/db/mattressRepo';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 import { formatPrice } from '@/lib/format';
 import { displayTitle } from '@/lib/matchLogic';
 
-export function generateStaticParams() {
-  return catalog.map((entry) => ({ id: entry.id }));
-}
-
-function getEntry(id) {
-  return catalog.find((e) => e.id === id) || null;
+export async function generateStaticParams() {
+  const { entries } = await getCatalog();
+  return entries.map((entry) => ({ id: entry.id }));
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const entry = getEntry(id);
+  const entry = await getMattressById(id);
   if (!entry) return { title: 'Mattress not found — Mattress Match Score' };
   return { title: `${displayTitle(entry)} — real score, specs & reviews — Mattress Match Score` };
 }
@@ -28,7 +25,7 @@ const CONFIDENCE_LABEL = { high: 'High confidence', medium: 'Medium confidence',
 
 export default async function MattressDetailPage({ params }) {
   const { id } = await params;
-  const entry = getEntry(id);
+  const entry = await getMattressById(id);
   if (!entry) notFound();
 
   const verified = isRecordVerified(entry);

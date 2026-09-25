@@ -25,7 +25,7 @@ export async function POST(request) {
 
   let payload;
   try {
-    payload = matchProfile(profile);
+    payload = await matchProfile(profile);
   } catch (err) {
     return NextResponse.json({ error: err.message || 'Scoring failed.' }, { status: 500 });
   }

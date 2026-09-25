@@ -21,7 +21,7 @@ export default async function CompareTopicPage({ params }) {
   const config = getCompareTopic(topic);
   if (!config) notFound();
 
-  const { results, modelVersion, catalogAudit } = matchProfile(config.profile);
+  const { results, modelVersion, catalogAudit } = await matchProfile(config.profile);
   const otherTopics = Object.entries(compareTopics).filter(([slug]) => slug !== topic);
 
   return (

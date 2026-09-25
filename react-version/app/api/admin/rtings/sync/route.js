@@ -16,17 +16,18 @@ import { MAX_ITEMS_CAP } from '@/lib/apify/apifyClient';
  * and this is POST-only, secret-gated, and never reachable from the
  * client bundle.
  *
- * PLATFORM CAVEAT: on Vercel, this writes the raw snapshot/proposals
- * files to the function instance's own ephemeral filesystem - that write
- * does not persist to the git repo or survive past this invocation/a
- * cold start. This endpoint is genuinely useful for an on-demand sync
- * whose JSON response you read directly (it returns the full real
- * result), but it is NOT how the committed data/raw/ snapshot actually
- * gets updated in production. That durable path is running
- * `node scripts/sync-rtings.js` locally or in CI (where the filesystem
- * write really does land in a repo you can commit) - the same
- * git-committed-file pattern this project already uses for its catalog
- * and raw ingestion data, not a new one invented for RTINGS.
+ * DURABILITY: when the database is configured (SUPABASE_URL +
+ * SUPABASE_SECRET_KEY), a matched enrichment is upserted into the real
+ * `mattresses` table - that write is genuinely durable in production,
+ * unlike a plain file write to Vercel's ephemeral function filesystem.
+ * The raw RTINGS snapshot this endpoint also writes to data/raw/*.json
+ * on disk is NOT durable on Vercel (it doesn't survive past this
+ * invocation/a cold start, and isn't committed to git from here) - that
+ * file is a local/CI-only audit artifact; running
+ * `node scripts/sync-rtings.js` is how it actually gets refreshed and
+ * committed. When the database is NOT configured, matched proposals fall
+ * back to the same git-committed-JSON-proposal staging this pipeline
+ * used before the DB existed - see lib/apify/rtingsSync.js.
  */
 export async function POST(request) {
   const authHeader = request.headers.get('authorization');
@@ -52,7 +53,7 @@ export async function POST(request) {
     // A body-less POST is fine - falls through to runRtingsSync()'s own defaults.
   }
 
-  const options = {};
+  const options = { triggerSource: 'admin' };
   if (typeof body.maxItems === 'number') options.maxItems = Math.min(body.maxItems, MAX_ITEMS_CAP);
   if (typeof body.searchQuery === 'string') {
     options.mode = 'search';
@@ -65,7 +66,7 @@ export async function POST(request) {
   const result = await runRtingsSync(options);
 
   if (!result.success) {
-    const status = result.code === 'APIFY_NOT_CONFIGURED' ? 503 : result.code === 'INVALID_INPUT' ? 400 : 502;
+    const status = result.code === 'SYNC_ALREADY_RUNNING' ? 409 : result.code === 'APIFY_NOT_CONFIGURED' ? 503 : result.code === 'INVALID_INPUT' ? 400 : 502;
     return NextResponse.json(
       { success: false, data: null, meta: {}, error: { code: result.code, message: result.message, retryable: result.retryable } },
       { status }

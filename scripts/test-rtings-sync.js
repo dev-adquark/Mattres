@@ -176,6 +176,18 @@ test('matchRtingsRecordToCatalog: matches despite the catalog model including br
   assert.strictEqual(match.catalogId, 'purple-mattress'); // catalog model is "The Purple Mattress" - filler words correctly stripped from both sides.
 });
 
+test('matchRtingsRecordToCatalog: "&" vs "and" in a brand name is the same brand, not a miss (found via a real live sync run)', () => {
+  const raw = { ...RAW_BEAR_ELITE, productId: '88888', brand: 'Tuft and Needle', name: 'Tuft and Needle Mint', reviewUrl: 'https://www.rtings.com/mattress/reviews/tuft-and-needle/mint-mattress' };
+  const { record } = normalizeRtingsRecord(raw);
+  const catalogWithAmpersandBrand = [...FIXTURE_CATALOG, { id: 'tuft-and-needle-mint-ii', brand: 'Tuft & Needle', model: 'Mint Mattress II', type: 'foam', reviewSources: [] }];
+  const match = matchRtingsRecordToCatalog(record, catalogWithAmpersandBrand);
+  // Not an exact model match ("Mint" vs "Mint Mattress II"'s extra "II"
+  // token), but it must at least reach model comparison instead of
+  // being dropped as unmatched at the brand-filter stage.
+  assert.strictEqual(match.status, 'review_required');
+  assert.deepStrictEqual(match.candidates, ['tuft-and-needle-mint-ii']);
+});
+
 test('matchRtingsRecordToCatalog: no catalog entry for the brand at all -> unmatched', () => {
   const raw = { ...RAW_BEAR_ELITE, productId: '66666', brand: 'Nectar', name: 'Nectar Memory Foam', reviewUrl: 'https://www.rtings.com/mattress/reviews/nectar/memory-foam' };
   const { record } = normalizeRtingsRecord(raw);

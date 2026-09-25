@@ -2,12 +2,15 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import { isApifyConfigured } from '@/lib/apify/apifyClient';
 import { RAW_PATH, PROPOSALS_PATH } from '@/lib/apify/rtingsSync';
+import { getSupabaseClient, isDbConfigured } from '@/lib/db/supabaseClient';
 
 /**
- * Read-only status check - never calls Apify. Reports whether the
- * integration is configured and what the last sync actually produced,
- * so this can be checked cheaply (no API quota spent) before deciding
- * to trigger a real sync via POST /api/admin/rtings/sync.
+ * Read-only status check - never calls Apify. Reports whether Apify/the
+ * database are configured, the real row counts in `mattresses` and
+ * `rtings_review_required`, and the most recent sync runs from
+ * `rtings_sync_runs` - so this can be checked cheaply (no API quota
+ * spent) before deciding to trigger a real sync via
+ * POST /api/admin/rtings/sync.
  */
 export async function GET(request) {
   const authHeader = request.headers.get('authorization');
@@ -37,12 +40,26 @@ export async function GET(request) {
     }
   }
 
+  const client = getSupabaseClient();
+  let db = { configured: isDbConfigured() ? 'DB_CONFIGURED' : 'DB_NOT_CONFIGURED', mattressCount: null, reviewRequiredOpenCount: null, recentRuns: [] };
+  if (client) {
+    const [{ count: mattressCount }, { count: reviewRequiredOpenCount }, { data: recentRuns }] = await Promise.all([
+      client.from('mattresses').select('*', { count: 'exact', head: true }),
+      client.from('rtings_review_required').select('*', { count: 'exact', head: true }).eq('resolved', false),
+      client.from('rtings_sync_runs').select('id, started_at, finished_at, status, trigger_source, fetched, normalized, matched, review_required, unmatched, errors, error_message').order('started_at', { ascending: false }).limit(5),
+    ]);
+    db = { ...db, mattressCount, reviewRequiredOpenCount, recentRuns: recentRuns || [] };
+  }
+
   return NextResponse.json({
     success: true,
     data: {
       apifyConfigured: isApifyConfigured() ? 'APIFY_CONFIGURED' : 'APIFY_NOT_CONFIGURED',
+      database: db,
       rawSnapshot: readCount(RAW_PATH),
-      pendingProposals: readCount(PROPOSALS_PATH),
+      // Only meaningful when the database isn't configured - see
+      // lib/apify/rtingsSync.js's fallback path.
+      pendingProposalsFile: readCount(PROPOSALS_PATH),
     },
     meta: { checkedAt: new Date().toISOString() },
     error: null,

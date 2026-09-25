@@ -1,0 +1,15 @@
+-- Real overlap protection needs to be atomic. The application-level
+-- "SELECT for a running row, then INSERT if none found" approach in
+-- lib/apify/rtingsSync.js has a classic check-then-act race: two nearly
+-- simultaneous requests can both run their SELECT before either has
+-- inserted its row, so both see "no running row" and both proceed -
+-- confirmed by actually firing two concurrent sync requests locally and
+-- watching both succeed instead of one being blocked.
+--
+-- A partial unique index enforces "at most one running row" at the
+-- database level: a second concurrent INSERT with status='running' hits
+-- a real unique-constraint violation instead of silently succeeding,
+-- and the application catches that specific error to report
+-- SYNC_ALREADY_RUNNING - the lock is enforced by Postgres itself, not by
+-- a race-prone read-then-write in application code.
+create unique index if not exists idx_one_running_sync on rtings_sync_runs (status) where status = 'running';

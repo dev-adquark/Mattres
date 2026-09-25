@@ -1,20 +1,27 @@
 import { scoreEngine } from '@/lib/scoreEngine';
-import catalog from '@/lib/data/mattress-catalog.json';
+import { getCatalog } from '@/lib/db/mattressRepo';
 import { auditCatalog, getVerificationLevel, isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
-// lib/data/mattress-catalog.json is a real, source-attributed catalog of 24
-// currently-sold mattresses (Casper, Helix, Saatva, Purple, Leesa, Bear,
-// Birch, PlushBeds), each fetched directly from the manufacturer's official
-// product page and cross-checked against Sleep Foundation where a review
-// exists. Every field not literally stated on a fetched page is null, not
-// guessed. See each entry's sourceUrl/sourceConfidence/verificationStatus
-// for provenance, and firmnessNote/heightNote/priceNote for fields where a
-// single representative value had to stand in for a multi-option product
-// (e.g. a mattress sold in three firmness choices) or where independent and
-// manufacturer sources conflicted. lib/dataIntegrity.js computes the real
-// 4-state verification level from these fields fresh on every request -
-// this replaced an earlier catalog of real brand names with fabricated
-// demo specs, all of which were honestly labeled unverified.
+// The catalog is a real, source-attributed set of currently-sold
+// mattresses (Casper, Helix, Saatva, Purple, Leesa, Bear, Birch,
+// PlushBeds, and - via the RTINGS enrichment pipeline - Brooklyn
+// Bedding, Avocado, Sleep On Latex, DreamCloud, and others), each
+// fetched directly from the manufacturer's official product page and
+// cross-checked against independent sources where available. Every
+// field not literally stated on a fetched page is null, not guessed.
+//
+// getCatalog() (lib/db/mattressRepo.js) reads from the Supabase
+// `mattresses` table when the database is configured, and falls back to
+// the git-committed lib/data/mattress-catalog.json snapshot otherwise
+// (or if a DB query fails) - the app must keep serving real results
+// either way. That JSON file is kept in sync as the last-known-good
+// snapshot (see scripts/migrate-catalog-to-db.js), not deleted, so local
+// development and CI never require live DB access.
+//
+// lib/dataIntegrity.js computes the real 4-state verification level from
+// these fields fresh on every request - this replaced an earlier catalog
+// of real brand names with fabricated demo specs, all of which were
+// honestly labeled unverified.
 
 export function displayTitle(entry) {
   const firstBrandWord = entry.brand.split(' ')[0].toLowerCase();
@@ -86,7 +93,7 @@ function adaptCatalogEntryForScoring(entry) {
   };
 }
 
-function filterCatalog(profile) {
+function filterCatalog(profile, catalog) {
   return catalog.filter((entry) => {
     if (profile.mattressTypePreference && profile.mattressTypePreference.length &&
         profile.mattressTypePreference.indexOf(entry.type) === -1) return false;
@@ -144,11 +151,16 @@ function buildWhyThisMatch(scored) {
  * client-side quiz flow) and app/compare/page.js (a server-rendered page
  * using a fixed, clearly-disclosed demo profile instead of real user
  * input). No caller duplicates this scoring/filtering logic by hand.
+ *
+ * Async because the catalog now comes from getCatalog() (database-first,
+ * JSON-fallback) - every caller already runs in a context that can
+ * await this (a Route Handler or an async Server Component).
  */
-export function matchProfile(profile) {
-  const filtered = filterCatalog(profile);
+export async function matchProfile(profile) {
+  const { entries: catalog, source: catalogSource } = await getCatalog();
+  const filtered = filterCatalog(profile, catalog);
   if (filtered.length === 0) {
-    return { results: [], modelVersion: null, all: [] };
+    return { results: [], modelVersion: null, all: [], catalogSource };
   }
 
   const scored = filtered.map((entry) => {
@@ -188,5 +200,6 @@ export function matchProfile(profile) {
     // actually verified vs placeholder, surfaced so this is never a
     // silent gap - see AuditBanner.jsx.
     catalogAudit: auditCatalog(catalog),
+    catalogSource, // 'database' or 'json_fallback' - see lib/db/mattressRepo.js.
   };
 }
