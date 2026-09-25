@@ -9,8 +9,9 @@
     "ingest": "node scripts/ingest-mattresses.js",
     "serve": "node scripts/serve-demo-api.js",
     "verify-catalog": "node scripts/verify-catalog-freshness.js",
+    "sync-rtings": "node scripts/sync-rtings.js",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && node scripts/test-score-trace-api.js && npm run typecheck --silent"
+    "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && node scripts/test-score-trace-api.js && node scripts/test-rtings-sync.js && npm run typecheck --silent"
   },
   "engines": {
     "node": ">=14"

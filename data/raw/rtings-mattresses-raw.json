@@ -1,0 +1,1140 @@
+[
+  {
+    "productId": "57836",
+    "name": "Allswell Hybrid",
+    "brand": "Allswell",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/allswell/hybrid-mattress",
+    "productUrl": "https://www.rtings.com/mattress/reviews/allswell/hybrid-mattress",
+    "category": "mattress",
+    "brandSlug": "allswell",
+    "modelSlug": "hybrid-mattress",
+    "publishedAt": "2026-01-30 12:38:27 -0500",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/FjQl2uwX/allswell-hybrid-mattress/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Firm (54 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Firm (54 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.269951+00:00"
+  },
+  {
+    "productId": "57746",
+    "name": "Tuft and Needle Mint",
+    "brand": "Tuft and Needle",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/tuft-and-needle/mint-mattress",
+    "productUrl": "https://www.rtings.com/mattress/reviews/tuft-and-needle/mint-mattress",
+    "category": "mattress",
+    "brandSlug": "tuft-and-needle",
+    "modelSlug": "mint-mattress",
+    "publishedAt": "2026-01-19 15:20:30 -0500",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/ibn0oUfq/tuft-and-needle-mint-mattress/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (46 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Polyfoam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (46 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Polyfoam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "commentCount": 6,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.368930+00:00"
+  },
+  {
+    "productId": "52697",
+    "name": "Purple RestorePlus Hybrid",
+    "brand": "Purple",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/purple/restoreplus-hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/purple/restoreplus-hybrid",
+    "category": "mattress",
+    "brandSlug": "purple",
+    "modelSlug": "restoreplus-hybrid",
+    "publishedAt": "2026-01-12 11:41:57 -0500",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/XnR1eUV0/purple-restoreplus-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (45 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Elastic Polymer Grid"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (45 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Elastic Polymer Grid",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.398102+00:00"
+  },
+  {
+    "productId": "60405",
+    "name": "Casper Cooling Select",
+    "brand": "Casper",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/casper/cooling-select-foam",
+    "productUrl": "https://www.rtings.com/mattress/reviews/casper/cooling-select-foam",
+    "category": "mattress",
+    "brandSlug": "casper",
+    "modelSlug": "cooling-select-foam",
+    "publishedAt": "2026-09-18 10:48:25 -0400",
+    "publishedYear": 2026,
+    "firstPublishedAt": "2026-02-02 12:45:43 -0500",
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/pToqrD5O/casper-cooling-select-foam/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (42 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Polyfoam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (42 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Polyfoam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.428787+00:00"
+  },
+  {
+    "productId": "118685",
+    "name": "Silk & Snow Mattress",
+    "brand": "Silk & Snow",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/silk-snow/mattress-memory-foam",
+    "productUrl": "https://www.rtings.com/mattress/reviews/silk-snow/mattress-memory-foam",
+    "category": "mattress",
+    "brandSlug": "silk-snow",
+    "modelSlug": "mattress-memory-foam",
+    "publishedAt": "2026-02-19 08:51:34 -0500",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/J3XSi6K2/silk-snow-mattress-memory-foam/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Plush (39 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Plush (39 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 4,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.463888+00:00"
+  },
+  {
+    "productId": "52388",
+    "name": "Avocado Green",
+    "brand": "Avocado",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/avocado/green",
+    "productUrl": "https://www.rtings.com/mattress/reviews/avocado/green",
+    "category": "mattress",
+    "brandSlug": "avocado",
+    "modelSlug": "green",
+    "publishedAt": "2026-08-10 15:15:21 -0400",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/dP5IFRtR/avocado-green/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Firm (67 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Latex"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Firm (67 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Latex",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 9,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.501551+00:00"
+  },
+  {
+    "productId": "60399",
+    "name": "Novaform ComfortGrande Plus",
+    "brand": "Novaform",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/novaform/comfortgrande-plus",
+    "productUrl": "https://www.rtings.com/mattress/reviews/novaform/comfortgrande-plus",
+    "category": "mattress",
+    "brandSlug": "novaform",
+    "modelSlug": "comfortgrande-plus",
+    "publishedAt": "2026-09-17 15:53:58 -0400",
+    "publishedYear": 2026,
+    "firstPublishedAt": "2025-08-12 13:22:28 -0400",
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/2Q56lzs1/novaform-comfortgrande-plus/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Firm (52 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Firm (52 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.576669+00:00"
+  },
+  {
+    "productId": "122826",
+    "name": "Sleep On Latex Hybrid",
+    "brand": "Sleep On Latex",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/sleep-on-latex/hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/sleep-on-latex/hybrid",
+    "category": "mattress",
+    "brandSlug": "sleep-on-latex",
+    "modelSlug": "hybrid",
+    "publishedAt": "2026-05-20 14:13:54 -0400",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/V2lJSrJn/sleep-on-latex-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "No",
+      "Firmness Level": "Firm (130 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Latex"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "No",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Firm (130 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Latex",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 2,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.608329+00:00"
+  },
+  {
+    "productId": "52722",
+    "name": "Leesa Original",
+    "brand": "Leesa",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/leesa/original",
+    "productUrl": "https://www.rtings.com/mattress/reviews/leesa/original",
+    "category": "mattress",
+    "brandSlug": "leesa",
+    "modelSlug": "original",
+    "publishedAt": "2026-05-27 08:16:56 -0400",
+    "publishedYear": 2026,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/69yurV6S/leesa-original/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (46 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (46 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.644317+00:00"
+  },
+  {
+    "productId": "105249",
+    "name": "Helix Midnight Luxe 2025",
+    "brand": "Helix",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/helix/midnight-luxe-2025",
+    "productUrl": "https://www.rtings.com/mattress/reviews/helix/midnight-luxe-2025",
+    "category": "mattress",
+    "brandSlug": "helix",
+    "modelSlug": "midnight-luxe-2025",
+    "publishedAt": "2025-09-18 13:26:09 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/4dxVI6v1/helix-midnight-luxe-2025/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (44 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (44 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.679194+00:00"
+  },
+  {
+    "productId": "101897",
+    "name": "Casper Snow",
+    "brand": "Casper",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/casper/snow",
+    "productUrl": "https://www.rtings.com/mattress/reviews/casper/snow",
+    "category": "mattress",
+    "brandSlug": "casper",
+    "modelSlug": "snow",
+    "publishedAt": "2025-07-15 09:47:21 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/Tb0ZVNLp/casper-snow/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (47 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (47 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 4,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.723171+00:00"
+  },
+  {
+    "productId": "52712",
+    "name": "Saatva Latex Hybrid",
+    "brand": "Saatva",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/saatva/latex-hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/saatva/latex-hybrid",
+    "category": "mattress",
+    "brandSlug": "saatva",
+    "modelSlug": "latex-hybrid",
+    "publishedAt": "2025-07-15 09:47:21 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/0ml9pa2s/saatva-latex-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "No",
+      "Firmness Level": "Firm (60 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Latex"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "No",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Firm (60 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Latex",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.746178+00:00"
+  },
+  {
+    "productId": "52760",
+    "name": "Brooklyn Bedding Signature Hybrid",
+    "brand": "Brooklyn Bedding",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/brooklyn-bedding/signature-hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/brooklyn-bedding/signature-hybrid",
+    "category": "mattress",
+    "brandSlug": "brooklyn-bedding",
+    "modelSlug": "signature-hybrid",
+    "publishedAt": "2025-12-12 10:43:00 -0500",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/9HtsshRj/brooklyn-bedding-signature-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (44 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Polyfoam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (44 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Polyfoam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.790450+00:00"
+  },
+  {
+    "productId": "97524",
+    "name": "Sleep On Latex Pure Green Organic",
+    "brand": "Sleep On Latex",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/sleep-on-latex/pure-green-organic",
+    "productUrl": "https://www.rtings.com/mattress/reviews/sleep-on-latex/pure-green-organic",
+    "category": "mattress",
+    "brandSlug": "sleep-on-latex",
+    "modelSlug": "pure-green-organic",
+    "publishedAt": "2025-07-15 09:47:21 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/fkzr8lYX/sleep-on-latex-pure-green-organic/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Firm (81 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Latex"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Firm (81 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Latex",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 9,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.821279+00:00"
+  },
+  {
+    "productId": "57799",
+    "name": "Big Fig Mattress",
+    "brand": "Big Fig",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/big-fig/mattress",
+    "productUrl": "https://www.rtings.com/mattress/reviews/big-fig/mattress",
+    "category": "mattress",
+    "brandSlug": "big-fig",
+    "modelSlug": "mattress",
+    "publishedAt": "2025-07-15 09:47:21 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/1JREVi5M/big-fig-mattress/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (47 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Latex"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (47 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Latex",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 5,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.905599+00:00"
+  },
+  {
+    "productId": "59944",
+    "name": "DreamCloud Classic Hybrid",
+    "brand": "DreamCloud",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/dreamcloud/classic-hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/dreamcloud/classic-hybrid",
+    "category": "mattress",
+    "brandSlug": "dreamcloud",
+    "modelSlug": "classic-hybrid",
+    "publishedAt": "2025-09-22 12:06:44 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/ky2iz2LF/dreamcloud-classic-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Plush (39 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Plush (39 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.933770+00:00"
+  },
+  {
+    "productId": "52386",
+    "name": "Bear Elite Hybrid",
+    "brand": "Bear",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/bear/elite-hybrid",
+    "productUrl": "https://www.rtings.com/mattress/reviews/bear/elite-hybrid",
+    "category": "mattress",
+    "brandSlug": "bear",
+    "modelSlug": "elite-hybrid",
+    "publishedAt": "2025-08-11 12:47:48 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/HFfkbeqX/bear-elite-hybrid/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Hybrid",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Firm (51 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Hybrid",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Firm (51 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:58.964324+00:00"
+  },
+  {
+    "productId": "60401",
+    "name": "Novaform Serafina Pearl",
+    "brand": "Novaform",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/novaform/serafina-pearl",
+    "productUrl": "https://www.rtings.com/mattress/reviews/novaform/serafina-pearl",
+    "category": "mattress",
+    "brandSlug": "novaform",
+    "modelSlug": "serafina-pearl",
+    "publishedAt": "2025-09-12 09:28:21 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/35xiyAqt/novaform-serafina-pearl/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium (44 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (44 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:59.007921+00:00"
+  },
+  {
+    "productId": "52701",
+    "name": "Purple Mattress",
+    "brand": "Purple",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/purple/mattress",
+    "productUrl": "https://www.rtings.com/mattress/reviews/purple/mattress",
+    "category": "mattress",
+    "brandSlug": "purple",
+    "modelSlug": "mattress",
+    "publishedAt": "2025-07-15 09:47:20 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/yGfVVzOX/purple-mattress/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "Yes",
+      "Firmness Level": "Medium-Firm (51 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Elastic Polymer Grid"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "Yes",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium-Firm (51 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Elastic Polymer Grid",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "commentCount": 2,
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:59.040034+00:00"
+  },
+  {
+    "productId": "52664",
+    "name": "Tempur-Pedic TEMPUR-Adapt",
+    "brand": "Tempur-Pedic",
+    "reviewUrl": "https://www.rtings.com/mattress/reviews/tempur-pedic/tempur-adapt",
+    "productUrl": "https://www.rtings.com/mattress/reviews/tempur-pedic/tempur-adapt",
+    "category": "mattress",
+    "brandSlug": "tempur-pedic",
+    "modelSlug": "tempur-adapt",
+    "publishedAt": "2025-07-15 09:47:20 -0400",
+    "publishedYear": 2025,
+    "testBenchName": "1.2",
+    "testBenchId": "236",
+    "mainImageUrl": "https://i.rtings.com/assets/products/7NhjxhV9/tempur-pedic-tempur-adapt/design-small.jpg",
+    "testScoresFlat": {
+      "Mattress Type": "Foam",
+      "Bed-In-A-Box": "No",
+      "Firmness Level": "Medium (48 Pa/mm)",
+      "Upper Comfort Foam @ Lumbar": "Memory Foam"
+    },
+    "featuredTests": [
+      {
+        "name": "Mattress Type",
+        "value": "Foam",
+        "score": 0
+      },
+      {
+        "name": "Bed-In-A-Box",
+        "value": "No",
+        "score": 0
+      },
+      {
+        "name": "Firmness Level",
+        "value": "Medium (48 Pa/mm)",
+        "score": 0
+      },
+      {
+        "name": "Upper Comfort Foam @ Lumbar",
+        "value": "Memory Foam",
+        "score": 0
+      }
+    ],
+    "recommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "recordType": "review",
+    "scrapedAt": "2026-09-25T11:57:59.065275+00:00"
+  }
+]

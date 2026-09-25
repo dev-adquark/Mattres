@@ -8,7 +8,10 @@
     "officialProductUrl": "https://casper.com/products/casper-one-foam",
     "type": "foam",
     "firmnessDescription": "Medium-firm, responsive and lively (manufacturer)",
-    "firmnessRange": { "min": 6, "max": 6 },
+    "firmnessRange": {
+      "min": 6,
+      "max": 6
+    },
     "firmnessSource": "independent_numeric",
     "heightIn": 11,
     "coreMaterialNotes": "Cozy Cover (knit); Breathe Flex Foam (open-cell); Align+ Memory Foam; Casper Core (high-density foam base)",
@@ -23,7 +26,15 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping and free returns; returns can be initiated after the 30-night adjustment period.",
     "priceUsd": 899,
-    "priceBySize": { "Twin": 699, "TwinXL": 779, "Full": 859, "Queen": 899, "King": 1319, "CalKing": 1319, "SplitKing": 1558 },
+    "priceBySize": {
+      "Twin": 699,
+      "TwinXL": 779,
+      "Full": 859,
+      "Queen": 899,
+      "King": 1319,
+      "CalKing": 1319,
+      "SplitKing": 1558
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -32,14 +43,36 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Absorbs motion rather than transferring it (rated 8/10)." },
-      { "label": "durability", "sentiment": "neutral", "snippet": "Shouldn't expect too much longevity beyond the standard seven or so years (rated 7/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Absorbs motion rather than transferring it (rated 8/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "neutral",
+        "snippet": "Shouldn't expect too much longevity beyond the standard seven or so years (rated 7/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://casper.com/products/casper-one-foam",
     "sourceName": "Casper (official)",
     "lastVerified": "2026-09-25",
@@ -55,7 +88,10 @@
     "officialProductUrl": "https://casper.com/products/casper-cloud-one-foam",
     "type": "foam",
     "firmnessDescription": "Medium-soft (manufacturer)",
-    "firmnessRange": { "min": 4, "max": 4 },
+    "firmnessRange": {
+      "min": 4,
+      "max": 4
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 11,
     "coreMaterialNotes": "Cozy Cover; Breathe Flex Foam; Align+ Memory Foam; Casper Core+ (patent-pending foam pillars); Casper Core Edge",
@@ -70,7 +106,14 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping and free returns; returns can be initiated after the 30-night adjustment period.",
     "priceUsd": 1099,
-    "priceBySize": { "Twin": 899, "TwinXL": 979, "Full": 1059, "Queen": 1099, "King": 1519, "CalKing": 1519 },
+    "priceBySize": {
+      "Twin": 899,
+      "TwinXL": 979,
+      "Full": 1059,
+      "Queen": 1099,
+      "King": 1519,
+      "CalKing": 1519
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -79,13 +122,30 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Even high ratings for motion isolation (rated 9/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Even high ratings for motion isolation (rated 9/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
     "sourceUrl": "https://casper.com/products/casper-cloud-one-foam",
     "sourceName": "Casper (official)",
     "lastVerified": "2026-09-25",
@@ -101,7 +161,10 @@
     "officialProductUrl": "https://casper.com/products/casper-dream-hybrid",
     "type": "hybrid",
     "firmnessDescription": "Medium, responsive & lively (manufacturer)",
-    "firmnessRange": { "min": 5, "max": 5 },
+    "firmnessRange": {
+      "min": 5,
+      "max": 5
+    },
     "firmnessSource": "independent_numeric",
     "heightIn": 12,
     "coreMaterialNotes": "Cozy Cover (QuickCool optional upgrade); Breathe Flex Foam; Zoned Support with Align Memory Foam (3 zones); Flex Coils (pocketed); Casper Core Edge; Casper Core",
@@ -116,7 +179,15 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping and free returns; returns can be initiated after the 30-night adjustment period.",
     "priceUsd": 1595,
-    "priceBySize": { "Twin": 1295, "TwinXL": 1375, "Full": 1495, "Queen": 1595, "King": 2195, "CalKing": 2195, "SplitKing": 2750 },
+    "priceBySize": {
+      "Twin": 1295,
+      "TwinXL": 1375,
+      "Full": 1495,
+      "Queen": 1595,
+      "King": 2195,
+      "CalKing": 2195,
+      "SplitKing": 2750
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -125,13 +196,31 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "durability", "sentiment": "negative", "snippet": "Expected lifespan ~5-6 years; foam degrades at hip area (rated 6/10)." }
+      {
+        "label": "durability",
+        "sentiment": "negative",
+        "snippet": "Expected lifespan ~5-6 years; foam degrades at hip area (rated 6/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-dream-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-dream-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyYears", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
     "sourceUrl": "https://casper.com/products/casper-dream-hybrid",
     "sourceName": "Casper (official)",
     "lastVerified": "2026-09-25",
@@ -147,7 +236,10 @@
     "officialProductUrl": "https://casper.com/products/casper-snow-v3",
     "type": "hybrid",
     "firmnessDescription": "Medium, conforming & cooling (manufacturer)",
-    "firmnessRange": { "min": 5, "max": 5 },
+    "firmnessRange": {
+      "min": 5,
+      "max": 5
+    },
     "firmnessSource": "independent_numeric",
     "heightIn": 12,
     "coreMaterialNotes": "QuickCool Cover; Phase Change Material coating; breathable memory foam; HeatDelete Bands (3, aluminum graphite); Zoned Support (Align Memory Foam, 3 zones); Flex Coils; Casper Core Edge; Casper Core",
@@ -162,7 +254,14 @@
     "warrantyLifetime": false,
     "returnPolicy": "Returns can be initiated after the 30-night adjustment period; free shipping/returns; additional fees for Alaska/Hawaii.",
     "priceUsd": 2720,
-    "priceBySize": { "TwinXL": 2120, "Full": 2620, "Queen": 2720, "King": 3495, "CalKing": 3495, "SplitKing": 4240 },
+    "priceBySize": {
+      "TwinXL": 2120,
+      "Full": 2620,
+      "Queen": 2720,
+      "King": 3495,
+      "CalKing": 3495,
+      "SplitKing": 4240
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -171,18 +270,54 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "negative", "snippet": "Below average; foam isn't firm enough under heavier weight (rated 6/10)." }
+      {
+        "label": "edge support",
+        "sentiment": "negative",
+        "snippet": "Below average; foam isn't firm enough under heavier weight (rated 6/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-snow-hybrid-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/casper-snow-hybrid-mattress-review"
+      },
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/casper/snow"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyYears", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
     "sourceUrl": "https://casper.com/products/casper-snow-v3",
     "sourceName": "Casper (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 47,
+    "firmnessLabelFromRtings": "Medium",
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
     "id": "helix-midnight",
@@ -193,7 +328,10 @@
     "officialProductUrl": "https://helixsleep.com/products/midnight",
     "type": "hybrid",
     "firmnessDescription": "Medium feel, cozy and soft with cushioned support (manufacturer, stated as 6/10)",
-    "firmnessRange": { "min": 6, "max": 6 },
+    "firmnessRange": {
+      "min": 6,
+      "max": 6
+    },
     "firmnessSource": "stated_numeric",
     "heightIn": 11.5,
     "coreMaterialNotes": "Cooling top cover (Soft Touch, or GlacioTex upgrade); Memory Plus Foam + High-Grade Polyfoam comfort layer; High-Grade Polyfoam transition layer; up to 950 individually wrapped coils; DuraDense Foam base",
@@ -217,13 +355,29 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "cooling", "sentiment": "neutral", "snippet": "Some heat is noticeable (temperature control rated 6.5/10)." }
+      {
+        "label": "cooling",
+        "sentiment": "neutral",
+        "snippet": "Some heat is noticeable (temperature control rated 6.5/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears"
+    ],
     "sourceUrl": "https://checkout.helixsleep.com/products/midnight/",
     "sourceName": "Helix Sleep (checkout-subdomain mirror of the official product page; apex domain returned 403 on fetch)",
     "lastVerified": "2026-09-25",
@@ -239,7 +393,10 @@
     "officialProductUrl": "https://helixsleep.com/products/dusk",
     "type": "hybrid",
     "firmnessDescription": "Medium feel, lofty and uplifting with just the right amount of sink (manufacturer, stated as 6/10)",
-    "firmnessRange": { "min": 6, "max": 6 },
+    "firmnessRange": {
+      "min": 6,
+      "max": 6
+    },
     "firmnessSource": "stated_numeric",
     "heightIn": 11.5,
     "coreMaterialNotes": "Cooling top cover (Soft Touch or GlacioTex upgrade); Helix Dynamic Foam + High-Grade Polyfoam comfort layer; High-Grade Polyfoam transition layer; up to 950 individually wrapped coils; DuraDense Foam base",
@@ -263,13 +420,29 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Absorbs the most motion of all the Helix models (rated 8/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Absorbs the most motion of all the Helix models (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears"
+    ],
     "sourceUrl": "https://checkout.helixsleep.com/products/dusk/",
     "sourceName": "Helix Sleep (checkout-subdomain mirror of the official product page; apex domain returned 403 on fetch)",
     "lastVerified": "2026-09-25",
@@ -285,7 +458,10 @@
     "officialProductUrl": "https://helixsleep.com/products/plus",
     "type": "hybrid",
     "firmnessDescription": "Cozy with lively support, designed for plus-size/heavier sleepers, weight capacity up to 1,000 lbs (manufacturer, stated as 7/10)",
-    "firmnessRange": { "min": 7, "max": 7 },
+    "firmnessRange": {
+      "min": 7,
+      "max": 7
+    },
     "firmnessSource": "stated_numeric",
     "heightIn": 11.5,
     "coreMaterialNotes": "Premium cooling cover (TENCEL or GlacioTex); 4-lb Memory Plus Foam comfort layer; Helix Dynamic Foam support layer; Firm Memory Foam transition layer; XL Wrapped Coils; DuraDense Foam base",
@@ -309,14 +485,35 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "positive", "snippet": "Thicker perimeter coils, notably sturdy (rated 9/10)." },
-      { "label": "durability", "sentiment": "positive", "snippet": "Multiple layers of high-density foam and 8-inch TitanCore steel coils, engineered for 10+ year lifespan (rated 8.5/10)." }
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Thicker perimeter coils, notably sturdy (rated 9/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Multiple layers of high-density foam and 8-inch TitanCore steel coils, engineered for 10+ year lifespan (rated 8.5/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-plus-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/helix-plus-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyYears"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears"
+    ],
     "sourceUrl": "https://checkout.helixsleep.com/products/plus/",
     "sourceName": "Helix Sleep (checkout-subdomain mirror of the official product page; apex domain returned 403 on fetch)",
     "lastVerified": "2026-09-25",
@@ -332,7 +529,10 @@
     "officialProductUrl": "https://www.saatva.com/mattresses/saatva-classic",
     "type": "innerspring",
     "firmnessDescription": "Sold in three firmness options: Plush Soft (3/10), Luxury Firm (5-7/10), Firm (8/10). Score below reflects the overall range midpoint, not one specific option.",
-    "firmnessRange": { "min": 3, "max": 8 },
+    "firmnessRange": {
+      "min": 3,
+      "max": 8
+    },
     "firmnessNote": "Multi-option product; midpoint used for scoring because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "stated_numeric_range_midpoint",
     "heightIn": null,
@@ -358,13 +558,30 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "editorial recognition", "sentiment": "positive", "snippet": "One of Sleep Foundation's top-tested premium mattresses; \"exceptionally cool\" in testing." }
+      {
+        "label": "editorial recognition",
+        "sentiment": "positive",
+        "snippet": "One of Sleep Foundation's top-tested premium mattresses; \"exceptionally cool\" in testing."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "coreMaterialNotes", "trialDays", "warrantyLifetime", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://www.saatva.com/mattresses/saatva-classic",
     "sourceName": "Saatva (official)",
     "lastVerified": "2026-09-25",
@@ -380,7 +597,10 @@
     "officialProductUrl": "https://www.saatva.com/mattresses/saatva-rx",
     "type": "hybrid",
     "firmnessDescription": "Supportive Plush (3-4/10), marketed for chronic back/joint pain (manufacturer)",
-    "firmnessRange": { "min": 3, "max": 4 },
+    "firmnessRange": {
+      "min": 3,
+      "max": 4
+    },
     "firmnessSource": "stated_numeric_range_midpoint",
     "heightIn": null,
     "coreMaterialNotes": "Organic cotton cover with Lumbar Zone quilting; gel-infused memory foam lumbar layer; proprietary Rx Wave-Tech Foam Layer (graphite + phase-change material); 8\" Comfort Coil Unit (triple-tempered recycled steel); high-density foam edge rails",
@@ -405,13 +625,29 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "sleep position fit", "sentiment": "positive", "snippet": "Exceptionally good match for side sleepers across weight groups." }
+      {
+        "label": "sleep position fit",
+        "sentiment": "positive",
+        "snippet": "Exceptionally good match for side sleepers across weight groups."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-rx-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-rx-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "coreMaterialNotes", "cooling", "trialDays", "warrantyLifetime"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime"
+    ],
     "sourceUrl": "https://www.saatva.com/mattresses/saatva-rx",
     "sourceName": "Saatva (official)",
     "lastVerified": "2026-09-25",
@@ -427,7 +663,10 @@
     "officialProductUrl": "https://www.saatva.com/mattresses/saatva-hd",
     "type": "hybrid",
     "firmnessDescription": "Medium Firm (5-7/10), marketed for sleepers up to 500 lbs; firmer-feeling for sleepers under 300 lbs (manufacturer)",
-    "firmnessRange": { "min": 5, "max": 7 },
+    "firmnessRange": {
+      "min": 5,
+      "max": 7
+    },
     "firmnessSource": "stated_numeric_range_midpoint",
     "heightIn": null,
     "coreMaterialNotes": "3\" hand-tufted Euro pillow top; natural latex with 5-zone technology; memory foam; tempered steel coils (25% stronger than industry standard); requires separate HD Foundation",
@@ -452,14 +691,33 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "positive", "snippet": "Strong edge support (qualitative, not numerically rated)." },
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Stellar ease of movement and motion isolation (qualitative, not numerically rated)." }
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Strong edge support (qualitative, not numerically rated)."
+      },
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Stellar ease of movement and motion isolation (qualitative, not numerically rated)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-hd-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/saatva-hd-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "coreMaterialNotes", "trialDays", "warrantyLifetime"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyLifetime"
+    ],
     "sourceUrl": "https://www.saatva.com/mattresses/saatva-hd",
     "sourceName": "Saatva (official)",
     "lastVerified": "2026-09-25",
@@ -475,7 +733,10 @@
     "officialProductUrl": "https://www.saatva.com/mattresses/loom-and-leaf",
     "type": "foam",
     "firmnessDescription": "Sold in two firmness options: Relaxed Firm (5-7/10, \"true medium firmness\"), Firm (8/10). Score below reflects the overall range midpoint.",
-    "firmnessRange": { "min": 5, "max": 8 },
+    "firmnessRange": {
+      "min": 5,
+      "max": 8
+    },
     "firmnessNote": "Multi-option product; midpoint used for scoring because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "stated_numeric_range_midpoint",
     "heightIn": null,
@@ -500,13 +761,27 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Dense foams help reduce disturbances for couples, particularly on the medium-firm option." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Dense foams help reduce disturbances for couples, particularly on the medium-firm option."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/loom-and-leaf-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/loom-and-leaf-mattress-review"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "coreMaterialNotes", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "coreMaterialNotes",
+      "priceUsd"
+    ],
     "sourceUrl": "https://www.saatva.com/mattresses/loom-and-leaf",
     "sourceName": "Saatva (official)",
     "lastVerified": "2026-09-25",
@@ -522,7 +797,10 @@
     "officialProductUrl": "https://purple.com/mattresses/purple-bed",
     "type": "foam",
     "firmnessDescription": "Medium-firm feel with responsive support (manufacturer)",
-    "firmnessRange": { "min": 7, "max": 7 },
+    "firmnessRange": {
+      "min": 7,
+      "max": 7
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 9.25,
     "coreMaterialNotes": "2\" GelFlex Grid (hyper-elastic polymer, 1400+ columns that buckle under concentrated weight) + edge support foam + 3.5\" comfort polyfoam + 4\" base support polyfoam; SoftFlex cover",
@@ -537,7 +815,13 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping both ways; 100-night trial (21-night minimum); \"lowest price guarantee\" within 30 days.",
     "priceUsd": 1599,
-    "priceBySize": { "Twin": 1099, "Full": 1499, "Queen": 1599, "King": 2199, "CalKing": 2199 },
+    "priceBySize": {
+      "Twin": 1099,
+      "Full": 1499,
+      "Queen": 1599,
+      "King": 2199,
+      "CalKing": 2199
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -546,19 +830,59 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Grid layer absorbs movement as well as traditional memory foam (rated 8/10)." },
-      { "label": "durability", "sentiment": "negative", "snippet": "May only get six or seven years of mattress life (rated 6/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Grid layer absorbs movement as well as traditional memory foam (rated 8/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "negative",
+        "snippet": "May only get six or seven years of mattress life (rated 6/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-mattress-review"
+      },
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/purple/mattress"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://purple.com/mattresses/purple-bed",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 51,
+    "firmnessLabelFromRtings": "Medium-Firm",
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
     "id": "purple-plus",
@@ -569,7 +893,10 @@
     "officialProductUrl": "https://purple.com/mattresses/plus",
     "type": "foam",
     "firmnessDescription": "Medium feel (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 5.5 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 11,
     "coreMaterialNotes": "2\" GelFlex Grid + 2\" polyfoam comfort + 3\" polyfoam comfort + 4\" base foam; SoftFlex cover (98% polyester/2% spandex)",
@@ -584,7 +911,15 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping both ways, 100-night trial (21-night minimum), refund after adjustment period.",
     "priceUsd": 2099,
-    "priceBySize": { "Twin": 1599, "TwinXL": 1799, "Full": 1999, "Queen": 2099, "King": 2599, "CalKing": 2599, "SplitKing": 3598 },
+    "priceBySize": {
+      "Twin": 1599,
+      "TwinXL": 1799,
+      "Full": 1999,
+      "Queen": 2099,
+      "King": 2599,
+      "CalKing": 2599,
+      "SplitKing": 3598
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -593,14 +928,36 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Rated 9/10." },
-      { "label": "durability", "sentiment": "neutral", "snippet": "Around five or six years (rated 6.5/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Rated 9/10."
+      },
+      {
+        "label": "durability",
+        "sentiment": "neutral",
+        "snippet": "Around five or six years (rated 6.5/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-plus-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-plus-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://purple.com/mattresses/plus",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
@@ -616,7 +973,10 @@
     "officialProductUrl": "https://purple.com/mattresses/restore",
     "type": "hybrid",
     "firmnessDescription": "Medium feel, maintains spinal alignment (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 5.5 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 11.5,
     "coreMaterialNotes": "2\" GelFlex Grid + edge support foam + comfort foam + 8\" Responsive Coil System; SoftFlex cover with antimicrobial finish",
@@ -631,7 +991,14 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free pickup + refund within 100 nights (21-night minimum); free delivery; complimentary in-home setup only if paired with the Premium Plus Smart Base.",
     "priceUsd": 2699,
-    "priceBySize": { "TwinXL": 2299, "Full": 2499, "Queen": 2699, "King": 3399, "CalKing": 3399, "SplitKing": 4598 },
+    "priceBySize": {
+      "TwinXL": 2299,
+      "Full": 2499,
+      "Queen": 2699,
+      "King": 3399,
+      "CalKing": 3399,
+      "SplitKing": 4598
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -640,14 +1007,36 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "temperature control", "sentiment": "positive", "snippet": "Some of the best temperature control (rated 9/10)." },
-      { "label": "durability", "sentiment": "positive", "snippet": "Should hold up for at least eight years (rated 8/10)." }
+      {
+        "label": "temperature control",
+        "sentiment": "positive",
+        "snippet": "Some of the best temperature control (rated 9/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Should hold up for at least eight years (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-restore-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-restore-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://purple.com/mattresses/restore",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
@@ -663,7 +1052,10 @@
     "officialProductUrl": "https://purple.com/mattresses/restore-plus",
     "type": "hybrid",
     "firmnessDescription": "Medium-soft feel, relieves hips/shoulder/back pain (manufacturer)",
-    "firmnessRange": { "min": 4, "max": 4 },
+    "firmnessRange": {
+      "min": 4,
+      "max": 4
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 13,
     "coreMaterialNotes": "3\" GelFlex Grid + Ultra Comfort foam + 8\" Responsive Coil System (3-zone); SoftFlex cover with antimicrobial + moisture-wicking finish",
@@ -687,16 +1079,43 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [],
-    "reviewSources": [],
+    "reviewSources": [
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/purple/restoreplus-hybrid"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd"
+    ],
     "sourceUrl": "https://purple.com/mattresses/restore-plus",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 45,
+    "firmnessLabelFromRtings": "Medium",
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-25T11:54:51.403Z"
   },
   {
     "id": "purple-rejuvenate",
@@ -707,7 +1126,10 @@
     "officialProductUrl": "https://purple.com/mattresses/rejuvenate",
     "type": "hybrid",
     "firmnessDescription": "Firm feel, for stomach/back/combo sleepers (manufacturer)",
-    "firmnessRange": { "min": 8.5, "max": 8.5 },
+    "firmnessRange": {
+      "min": 8.5,
+      "max": 8.5
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 14.5,
     "coreMaterialNotes": "DreamLayer top (MicroGrid + MicroAir foam) + 2\" GelFlex Grid + Firm Slow Recovery (Active Response) Foam + 8\" Responsive Coil System",
@@ -722,7 +1144,13 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping both ways within 100 nights, picked up and refunded.",
     "priceUsd": 5499,
-    "priceBySize": { "TwinXL": 4899, "Queen": 5499, "King": 7099, "CalKing": 7099, "SplitKing": 9798 },
+    "priceBySize": {
+      "TwinXL": 4899,
+      "Queen": 5499,
+      "King": 7099,
+      "CalKing": 7099,
+      "SplitKing": 9798
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -731,13 +1159,32 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Little to no motion transfer in testing (rated 8/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Little to no motion transfer in testing (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-rejuvenate-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/purple-rejuvenate-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://purple.com/mattresses/rejuvenate",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
@@ -753,7 +1200,10 @@
     "officialProductUrl": "https://purple.com/mattresses/rejuvenate-plus",
     "type": "hybrid",
     "firmnessDescription": "Medium feel, for back sleepers (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 5.5 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 15.5,
     "coreMaterialNotes": "DreamLayer top + 3\" GelFlex Grid + Active Response+ Foam + 8\" Responsive Coil System; fiberglass-free fire barrier",
@@ -768,7 +1218,13 @@
     "warrantyLifetime": false,
     "returnPolicy": "Free shipping/in-home setup, 100-night trial, 21-night adjustment period, \"lowest price guarantee\" within 30 days.",
     "priceUsd": 6599,
-    "priceBySize": { "TwinXL": 5999, "Queen": 6599, "King": 8199, "CalKing": 8199, "SplitKing": 11998 },
+    "priceBySize": {
+      "TwinXL": 5999,
+      "Queen": 6599,
+      "King": 8199,
+      "CalKing": 8199,
+      "SplitKing": 11998
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -781,7 +1237,16 @@
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyYears", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyYears",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://purple.com/mattresses/rejuvenate-plus",
     "sourceName": "Purple.com (official)",
     "lastVerified": "2026-09-25",
@@ -797,7 +1262,10 @@
     "officialProductUrl": "https://www.leesa.com/products/leesa-mattress",
     "type": "foam",
     "firmnessDescription": "Medium (76% of customers report medium feel) (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 5.5 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 5.5
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 10,
     "coreMaterialNotes": "Breathable Knit Cover (87% polyester/13% viscose) or optional Cooling Quilt Top upgrade; 2\" GreenFlex BioFoam (3lb, USDA BioPreferred); 2\" Ultra-Supportive Memory Foam (3lb); 6\" Durable Support Foam; fiberglass-free fire barrier",
@@ -822,18 +1290,53 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "motion isolation", "sentiment": "positive", "snippet": "Top two foam layers work together extremely well to isolate motion (rated 8/10)." }
+      {
+        "label": "motion isolation",
+        "sentiment": "positive",
+        "snippet": "Top two foam layers work together extremely well to isolate motion (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-mattress-review"
+      },
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/leesa/original"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays"
+    ],
     "sourceUrl": "https://www.leesa.com/products/leesa-mattress",
     "sourceName": "Leesa (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 46,
+    "firmnessLabelFromRtings": "Medium",
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-25T11:54:51.403Z"
   },
   {
     "id": "leesa-original-hybrid",
@@ -844,7 +1347,10 @@
     "officialProductUrl": "https://www.leesa.com/products/original-hybrid-mattress",
     "type": "hybrid",
     "firmnessDescription": "Medium to medium-firm (90% of customers) (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 7 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 7
+    },
     "firmnessSource": "label_mapped_range",
     "heightIn": 11,
     "coreMaterialNotes": "Breathable Knit Cover or Cooling Quilt Top upgrade (73% polyester/25% polyethylene/2% spandex); 1\" Ultra-Supportive Memory Foam; 1.5\" GreenFlex BioFoam (3lb); 8\" Reinforced Steel Springs; 0.75\" Durable Support Foam",
@@ -869,11 +1375,22 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-original-hybrid-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-original-hybrid-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays"
+    ],
     "sourceUrl": "https://www.leesa.com/products/original-hybrid-mattress",
     "sourceName": "Leesa (official)",
     "lastVerified": "2026-09-25",
@@ -889,7 +1406,10 @@
     "officialProductUrl": "https://www.leesa.com/products/leesa-hybrid-mattress",
     "type": "hybrid",
     "firmnessDescription": "Medium to medium-firm (86% of customers) (manufacturer)",
-    "firmnessRange": { "min": 5.5, "max": 7 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 7
+    },
     "firmnessSource": "label_mapped_range",
     "heightIn": 11,
     "coreMaterialNotes": "Cool-Knit Cover (74% polyester/13% rayon/9% viscose/4% poly-lycra); 1.5\" Ventilated GreenFlex BioFoam (3lb); 1.5\" Ultra-Supportive Memory Foam (4lb); 1\" Transition Support Foam; 6\" Reinforced Steel Springs (1,000+ individually wrapped); 1\" Durable Support Foam",
@@ -904,7 +1424,11 @@
     "warrantyLifetime": true,
     "returnPolicy": "Full policy at leesa.com trial-and-returns page; not detailed in the fetched excerpt.",
     "priceUsd": 1079,
-    "priceBySize": { "TwinTwinXL": 725, "FullQueen": 1079, "KingCalKing": 1199 },
+    "priceBySize": {
+      "TwinTwinXL": 725,
+      "FullQueen": 1079,
+      "KingCalKing": 1199
+    },
     "priceUpdatedAt": "2026-09-25",
     "retailPartners": [],
     "retailerUrls": [],
@@ -913,13 +1437,29 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "durability", "sentiment": "positive", "snippet": "Expected 8-9 years; warranty covers free repair/replacement for the first 10 years (rated 8/10)." }
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Expected 8-9 years; warranty covers free repair/replacement for the first 10 years (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-hybrid-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-hybrid-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "priceUsd"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "priceUsd"
+    ],
     "sourceUrl": "https://www.leesa.com/products/leesa-hybrid-mattress",
     "sourceName": "Leesa (official)",
     "lastVerified": "2026-09-25",
@@ -935,7 +1475,10 @@
     "officialProductUrl": "https://www.leesa.com/products/sapira-chill-mattress",
     "type": "hybrid",
     "firmnessDescription": "Sold in three firmness options: Plush, Medium-Firm (\"ideal balance\"), Firm. Score below reflects the Medium-Firm option since it's presented as the balanced default.",
-    "firmnessRange": { "min": 3, "max": 8.5 },
+    "firmnessRange": {
+      "min": 3,
+      "max": 8.5
+    },
     "firmnessNote": "Multi-option product; Medium-Firm (7/10) used as the representative value because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 14,
@@ -961,13 +1504,28 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "durability", "sentiment": "positive", "snippet": "At least eight years expected; 10-year full-coverage warranty period (rated 8/10)." }
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "At least eight years expected; 10-year full-coverage warranty period (rated 8/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-sapira-chill-hybrid-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/leesa-sapira-chill-hybrid-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays"
+    ],
     "sourceUrl": "https://www.leesa.com/products/sapira-chill-mattress",
     "sourceName": "Leesa (official)",
     "lastVerified": "2026-09-25",
@@ -983,7 +1541,10 @@
     "officialProductUrl": "https://www.bearmattress.com/products/elite-hybrid-mattress",
     "type": "hybrid",
     "firmnessDescription": "Sold in three firmness options: Soft (5/10), Medium (6/10, \"most popular\"), Firm (7/10). Score below reflects the Medium option.",
-    "firmnessRange": { "min": 5, "max": 7 },
+    "firmnessRange": {
+      "min": 5,
+      "max": 7
+    },
     "firmnessNote": "Multi-option product; Medium (6/10) used as the representative value since the manufacturer names it the most popular option.",
     "firmnessSource": "stated_numeric_range_representative",
     "heightIn": 14,
@@ -999,7 +1560,7 @@
     "warrantyLifetime": true,
     "returnPolicy": "120-night trial after a mandatory 30-night break-in; free return/full refund via returns@bearmattress.com.",
     "priceUsd": null,
-    "priceFromUsd": 1598.80,
+    "priceFromUsd": 1598.8,
     "priceNote": "CAVEAT: promo pricing (30% off, code FALL30) displayed the identical figure ($1,598.80) for Twin, Queen, King, and Cal King on the fetched page — implausible for genuinely different sizes and most likely an un-rendered per-size table. Not used as priceUsd; flagged for manual re-check.",
     "priceNeedsReverification": true,
     "priceUpdatedAt": "2026-09-25",
@@ -1010,19 +1571,58 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "positive", "snippet": "Reinforced edges in the support core, strengthens on firmer models (rated 7.5/10)." },
-      { "label": "durability", "sentiment": "positive", "snippet": "Above average, expected lifespan ~7-8 years (rated 7.5/10)." }
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Reinforced edges in the support core, strengthens on firmer models (rated 7.5/10)."
+      },
+      {
+        "label": "durability",
+        "sentiment": "positive",
+        "snippet": "Above average, expected lifespan ~7-8 years (rated 7.5/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/bear-elite-hybrid-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/bear-elite-hybrid-mattress-review"
+      },
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/bear/elite-hybrid"
+      }
+    ],
     "sourceConfidence": "medium",
     "verified": false,
     "verificationStatus": "partially_verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyLifetime"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime"
+    ],
     "sourceUrl": "https://www.bearmattress.com/products/elite-hybrid-mattress",
     "sourceName": "Bear Mattress (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 51,
+    "firmnessLabelFromRtings": "Medium-Firm",
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
     "id": "birch-natural",
@@ -1033,7 +1633,10 @@
     "officialProductUrl": "https://birchliving.com/products/birch-natural-organic-mattress",
     "type": "hybrid",
     "firmnessDescription": "Medium-firm feel (manufacturer; no numeric scale stated by the brand)",
-    "firmnessRange": { "min": 7, "max": 7 },
+    "firmnessRange": {
+      "min": 7,
+      "max": 7
+    },
     "firmnessSource": "label_mapped",
     "heightIn": 10,
     "heightNote": "Brand page states 10\"; the independent Sleep Foundation review states 11\" for the same model — conflicting figures, not reconciled, brand figure used as primary per official-source-first policy.",
@@ -1058,14 +1661,37 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "positive", "snippet": "Thicker and sturdier coils around the edges, providing amazing edge support (rated 8.5/10)." },
-      { "label": "motion isolation", "sentiment": "negative", "snippet": "Pretty significant bounce, so motion isolation isn't one of its strong points (rated 6/10)." }
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Thicker and sturdier coils around the edges, providing amazing edge support (rated 8.5/10)."
+      },
+      {
+        "label": "motion isolation",
+        "sentiment": "negative",
+        "snippet": "Pretty significant bounce, so motion isolation isn't one of its strong points (rated 6/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/birch-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/birch-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "cooling", "trialDays", "warrantyLifetime", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "cooling",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://birchliving.com/products/birch-natural-organic-mattress",
     "sourceName": "Birch Living (official)",
     "lastVerified": "2026-09-25",
@@ -1081,7 +1707,10 @@
     "officialProductUrl": "https://www.plushbeds.com/products/the-botanical-bliss-organic-latex-mattress",
     "type": "latex",
     "firmnessDescription": "Medium (~75% of customers, \"ideal for side sleepers\") or Medium-Firm (~25%, \"ideal for back/stomach sleepers\"); dual-firmness split option also offered. Score below reflects the Medium option (majority preference).",
-    "firmnessRange": { "min": 5.5, "max": 7 },
+    "firmnessRange": {
+      "min": 5.5,
+      "max": 7
+    },
     "firmnessNote": "Multi-option product; Medium used as the representative value since the manufacturer states it is preferred by ~75% of customers.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 10,
@@ -1107,14 +1736,36 @@
     "disclosureText": null,
     "dataOrigin": "manufacturer-official-source",
     "reviewHighlights": [
-      { "label": "edge support", "sentiment": "positive", "snippet": "Significant edge support, especially compared to a memory foam mattress (rated 8/10)." },
-      { "label": "motion isolation", "sentiment": "negative", "snippet": "Clearly noticeable motion transfer; bouncy Talalay latex means you'll feel your bed partner get in and out (rated 6/10)." }
+      {
+        "label": "edge support",
+        "sentiment": "positive",
+        "snippet": "Significant edge support, especially compared to a memory foam mattress (rated 8/10)."
+      },
+      {
+        "label": "motion isolation",
+        "sentiment": "negative",
+        "snippet": "Clearly noticeable motion transfer; bouncy Talalay latex means you'll feel your bed partner get in and out (rated 6/10)."
+      }
     ],
-    "reviewSources": [ { "sourceName": "Sleep Foundation", "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/plushbeds-botanical-bliss-mattress-review" } ],
+    "reviewSources": [
+      {
+        "sourceName": "Sleep Foundation",
+        "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/plushbeds-botanical-bliss-mattress-review"
+      }
+    ],
     "sourceConfidence": "high",
     "verified": false,
     "verificationStatus": "verified",
-    "verifiedFields": ["type", "firmnessDescription", "heightIn", "coreMaterialNotes", "trialDays", "warrantyLifetime", "priceUsd", "returnPolicy"],
+    "verifiedFields": [
+      "type",
+      "firmnessDescription",
+      "heightIn",
+      "coreMaterialNotes",
+      "trialDays",
+      "warrantyLifetime",
+      "priceUsd",
+      "returnPolicy"
+    ],
     "sourceUrl": "https://www.plushbeds.com/products/the-botanical-bliss-organic-latex-mattress",
     "sourceName": "PlushBeds (official)",
     "lastVerified": "2026-09-25",

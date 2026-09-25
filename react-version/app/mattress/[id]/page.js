@@ -140,6 +140,26 @@ export default async function MattressDetailPage({ params }) {
               ) : (
                 <p style={{ fontSize: 13.5, color: 'var(--slate-600)' }}>No review highlights on file for this mattress yet.</p>
               )}
+
+              {entry.reviewSources?.length > 0 && (
+                <>
+                  <h2 style={{ fontSize: 20, margin: '32px 0 14px' }}>Independent sources</h2>
+                  <p style={{ fontSize: 13.5, color: 'var(--slate-600)', marginBottom: 10 }}>
+                    Cross-checked against these independent reviews, in addition to {entry.brand}&apos;s own product
+                    page. A source appearing here is evidence this listing was corroborated against, not an
+                    endorsement by that source of Mattress Match Score.
+                  </p>
+                  <ul style={{ margin: '0 0 14px', paddingLeft: 20, fontSize: 13.5 }}>
+                    {entry.reviewSources.map((s) => (
+                      <li key={s.sourceUrl}>
+                        <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          {s.sourceName}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
 
             <div>

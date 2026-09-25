@@ -1,0 +1,109 @@
+[
+  {
+    "catalogId": "purple-restore-plus",
+    "brand": "Purple",
+    "model": "RestorePlus Hybrid",
+    "addReviewSource": null,
+    "addFirmnessPaPerMm": 45,
+    "addFirmnessLabelFromRtings": "Medium",
+    "rtingsMattressTypeAgrees": true,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "checkedAt": "2026-09-25T11:57:59.743Z"
+  },
+  {
+    "catalogId": "leesa-original",
+    "brand": "Leesa",
+    "model": "Original",
+    "addReviewSource": null,
+    "addFirmnessPaPerMm": 46,
+    "addFirmnessLabelFromRtings": "Medium",
+    "rtingsMattressTypeAgrees": true,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Firmness",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness",
+      "Edge Support"
+    ],
+    "checkedAt": "2026-09-25T11:57:59.745Z"
+  },
+  {
+    "catalogId": "casper-snow",
+    "brand": "Casper",
+    "model": "Snow",
+    "addReviewSource": null,
+    "addFirmnessPaPerMm": 47,
+    "addFirmnessLabelFromRtings": "Medium",
+    "rtingsMattressTypeAgrees": true,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "checkedAt": "2026-09-25T11:57:59.745Z"
+  },
+  {
+    "catalogId": "bear-elite-hybrid",
+    "brand": "Bear",
+    "model": "Elite Hybrid",
+    "addReviewSource": null,
+    "addFirmnessPaPerMm": 51,
+    "addFirmnessLabelFromRtings": "Medium-Firm",
+    "rtingsMattressTypeAgrees": true,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "checkedAt": "2026-09-25T11:57:59.746Z"
+  },
+  {
+    "catalogId": "purple-mattress",
+    "brand": "Purple",
+    "model": "The Purple Mattress",
+    "addReviewSource": null,
+    "addFirmnessPaPerMm": 51,
+    "addFirmnessLabelFromRtings": "Medium-Firm",
+    "rtingsMattressTypeAgrees": true,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "checkedAt": "2026-09-25T11:57:59.746Z"
+  }
+]
