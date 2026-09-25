@@ -3,7 +3,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { makeVisibilityGate, fitRendererToCanvas, prefersReducedMotion } from '@/lib/threeUtils';
-import { displayTitle } from '@/lib/format';
+import { displayTitle, formatPrice } from '@/lib/format';
 import MattressThumb from './MattressThumb';
 
 /**
@@ -239,7 +239,7 @@ const MattressUniverseScene = forwardRef(function MattressUniverseScene({ catalo
           <MattressThumb entry={selected.entry} />
           <div className="uip-name">{displayTitle(selected.entry)}</div>
           <div className="uip-meta">
-            {selected.entry.type.charAt(0).toUpperCase() + selected.entry.type.slice(1)} · ${selected.entry.priceUsd.toLocaleString()} ·{' '}
+            {selected.entry.type.charAt(0).toUpperCase() + selected.entry.type.slice(1)} · {formatPrice(selected.entry)} ·{' '}
             {selected.entry.trialDays}-night trial
           </div>
           {scoreEntry ? (

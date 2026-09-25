@@ -6,23 +6,28 @@ import AuditBanner from '@/components/AuditBanner';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
-// The fixed reference profile this page compares against, matching the
-// original project's static demo page exactly: side sleeper, 130-180lb
-// band, medium-firm preference, warm sleeper, under $1,000. weightLb is
-// set to the band's midpoint (155) rather than copied verbatim from
-// nowhere - the real scoring math only reads weight through
-// resolveWeightBand() and a 200lb durability threshold this band never
-// crosses, so any value inside [130,180) produces identical scores;
-// 155 is simply a representative value, not a guess that could change
-// the real output.
+// The fixed reference profile this page compares against: side sleeper,
+// 130-180lb band, medium-firm preference, warm sleeper. weightLb is set to
+// the band's midpoint (155) rather than copied verbatim from nowhere - the
+// real scoring math only reads weight through resolveWeightBand() and a
+// 200lb durability threshold this band never crosses, so any value inside
+// [130,180) produces identical scores; 155 is simply a representative
+// value, not a guess that could change the real output.
 //
-// This is a genuine improvement over the original: the original site
-// was a single static HTML file with no server, so these scores had to
-// be computed once, offline, and pasted into the page as static markup.
-// Here there's a real server, so this page calls the actual scoreEngine
-// fresh on every request via the same matchProfile() the real quiz flow
-// uses - one implementation, always current, never a stale copy that
-// could drift from the real engine.
+// Budget cap raised from the original project's $1,000 to $2,000: the
+// catalog now holds real, currently-sold mattress prices (not fabricated
+// demo specs), and a $1,000 Queen-size cap only clears 1 of the 24 real
+// products - a near-empty page. $2,000 clears 7, a real comparison set.
+// Mattresses with no confirmed Queen price (priceUsd null - Helix's price
+// is JS-rendered and couldn't be captured, some Leesa sizes only have a
+// "from" price) are correctly excluded by the budget filter rather than
+// silently treated as "fits" - see filterCatalog()'s null-price handling
+// in lib/matchLogic.js.
+//
+// This page calls the actual scoreEngine fresh on every request via the
+// same matchProfile() the real quiz flow uses - one implementation,
+// always current, never a stale copy that could drift from the real
+// engine.
 const DEMO_PROFILE = {
   sleepPosition: 'side',
   weightLb: 155,
@@ -31,11 +36,11 @@ const DEMO_PROFILE = {
   motionSensitivity: 'single',
   painFocus: [],
   mattressTypePreference: [],
-  budgetUsd: { min: 0, max: 1000 },
+  budgetUsd: { min: 0, max: 2000 },
 };
 
 export const metadata = {
-  title: 'Best mattresses for side sleepers under $1,000 — Mattress Match Score',
+  title: 'Best mattresses for side sleepers under $2,000 — Mattress Match Score',
 };
 
 export default function ComparePage() {
@@ -46,8 +51,8 @@ export default function ComparePage() {
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
-          <span className="eyebrow">Compare · Side sleepers under $1,000</span>
-          <h1 className="ph-title">Best mattresses for side sleepers under $1,000</h1>
+          <span className="eyebrow">Compare · Side sleepers under $2,000</span>
+          <h1 className="ph-title">Best mattresses for side sleepers under $2,000</h1>
           <p className="ph-sub">
             Ranked by Match Score for a demo sleep profile. Sub-scores, risk flags, and review highlights are mapped
             directly to that profile&apos;s inputs.

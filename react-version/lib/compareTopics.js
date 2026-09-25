@@ -8,8 +8,11 @@
  * guess that could silently change the real result.
  */
 export const compareTopics = {
+  // Budget raised from $1,000 to $2,000 to match app/compare/page.js's own
+  // fix: with real, currently-sold mattress prices in the catalog, a
+  // $1,000 Queen-size cap only clears 1 of 24 real products.
   'side-sleepers-under-1000': {
-    title: 'Best mattresses for side sleepers under $1,000',
+    title: 'Best mattresses for side sleepers under $2,000',
     chips: ['Side sleeper', '130–180 lb', 'Medium-firm', 'Sleeps warm'],
     profile: {
       sleepPosition: 'side',
@@ -19,7 +22,7 @@ export const compareTopics = {
       motionSensitivity: 'single',
       painFocus: [],
       mattressTypePreference: [],
-      budgetUsd: { min: 0, max: 1000 },
+      budgetUsd: { min: 0, max: 2000 },
     },
   },
   'cooling-hybrids-for-couples': {

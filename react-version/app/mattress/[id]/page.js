@@ -5,6 +5,7 @@ import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattr
 import { buildRetailerLink } from '@/lib/affiliateLinks';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
+import { formatPrice } from '@/lib/format';
 import { displayTitle } from '@/lib/matchLogic';
 
 export function generateStaticParams() {
@@ -112,7 +113,7 @@ export default async function MattressDetailPage({ params }) {
                   <span>Height</span>
                 </div>
                 <div className="md-spec">
-                  <b>${entry.priceUsd?.toLocaleString() ?? 'Unknown'}</b>
+                  <b>{formatPrice(entry)}</b>
                   <span>Price</span>
                 </div>
                 <div className="md-spec">

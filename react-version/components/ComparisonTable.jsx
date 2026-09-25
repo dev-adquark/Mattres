@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { CATEGORIES } from '@/lib/categories';
-import { displayTitle } from '@/lib/format';
+import { displayTitle, formatPrice } from '@/lib/format';
 
 const ROWS = [
   { label: 'Mattress', get: (r) => displayTitle(r.entry) },
   { label: 'Type', get: (r) => r.entry.type },
-  { label: 'Price', get: (r) => `$${r.entry.priceUsd.toLocaleString()}` },
+  { label: 'Price', get: (r) => formatPrice(r.entry) },
   { label: 'Overall score', get: (r) => `${r.result.overallScore}/100` },
   ...CATEGORIES.map((cat) => ({ label: cat.label, get: (r) => r.result.subScores[cat.key].toFixed(1) })),
   { label: 'Risk flags', get: (r) => (r.result.riskFlags.length ? `${r.result.riskFlags.length} flag(s)` : 'None') },

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { formatPrice } from '@/lib/format';
 import MattressThumb from './MattressThumb';
 
 /**
@@ -42,7 +43,7 @@ export default function MatchedMattressPanel({ top }) {
         <h3>{top ? top.displayTitle : 'Take the quiz to see your match'}</h3>
         <p>
           {top
-            ? `${top.entry.type.charAt(0).toUpperCase() + top.entry.type.slice(1)} · $${top.entry.priceUsd.toLocaleString()} · matched to your profile with a real score of ${top.result.overallScore}/100.`
+            ? `${top.entry.type.charAt(0).toUpperCase() + top.entry.type.slice(1)} · ${formatPrice(top.entry)} · matched to your profile with a real score of ${top.result.overallScore}/100.`
             : "Answer a few questions and we'll show exactly which mattress in the catalog fits your profile best — with its real score, not a placeholder."}
         </p>
         {top && (

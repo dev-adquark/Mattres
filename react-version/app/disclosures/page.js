@@ -35,9 +35,12 @@ export default function DisclosuresPage() {
               How we make money
             </h3>
             <p>
-              Mattress Match Score is free to use. We earn a commission when you buy through certain links on this
-              site, and some listings are paid placements from mattress brands and retailers. Neither arrangement is
-              required for a mattress to appear in your results.
+              Mattress Match Score is free to use. As of today, this site has <strong>no live affiliate program and
+              no paid sponsored placements</strong> — no brand has paid to appear in a &ldquo;Sponsored&rdquo; slot,
+              and no purchase link is tied to a real retailer account yet. Neither arrangement is required for a
+              mattress to appear in your results, and this page describes the system we&apos;ve built for when a
+              real commercial relationship exists, so the same separation between paid placement and Match Score is
+              already in force before any deal goes live.
             </p>
           </SpotlightCard>
 
@@ -51,13 +54,15 @@ export default function DisclosuresPage() {
               Affiliate links
             </h3>
             <p>
-              &ldquo;View at retailer&rdquo; buttons route through an affiliate link. If you make a purchase, we may
-              earn a commission at no additional cost to you. Affiliate links are tagged with tracking parameters so
-              the retailer can credit the referral — they never change the price you pay.
+              &ldquo;View at retailer&rdquo; buttons are built with real UTM tracking parameters, but there is no
+              live affiliate account behind them yet, so they don&apos;t currently route to a real retailer. When a
+              genuine affiliate relationship exists, these same links will point at that retailer directly — the
+              tracking mechanism is already built, only the destination is a placeholder today. They will never
+              change the price you pay.
             </p>
             <div className="callout-box">
-              This site contains affiliate links. As an affiliate, we may earn a commission on qualifying purchases,
-              in accordance with FTC guidelines on endorsements and disclosures.
+              We will add an FTC-compliant affiliate disclosure here the moment a real affiliate relationship goes
+              live — not before.
             </div>
           </SpotlightCard>
 
@@ -72,17 +77,18 @@ export default function DisclosuresPage() {
               Sponsored listings
             </h3>
             <p>
-              Brands and retailers can pay to appear in a labeled &ldquo;Sponsored&rdquo; slot. Sponsored listings
-              are refreshed on a set schedule — the badge shows the date a listing&apos;s specs and pricing were last
-              verified.
+              Brands and retailers will be able to pay to appear in a labeled &ldquo;Sponsored&rdquo; slot. No brand
+              has paid for placement yet — every mattress shown right now is ranked purely algorithmically.
             </p>
             <div className="badge-examples">
-              <span className="listing-badge badge-sponsored">Sponsored · verified Mar 2026</span>
-              <span className="listing-badge badge-top">Top match — algorithmic</span>
+              <span className="listing-badge badge-sponsored">Sponsored Verified</span>
+              <span className="listing-badge badge-top">Top match — Algorithmic Pick</span>
             </div>
             <p style={{ marginTop: 16 }}>
-              Sponsored slots are visually and structurally separate from algorithmic rankings — a sponsored listing
-              is never blended into, or substituted for, a mattress&apos;s Match Score position.
+              Sponsored slots are visually and structurally separate from algorithmic rankings: a sponsored listing
+              cannot claim the algorithmic &ldquo;Top match&rdquo; slot and is never blended into, or substituted
+              for, a mattress&apos;s Match Score position. This separation is enforced in the ranking code itself,
+              not just in this policy.
             </p>
           </SpotlightCard>
 
