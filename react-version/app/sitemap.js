@@ -13,7 +13,6 @@ export default function sitemap() {
     '/compare/back-support-for-heavier-sleepers',
     '/methodology',
     '/disclosures',
-    '/buying-guide',
     '/guides/pressure-relief-for-side-sleepers',
     '/guides/back-support-for-heavier-sleepers',
     '/guides/cooling-mattress-comparison',

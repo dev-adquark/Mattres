@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Nav />
-        {children}
+        <main>{children}</main>
         <Footer />
         <ScrollReveal />
         <Analytics />

@@ -2,17 +2,19 @@ import { scoreEngine } from '@/lib/scoreEngine';
 import catalog from '@/lib/data/mattress-catalog.json';
 import { auditCatalog, getVerificationLevel, isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
-// lib/data/mattress-catalog.json here is the fully-processed, display-
-// and-scoring-ready catalog (a flat array with priceUsd, sponsored,
-// reviewHighlights, flat heightIn) - extracted directly from the real
-// `CATALOG` array already embedded and verified working in the original
-// project's index.html, NOT the raw ingest-pipeline output the same
-// filename holds at the repo root (that raw shape is missing priceUsd/
-// sponsored/reviewHighlights entirely and uses a nested height.inches).
-// Confirmed this is the right one to use by cross-checking a known real
-// result (Helix Midnight, side/210lb/medium-firm/hot -> 76/100) against
-// what the live HTML site has produced for that exact profile throughout
-// this project.
+// lib/data/mattress-catalog.json is a real, source-attributed catalog of 24
+// currently-sold mattresses (Casper, Helix, Saatva, Purple, Leesa, Bear,
+// Birch, PlushBeds), each fetched directly from the manufacturer's official
+// product page and cross-checked against Sleep Foundation where a review
+// exists. Every field not literally stated on a fetched page is null, not
+// guessed. See each entry's sourceUrl/sourceConfidence/verificationStatus
+// for provenance, and firmnessNote/heightNote/priceNote for fields where a
+// single representative value had to stand in for a multi-option product
+// (e.g. a mattress sold in three firmness choices) or where independent and
+// manufacturer sources conflicted. lib/dataIntegrity.js computes the real
+// 4-state verification level from these fields fresh on every request -
+// this replaced an earlier catalog of real brand names with fabricated
+// demo specs, all of which were honestly labeled unverified.
 
 export function displayTitle(entry) {
   const firstBrandWord = entry.brand.split(' ')[0].toLowerCase();
@@ -21,28 +23,66 @@ export function displayTitle(entry) {
 }
 
 /**
- * Bridges a catalog entry (brand/model/type/firmnessRange/...) into the
- * shape the v0.1 scoring math expects (a single firmnessRating + a few
- * booleans/numbers). Ported exactly from the original project's
- * adaptCatalogEntryForScoring() in index.html - not reconstructed from
- * memory.
+ * Bridges a catalog entry into the shape the v0.1 scoring math expects (a
+ * single firmnessRating + a few booleans/numbers), and separately reports
+ * which of those inputs came from real stated/independent data vs. a
+ * heuristic or neutral fallback used only because no real data exists for
+ * that mattress. The fallback values themselves are unchanged from the
+ * original v0.1 design (documented there as intentional) - this only adds
+ * visibility into when they're in use, per the rule that unknown data must
+ * never be silently presented as if it were a measured positive or
+ * negative.
  */
 function adaptCatalogEntryForScoring(entry) {
-  const firmnessRating = entry.firmnessRange
-    ? (entry.firmnessRange.min + entry.firmnessRange.max) / 2
-    : 5.5; // No firmness on file for this mattress; fall back to a neutral middle value.
+  let firmnessRating;
+  let firmnessProvenance;
+  if (entry.firmnessRange && typeof entry.firmnessRange.min === 'number' && typeof entry.firmnessRange.max === 'number') {
+    firmnessRating = (entry.firmnessRange.min + entry.firmnessRange.max) / 2;
+    firmnessProvenance = entry.firmnessSource || 'stated';
+  } else {
+    firmnessRating = 5.5; // No firmness on file for this mattress; fall back to a neutral middle value.
+    firmnessProvenance = 'unknown_neutral_fallback';
+  }
 
   const notes = (entry.coreMaterialNotes || '').toLowerCase();
-  const hasCoolingCover = notes.indexOf('gel') !== -1 || notes.indexOf('cooling') !== -1;
-  const edgeSupportReinforced = entry.type !== 'foam'; // Heuristic: hybrids/innersprings assumed to have a supportive perimeter, foam assumed not.
+  const heuristicCooling = notes.indexOf('gel') !== -1 || notes.indexOf('cooling') !== -1 || notes.indexOf('cool') !== -1;
+  let hasCoolingCover;
+  let heatProvenance;
+  if (typeof entry.coolingRatingOutOf10 === 'number') {
+    hasCoolingCover = entry.coolingRatingOutOf10 >= 7;
+    heatProvenance = 'independent_rating';
+  } else {
+    hasCoolingCover = heuristicCooling;
+    heatProvenance = 'heuristic_from_materials_text';
+  }
+
+  let edgeSupportReinforced;
+  let edgeProvenance;
+  if (typeof entry.edgeSupportRatingOutOf10 === 'number') {
+    edgeSupportReinforced = entry.edgeSupportRatingOutOf10 >= 7;
+    edgeProvenance = 'independent_rating';
+  } else {
+    edgeSupportReinforced = entry.type !== 'foam'; // Heuristic: hybrids/innersprings/latex assumed to have a supportive perimeter, foam assumed not.
+    edgeProvenance = 'heuristic_from_type';
+  }
+
+  const topFoamDensityLbFt3 = typeof entry.topFoamDensityLbFt3 === 'number' ? entry.topFoamDensityLbFt3 : null;
 
   return {
-    id: entry.id,
-    type: entry.type,
-    firmnessRating,
-    hasCoolingCover,
-    edgeSupportReinforced,
-    topFoamDensityLbFt3: null, // Not in the catalog yet; durability rule is a no-op without it, same as the documented gap.
+    scoringInput: {
+      id: entry.id,
+      type: entry.type,
+      firmnessRating,
+      hasCoolingCover,
+      edgeSupportReinforced,
+      topFoamDensityLbFt3,
+    },
+    dataProvenance: {
+      firmness: firmnessProvenance,
+      heat: heatProvenance,
+      edge: edgeProvenance,
+      durability: topFoamDensityLbFt3 != null ? 'stated' : 'unknown',
+    },
   };
 }
 
@@ -57,6 +97,19 @@ function filterCatalog(profile) {
     // correct everywhere this function is called from.
     if (profile.budgetUsd) {
       const { min, max } = profile.budgetUsd;
+      const hasBudgetBound = typeof min === 'number' || (typeof max === 'number' && Number.isFinite(max));
+      if (hasBudgetBound && typeof entry.priceUsd !== 'number') {
+        // Price isn't known for this mattress (real catalog data has
+        // several - Helix's is JS-rendered, some Leesa sizes only have a
+        // "from" price). `null < min` / `null > max` both evaluate to
+        // false in JS, which would silently let an unpriced mattress pass
+        // ANY budget filter regardless of its real cost - exactly the
+        // kind of "unknown treated as a pass" the scoring-safety rules
+        // forbid. Since we can't confirm it fits, exclude it from a
+        // budget-filtered search rather than risk recommending something
+        // that might be well outside it.
+        return false;
+      }
       if (typeof min === 'number' && entry.priceUsd < min) return false;
       if (typeof max === 'number' && Number.isFinite(max) && entry.priceUsd > max) return false;
     }
@@ -98,18 +151,22 @@ export function matchProfile(profile) {
     return { results: [], modelVersion: null, all: [] };
   }
 
-  const scored = filtered.map((entry) => ({ entry, result: scoreEngine('0.1', profile, adaptCatalogEntryForScoring(entry)) }));
+  const scored = filtered.map((entry) => {
+    const { scoringInput, dataProvenance } = adaptCatalogEntryForScoring(entry);
+    return { entry, result: scoreEngine('0.1', profile, scoringInput), dataProvenance };
+  });
   scored.sort((a, b) => b.result.overallScore - a.result.overallScore);
 
   let firstNonSponsoredSeen = false;
   const results = scored.map((item, index) => {
-    const { entry, result } = item;
+    const { entry, result, dataProvenance } = item;
     const isTopMatch = !entry.sponsored && !firstNonSponsoredSeen;
     if (!entry.sponsored) firstNonSponsoredSeen = true;
     const badge = badgeFor(entry, isTopMatch);
     return {
       entry,
       result,
+      dataProvenance,
       badge,
       displayTitle: displayTitle(entry),
       whyThisMatch: buildWhyThisMatch(result),

@@ -270,8 +270,8 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
               />
             </div>
 
-            <div className="form-field">
-              <label>Budget range (USD)</label>
+            <fieldset className="form-field">
+              <legend>Budget range (USD)</legend>
               <div className="budget-row">
                 <input
                   type="number"
@@ -293,11 +293,11 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                   onChange={(e) => setField('budgetMax', e.target.value)}
                 />
               </div>
-            </div>
+            </fieldset>
           </div>
 
-          <div className="form-field">
-            <label>Pain / comfort focus (optional, choose any)</label>
+          <fieldset className="form-field">
+            <legend>Pain / comfort focus (optional, choose any)</legend>
             <div className="checkbox-row">
               {['shoulder', 'hip', 'lowerBack', 'neck'].map((v) => (
                 <label className="checkbox-pill" key={v}>
@@ -310,10 +310,10 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 </label>
               ))}
             </div>
-          </div>
+          </fieldset>
 
-          <div className="form-field">
-            <label>Mattress type preference (optional, choose any)</label>
+          <fieldset className="form-field">
+            <legend>Mattress type preference (optional, choose any)</legend>
             <div className="checkbox-row">
               {['foam', 'hybrid', 'innerspring'].map((v) => (
                 <label className="checkbox-pill" key={v}>
@@ -326,7 +326,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 </label>
               ))}
             </div>
-          </div>
+          </fieldset>
         </div>
       )}
 

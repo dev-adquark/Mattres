@@ -4,8 +4,18 @@ import Link from 'next/link';
 import { CATEGORIES } from '@/lib/categories';
 import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import { VERIFICATION_LEVEL_LABEL } from '@/lib/dataIntegrity';
+import { formatPrice } from '@/lib/format';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
+
+const PROVENANCE_LABELS = { firmness: 'firmness', heat: 'cooling', edge: 'edge support', durability: 'durability' };
+
+function estimatedDimensions(dataProvenance) {
+  if (!dataProvenance) return [];
+  return Object.entries(dataProvenance)
+    .filter(([, source]) => source === 'heuristic_from_materials_text' || source === 'heuristic_from_type' || source === 'unknown_neutral_fallback' || source === 'unknown')
+    .map(([key]) => PROVENANCE_LABELS[key] || key);
+}
 
 /**
  * Renders one scored mattress. Every value here comes from the API
@@ -14,7 +24,8 @@ import SpotlightCard from './SpotlightCard';
  * template, one field at a time, rather than reconstructed from memory.
  */
 export default function ResultCard({ item, index = 0, isBestValue = false, compareChecked, onCompareToggle }) {
-  const { entry, result, badge, displayTitle, whyThisMatch, preselect } = item;
+  const { entry, result, dataProvenance, badge, displayTitle, whyThisMatch, preselect } = item;
+  const estimated = estimatedDimensions(dataProvenance);
   // Capped stagger: a 12-card grid shouldn't push the last card's reveal
   // delay out past what still feels responsive.
   const staggerMs = Math.min(index, 7) * 70;
@@ -69,7 +80,7 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         <Link href={`/mattress/${entry.id}`}>{displayTitle}</Link>
       </h3>
       <div className="cc-meta">
-        {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} · <strong>${entry.priceUsd.toLocaleString()}</strong> ·{' '}
+        {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} · <strong>{formatPrice(entry)}</strong> ·{' '}
         {entry.trialDays}-night trial
       </div>
       <div className="score-hero">
@@ -90,6 +101,12 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           );
         })}
       </div>
+      {estimated.length > 0 && (
+        <p className="data-limitation-note">
+          {estimated.join(', ')} {estimated.length > 1 ? "aren't" : "isn't"} independently verified for this
+          mattress — {estimated.length > 1 ? 'those sub-scores are' : 'that sub-score is'} estimated, not measured.
+        </p>
+      )}
       <div className="flags">
         {result.riskFlags.length ? (
           result.riskFlags.map((f) => (
@@ -105,11 +122,15 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         <div className="highlight">
           <q>{entry.reviewHighlights[0].snippet}</q>
           <div className="hl-tags">
-            {entry.reviewHighlights.map((h) => (
-              <span className={h.sentiment === 'positive' ? 'tag-pos' : 'tag-neg'} key={h.label}>
-                {h.label.toLowerCase()} {h.sentiment === 'positive' ? '✓' : '✕'}
-              </span>
-            ))}
+            {entry.reviewHighlights.map((h) => {
+              const cls = h.sentiment === 'positive' ? 'tag-pos' : h.sentiment === 'neutral' ? 'tag-neutral' : 'tag-neg';
+              const icon = h.sentiment === 'positive' ? '✓' : h.sentiment === 'neutral' ? '•' : '✕';
+              return (
+                <span className={cls} key={h.label}>
+                  {h.label.toLowerCase()} {icon}
+                </span>
+              );
+            })}
           </div>
         </div>
       )}

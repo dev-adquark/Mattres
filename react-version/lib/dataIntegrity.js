@@ -32,9 +32,21 @@ function isPresent(value) {
   return true;
 }
 
-/** True only if every required field is present - independent of sourceUrl/lastVerified. */
+/**
+ * True only if every required field is present - independent of sourceUrl/lastVerified.
+ * warrantyYears gets one specific exception: a mattress with a stated
+ * lifetime warranty (warrantyLifetime: true) has COMPLETE warranty
+ * information, it's just expressed as "lifetime" rather than a numeric
+ * year count - extremely common in this industry (Saatva, Leesa, Purple,
+ * Birch, PlushBeds, Bear all brand their warranty this way). Without this,
+ * every real lifetime-warranty mattress would incorrectly read as
+ * 'unknown' despite the warranty term being fully documented.
+ */
 export function hasCompleteFields(entry) {
-  return REQUIRED_FIELDS.every((field) => isPresent(entry[field]));
+  return REQUIRED_FIELDS.every((field) => {
+    if (field === 'warrantyYears') return isPresent(entry.warrantyYears) || entry.warrantyLifetime === true;
+    return isPresent(entry[field]);
+  });
 }
 
 /**
@@ -60,7 +72,10 @@ export function isRecordVerified(entry) {
  * gap in the data.
  */
 export function missingFields(entry) {
-  return REQUIRED_FIELDS.filter((field) => !isPresent(entry[field]));
+  return REQUIRED_FIELDS.filter((field) => {
+    if (field === 'warrantyYears') return !(isPresent(entry.warrantyYears) || entry.warrantyLifetime === true);
+    return !isPresent(entry[field]);
+  });
 }
 
 /**
