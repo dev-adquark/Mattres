@@ -80,11 +80,57 @@ export function missingFields(entry) {
 export function auditCatalog(catalog) {
   const verified = catalog.filter(isRecordVerified);
   const unverified = catalog.filter((e) => !isRecordVerified(e));
+  const byLevel = { verified: 0, partially_verified: 0, unverified: 0, unknown: 0 };
+  catalog.forEach((e) => {
+    byLevel[getVerificationLevel(e)] += 1;
+  });
   return {
     total: catalog.length,
     verifiedCount: verified.length,
     unverifiedCount: unverified.length,
     unverifiedIds: unverified.map((e) => e.id),
     missingByEntry: Object.fromEntries(unverified.map((e) => [e.id, missingFields(e)])),
+    byLevel,
   };
 }
+
+/**
+ * The richer 4-state classification the UI needs (Verified / Partially
+ * verified / Unverified / Unknown) - distinct from isRecordVerified()
+ * above, which stays a strict boolean gate for "is this trustworthy
+ * enough to ever be labeled verified" (used for production-safety
+ * checks, not display nuance). Each state reflects a genuinely
+ * different, checkable condition of the real data:
+ *
+ *   'unknown'            - the record itself has real gaps: one or more
+ *                           REQUIRED_FIELDS is missing, independent of
+ *                           any verification work.
+ *   'verified'           - every required field present AND a real
+ *                           sourceUrl AND a real lastVerified date.
+ *   'partially_verified' - every required field present, and SOME real
+ *                           verification evidence (a sourceUrl or a
+ *                           lastVerified date, but not both).
+ *   'unverified'         - every required field present, but NEITHER a
+ *                           sourceUrl NOR a lastVerified date - complete
+ *                           internal data never checked against a
+ *                           source. The real, honest state of every
+ *                           entry in this catalog today.
+ */
+export function getVerificationLevel(entry) {
+  if (!entry) return 'unknown';
+  if (missingFields(entry).length > 0) return 'unknown';
+
+  const hasSource = isPresent(entry.sourceUrl);
+  const hasDate = isPresent(entry.lastVerified);
+
+  if (hasSource && hasDate) return 'verified';
+  if (hasSource || hasDate) return 'partially_verified';
+  return 'unverified';
+}
+
+export const VERIFICATION_LEVEL_LABEL = {
+  verified: 'Verified',
+  partially_verified: 'Partially verified',
+  unverified: 'Unverified',
+  unknown: 'Unknown',
+};

@@ -6,6 +6,7 @@
  */
 export default function AuditBanner({ audit }) {
   if (!audit || audit.total === 0) return null;
+  const byLevel = audit.byLevel || {};
 
   return (
     <div className="audit-banner">
@@ -18,9 +19,11 @@ export default function AuditBanner({ audit }) {
           {audit.verifiedCount} of {audit.total}
         </b>{' '}
         catalog entries are verified (real sourceUrl + last-verified date on file). Brand and model names shown are
-        real, but the specific specs, prices, and scores for the remaining <b>{audit.unverifiedCount}</b> have not
-        been independently confirmed against the manufacturer or retailer — treat those numbers as placeholders
-        until verification is added. No result is shown as verified unless it actually is.
+        real, but the specific specs, prices, and scores have not been independently confirmed unless marked
+        verified — treat other numbers as placeholders. Breakdown:{' '}
+        <b>{byLevel.verified || 0} verified</b>, <b>{byLevel.partially_verified || 0} partially verified</b>,{' '}
+        <b>{byLevel.unverified || 0} unverified</b>, <b>{byLevel.unknown || 0} unknown</b> (missing real data fields
+        of their own). No result is shown as verified unless it actually is.
       </span>
     </div>
   );

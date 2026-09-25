@@ -2132,3 +2132,15 @@
   .md-review-card p{ font-size:13.5px; color:var(--slate-600); font-style:italic; margin:8px 0 0; }
   .md-score-box{ border-radius:16px; padding:20px; background:linear-gradient(160deg,rgba(12,24,44,0.95),rgba(15,33,64,0.85)); color:#fff; margin-bottom:16px; }
   .md-score-box .score-big{ font-size:38px; font-weight:800; color:var(--cyan-300); }
+
+  /* Distinct visual treatment per real verification level - not just
+     color variety, each maps to a genuinely different meaning:
+     unverified (amber, existing) = complete data, never checked;
+     partially_verified (blue) = some real evidence on file;
+     unknown (red) = the record's own data has real gaps. */
+  .unverified-badge.vlevel-partially_verified{
+    background:#e3f0fd; color:#1d5fa8; border-color:rgba(29,95,168,0.25);
+  }
+  .unverified-badge.vlevel-unknown{
+    background:#fde3e3; color:#a81d1d; border-color:rgba(168,29,29,0.25);
+  }

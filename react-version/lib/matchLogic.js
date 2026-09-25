@@ -1,6 +1,6 @@
 import { scoreEngine } from '@/lib/scoreEngine';
 import catalog from '@/lib/data/mattress-catalog.json';
-import { auditCatalog, isRecordVerified, missingFields } from '@/lib/dataIntegrity';
+import { auditCatalog, getVerificationLevel, isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
 // lib/data/mattress-catalog.json here is the fully-processed, display-
 // and-scoring-ready catalog (a flat array with priceUsd, sponsored,
@@ -118,6 +118,7 @@ export function matchProfile(profile) {
       // lib/dataIntegrity.js), not trusted from a stored flag - so a
       // result can never claim verification it doesn't actually have.
       verified: isRecordVerified(entry),
+      verificationLevel: getVerificationLevel(entry),
       missingFields: missingFields(entry),
     };
   });

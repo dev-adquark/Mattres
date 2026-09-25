@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/categories';
 import { primaryRetailerLink } from '@/lib/affiliateLinks';
+import { VERIFICATION_LEVEL_LABEL } from '@/lib/dataIntegrity';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
 
@@ -38,20 +39,22 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         Compare
       </label>
       <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
-      {!item.verified && (
+      {item.verificationLevel !== 'verified' && (
         <span
-          className="unverified-badge"
+          className={`unverified-badge vlevel-${item.verificationLevel}`}
           title={
-            item.missingFields?.length
-              ? `Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer. Also missing: ${item.missingFields.join(', ')}.`
-              : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
+            item.verificationLevel === 'unknown'
+              ? `This record has real gaps in its own data (missing: ${item.missingFields.join(', ')}), independent of verification.`
+              : item.verificationLevel === 'partially_verified'
+                ? 'Real brand/model name. Some verification evidence is on file, but not a complete source + date confirmation yet.'
+                : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
           }
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
             <path d="M12 9v4M12 17h.01" />
             <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
           </svg>
-          Specs unverified
+          {VERIFICATION_LEVEL_LABEL[item.verificationLevel]}
         </span>
       )}
       {isBestValue && (
