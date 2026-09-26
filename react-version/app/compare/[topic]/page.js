@@ -5,6 +5,11 @@ import CompareGrid from '@/components/CompareGrid';
 import { compareTopics, getCompareTopic } from '@/lib/compareTopics';
 import { matchProfile } from '@/lib/matchLogic';
 
+// See app/page.js's comment on this same directive - keeps each topic's
+// catalog-derived results fresh without requiring a full redeploy after
+// a DB-only catalog change.
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return Object.keys(compareTopics).map((topic) => ({ topic }));
 }

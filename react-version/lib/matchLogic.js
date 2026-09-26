@@ -104,7 +104,17 @@ function filterCatalog(profile, catalog) {
     // correct everywhere this function is called from.
     if (profile.budgetUsd) {
       const { min, max } = profile.budgetUsd;
-      const hasBudgetBound = typeof min === 'number' || (typeof max === 'number' && Number.isFinite(max));
+      // min:0 is not a real constraint - no mattress costs less than $0,
+      // so a floor of exactly 0 can never be violated and must not, on
+      // its own, count as "the user has a budget bound." This matters in
+      // practice: QuizForm sends `min: budgetMin ?? 0` whenever someone
+      // sets only a max (the common case - "up to $2,000", no minimum),
+      // so treating any numeric min as a bound was silently excluding
+      // every null-priced mattress (10 of 37 entries) for most real
+      // quiz submissions, not just ones with a genuine minimum.
+      const hasRealMinBound = typeof min === 'number' && min > 0;
+      const hasRealMaxBound = typeof max === 'number' && Number.isFinite(max);
+      const hasBudgetBound = hasRealMinBound || hasRealMaxBound;
       if (hasBudgetBound && typeof entry.priceUsd !== 'number') {
         // Price isn't known for this mattress (real catalog data has
         // several - Helix's is JS-rendered, some Leesa sizes only have a

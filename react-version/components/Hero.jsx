@@ -2,11 +2,19 @@ import Link from 'next/link';
 import AmbientParticles from './AmbientParticles';
 import DnaHelixScene from './DnaHelixScene';
 import SleeperCharacter from './SleeperCharacter';
-import catalog from '@/lib/data/mattress-catalog.json';
 
-const brandCount = new Set(catalog.map((m) => m.brand)).size;
-
-export default function Hero() {
+/**
+ * catalogCount/brandCount come from the real database via a prop chain
+ * (app/page.js -> HomeClient -> here) rather than this file importing
+ * the static JSON snapshot itself and computing them at module load -
+ * Hero is bundled into the client (imported transitively from
+ * HomeClient.jsx, a 'use client' file), so it can't call the
+ * server-only getCatalog() directly, and a stale static import would
+ * silently drift from the real catalog size once entries are added via
+ * the database only (e.g. RTINGS auto-enrichment doesn't write back to
+ * the JSON snapshot).
+ */
+export default function Hero({ catalogCount, brandCount }) {
   return (
     <header className="hero dot-grid-bg on-dark" id="top">
       <AmbientParticles className="ambient-canvas" />
@@ -103,7 +111,7 @@ export default function Hero() {
 
       <div className="hero-stat-row" aria-label="Catalog stats">
         <div className="hero-stat-chip">
-          <b>{catalog.length}</b>
+          <b>{catalogCount}</b>
           <span>mattresses scored live</span>
         </div>
         <div className="hero-stat-chip">

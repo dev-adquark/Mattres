@@ -1,8 +1,9 @@
-import catalog from '@/lib/data/mattress-catalog.json';
+import { getCatalog } from '@/lib/db/mattressRepo';
 
 const BASE_URL = 'https://mattres-liart.vercel.app';
 
-export default function sitemap() {
+export default async function sitemap() {
+  const { entries: catalog } = await getCatalog();
   const staticRoutes = [
     '',
     '/find-match',

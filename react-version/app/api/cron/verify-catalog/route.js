@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import catalog from '@/lib/data/mattress-catalog.json';
+import { getCatalog } from '@/lib/db/mattressRepo';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
 const STALE_AFTER_DAYS = 180;
@@ -31,6 +31,7 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const { entries: catalog, source: catalogSource } = await getCatalog();
   const now = new Date();
   const stale = [];
   const neverVerified = [];
@@ -51,6 +52,7 @@ export async function GET(request) {
 
   return NextResponse.json({
     ranAt: now.toISOString(),
+    catalogSource,
     totalCatalogEntries: catalog.length,
     freshCount: fresh.length,
     staleCount: stale.length,

@@ -6,6 +6,11 @@ import AuditBanner from '@/components/AuditBanner';
 import CompareGrid from '@/components/CompareGrid';
 import { matchProfile } from '@/lib/matchLogic';
 
+// See app/page.js's comment on this same directive - keeps this page's
+// catalog-derived results fresh without requiring a full redeploy after
+// a DB-only catalog change.
+export const revalidate = 3600;
+
 // The fixed reference profile this page compares against: side sleeper,
 // 130-180lb band, medium-firm preference, warm sleeper. weightLb is set to
 // the band's midpoint (155) rather than copied verbatim from nowhere - the

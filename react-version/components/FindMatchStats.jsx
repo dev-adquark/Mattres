@@ -1,7 +1,4 @@
 import NumberTicker from './NumberTicker';
-import catalog from '@/lib/data/mattress-catalog.json';
-
-const brandCount = new Set(catalog.map((m) => m.brand)).size;
 
 /**
  * Every number here is real and independently checkable from the same
@@ -10,8 +7,12 @@ const brandCount = new Set(catalog.map((m) => m.brand)).size;
  * from showed a "4.8/5 average rating" and "50K+ happy sleepers" card;
  * this site has no real user analytics to back numbers like that, so
  * they were replaced rather than reproduced.
+ *
+ * brandCount comes from the real database via a prop (this file is
+ * bundled into the client, so it can't call the server-only
+ * getCatalog() itself - see app/find-match/page.js).
  */
-export default function FindMatchStats() {
+export default function FindMatchStats({ brandCount }) {
   return (
     <div className="fm-side-card">
       <h5>Real numbers, not marketing</h5>

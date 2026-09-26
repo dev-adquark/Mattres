@@ -8,6 +8,14 @@ import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 import { formatPrice } from '@/lib/format';
 import { displayTitle } from '@/lib/matchLogic';
 
+// See app/page.js's comment on this same directive - keeps a mattress's
+// page (e.g. its reviewSources/firmnessPaPerMm after a RTINGS
+// enrichment) fresh without requiring a full redeploy. Paths not
+// generated below still render on-demand for a new id added to the
+// database only (Next's dynamicParams defaults to true - not disabled
+// anywhere in this project).
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const { entries } = await getCatalog();
   return entries.map((entry) => ({ id: entry.id }));

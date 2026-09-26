@@ -1,106 +1,13 @@
-'use client';
+import FindMatchClient from '@/components/FindMatchClient';
+import { getCatalog } from '@/lib/db/mattressRepo';
 
-import { useState } from 'react';
-import AmbientParticles from '@/components/AmbientParticles';
-import FindMatchStats from '@/components/FindMatchStats';
-import OwlMascot from '@/components/OwlMascot';
-import QuizForm from '@/components/QuizForm';
-import ResultsGrid from '@/components/ResultsGrid';
-import SleepProfileChips from '@/components/SleepProfileChips';
-import SponsorPromoStrip from '@/components/SponsorPromoStrip';
-import { useLastResult } from '@/lib/useLastResult';
+// See app/page.js's comment on this same directive - keeps the real
+// brand count fresh without requiring a full redeploy after a DB-only
+// catalog change.
+export const revalidate = 3600;
 
-export default function FindMatchPage() {
-  const [apiData, setApiData] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-  const { setPayload } = useLastResult();
-
-  function handleResult(profile, data) {
-    setApiData(data);
-
-    // Broadcast the real result to the home page's Sleep DNA / Universe /
-    // Match Score sections via the same sessionStorage bridge the original
-    // single-file project used - see lib/useLastResult.js for why.
-    // Stores the full results array (not just the top match) so any
-    // mattress detail page can look up its own real score/sub-scores/
-    // risk flags for the person's actual profile, not only whichever
-    // mattress happened to rank first.
-    if (data.results && data.results.length) {
-      const top = data.results[0];
-      setPayload({
-        profile,
-        top,
-        results: data.results,
-        all: data.all,
-        modelVersion: data.modelVersion,
-      });
-    }
-  }
-
-  return (
-    <div>
-      <header className="page-hero">
-        <AmbientParticles className="ambient-canvas" />
-        <OwlMascot variant="hero" />
-        <div className="wrap">
-          <span className="eyebrow">Find your match</span>
-          <h1 className="ph-title">Find your perfect mattress match</h1>
-          <p className="ph-sub">
-            Answer a few questions and we&apos;ll score every mattress in our catalog against your sleep profile — live,
-            using a real, transparent scoring engine.
-          </p>
-        </div>
-      </header>
-
-      <section className="section dot-grid-bg" style={{ paddingTop: 56 }}>
-        <div className="wrap">
-          <div className="fm-layout">
-            <div className="fm-side">
-              <FindMatchStats />
-            </div>
-
-            <div>
-              <QuizForm onResult={handleResult} onSubmittingChange={setSubmitting} />
-
-              {submitting && (
-                <div className="scoring-state">
-                  <div className="scoring-scan" aria-hidden="true" />
-                  <p>Scoring every mattress in the catalog against your real profile…</p>
-                </div>
-              )}
-
-              {!submitting && !apiData && (
-                <div className="empty-state">
-                  <OwlMascot variant="empty" />
-                  <p>
-                    Answer the questions above and select <strong>&ldquo;Find my matches&rdquo;</strong> to see your
-                    personalized results.
-                  </p>
-                </div>
-              )}
-
-              {apiData && apiData.results.length === 0 && (
-                <div className="no-results">
-                  No mattresses in the catalog match your budget/type filters. Try widening your budget range or
-                  clearing the type preference.
-                </div>
-              )}
-
-              {apiData && apiData.results.length > 0 && (
-                <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
-              )}
-            </div>
-
-            <div className="fm-side">
-              <SleepProfileChips />
-            </div>
-          </div>
-
-          <div style={{ marginTop: 48 }}>
-            <SponsorPromoStrip />
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+export default async function FindMatchPage() {
+  const { entries } = await getCatalog();
+  const brandCount = new Set(entries.map((m) => m.brand)).size;
+  return <FindMatchClient brandCount={brandCount} />;
 }
