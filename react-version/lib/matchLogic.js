@@ -40,7 +40,7 @@ export function displayTitle(entry) {
  * never be silently presented as if it were a measured positive or
  * negative.
  */
-function adaptCatalogEntryForScoring(entry) {
+export function adaptCatalogEntryForScoring(entry) {
   let firmnessRating;
   let firmnessProvenance;
   if (entry.firmnessRange && typeof entry.firmnessRange.min === 'number' && typeof entry.firmnessRange.max === 'number') {
@@ -93,7 +93,7 @@ function adaptCatalogEntryForScoring(entry) {
   };
 }
 
-function filterCatalog(profile, catalog) {
+export function filterCatalog(profile, catalog) {
   return catalog.filter((entry) => {
     if (profile.mattressTypePreference && profile.mattressTypePreference.length &&
         profile.mattressTypePreference.indexOf(entry.type) === -1) return false;
@@ -134,13 +134,13 @@ function filterCatalog(profile, catalog) {
   });
 }
 
-function badgeFor(entry, isTopMatch) {
+export function badgeFor(entry, isTopMatch) {
   if (entry.sponsored) return { label: 'Sponsored Verified', className: 'badge-sponsored' };
   if (isTopMatch) return { label: 'Top match — Algorithmic Pick', className: 'badge-top' };
   return { label: 'Algorithmic Pick', className: 'badge-none' };
 }
 
-function buildWhyThisMatch(scored) {
+export function buildWhyThisMatch(scored) {
   const bullets = [];
   scored.trace.categoryRulesUsed.forEach((r) => {
     if (r.delta === 0) return;

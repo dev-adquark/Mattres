@@ -1898,6 +1898,10 @@
       {
         "sourceName": "Sleep Foundation",
         "sourceUrl": "https://www.sleepfoundation.org/mattress-reviews/big-fig-mattress-review"
+      },
+      {
+        "sourceName": "RTINGS",
+        "sourceUrl": "https://www.rtings.com/mattress/reviews/big-fig/mattress"
       }
     ],
     "sourceConfidence": "high",
@@ -1917,7 +1921,21 @@
     "sourceName": "Big Fig (official)",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "firmnessPaPerMm": 47,
+    "rtingsRecommendedFor": [
+      "Side Sleeping",
+      "Back Sleeping",
+      "Stomach Sleeping",
+      "Longevity",
+      "Pressure Relief",
+      "Support",
+      "Cooling",
+      "Motion Dissipation",
+      "Responsiveness"
+    ],
+    "rtingsCrossCheckedAt": "2026-09-26",
+    "rtingsIdentityResolutionNote": "RTINGS's generic listing \"Big Fig Mattress\" (brandSlug big-fig, modelSlug \"mattress\") was resolved as this entry: RTINGS's own scraped Mattress Type (Hybrid) and comfort-foam material (Latex) match this entry's official-source-verified type and materials exactly, and Big Fig has no other current product line this listing could instead refer to (confirmed via official-site research - Classic is its sole mattress model). Resolved via rtings_review_required, not silently auto-merged by the identity matcher."
   },
   {
     "id": "tuft-and-needle-mint-ii",
@@ -2277,7 +2295,7 @@
     "model": "ComfortGrande Plus",
     "slug": "novaform-comfortgrande-plus",
     "manufacturer": "FXI (Novaform is a Costco house brand)",
-    "officialProductUrl": "https://www.costco.com/novaform-14-comfortgrande-plus-gel-memory-foam-mattress-medium,-queen.product.4000233364.html",
+    "officialProductUrl": null,
     "type": "foam",
     "firmnessDescription": "Medium (only firmness offered for this SKU) (manufacturer)",
     "firmnessRange": {
@@ -2342,7 +2360,8 @@
     "sourceName": "Costco.com",
     "lastVerified": "2026-09-25",
     "lastVerifiedAt": "2026-09-25",
-    "sourceCheckedAt": "2026-09-25"
+    "sourceCheckedAt": "2026-09-25",
+    "officialProductUrlNote": "Novaform is a Costco house brand (manufactured by FXI) with no independent manufacturer storefront - Costco's own retail listing is the only real product page that exists for this SKU, so it is recorded as sourceUrl/retailerUrls, not as an officialProductUrl (which this catalog reserves for a genuine manufacturer-owned domain)."
   },
   {
     "id": "tempur-pedic-tempur-adapt",
@@ -2628,10 +2647,8 @@
       "min": 5.5,
       "max": 5.5
     },
-    "firmnessNote": "Confirmed a genuinely distinct, currently-sold product from this catalog's existing \"Helix Midnight\" base model - Helix's own support content and Sleep Foundation both carry separate pages for the two tiers, and the Luxe tier adds zoned lumbar-support coils, a premium quilted pillow top, cooling cover options, and 2 inches of additional height over the base Midnight. RTINGS independently measured 48 Pa/mm firmness on its review of this model - a lab measurement, not something Helix itself states, so not treated as the brand's own numeric firmness.",
+    "firmnessNote": "Confirmed a genuinely distinct, currently-sold product from this catalog's existing \"Helix Midnight\" base model - Helix's own support content and Sleep Foundation both carry separate pages for the two tiers, and the Luxe tier adds zoned lumbar-support coils, a premium quilted pillow top, cooling cover options, and 2 inches of additional height over the base Midnight. RTINGS independently measured 48 Pa/mm firmness on its review of this model - a lab measurement, not something Helix itself states, so not treated as the brand's own numeric firmness. (An earlier pass incorrectly attributed a 48 Pa/mm RTINGS figure to this entry; removed because identity with RTINGS's \"Helix Midnight Luxe 2025\" listing is not proven - see rtings_review_required - and the real raw RTINGS record for that listing states 44 Pa/mm, not 48, so the original figure was not even accurately sourced.)",
     "firmnessSource": "label_mapped",
-    "firmnessPaPerMm": 48,
-    "firmnessLabelFromRtings": "Hybrid (RTINGS mattress-type confirmation only; RTINGS does not publish a firmness label, only the Pa/mm figure)",
     "heightIn": 13.5,
     "coreMaterialNotes": "Premium quilted top (TENCEL or GlacioTex Cooling Cover option); High Grade Polyfoam; Copper Gel Memory Foam (medium IFD); Memory Plus Foam transition layer; 1,000+ zoned wrapped coils (softer under shoulders, firmer under hips); DuraDense Foam base",
     "cooling": "GlacioTex Cooling Cover (optional upsell) or standard TENCEL cover",
