@@ -17,10 +17,12 @@ export default function HomeOptionSlider() {
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track) return undefined;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const moveNext = () => {
-      if (paused || reducedMotion.matches || track.matches(':hover') || track.contains(document.activeElement)) return;
+      // Also stop while the tab/window isn't visible - a backgrounded
+      // tab has no reason to keep silently scrolling and re-rendering.
+      if (paused || document.hidden || reducedMotion.matches || track.matches(':hover') || track.contains(document.activeElement)) return;
       const cards = Array.from(track.querySelectorAll('.home-option-card'));
       if (!cards.length) return;
       const next = (activeIndex + 1) % cards.length;
@@ -30,6 +32,15 @@ export default function HomeOptionSlider() {
     const timer = window.setInterval(moveNext, 4200);
     return () => window.clearInterval(timer);
   }, [paused, activeIndex]);
+
+  function goTo(index) {
+    const track = trackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll('.home-option-card'));
+    if (!cards[index]) return;
+    track.scrollTo({ left: cards[index].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+    setActiveIndex(index);
+  }
 
   const move = (direction) => {
     const track = trackRef.current;
@@ -53,6 +64,7 @@ export default function HomeOptionSlider() {
         {options.map((option, index) => (
           <article className={`home-option-card home-option-${option.tone}`} key={option.tone} role="listitem">
             <img className="home-option-image" src={option.image} alt={option.imageAlt} loading="lazy" />
+            <span className="home-option-illustrative">Illustrative</span>
             <span className="home-option-number">0{index + 1}</span>
             <span className="home-option-eyebrow">{option.eyebrow}</span>
             <h3>{option.title}</h3>
@@ -61,6 +73,22 @@ export default function HomeOptionSlider() {
           </article>
         ))}
       </div>
+      <div className="home-slider-dots" role="tablist" aria-label="Choose a starting point">
+        {options.map((option, index) => (
+          <button
+            key={option.tone}
+            type="button"
+            role="tab"
+            className={`home-slider-dot${index === activeIndex ? ' active' : ''}`}
+            aria-selected={index === activeIndex}
+            aria-label={`Show ${option.title}`}
+            onClick={() => goTo(index)}
+          />
+        ))}
+      </div>
+      <p className="visually-hidden" role="status" aria-live="polite">
+        Showing {activeIndex + 1} of {options.length}: {options[activeIndex].title}
+      </p>
     </section>
   );
 }

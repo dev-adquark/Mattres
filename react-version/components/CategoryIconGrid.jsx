@@ -15,6 +15,7 @@ export default function CategoryIconGrid({ onLight = false }) {
         <Link href={cat.href} className="cat-photo-card" key={cat.label}>
           <img src={cat.image} alt="" loading="lazy" />
           <span className="cat-photo-shade" aria-hidden="true" />
+          <span className="cat-photo-illustrative">Illustrative</span>
           <span className="cat-photo-index">0{index + 1}</span>
           <span className="cat-photo-copy">
             <strong>{cat.label}</strong>
