@@ -57,6 +57,17 @@ export default function Nav() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const firstLink = menuRef.current?.querySelector('a');
+    firstLink?.focus();
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuOpen]);
+
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   return (
