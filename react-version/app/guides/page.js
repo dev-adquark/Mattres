@@ -52,7 +52,9 @@ export default function GuidesIndexPage() {
               <img className="guide-index-image" src={g.image} alt={g.alt} loading="lazy" decoding="async" />
               <div className="guide-index-copy">
                 <h3>{g.title}</h3>
-              <p>{g.desc}</p>
+                <p>{g.desc}</p>
+                <span className="guide-index-disclosure">Illustrative bedroom image · Not a product photo</span>
+              </div>
             </Link>
           ))}
         </div>
