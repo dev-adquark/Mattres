@@ -22,7 +22,21 @@ import SleeperCharacter from './SleeperCharacter';
  */
 export default function Hero({ catalogCount, brandCount, heroExample }) {
   return (
-    <header className="hero hero-tight dot-grid-bg on-dark" id="top">
+    <header className="hero hero-tight dot-grid-bg on-dark hero-video-shell" id="top">
+      <video
+        className="hero-bedroom-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=2000&q=85"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        <source src="https://videos.pexels.com/video-files/8088572/8088572-hd_1920_1080_25fps.mp4" type="video/mp4" />
+      </video>
+      <div className="hero-video-shade" aria-hidden="true" />
       <AmbientParticles className="ambient-canvas" />
       <SleeperCharacter placement="hero" />
       <div className="wrap hero-grid">

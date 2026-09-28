@@ -2439,3 +2439,72 @@
 .section-h2{ font-size: 28px; font-weight: 750; letter-spacing: -0.01em; line-height: 1.15; margin: 8px 0 0; }
 .section-h2-lg{ font-size: 34px; font-weight: 750; letter-spacing: -0.015em; line-height: 1.1; margin-bottom: 12px; }
 @media (max-width:640px){ .section-h2{ font-size: 23px; } .section-h2-lg{ font-size: 26px; } }
+
+
+/* Reference-inspired motion layer: cinematic bedroom footage stays behind
+   the existing hero artwork and all existing content remains interactive. */
+.hero-video-shell {
+  isolation: isolate;
+  overflow: hidden;
+  background: #07172c;
+}
+.hero-bedroom-video,
+.hero-video-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.hero-bedroom-video {
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 56%;
+  opacity: .30;
+  filter: saturate(.72) brightness(.72);
+  transform: scale(1.035);
+  animation: bedroom-video-drift 28s ease-in-out infinite alternate;
+}
+.hero-video-shade {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5, 16, 34, .94) 0%, rgba(5, 16, 34, .78) 42%, rgba(5, 16, 34, .40) 100%),
+    linear-gradient(0deg, rgba(5, 16, 34, .68), transparent 48%);
+}
+.hero-video-shell .ambient-canvas,
+.hero-video-shell .wrap,
+.hero-video-shell .hero-stat-row,
+.hero-video-shell > :not(.hero-bedroom-video):not(.hero-video-shade) {
+  position: relative;
+  z-index: 1;
+}
+.hero-video-shell .hero-bedroom-video { z-index: -2; }
+.hero-video-shell .hero-video-shade { z-index: -1; }
+.hero-video-shell .dna-scene-wrap,
+.hero-video-shell .hero-preview-float {
+  animation: hero-art-float 8s ease-in-out infinite;
+}
+.hero-video-shell .hero-preview-float { animation-delay: -2.5s; }
+@keyframes bedroom-video-drift {
+  from { transform: scale(1.035) translate3d(-.3%, 0, 0); }
+  to { transform: scale(1.11) translate3d(.5%, -1%, 0); }
+}
+@keyframes hero-art-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+@media (max-width: 700px) {
+  .hero-bedroom-video { opacity: .22; object-position: 62% center; }
+  .hero-video-shade {
+    background: linear-gradient(180deg, rgba(5,16,34,.82), rgba(5,16,34,.91));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bedroom-video,
+  .hero-video-shell .dna-scene-wrap,
+  .hero-video-shell .hero-preview-float {
+    animation: none !important;
+    transform: none !important;
+    translate: none !important;
+  }
+}
