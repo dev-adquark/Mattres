@@ -2508,3 +2508,232 @@
     translate: none !important;
   }
 }
+
+
+/* Phase 2 — shared reveal and tactile card motion, without changing layout. */
+.reveal-up {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+.reveal-up:nth-child(2) { transition-delay: 70ms; }
+.reveal-up:nth-child(3) { transition-delay: 130ms; }
+.reveal-up:nth-child(4) { transition-delay: 190ms; }
+
+/* Existing card classes retain their exact dimensions and content. */
+.promo-card,
+.review-quote-card,
+.cmp-teaser,
+.trust-badge,
+.category-icon-card,
+.hiw-card,
+.method-card,
+.result-card,
+.mattress-card {
+  transition: transform .28s cubic-bezier(.2,.7,.2,1),
+              box-shadow .28s ease, border-color .28s ease;
+  transform: translateZ(0);
+}
+.promo-card:hover,
+.review-quote-card:hover,
+.category-icon-card:hover,
+.hiw-card:hover,
+.method-card:hover,
+.result-card:hover,
+.mattress-card:hover {
+  transform: translate3d(0,-5px,0);
+  box-shadow: 0 16px 38px rgba(4,16,38,.13);
+}
+.review-quote-card img,
+.promo-card img,
+.mattress-card img {
+  transition: transform .55s cubic-bezier(.2,.7,.2,1);
+}
+.review-quote-card:hover img,
+.promo-card:hover img,
+.mattress-card:hover img {
+  transform: scale(1.035);
+}
+.btn, a.btn, button {
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn:hover, a.btn:hover, button:hover {
+  filter: brightness(1.045);
+}
+.btn:active, a.btn:active, button:active {
+  transform: translateY(1px) scale(.985);
+}
+:focus-visible {
+  outline: 3px solid rgba(63,212,255,.8);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-up.in-view,
+  .promo-card, .review-quote-card, .category-icon-card,
+  .hiw-card, .method-card, .result-card, .mattress-card,
+  .btn, a.btn, button,
+  .review-quote-card img, .promo-card img, .mattress-card img {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+}
+
+/* Phase 3 — quiz wizard transitions and clear selection/progress feedback.
+   Keeps the existing one-question flow and real scoring/API logic untouched. */
+.quiz-step {
+  animation: quiz-step-enter .42s cubic-bezier(.2,.75,.25,1) both;
+  transform-origin: 50% 8%;
+}
+@keyframes quiz-step-enter {
+  from { opacity: 0; transform: translate3d(18px, 0, 0); filter: blur(2px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+.quiz-progress-head { gap: 12px; }
+.quiz-progress-segments {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.quiz-progress-segments i {
+  display: block;
+  flex: 1 1 0;
+  height: 6px;
+  min-width: 0;
+  border-radius: 99px;
+  background: rgba(130, 153, 181, .22);
+  transition: background .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+.quiz-progress-segments i.filled {
+  background: linear-gradient(90deg, var(--cyan-300, #3fd4ff), #76f0d0);
+  box-shadow: 0 0 12px rgba(63,212,255,.2);
+  transform: scaleY(1.12);
+}
+.quiz-option-btn {
+  transition: transform .22s ease, border-color .22s ease, background .22s ease,
+              box-shadow .22s ease, color .22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.quiz-option-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(5, 23, 48, .12);
+}
+.quiz-option-btn.selected {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px rgba(63,212,255,.26), 0 10px 25px rgba(63,212,255,.12);
+}
+.quiz-option-btn.selected::after {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--cyan-300, #3fd4ff);
+  color: #07172c;
+  font-size: 13px;
+  font-weight: 900;
+}
+.quiz-nav-row .btn:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+  filter: grayscale(.2);
+}
+.quiz-sticky-cta:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(63,212,255,.14);
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiz-step { animation: none !important; }
+  .quiz-progress-segments i, .quiz-option-btn { transition: none !important; }
+}
+
+/* Phase 4 — real match-result cards and score visualization. The displayed
+   score values remain the scoring engine's exact API values; only their
+   entrance and bar fill are animated. */
+.compare-card .score-hero {
+  animation: match-score-pop .55s cubic-bezier(.2,.8,.25,1) both;
+  animation-delay: 180ms;
+}
+@keyframes match-score-pop {
+  0% { opacity: .45; transform: translateY(8px) scale(.94); }
+  65% { opacity: 1; transform: translateY(-2px) scale(1.025); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.compare-card .ss-bar {
+  overflow: hidden;
+  border-radius: 999px;
+}
+.compare-card .ss-bar i {
+  display: block;
+  transform-origin: left center;
+  animation: subscore-fill .8s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay: 250ms;
+}
+@keyframes subscore-fill {
+  from { transform: scaleX(.02); }
+  to { transform: scaleX(1); }
+}
+.compare-card .cc-badges .tier-badge,
+.compare-card .cc-badges .value-badge {
+  animation: result-badge-in .4s ease both;
+  animation-delay: 120ms;
+}
+@keyframes result-badge-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compare-card .score-hero,
+  .compare-card .ss-bar i,
+  .compare-card .cc-badges .tier-badge,
+  .compare-card .cc-badges .value-badge {
+    animation: none !important;
+  }
+}
+
+/* Phase 5 — responsive and motion-performance pass. These rules only
+   adjust existing components at narrow widths; desktop composition remains. */
+@media (max-width: 760px) {
+  .compare-grid { grid-template-columns: minmax(0, 1fr); }
+  .quiz-progress-head { align-items: flex-start; flex-direction: column; }
+  .quiz-progress-segments { width: 100%; }
+  .quiz-option-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quiz-option-grid-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quiz-nav-row { gap: 12px; }
+  .quiz-nav-row > .btn { min-width: 0; }
+  .comparison-tray-sticky {
+    padding: 12px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  .compare-card .cc-title-row { overflow-wrap: anywhere; }
+}
+@media (max-width: 420px) {
+  .quiz-option-grid, .quiz-option-grid-wide { grid-template-columns: minmax(0, 1fr); }
+  .quiz-nav-row .quiz-sticky-cta { flex: 1; justify-content: center; }
+  .quiz-step-title { overflow-wrap: anywhere; }
+  .results-header { gap: 10px; flex-wrap: wrap; }
+}
+/* Keep offscreen reveal work inexpensive and avoid unnecessary GPU layers. */
+.reveal-up { will-change: auto; }
+.reveal-up:not(.in-view) { contain: layout style; }
+@media (hover: none) {
+  .promo-card:hover, .review-quote-card:hover, .category-icon-card:hover,
+  .hiw-card:hover, .method-card:hover, .result-card:hover, .mattress-card:hover,
+  .quiz-option-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-shell .hero-bedroom-video { display: none; }
+  .reveal-up:not(.in-view) { opacity: 1; transform: none; }
+  .compare-card .ss-bar i { transform: none; }
+}
+
