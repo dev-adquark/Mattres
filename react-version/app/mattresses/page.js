@@ -10,8 +10,14 @@ export const metadata = {
   description: 'Explore mattress listings by brand and type, review available specifications, and compare options using transparent matching methodology.',
 };
 
-export default async function MattressesPage() {
-  const { entries } = await getCatalog();
+export default async function MattressesPage({ searchParams }) {
+  const { entries: allEntries } = await getCatalog();
+  const params = await searchParams;
+  const selectedType = typeof params?.type === 'string' ? params.type.toLowerCase().trim() : '';
+  const normalize = (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const typeAliases = { 'memory-foam': ['memoryfoam', 'foam'], innerspring: ['innerspring', 'innersprings'], hybrid: ['hybrid'], latex: ['latex'], adjustable: ['adjustable'] };
+  const acceptedTypes = typeAliases[selectedType];
+  const entries = acceptedTypes ? allEntries.filter((entry) => acceptedTypes.some((type) => normalize(entry.type).includes(type))) : allEntries;
   const brands = [...new Set(entries.map((entry) => entry.brand).filter(Boolean))];
   const types = [...new Set(entries.map((entry) => entry.type).filter(Boolean))];
 
@@ -30,7 +36,7 @@ export default async function MattressesPage() {
       </header>
       <section className="section">
         <div className="wrap">
-          <div className="catalog-meta"><span>{entries.length} listings</span><span>{types.length} mattress types</span><span>{brands.length} brands</span></div>
+          <div className="catalog-meta">{selectedType && <Link href="/mattresses" className="catalog-card-link">Clear type filter ×</Link>}<span>{entries.length} listings</span><span>{types.length} mattress types</span><span>{brands.length} brands</span></div>
           {entries.length ? (
             <div className="catalog-grid">
               {entries.map((entry) => (
