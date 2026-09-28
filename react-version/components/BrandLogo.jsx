@@ -10,17 +10,17 @@ import { brandLogoUrl } from '@/lib/brandLogos';
  * request itself fails; either way the brand name text next to it
  * always stands on its own.
  */
-export default function BrandLogo({ brand, size = 20, className = '' }) {
+export default function BrandLogo({ brand, size = 32, className = '' }) {
   const [failed, setFailed] = useState(false);
   const src = brandLogoUrl(brand, size * 2);
   if (!src || failed) return null;
   return (
     <img
       src={src}
-      alt={`${brand} logo`}
+      alt={`${brand} official logo`}
       width={size}
       height={size}
-      className={`brand-logo-img ${className}`.trim()}
+      className={`brand-logo-img brand-logo-premium ${className}`.trim()}
       onError={() => setFailed(true)}
       loading="lazy"
     />
