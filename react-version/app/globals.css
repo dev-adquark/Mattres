@@ -2699,3 +2699,41 @@
   }
 }
 
+/* Phase 5 — responsive and motion-performance pass. These rules only
+   adjust existing components at narrow widths; desktop composition remains. */
+@media (max-width: 760px) {
+  .compare-grid { grid-template-columns: minmax(0, 1fr); }
+  .quiz-progress-head { align-items: flex-start; flex-direction: column; }
+  .quiz-progress-segments { width: 100%; }
+  .quiz-option-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quiz-option-grid-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quiz-nav-row { gap: 12px; }
+  .quiz-nav-row > .btn { min-width: 0; }
+  .comparison-tray-sticky {
+    padding: 12px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  .compare-card .cc-title-row { overflow-wrap: anywhere; }
+}
+@media (max-width: 420px) {
+  .quiz-option-grid, .quiz-option-grid-wide { grid-template-columns: minmax(0, 1fr); }
+  .quiz-nav-row .quiz-sticky-cta { flex: 1; justify-content: center; }
+  .quiz-step-title { overflow-wrap: anywhere; }
+  .results-header { gap: 10px; flex-wrap: wrap; }
+}
+/* Keep offscreen reveal work inexpensive and avoid unnecessary GPU layers. */
+.reveal-up { will-change: auto; }
+.reveal-up:not(.in-view) { contain: layout style; }
+@media (hover: none) {
+  .promo-card:hover, .review-quote-card:hover, .category-icon-card:hover,
+  .hiw-card:hover, .method-card:hover, .result-card:hover, .mattress-card:hover,
+  .quiz-option-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-shell .hero-bedroom-video { display: none; }
+  .reveal-up:not(.in-view) { opacity: 1; transform: none; }
+  .compare-card .ss-bar i { transform: none; }
+}
+
