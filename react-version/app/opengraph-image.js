@@ -28,8 +28,9 @@ export default function OpenGraphImage() {
           </span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 930 }}>
-          <div style={{ fontSize: 78, lineHeight: 1.04, letterSpacing: -3 }}>
-            Your sleep.<br />Your perfect <span style={{ color: '#718568', fontStyle: 'italic' }}>match.</span>
+          <div style={{ display: 'flex', flexDirection: 'column', fontSize: 78, lineHeight: 1.04, letterSpacing: -3 }}>
+            <span>Your sleep.</span>
+            <span> Your perfect <span style={{ color: '#718568', fontStyle: 'italic' }}>match.</span></span>
           </div>
           <div style={{ marginTop: 30, fontFamily: 'Arial, sans-serif', fontSize: 25, lineHeight: 1.5, color: '#687365' }}>
             A transparent scoring engine for finding the mattress that fits you.
