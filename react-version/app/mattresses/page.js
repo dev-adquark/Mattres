@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getCatalog } from '@/lib/db/mattressRepo';
-import MattressThumb from '@/components/MattressThumb';
+
 import BrandLogo from '@/components/BrandLogo';
 import { displayTitle } from '@/lib/matchLogic';
 import { formatPrice } from '@/lib/format';
@@ -44,8 +44,22 @@ export default async function MattressesPage({ searchParams }) {
               {entries.map((entry) => (
                 <article className="catalog-card" key={entry.id}>
                   <Link href={`/mattress/${encodeURIComponent(entry.id)}`} className="catalog-card-image" aria-label={`View ${displayTitle(entry)} details`}>
-                    <div className="catalog-card-visual-art" aria-hidden="true" />
-                    <MattressThumb entry={entry} />
+                    <img
+                      className="catalog-product-editorial-image"
+                      src={
+                        /latex/i.test(entry.type || '')
+                          ? 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=82'
+                          : /foam/i.test(entry.type || '')
+                            ? 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=82'
+                            : /hybrid|innerspring/i.test(entry.type || '')
+                              ? 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=900&q=82'
+                              : 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=82'
+                      }
+                      alt={`Illustrative bedroom inspiration for ${entry.type || 'mattress'} mattresses; not a photograph of this product`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span className="catalog-image-disclosure">Room inspiration · illustrative</span>
                   </Link>
                   <div className="catalog-card-body">
                     <span className="catalog-card-brand"><BrandLogo brand={entry.brand} size={30} />{entry.brand}</span>
