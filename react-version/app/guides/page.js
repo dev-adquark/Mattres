@@ -25,7 +25,7 @@ const GUIDES = [
 
 export default function GuidesIndexPage() {
   return (
-    <div>
+    <main className="guides-library-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
           <span />
@@ -49,6 +49,6 @@ export default function GuidesIndexPage() {
           ))}
         </div>
       </section>
-    </div>
+    </main>
   );
 }
