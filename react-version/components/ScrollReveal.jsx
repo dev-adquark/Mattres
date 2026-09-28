@@ -20,7 +20,9 @@ export default function ScrollReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') {
+    // Never hide content or animate it for visitors who request reduced motion.
+    const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    if (motionPreference?.matches || typeof IntersectionObserver === 'undefined') {
       document.querySelectorAll('.reveal-up:not(.in-view)').forEach((el) => el.classList.add('in-view'));
       return undefined;
     }
