@@ -10,6 +10,7 @@ import CategoryIconGrid from '@/components/CategoryIconGrid';
 import DealBanner from '@/components/DealBanner';
 import FaqAccordion from '@/components/FaqAccordion';
 import HowItWorks from '@/components/HowItWorks';
+import HomeOptionSlider from '@/components/HomeOptionSlider';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
@@ -82,7 +83,7 @@ export default function HomeClient({ catalog, heroExample }) {
 
   return (
     <div>
-      <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
+      <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />\n      <HomeOptionSlider />
 
       <section className="section hiw-section" style={{ paddingTop: 44, paddingBottom: 24 }}>
         <div className="wrap">
