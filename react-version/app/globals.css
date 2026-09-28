@@ -3497,3 +3497,13 @@ footer .brand-cylinder{opacity:.72;}
   .catalog-card-image .mattress-thumb { width: 58%; }
   .catalog-card-brand { gap: 8px; }
 }
+
+
+/* Catalog brand identity strip and logo lockups */
+.catalog-brand-wall{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 26px;padding:18px 0;border-bottom:1px solid rgba(24,54,55,.12)}
+.catalog-brand-pill{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:8px 14px;border:1px solid rgba(24,54,55,.1);border-radius:999px;background:rgba(255,255,255,.8);color:var(--ink,#183637);font-size:12px;font-weight:650;box-shadow:0 4px 14px rgba(20,45,45,.035)}
+.catalog-brand-pill img,.catalog-card-brand img{display:inline-block;object-fit:contain;border-radius:4px;flex-shrink:0}
+.catalog-card-brand{display:inline-flex;align-items:center;gap:8px}
+.catalog-card-image{display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,rgba(116,201,190,.2),transparent 65%),linear-gradient(145deg,#f7f5ef,#e9eee9)}
+.catalog-card-image .mattress-thumb{width:min(68%,260px);height:auto;filter:drop-shadow(0 16px 12px rgba(22,43,44,.16));transform:scale(1.35)}
+@media(max-width:640px){.catalog-brand-wall{gap:7px}.catalog-brand-pill{padding:7px 10px;font-size:11px}.catalog-card-image .mattress-thumb{width:58%}}
