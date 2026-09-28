@@ -3427,3 +3427,21 @@ footer .brand-cylinder{opacity:.72;}
   .md-layout .md-spec { transition: none; }
   .md-layout .md-spec:hover { transform: none; }
 }
+
+
+/* Keyboard-visible focus treatment for primary and mobile navigation */
+.nav a:focus-visible,
+.nav button:focus-visible,
+.mobile-menu a:focus-visible {
+  outline: 3px solid var(--gold, #c9a96e);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .mobile-menu.open {
+    max-height: min(80vh, 560px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
