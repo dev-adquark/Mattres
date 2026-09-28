@@ -5,7 +5,7 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <div>
+    <main className="terms-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
           <span />
@@ -65,6 +65,6 @@ export default function TermsPage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
