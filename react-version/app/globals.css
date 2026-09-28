@@ -3905,3 +3905,15 @@ footer .foot-bottom a:hover{color:#fff!important;}
 @keyframes route-load-pulse{0%,100%{transform:scaleY(.55);opacity:.55}50%{transform:scaleY(1);opacity:1}}
 @keyframes route-load-progress{0%{transform:translateX(-110%)}100%{transform:translateX(370%)}}
 @media(prefers-reduced-motion:reduce){.route-loading-mark span,.route-loading-track span{animation:none!important;}.route-loading-mark span{transform:none!important;opacity:1!important;}.route-loading-track span{width:100%!important;}}
+
+
+/* ===== Branded route error boundary ===== */
+.route-error-page{min-height:65vh;display:grid;place-items:center;padding:76px 24px 90px;background:#f1f1e9;color:#29372d;}
+.route-error-content{width:min(100%,680px);}
+.route-error-kicker{display:block;color:#77816e;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;line-height:1.8;}
+.route-error-symbol{display:grid;place-items:center;width:52px;height:52px;margin:34px 0 22px;border:1px solid #d5ddcf;border-radius:50%;background:#e8ece2;color:#718568;font-family:Georgia,serif;font-size:28px;}
+.route-error-content h1{margin:0 0 22px;color:#2c3a2e;font-family:Georgia,'Times New Roman',serif;font-size:clamp(42px,6.4vw,72px);font-weight:400;letter-spacing:-.055em;line-height:1.03;}
+.route-error-content h1 em{color:#718568;font-weight:400;}
+.route-error-content>p{max-width:470px;margin:0 0 30px;color:#6c7569;font-size:14px;line-height:1.9;}
+.route-error-actions{display:flex;flex-wrap:wrap;gap:12px;}
+@media(max-width:560px){.route-error-page{min-height:68vh;padding:60px 22px 76px;}.route-error-actions{flex-direction:column;max-width:290px;}.route-error-actions .btn{justify-content:center;}}
