@@ -28,7 +28,7 @@ export default async function MattressesPage({ searchParams }) {
         <div className="wrap">
           <span className="eyebrow">The mattress collection</span>
           <h1 className="ph-title">Explore the catalog.</h1>
-          <p className="ph-sub">Browse {entries.length} mattress listings across {brands.length} brands. Product details may be unverified; check each listing's verification notes.</p>
+          <p className="ph-sub">Browse {entries.length} mattress listings across {brands.length} brands. Product details may be unverified; check each listing&apos;s verification notes.</p>
           <div className="catalog-quick-links">
             <Link href="/find-match" className="btn btn-primary">Find my match →</Link>
             <Link href="/compare" className="btn btn-ghost-dark">Compare mattresses</Link>

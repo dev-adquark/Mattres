@@ -17,8 +17,19 @@ const NAV_LINKS = [
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [lastPathname, setLastPathname] = useState(pathname);
   const magneticRef = useRef(null);
   const menuRef = useRef(null);
+
+  // Closes the mobile menu on route change. Adjusted during render (the
+  // pattern React itself recommends for "reset state when a prop
+  // changes") rather than in a useEffect, which would call setState
+  // unconditionally on every pathname-triggered effect run and risk a
+  // cascading extra render.
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setMenuOpen(false);
+  }
 
   useEffect(() => {
     const el = magneticRef.current;
@@ -67,8 +78,6 @@ export default function Nav() {
       document.body.style.overflow = previousOverflow;
     };
   }, [menuOpen]);
-
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   return (
     <nav className="nav" aria-label="Main navigation">
