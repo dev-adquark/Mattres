@@ -6,6 +6,7 @@ import CategoryIconGrid from '@/components/CategoryIconGrid';
 import FaqAccordion from '@/components/FaqAccordion';
 import HowItWorks from '@/components/HowItWorks';
 import HomeOptionSlider from '@/components/HomeOptionSlider';
+import HomeProductShowcase from '@/components/HomeProductShowcase';
 import Hero from '@/components/Hero';
 import TrustBadgeRow from '@/components/TrustBadgeRow';
 
@@ -21,7 +22,7 @@ export default function HomeClient({ catalog, heroExample }) {
   return (
     <main className="home-short">
       <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
-      <HomeOptionSlider />
+      <HomeOptionSlider />\n      <HomeProductShowcase catalog={catalog} />
 
       <section className="home-simple-section home-how-section" aria-labelledby="home-how-title">
         <div className="wrap">
