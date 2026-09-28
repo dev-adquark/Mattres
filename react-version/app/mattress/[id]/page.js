@@ -118,8 +118,22 @@ export default async function MattressDetailPage({ params }) {
           <div className="md-layout">
             <div>
               <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', marginBottom: 8 }}>
-                <div style={{ width: 140, flexShrink: 0 }}>
-                  <MattressThumb entry={entry} />
+                <div className="detail-editorial-visual">
+                  <img
+                    src={
+                      /latex/i.test(entry.type || '')
+                        ? 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85'
+                        : /foam/i.test(entry.type || '')
+                          ? 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=85'
+                          : /hybrid|innerspring/i.test(entry.type || '')
+                            ? 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=900&q=85'
+                            : 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=85'
+                    }
+                    alt={`Illustrative bedroom inspiration for ${entry.type || 'mattress'} mattresses, not a photo of ${displayTitle(entry)}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span>Illustrative room inspiration · not product photography</span>
                 </div>
                 <div>
                   <span className={`listing-badge ${verified ? 'badge-top' : 'badge-none'}`}>
