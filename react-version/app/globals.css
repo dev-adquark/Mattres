@@ -2585,3 +2585,73 @@
     will-change: auto !important;
   }
 }
+
+/* Phase 3 — quiz wizard transitions and clear selection/progress feedback.
+   Keeps the existing one-question flow and real scoring/API logic untouched. */
+.quiz-step {
+  animation: quiz-step-enter .42s cubic-bezier(.2,.75,.25,1) both;
+  transform-origin: 50% 8%;
+}
+@keyframes quiz-step-enter {
+  from { opacity: 0; transform: translate3d(18px, 0, 0); filter: blur(2px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+.quiz-progress-head { gap: 12px; }
+.quiz-progress-segments {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.quiz-progress-segments i {
+  display: block;
+  flex: 1 1 0;
+  height: 6px;
+  min-width: 0;
+  border-radius: 99px;
+  background: rgba(130, 153, 181, .22);
+  transition: background .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+.quiz-progress-segments i.filled {
+  background: linear-gradient(90deg, var(--cyan-300, #3fd4ff), #76f0d0);
+  box-shadow: 0 0 12px rgba(63,212,255,.2);
+  transform: scaleY(1.12);
+}
+.quiz-option-btn {
+  transition: transform .22s ease, border-color .22s ease, background .22s ease,
+              box-shadow .22s ease, color .22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.quiz-option-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(5, 23, 48, .12);
+}
+.quiz-option-btn.selected {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px rgba(63,212,255,.26), 0 10px 25px rgba(63,212,255,.12);
+}
+.quiz-option-btn.selected::after {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--cyan-300, #3fd4ff);
+  color: #07172c;
+  font-size: 13px;
+  font-weight: 900;
+}
+.quiz-nav-row .btn:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+  filter: grayscale(.2);
+}
+.quiz-sticky-cta:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(63,212,255,.14);
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiz-step { animation: none !important; }
+  .quiz-progress-segments i, .quiz-option-btn { transition: none !important; }
+}
+
