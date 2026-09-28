@@ -66,7 +66,7 @@ export default async function MattressDetailPage({ params }) {
   };
 
   return (
-    <div>
+    <div className="mattress-detail-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
