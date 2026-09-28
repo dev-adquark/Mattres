@@ -3531,3 +3531,14 @@ footer .brand-cylinder{opacity:.72;}
  .reveal-up,.reveal-up.in-view,:where(.home-option-card,.category-card,.compare-card,.result-card,.editorial-card),:where(.home-option-card,.category-card,.compare-card,.result-card,.editorial-card) img { transition:none !important; transform:none !important; opacity:1 !important; }
  .brand-marquee-track { animation:none !important; transform:none !important; }
 }
+
+
+/* Homepage option slider: deliberate autoplay controls with touch-first overflow. */
+.home-slider-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.home-slider-hint{font-size:12px;letter-spacing:.02em;color:#777d73;margin-right:7px;}
+.home-slider-button{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 12px;border:1px solid #cfd3c8;border-radius:999px;background:transparent;color:#18251f;font:inherit;font-size:13px;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .2s ease;}
+.home-slider-button:hover{background:#e8ece3;border-color:#aeb8aa;transform:translateY(-1px);}
+.home-slider-button:focus-visible{outline:3px solid #2a7668;outline-offset:3px;}
+.home-option-card{scroll-snap-align:start;}
+@media(max-width:700px){.home-slider-controls{width:100%;}.home-slider-hint{flex:1 1 100%;margin:0 0 4px;}.home-slider-button{min-width:42px;height:42px;}}
+@media(prefers-reduced-motion:reduce){.home-slider-button{transition:none;}}
