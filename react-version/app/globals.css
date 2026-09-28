@@ -3291,3 +3291,11 @@ footer .brand-cylinder{opacity:.72;}
  footer .foot-bottom{gap:14px;align-items:flex-start;flex-direction:column;}
 }
 @media(prefers-reduced-motion:reduce){.nav-links a:after,.nav .nav-main-cta,.footer .foot-group a{transition:none}}
+
+
+
+/* Keyboard accessibility: visible skip link on focus */
+.skip-to-content{position:fixed;z-index:1000;top:12px;left:12px;padding:12px 18px;border-radius:999px;background:#d8dfcd;color:#1b2922;font-size:14px;font-weight:700;transform:translateY(-160%);transition:transform .18s ease;box-shadow:0 8px 28px rgba(0,0,0,.18);}
+.skip-to-content:focus{transform:translateY(0);outline:3px solid #fff;outline-offset:3px;}
+#main-content{min-width:0;}
+@media(prefers-reduced-motion:reduce){.skip-to-content{transition:none;}}
