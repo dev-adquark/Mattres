@@ -3638,3 +3638,39 @@ footer .brand-cylinder{opacity:.72;}
 @media(max-width:1000px){.catalog-page .catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}.catalog-page .catalog-card-image{min-height:220px;}}
 @media(max-width:620px){.catalog-page .page-hero{padding:70px 0 44px!important;}.catalog-page .ph-title{font-size:56px!important;}.catalog-page .section{padding:28px 0 80px!important;}.catalog-page .catalog-grid{grid-template-columns:1fr;gap:14px;}.catalog-page .catalog-card-image{min-height:235px;}.catalog-page .catalog-card-body{padding:20px;}.catalog-page .catalog-brand-wall{gap:7px;}.catalog-page .catalog-brand-pill{padding:7px 10px;font-size:11px;}}
 @media(prefers-reduced-motion:reduce){.catalog-page .catalog-card,.catalog-page .catalog-card-image img,.catalog-page .catalog-brand-pill{transition:none!important;}.catalog-page .catalog-card:hover,.catalog-page .catalog-card:hover .catalog-card-image img{transform:none!important;}}
+
+
+/* ===== Product detail: considered, editorial product dossier ===== */
+.mattress-detail-page{background:#f6f5f0;color:#202a23;}
+.mattress-detail-page>.page-hero{background:#e9e9e1!important;color:#202a23!important;padding:clamp(72px,9vw,120px) 0 54px!important;position:relative;overflow:hidden;}
+.mattress-detail-page>.page-hero .aurora-bg{opacity:.16;filter:grayscale(1);}
+.mattress-detail-page .eyebrow-brand{display:inline-flex;align-items:center;gap:12px;color:#687365;font-size:11px;letter-spacing:.17em;text-transform:uppercase;}
+.mattress-detail-page .detail-brand-logo{background:#f7f6f0;border:1px solid #dfe0d7;border-radius:50%;padding:6px;object-fit:contain;}
+.mattress-detail-page .ph-title{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(48px,7.6vw,92px)!important;font-weight:400!important;letter-spacing:-.055em!important;line-height:.95!important;color:#202a23!important;max-width:1000px;margin:26px 0!important;}
+.mattress-detail-page .ph-sub{max-width:650px;color:#6b7368!important;font-size:14px!important;line-height:1.8!important;}
+.mattress-detail-page .section{padding:clamp(36px,5vw,70px) 0 100px!important;background:#f6f5f0!important;}
+.mattress-detail-page .md-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.75fr);gap:clamp(28px,5vw,76px);align-items:start;}
+.mattress-detail-page .md-layout>div:first-child>div:first-child{align-items:center!important;gap:26px!important;padding:24px;background:#eeeee7;border:1px solid #e0e1d8;margin-bottom:26px!important;}
+.mattress-detail-page .md-layout>div:first-child>div:first-child>div:first-child{width:clamp(110px,17vw,190px)!important;}
+.mattress-detail-page .listing-badge{display:inline-flex;padding:8px 12px;border-radius:999px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;}
+.mattress-detail-page .badge-top{background:#dce9dc!important;color:#365b3e!important;}
+.mattress-detail-page .badge-none{background:#eee2d4!important;color:#795a35!important;}
+.mattress-detail-page .md-spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#d9dbd1;border:1px solid #d9dbd1;margin-top:24px;}
+.mattress-detail-page .md-spec{min-height:105px;padding:19px 16px;background:#eeeee7;display:flex;flex-direction:column;justify-content:center;gap:9px;}
+.mattress-detail-page .md-spec b{font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,2.2vw,28px);font-weight:400;letter-spacing:-.03em;color:#26342a;overflow-wrap:anywhere;}
+.mattress-detail-page .md-spec span{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#7b8276;}
+.mattress-detail-page .md-layout h2{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(27px,3vw,38px)!important;font-weight:400!important;letter-spacing:-.035em!important;color:#26342a!important;line-height:1.05!important;}
+.mattress-detail-page .md-review-card{background:#eeeee7!important;border:1px solid #e0e1d8!important;border-radius:3px!important;padding:22px!important;margin:12px 0!important;}
+.mattress-detail-page .md-review-card>span{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:12px;color:#4d5a4d;}
+.mattress-detail-page .md-review-card strong{font-size:13px;color:#29372d;}
+.mattress-detail-page .md-review-card p{font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.5;color:#535d51;margin:15px 0 0;}
+.mattress-detail-page .conf{font-size:9px!important;letter-spacing:.07em;text-transform:uppercase;background:#e1e3da;padding:6px 8px;border-radius:999px;color:#737b6f!important;}
+.mattress-detail-page .md-side-card{position:relative;background:#eeeee7!important;border:1px solid #dfe0d7!important;border-radius:3px!important;padding:25px!important;margin-bottom:16px!important;box-shadow:0 10px 30px rgba(32,42,35,.035);}
+.mattress-detail-page .md-side-card h5{font-family:Georgia,'Times New Roman',serif!important;font-size:27px!important;font-weight:400!important;letter-spacing:-.03em!important;color:#26342a!important;margin:0 0 18px!important;}
+.mattress-detail-page .md-retailer-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #d9dbd1;padding:14px 0;}
+.mattress-detail-page .md-retailer-row .btn{border-radius:999px!important;border-color:#c7cec1!important;color:#344b38!important;}
+.mattress-detail-page .md-side-card .btn{border-radius:999px!important;}
+.mattress-detail-page a:not(.btn){color:#4a684f;text-underline-offset:3px;}
+@media(max-width:850px){.mattress-detail-page .md-layout{grid-template-columns:1fr;}.mattress-detail-page .md-layout>div:nth-child(2){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}.mattress-detail-page .md-side-card{margin:0!important;}}
+@media(max-width:560px){.mattress-detail-page>.page-hero{padding:58px 0 38px!important;}.mattress-detail-page .ph-title{font-size:48px!important;}.mattress-detail-page .section{padding:24px 0 76px!important;}.mattress-detail-page .md-layout>div:first-child>div:first-child{padding:16px!important;gap:15px!important;}.mattress-detail-page .md-spec-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.mattress-detail-page .md-spec{min-height:92px;padding:15px 13px;}.mattress-detail-page .md-layout>div:nth-child(2){grid-template-columns:1fr;}.mattress-detail-page .md-side-card{padding:21px!important;}}
+@media(prefers-reduced-motion:reduce){.mattress-detail-page *{scroll-behavior:auto!important;}}
