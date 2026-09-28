@@ -37,7 +37,7 @@ export default function Footer() {
 
         <div style={{ margin: '8px 0 28px' }}>
           <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
-            Real brands referenced in our comparisons
+            Real mattress brands
           </span>
           <BrandMarquee />
         </div>

@@ -5,6 +5,7 @@ import { CATEGORIES } from '@/lib/categories';
 import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import { VERIFICATION_LEVEL_LABEL } from '@/lib/dataIntegrity';
 import { formatPrice } from '@/lib/format';
+import BrandLogo from './BrandLogo';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
 
@@ -77,7 +78,8 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           Best value
         </span>
       )}
-      <h3>
+      <h3 className="cc-title-row">
+        <BrandLogo brand={entry.brand} size={20} />
         <Link href={`/mattress/${entry.id}`}>{displayTitle}</Link>
       </h3>
       <div className="cc-meta">

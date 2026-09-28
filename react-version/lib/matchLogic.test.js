@@ -211,10 +211,16 @@ describe('buildWhyThisMatch', () => {
 });
 
 describe('matchProfile (integration - real scoreEngine, mocked getCatalog)', () => {
-  it('returns empty results (with catalogSource preserved) when every entry is filtered out', async () => {
+  it('returns empty results with the same real modelVersion/catalogAudit/catalogSource contract as a non-empty response', async () => {
     getCatalog.mockResolvedValueOnce({ entries: [entry({ type: 'foam' })], source: 'database' });
     const result = await matchProfile({ ...BASE_PROFILE, mattressTypePreference: ['innerspring'] });
-    expect(result).toEqual({ results: [], modelVersion: null, all: [], catalogSource: 'database' });
+    expect(result).toEqual({
+      results: [],
+      modelVersion: '0.1',
+      all: [],
+      catalogAudit: expect.objectContaining({ total: 1 }),
+      catalogSource: 'database',
+    });
   });
 
   it('sorts results by descending overall score and marks the top 3 as preselected', async () => {

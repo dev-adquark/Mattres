@@ -5,6 +5,7 @@ import { useMemo, useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCarouselRow from '@/components/BrandCarouselRow';
 import BrandCollabSlot from '@/components/BrandCollabSlot';
+import BrandLogo from '@/components/BrandLogo';
 import CategoryIconGrid from '@/components/CategoryIconGrid';
 import DealBanner from '@/components/DealBanner';
 import FaqAccordion from '@/components/FaqAccordion';
@@ -128,6 +129,12 @@ export default function HomeClient({ catalog, heroExample }) {
               The larger, glowing node in the center is your top match once you&apos;ve taken the quiz.{' '}
               <strong>Click any node</strong> to see that mattress&apos;s real score and price.
             </p>
+            <div className="universe-legend" aria-hidden="true">
+              <span className="universe-legend-item"><i className="ul-dot ul-foam" />Foam</span>
+              <span className="universe-legend-item"><i className="ul-dot ul-hybrid" />Hybrid</span>
+              <span className="universe-legend-item"><i className="ul-dot ul-innerspring" />Innerspring</span>
+              <span className="universe-legend-item universe-legend-center"><i className="ul-dot ul-center" />Your top match</span>
+            </div>
           </div>
           <div className="universe-wrap">
             {hydrated && (
@@ -236,7 +243,7 @@ export default function HomeClient({ catalog, heroExample }) {
           <BrandCollabSlot />
           <div style={{ marginTop: 36 }}>
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
-              Real brands referenced in our comparisons
+              Real mattress brands
             </span>
             <BrandCarouselRow />
           </div>
@@ -290,7 +297,7 @@ export default function HomeClient({ catalog, heroExample }) {
               <Link href={`/mattress/${entry.id}`} className="review-quote-card" key={entry.id}>
                 <q>{highlight.snippet}</q>
                 <div className="rq-meta">
-                  <b>{entry.brand} {entry.model}</b>
+                  <b className="cc-title-row"><BrandLogo brand={entry.brand} size={16} />{entry.brand} {entry.model}</b>
                   <span className={`conf conf-${highlight.confidence}`}>{highlight.confidence} confidence</span>
                 </div>
               </Link>
@@ -298,7 +305,7 @@ export default function HomeClient({ catalog, heroExample }) {
           </div>
           <div style={{ marginTop: 36 }}>
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
-              Real brands referenced in our comparisons
+              Real mattress brands
             </span>
             <BrandCarouselRow />
           </div>
@@ -367,9 +374,9 @@ function ComparisonPreviewTeaser({ catalog }) {
   return (
     <div className="cmp-teaser">
       <div className="cmp-teaser-head">
-        <span>{a.brand} {a.model}</span>
+        <span className="cc-title-row"><BrandLogo brand={a.brand} size={16} />{a.brand} {a.model}</span>
         <span className="cmp-teaser-vs">vs</span>
-        <span>{b.brand} {b.model}</span>
+        <span className="cc-title-row"><BrandLogo brand={b.brand} size={16} />{b.brand} {b.model}</span>
       </div>
       {rows.map((r) => (
         <div className="cmp-teaser-row" key={r.label}>

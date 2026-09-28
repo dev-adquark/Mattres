@@ -2341,3 +2341,21 @@
 
 .hero-example-row{ display:flex; justify-content:center; margin-top:8px; }
 @media (max-width:640px){ .hero-example-row{ margin-top:20px; } }
+
+/* --- Real brand logos, shown inline wherever a brand name appears --- */
+.brand-logo-img{ display:inline-block; border-radius:4px; object-fit:contain; flex-shrink:0; vertical-align:middle; background:#fff; }
+.cc-title-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.brand-chip-logo{ margin-right:2px; }
+.eyebrow-brand{ display:inline-flex; align-items:center; gap:8px; }
+.eyebrow-brand .brand-logo-img{ background:rgba(255,255,255,0.9); }
+.cmp-th-brand{ display:inline-flex; align-items:center; gap:6px; }
+
+/* --- Interactive Result Preview: color legend for the 3D scene --- */
+.universe-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; }
+.universe-legend-item{ display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-dim); font-weight:600; }
+.ul-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+.ul-foam{ background:#8ff2e4; }
+.ul-hybrid{ background:#3fd4ff; }
+.ul-innerspring{ background:#5b8dff; }
+.ul-center{ background:#3fd4ff; box-shadow:0 0 6px 1px rgba(63,212,255,0.8); }
+.universe-legend-center{ color:var(--cyan-300); }

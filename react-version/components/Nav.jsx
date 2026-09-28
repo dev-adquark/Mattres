@@ -60,12 +60,6 @@ export default function Nav() {
           ))}
         </div>
         <div className="nav-right">
-          <button className="icon-btn" aria-label="Search" type="button">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </button>
           <Link href="/find-match" className="btn btn-primary" id="navMagneticCta" ref={magneticRef}>
             <OwlMascot variant="nav" idSuffix="NavCta" />
             Find My Mattress

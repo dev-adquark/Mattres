@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { CATEGORIES } from '@/lib/categories';
 import { displayTitle, formatPrice } from '@/lib/format';
+import BrandLogo from './BrandLogo';
 
 // `value` extracts the real number a row's highlighting decision is
 // based on (comparable rows only) - kept separate from `get` (the
@@ -63,7 +64,12 @@ export default function ComparisonTable({ items, onClose }) {
             <tr>
               <th>Metric</th>
               {items.map((r) => (
-                <th key={r.entry.id}>{displayTitle(r.entry)}</th>
+                <th key={r.entry.id}>
+                  <span className="cmp-th-brand">
+                    <BrandLogo brand={r.entry.brand} size={16} />
+                    {displayTitle(r.entry)}
+                  </span>
+                </th>
               ))}
             </tr>
           </thead>

@@ -104,7 +104,7 @@ export default function PromoCardCluster() {
         </span>
         <h5>Buying guides, not testimonials</h5>
         <p>We don&apos;t publish fabricated reviews. Read the real buying guide instead.</p>
-        <Link href="/mx.html" className="pc-cta">
+        <Link href="/guides" className="pc-cta">
           Read the guide
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
             <path d="M5 12h14M13 6l6 6-6 6" />
