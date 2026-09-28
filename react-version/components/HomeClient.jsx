@@ -45,7 +45,7 @@ export default function HomeClient({ catalog, heroExample }) {
             <p>Start with a mattress type, or browse brands and compare your shortlist.</p>
           </div>
           <TrustBadgeRow />
-          <div className="home-browse-block">
+          <div className="home-browse-block" id="home-categories">
             <CategoryIconGrid />
           </div>
           <div className="home-brand-block">
