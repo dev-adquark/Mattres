@@ -8,10 +8,8 @@
  * brand marquee, not by any catalog entry) are other well-known, real
  * mattress companies' well-known domains.
  *
- * A brand with no confirmed domain (Novaform - a Costco house brand
- * with no independent site - and Molecule, whose exact current domain
- * isn't confirmed here) is intentionally left out: BrandLogo renders
- * nothing for it rather than link to a guessed domain.
+ * Novaform is mapped to its brand storefront domain; Molecule remains
+ * intentionally omitted until its official domain is confirmed.
  */
 export const BRAND_DOMAINS = {
   Avocado: 'avocadogreenmattress.com',
@@ -19,6 +17,7 @@ export const BRAND_DOMAINS = {
   'Big Fig': 'bigfigmattress.com',
   Birch: 'birchliving.com',
   'Brooklyn Bedding': 'brooklynbedding.com',
+  Novaform: 'novaformcomfort.com',
   Casper: 'casper.com',
   DreamCloud: 'dreamcloudsleep.com',
   Helix: 'helixsleep.com',
