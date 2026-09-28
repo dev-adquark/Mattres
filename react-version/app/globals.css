@@ -2946,3 +2946,77 @@
   .home-faq-section { padding-top: 44px; padding-bottom: 48px; }
   .home-final-cta { padding: 52px 18px 66px; }
 }
+
+
+/* Visual elevation pass — richer editorial art direction, not just utility cards */
+:root {
+  --lux-ink: #101d2c;
+  --lux-muted: #687687;
+  --lux-teal: #0c7180;
+  --lux-cream: #f5f1e9;
+}
+.hero-video-shell {
+  min-height: min(850px, 92svh);
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  overflow: hidden;
+  background: #091727;
+}
+.hero-bedroom-video { transform: scale(1.025); animation: lux-video-drift 28s ease-in-out infinite alternate; }
+@keyframes lux-video-drift { from { transform: scale(1.025); } to { transform: scale(1.11); } }
+.hero-video-shade {
+  background: linear-gradient(90deg, rgba(6,17,29,.88) 0%, rgba(6,17,29,.61) 43%, rgba(6,17,29,.13) 100%), linear-gradient(0deg, rgba(6,17,29,.7), transparent 58%);
+}
+.hero-video-shell .hero-grid { position: relative; z-index: 2; padding-top: 80px; padding-bottom: 90px; }
+.hero-video-shell h1 { max-width: 780px; font-size: clamp(48px, 7.2vw, 94px); line-height: .98; letter-spacing: -.065em; text-wrap: balance; }
+.hero-video-shell h1 span { color: #a7e7e6; }
+.hero-video-shell .lead { max-width: 470px; color: rgba(255,255,255,.82); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.6; }
+.hero-video-shell .eyebrow { backdrop-filter: blur(14px); background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.19); border-radius: 999px; padding: 10px 15px; }
+.hero-video-shell .btn-primary { min-height: 58px; padding: 0 28px; border-radius: 999px; box-shadow: 0 12px 35px rgba(6,113,128,.3); font-size: 15px; }
+.home-options {
+  width: min(1240px, calc(100% - 48px));
+  margin-top: -54px;
+  padding: clamp(24px, 3.5vw, 44px);
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.9);
+  box-shadow: 0 32px 90px rgba(18,33,49,.16);
+  background: #fffefa;
+}
+.home-options-heading h2, .home-product-heading h2, .home-section-intro h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 500; letter-spacing: -.045em; }
+.home-option-card {
+  min-height: 255px;
+  border: 1px solid #e8e3da;
+  border-radius: 21px;
+  background: linear-gradient(155deg, #fff, #f7f4ed);
+  padding: 26px;
+}
+.home-option-card:nth-child(2) { background: linear-gradient(155deg, #edf7f4, #fff); }
+.home-option-card:nth-child(3) { background: linear-gradient(155deg, #f1f2f8, #fff); }
+.home-option-card:nth-child(4) { background: linear-gradient(155deg, #f8f0e7, #fff); }
+.home-option-number { color: rgba(16,29,44,.075); font-family: Georgia,serif; font-size: 54px; }
+.home-option-card h3 { font-family: Georgia,serif; font-size: 24px; font-weight: 500; }
+.home-product-section { background: var(--lux-cream); }
+.home-product-card { border: 0; border-radius: 22px; box-shadow: 0 8px 30px rgba(22,35,48,.06); }
+.home-product-visual { height: 245px; background: radial-gradient(ellipse at 50% 100%, #d7e5df, #eae9e1 65%, #f4f1e9); }
+.home-product-mattress { width: 72%; height: 100px; transform: rotate(-7deg) skewY(-2deg); }
+.home-product-top { background: linear-gradient(135deg,#fff,#e5e2d9); box-shadow: inset 0 4px 9px rgba(255,255,255,.9); }
+.home-product-info { padding: 23px; }
+.home-product-info h3 { font-family: Georgia,serif; font-size: 23px; font-weight: 500; }
+.home-trust-section { background: #f9f8f4; }
+.home-how-section { background: #fffefa; }
+.home-faq-section { background: #fffefa; }
+.home-final-cta { background: radial-gradient(ellipse at 78% 5%, rgba(123,205,193,.2), transparent 42%), #102231; }
+.home-final-cta h2 { font-family: Georgia,serif; font-weight: 500; letter-spacing: -.045em; }
+@media (max-width:700px) {
+ .hero-video-shell { min-height: 740px; }
+ .hero-video-shell .hero-grid { padding-top: 66px; padding-bottom: 85px; }
+ .hero-video-shell h1 { font-size: clamp(43px, 12vw, 62px); }
+ .hero-video-shade { background: linear-gradient(180deg,rgba(6,17,29,.46),rgba(6,17,29,.7) 42%,rgba(6,17,29,.94)); }
+ .home-options { width: calc(100% - 24px); margin-top: -38px; padding: 22px 16px 15px; border-radius: 23px; }
+ .home-option-card { min-height: 230px; padding: 22px; }
+ .home-product-visual { height: 205px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .hero-bedroom-video { animation: none !important; transform: none; }
+}
