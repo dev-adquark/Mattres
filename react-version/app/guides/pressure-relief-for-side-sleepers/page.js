@@ -22,7 +22,12 @@ export default function PressureReliefGuide() {
       </header>
 
       <section className="section dot-grid-bg">
-        <div className="wrap disc-wrap">
+        <div className="wrap guide-article-wrap">
+          <figure className="guide-article-visual">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=85" alt="Bedroom with layered bedding, illustrating mattress comfort and pressure relief" loading="lazy" decoding="async" />
+            <figcaption>Illustrative bedroom image — not a photograph of a tested mattress.</figcaption>
+          </figure>
+          <div className="disc-wrap">
           <div className="disc-block">
             <h3>Why side sleeping needs more pressure relief</h3>
             <p>
@@ -55,6 +60,7 @@ export default function PressureReliefGuide() {
             <Link href="/find-match" className="btn btn-primary">
               Take the real quiz
             </Link>
+          </div>
           </div>
         </div>
       </section>
