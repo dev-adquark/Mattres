@@ -22,7 +22,8 @@ export default function HomeClient({ catalog, heroExample }) {
   return (
     <main className="home-short">
       <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
-      <HomeOptionSlider />\n      <HomeProductShowcase catalog={catalog} />
+      <HomeOptionSlider />
+      <HomeProductShowcase catalog={catalog} />
 
       <section className="home-simple-section home-how-section" aria-labelledby="home-how-title">
         <div className="wrap">
