@@ -3507,3 +3507,10 @@ footer .brand-cylinder{opacity:.72;}
 .catalog-card-image{display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,rgba(116,201,190,.2),transparent 65%),linear-gradient(145deg,#f7f5ef,#e9eee9)}
 .catalog-card-image .mattress-thumb{width:min(68%,260px);height:auto;filter:drop-shadow(0 16px 12px rgba(22,43,44,.16));transform:scale(1.35)}
 @media(max-width:640px){.catalog-brand-wall{gap:7px}.catalog-brand-pill{padding:7px 10px;font-size:11px}.catalog-card-image .mattress-thumb{width:58%}}
+
+
+/* Homepage explore cards: editorial bedroom photography */
+.home-option-card { position: relative; overflow: hidden; isolation: isolate; }
+.home-option-image { display:block; width:100%; height:156px; object-fit:cover; border-radius:16px; margin:0 0 18px; filter:saturate(.82); }
+.home-option-card::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg, transparent 0%, rgba(8,18,31,.035) 45%, transparent 100%); z-index:-1; }
+@media (max-width:640px) { .home-option-image { height:132px; margin-bottom:14px; } }
