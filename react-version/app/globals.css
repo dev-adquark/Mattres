@@ -3874,3 +3874,19 @@ footer .foot-bottom a:hover{color:#fff!important;}
 :where(.btn,.nav-link,.catalog-brand-pill,.compare-chip,.filter-chip):focus-visible{box-shadow:0 0 0 3px #f5f4ef,0 0 0 6px #77966d!important;outline:none!important;}
 ::selection{background:#dce7d5;color:#243528;}
 @media(prefers-reduced-motion:reduce){.skip-to-content{transition:none!important;}}
+
+
+/* ===== Branded not-found experience ===== */
+.not-found-page{min-height:min(78vh,900px);position:relative;isolation:isolate;overflow:hidden;display:grid;place-items:center;padding:90px 24px 100px;background:#f1f1e9;color:#29372d;}
+.not-found-orb{position:absolute;z-index:-1;width:min(70vw,760px);aspect-ratio:1;border-radius:50%;right:-15%;top:50%;transform:translateY(-50%);background:radial-gradient(circle at 42% 42%,rgba(163,177,148,.3),rgba(205,211,194,.15) 42%,rgba(241,241,233,0) 70%);border:1px solid rgba(117,137,107,.12);}
+.not-found-content{width:min(100%,780px);position:relative;}
+.not-found-kicker{display:inline-block;color:#77816e;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;}
+.not-found-number{font-family:Georgia,'Times New Roman',serif;font-size:clamp(100px,22vw,230px);font-weight:400;letter-spacing:-.09em;line-height:.82;color:#d9ded2;margin:35px 0 22px;}
+.not-found-content h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(42px,6.5vw,76px);font-weight:400;letter-spacing:-.055em;line-height:1.02;color:#2c3a2e;margin:0 0 22px;}
+.not-found-content h1 em{font-weight:400;color:#718568;}
+.not-found-copy{max-width:470px;color:#6c7569;font-size:14px;line-height:1.9;margin:0 0 30px;}
+.not-found-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.not-found-quiet-link{display:inline-block;margin-top:28px;color:#61785a;font-size:12px;text-decoration:underline;text-underline-offset:4px;}
+.not-found-quiet-link:hover{color:#344c32;}
+@media(max-width:560px){.not-found-page{min-height:70vh;padding:65px 22px 78px;}.not-found-number{margin-top:30px;}.not-found-actions{align-items:stretch;flex-direction:column;max-width:290px;}.not-found-actions .btn{justify-content:center;}.not-found-orb{width:120vw;right:-65%;top:38%;}}
+@media(prefers-reduced-motion:reduce){.not-found-page *{scroll-behavior:auto!important;}}
