@@ -74,12 +74,21 @@ export default function Nav() {
           </button>
         </div>
       </div>
-      <div className="mobile-menu" style={{ display: menuOpen ? 'flex' : undefined }}>
+      <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
         {NAV_LINKS.map((l) => (
-          <Link key={l.href} href={l.href} data-nav={l.href} onClick={() => setMenuOpen(false)}>
+          <Link
+            key={l.href}
+            href={l.href}
+            data-nav={l.href}
+            className={pathname === l.href ? 'active' : ''}
+            onClick={() => setMenuOpen(false)}
+          >
             {l.label}
           </Link>
         ))}
+        <Link href="/find-match" className="btn btn-primary mobile-menu-cta" onClick={() => setMenuOpen(false)}>
+          Find My Mattress
+        </Link>
       </div>
     </nav>
   );

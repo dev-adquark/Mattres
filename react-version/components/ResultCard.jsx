@@ -40,44 +40,48 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
       data-mattress-id={entry.id}
       style={{ transitionDelay: `${staggerMs}ms` }}
     >
-      <MattressThumb entry={entry} />
-      <label className="result-select">
-        <input
-          type="checkbox"
-          className="compare-checkbox"
-          checked={compareChecked}
-          onChange={() => onCompareToggle(entry.id)}
-        />{' '}
-        Compare
-      </label>
-      {item.tier && <span className={`tier-badge tier-${item.tier.key}`} style={{ marginRight: 6 }}>{item.tier.label}</span>}
-      <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
-      {item.verificationLevel !== 'verified' && (
-        <span
-          className={`unverified-badge vlevel-${item.verificationLevel}`}
-          title={
-            item.verificationLevel === 'unknown'
-              ? `This record has real gaps in its own data (missing: ${item.missingFields.join(', ')}), independent of verification.`
-              : item.verificationLevel === 'partially_verified'
-                ? 'Real brand/model name. Some verification evidence is on file, but not a complete source + date confirmation yet.'
-                : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
-          }
-        >
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-            <path d="M12 9v4M12 17h.01" />
-            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-          </svg>
-          {VERIFICATION_LEVEL_LABEL[item.verificationLevel]}
-        </span>
-      )}
-      {isBestValue && (
-        <span className="value-badge" title="Real lowest price among the results shown">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-          </svg>
-          Best value
-        </span>
-      )}
+      <div className="cc-thumb-wrap">
+        <MattressThumb entry={entry} />
+        <label className="result-select">
+          <input
+            type="checkbox"
+            className="compare-checkbox"
+            checked={compareChecked}
+            onChange={() => onCompareToggle(entry.id)}
+          />{' '}
+          Compare
+        </label>
+      </div>
+      <div className="cc-badges">
+        {item.tier && <span className={`tier-badge tier-${item.tier.key}`}>{item.tier.label}</span>}
+        <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
+        {item.verificationLevel !== 'verified' && (
+          <span
+            className={`unverified-badge vlevel-${item.verificationLevel}`}
+            title={
+              item.verificationLevel === 'unknown'
+                ? `This record has real gaps in its own data (missing: ${item.missingFields.join(', ')}), independent of verification.`
+                : item.verificationLevel === 'partially_verified'
+                  ? 'Real brand/model name. Some verification evidence is on file, but not a complete source + date confirmation yet.'
+                  : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
+            }
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+              <path d="M12 9v4M12 17h.01" />
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+            </svg>
+            {VERIFICATION_LEVEL_LABEL[item.verificationLevel]}
+          </span>
+        )}
+        {isBestValue && (
+          <span className="value-badge" title="Real lowest price among the results shown">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+            Best value
+          </span>
+        )}
+      </div>
       <h3 className="cc-title-row">
         <BrandLogo brand={entry.brand} size={20} />
         <Link href={`/mattress/${entry.id}`}>{displayTitle}</Link>

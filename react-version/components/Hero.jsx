@@ -31,7 +31,9 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
             <span className="dot" />
             {catalogCount} mattresses · {brandCount} brands, scored live
           </span>
-          <h1>Find the mattress that actually fits you</h1>
+          <h1>
+            Find the mattress that <span>actually fits you</span>
+          </h1>
           <p className="lead">60-second sleep profile, personalised mattress scores.</p>
           <div className="hero-ctas">
             <Link href="/find-match" className="btn btn-primary">
@@ -104,11 +106,10 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
             <b>Budget</b>
             <i>Budget · Mid · Premium</i>
           </div>
+          <div className="hero-preview-float">
+            <HeroResultPreview example={heroExample} />
+          </div>
         </div>
-      </div>
-
-      <div className="wrap hero-example-row">
-        <HeroResultPreview example={heroExample} />
       </div>
 
       <div className="hero-stat-row" aria-label="Catalog stats">

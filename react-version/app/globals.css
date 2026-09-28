@@ -130,28 +130,39 @@
     border:1.5px solid rgba(255,255,255,0.22);
   }
   .btn-ghost:hover{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.05);}
-  .nav-toggle{display:none;background:none;border:none;color:var(--ink);width:40px;height:40px;place-items:center;cursor:pointer;}
+  .nav-toggle{display:none;background:none;border:none;color:var(--ink);width:40px;height:40px;place-items:center;cursor:pointer;border-radius:10px;transition:background .15s ease;}
+  .nav-toggle:hover{background:rgba(255,255,255,0.06);}
   .mobile-menu{display:none;}
 
   @media (max-width:920px){
     .nav-links{display:none;}
     .nav-toggle{display:grid;}
     .icon-btn{display:none;}
-    .mobile-menu.open{
+    /* Was previously `.mobile-menu.open` gated purely by an inline
+       `display` style the component never actually toggled a matching
+       class for - so this panel's real styling (position, background,
+       padding) never applied and the open menu rendered as unstyled
+       flow content. Now driven by one real class the component sets. */
+    .mobile-menu{
       display:flex;flex-direction:column;gap:2px;
       position:absolute;left:0;right:0;top:76px;
       background:var(--navy-950);border-bottom:1px solid rgba(255,255,255,0.08);
-      padding:10px 20px 20px;
+      padding:8px 20px 18px;
+      max-height:0;overflow:hidden;opacity:0;
+      transition:max-height .28s var(--ease-premium), opacity .2s ease;
     }
-    .mobile-menu a{color:var(--ink-dim);padding:12px 4px;font-size:15px;border-bottom:1px solid rgba(255,255,255,0.06);}
-    .mobile-menu a.active{color:var(--teal-400);}
+    .mobile-menu.open{ max-height:70vh; opacity:1; overflow-y:auto; }
+    @media (prefers-reduced-motion: reduce){ .mobile-menu{ transition:none; } }
+    .mobile-menu a{color:var(--ink-dim);padding:13px 4px;font-size:15.5px;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .mobile-menu a.active{color:var(--teal-400);font-weight:600;}
+    .mobile-menu-cta{justify-content:center;margin-top:14px;}
   }
   @media (max-width:480px){
     .nav-row{height:64px;}
     .brand{font-size:14.5px;gap:8px;}
     .brand svg{width:24px;height:24px;}
     .btn-primary{padding:9px 15px;font-size:13px;}
-    .mobile-menu.open{top:64px;}
+    .mobile-menu{top:64px;}
   }
 
   /* ---------- HERO ---------- */
@@ -492,10 +503,12 @@
     .bc-inner span{animation:none;opacity:0;}
     .bc-inner span:nth-child(1){opacity:1;transform:translateY(0);}
   }
-  .foot-links{display:flex;gap:16px;}
-  @media (max-width:600px){ .foot-links{gap:10px;font-size:13px;} }
-  .foot-links a{font-size:14px;color:var(--ink-dim);}
-  .foot-links a:hover{color:var(--ink);}
+  .foot-groups{display:flex;gap:48px;flex-wrap:wrap;}
+  .foot-group{display:flex;flex-direction:column;gap:11px;min-width:130px;}
+  .foot-group-heading{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);opacity:0.6;margin-bottom:2px;}
+  .foot-group a{font-size:14px;color:var(--ink-dim);transition:color .15s ease;}
+  .foot-group a:hover{color:var(--ink);}
+  @media (max-width:600px){ .foot-groups{gap:28px;} .foot-group{min-width:100px;} }
   .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;gap:16px;flex-wrap:wrap;font-size:13px;}
   .socials{display:flex;gap:10px;}
   .socials a{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.06);display:grid;place-items:center;color:var(--ink-dim);transition:background .15s ease,color .15s ease;}
@@ -587,20 +600,34 @@
   .cc-radar-mini svg{width:110px;height:110px;}
   .cc-radar-mini .radar-grid{fill:none;stroke:#e4ecf1;stroke-width:1;}
   .cc-radar-mini .radar-fill{fill:rgba(34,201,176,0.16);stroke:var(--teal-600);stroke-width:1.6;}
+  /* One compact row for every status badge (tier/listing/verification/
+     best-value) instead of each stacking as its own full-width line in
+     the card's flex column - the layout this file's markup produced
+     before this wrapper existed. */
+  .cc-badges{display:flex;flex-wrap:wrap;align-items:center;gap:7px;}
   .listing-badge{
-    align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:0.01em;
+    font-size:11px;font-weight:700;letter-spacing:0.01em;
     padding:6px 11px;border-radius:999px;
   }
   .badge-top{background:#e6f7f3;color:var(--teal-600);}
   .badge-sponsored{background:#fef3e2;color:#b7791f;}
   .badge-none{background:#eef2f6;color:var(--slate-600);}
   .mattress-thumb{width:100%;height:auto;border-radius:12px;margin-bottom:2px;filter:drop-shadow(0 6px 12px rgba(15,33,64,0.12));}
-  .compare-card h3{margin:0;font-size:19px;color:var(--slate-900);font-weight:700;}
+  /* Compare-selection now overlays the thumbnail's own corner (a
+     familiar "select this item" ecommerce pattern) instead of sitting
+     as a separate text row above the image. */
+  .cc-thumb-wrap{position:relative;}
+  .cc-thumb-wrap .result-select{
+    position:absolute;top:8px;right:8px;margin-bottom:0;
+    background:rgba(255,255,255,0.92);backdrop-filter:blur(4px);
+    padding:5px 10px 5px 8px;border-radius:999px;box-shadow:var(--shadow-sm);
+  }
+  .compare-card h3{margin:0;font-size:19px;color:var(--slate-900);font-weight:700;line-height:1.3;}
   .cc-meta{font-size:13px;color:var(--slate-600);}
   .cc-meta strong{color:var(--slate-900);}
-  .score-hero{display:flex;align-items:baseline;gap:4px;color:var(--slate-900);}
-  .score-num{font-family:'Sora',sans-serif;font-size:40px;font-weight:800;line-height:1;color:var(--teal-600);}
-  .score-max{font-size:14px;color:var(--slate-600);font-weight:600;}
+  .score-hero{display:flex;align-items:baseline;gap:5px;color:var(--slate-900);}
+  .score-num{font-family:'Sora',sans-serif;font-size:52px;font-weight:800;line-height:1;color:var(--teal-600);letter-spacing:-0.02em;}
+  .score-max{font-size:15px;color:var(--slate-600);font-weight:600;}
   .subscores{display:flex;flex-direction:column;gap:9px;}
   .ss-row{display:grid;grid-template-columns:108px 1fr 30px;align-items:center;gap:10px;font-size:12px;color:var(--slate-600);}
   .ss-bar{height:6px;border-radius:4px;background:#eef2f6;overflow:hidden;}
@@ -779,10 +806,12 @@
   .no-results{grid-column:1/-1;text-align:center;padding:40px;color:var(--slate-600);background:#f6f9fb;border-radius:16px;}
 
   .comparison-section{margin-top:48px;}
-  .comparison-table-wrap{overflow-x:auto;border:1px solid #e4ecf1;border-radius:16px;background:#fff;}
+  .comparison-table-wrap{overflow-x:auto;border:1px solid #e4ecf1;border-radius:var(--radius-md);background:#fff;box-shadow:var(--shadow-sm);}
   .comparison-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
   .comparison-table th, .comparison-table td{padding:14px 16px;text-align:left;border-bottom:1px solid #eef2f6;white-space:nowrap;}
   .comparison-table th{background:#f6f9fb;font-size:11.5px;text-transform:uppercase;letter-spacing:0.02em;color:var(--slate-600);}
+  .comparison-table tbody tr{transition:background .15s ease;}
+  .comparison-table tbody tr:hover{background:#f9fbfc;}
   .comparison-table tr:last-child td{border-bottom:none;}
   .comparison-table td.metric-label{font-weight:600;color:var(--slate-900);white-space:nowrap;}
 
@@ -831,6 +860,15 @@
     .dna-scene-wrap{height:260px;display:flex;flex-direction:column;}
     .dl-dot{left:8px;}
   }
+
+  /* The real example-match card now floats over the DNA scene's own
+     corner on larger screens (one layered visual instead of the scene,
+     the card, and a stat row reading as three separate stacked blocks);
+     on narrow screens there's no room to float it without covering the
+     scene, so it drops back into normal flow underneath. */
+  .hero-preview-float{position:absolute;right:-18px;bottom:-28px;z-index:3;}
+  .hero-preview-float .hero-preview-card{max-width:280px;}
+  @media (max-width:960px){ .hero-preview-float{position:static;margin:22px auto 0;display:flex;justify-content:center;} .hero-preview-float .hero-preview-card{max-width:340px;} }
 
   /* ---- Sleep DNA analysis section ---- */
   .sleep-dna-section{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));position:relative;overflow:hidden;}
@@ -2134,14 +2172,14 @@
   @media (max-width:900px){ .md-layout{ grid-template-columns:1fr; } }
   .md-spec-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:20px 0 28px; }
   @media (max-width:700px){ .md-spec-grid{ grid-template-columns:1fr 1fr; } }
-  .md-spec{ padding:14px 16px; border-radius:12px; background:#fff; border:1px solid #e4ecf1; }
-  .md-spec b{ display:block; font-size:16px; color:var(--slate-900,#0f2140); }
+  .md-spec{ padding:16px; border-radius:var(--radius-sm); background:#fff; border:1px solid #e4ecf1; box-shadow:var(--shadow-sm); }
+  .md-spec b{ display:block; font-size:17px; color:var(--slate-900,#0f2140); }
   .md-spec span{ font-size:11.5px; color:var(--slate-600); text-transform:uppercase; letter-spacing:.04em; }
-  .md-side-card{ border-radius:16px; padding:20px; background:#fff; border:1px solid #e4ecf1; margin-bottom:16px; }
+  .md-side-card{ border-radius:var(--radius-md); padding:22px; background:#fff; border:1px solid #e4ecf1; margin-bottom:16px; box-shadow:var(--shadow-sm); }
   .md-side-card h5{ font-size:14px; margin:0 0 12px; color:var(--slate-900,#0f2140); }
   .md-retailer-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-top:1px solid #eef2f5; }
   .md-retailer-row:first-of-type{ border-top:none; }
-  .md-review-card{ padding:16px; border-radius:12px; background:#fff; border:1px solid #e4ecf1; margin-bottom:12px; }
+  .md-review-card{ padding:16px; border-radius:var(--radius-sm); background:#fff; border:1px solid #e4ecf1; margin-bottom:12px; }
   .md-review-card .conf{ margin-left: 8px; }
   .md-review-card p{ font-size:13.5px; color:var(--slate-600); font-style:italic; margin:8px 0 0; }
   .md-score-box{ border-radius:16px; padding:20px; background:linear-gradient(160deg,rgba(12,24,44,0.95),rgba(15,33,64,0.85)); color:#fff; margin-bottom:16px; }
@@ -2256,8 +2294,13 @@
 .quiz-wizard{ max-width: 560px; }
 .quiz-progress-head{ margin-bottom: 22px; }
 .quiz-step-count{ display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--slate-600); margin-bottom: 8px; }
-.quiz-progress-bar{ height: 6px; border-radius: 4px; background: #e7eef2; overflow: hidden; }
-.quiz-progress-bar i{ display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--teal-500), var(--cyan-500)); transition: width .3s cubic-bezier(.16,1,.3,1); }
+.quiz-progress-segments{ display: flex; gap: 6px; }
+.quiz-progress-segments i{
+  flex: 1; height: 5px; border-radius: 4px; background: #e7eef2;
+  transition: background .35s var(--ease-premium);
+}
+.quiz-progress-segments i.filled{ background: linear-gradient(90deg, var(--teal-500), var(--cyan-500)); }
+@media (prefers-reduced-motion: reduce){ .quiz-progress-segments i{ transition: none; } }
 
 .quiz-step-title{ font-size: 24px; margin: 0 0 8px; color: var(--slate-900); }
 @media (max-width:480px){ .quiz-step-title{ font-size: 20px; } }
