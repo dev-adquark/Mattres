@@ -1,5 +1,4 @@
 import './globals.css';
-import './redesign.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
