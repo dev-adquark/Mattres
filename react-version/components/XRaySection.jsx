@@ -2,6 +2,8 @@
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import AmbientParticles from './AmbientParticles';
+import { CATEGORIES, DIMENSION_TO_LAYER } from '@/lib/categories';
+import DimensionIcon from './DimensionIcon';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const XRAY_STEPS = [
@@ -11,6 +13,14 @@ const XRAY_STEPS = [
   { layer: 'transition', title: 'Transition Layer', desc: 'Smooths the handoff to the support core.' },
   { layer: 'support', title: 'Core Support', desc: 'Long-lasting structure that holds its shape.' },
 ];
+
+// Real reverse lookup of lib/categories.js's DIMENSION_TO_LAYER, so each
+// layer can show exactly which real scoring dimensions it feeds -
+// answering "what does this demonstrate?" with the same mapping the
+// score-to-X-Ray jump already uses, not new/invented associations.
+function relatedDimensions(layer) {
+  return CATEGORIES.filter((c) => DIMENSION_TO_LAYER[c.key] === layer);
+}
 
 function clampNum(v, min, max) {
   return Math.min(max, Math.max(min, v));
@@ -188,6 +198,17 @@ const XRaySection = forwardRef(function XRaySection({ contextNote } = {}, ref) {
               </span>
               <h3>{step.title}</h3>
               <p>{step.desc}</p>
+              {relatedDimensions(step.layer).length > 0 && (
+                <div className="xray-relates-to">
+                  <span className="xray-relates-label">Feeds into</span>
+                  {relatedDimensions(step.layer).map((cat) => (
+                    <span className="xray-relates-chip" key={cat.key}>
+                      <DimensionIcon category={cat} />
+                      {cat.label}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className="xray-progress" role="tablist" aria-label="X-Ray layer steps">
                 {XRAY_STEPS.map((s, i) => (
                   <span
