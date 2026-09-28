@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getCatalog } from '@/lib/db/mattressRepo';
 import MattressThumb from '@/components/MattressThumb';
+import BrandLogo from '@/components/BrandLogo';
 import { displayTitle } from '@/lib/matchLogic';
 import { formatPrice } from '@/lib/format';
 
@@ -42,10 +43,11 @@ export default async function MattressesPage({ searchParams }) {
               {entries.map((entry) => (
                 <article className="catalog-card" key={entry.id}>
                   <Link href={`/mattress/${encodeURIComponent(entry.id)}`} className="catalog-card-image" aria-label={`View ${displayTitle(entry)} details`}>
+                    <div className="catalog-card-visual-art" aria-hidden="true" />
                     <MattressThumb entry={entry} />
                   </Link>
                   <div className="catalog-card-body">
-                    <span className="catalog-card-brand">{entry.brand}</span>
+                    <span className="catalog-card-brand"><BrandLogo brand={entry.brand} size={30} />{entry.brand}</span>
                     <h2><Link href={`/mattress/${encodeURIComponent(entry.id)}`}>{displayTitle(entry)}</Link></h2>
                     <div className="catalog-card-specs">
                       <span>{entry.type || 'Type not listed'}</span>
