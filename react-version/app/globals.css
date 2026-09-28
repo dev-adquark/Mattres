@@ -3928,3 +3928,11 @@ footer .foot-bottom a:hover{color:#fff!important;}
 @media(max-width:900px){.catalog-card-image .catalog-product-editorial-image{min-height:190px;}}
 @media(max-width:560px){.catalog-card-image .catalog-product-editorial-image{min-height:185px;}}
 @media(prefers-reduced-motion:reduce){.catalog-card-image .catalog-product-editorial-image{transition:none;}}
+
+
+/* Mattress detail lifestyle image treatment */
+.detail-editorial-visual{position:relative;width:clamp(150px,24vw,250px);height:clamp(150px,24vw,210px);flex:0 0 auto;overflow:hidden;border-radius:12px;background:#e8ebe2;box-shadow:0 12px 30px rgba(37,51,40,.09);}
+.detail-editorial-visual img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.8);}
+.detail-editorial-visual:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(18,29,22,.56));pointer-events:none;}
+.detail-editorial-visual>span{position:absolute;z-index:1;bottom:10px;left:12px;right:12px;color:#fff;font:500 9px/1.5 Inter,sans-serif;letter-spacing:.035em;text-shadow:0 1px 5px rgba(0,0,0,.45);}
+@media(max-width:560px){.detail-editorial-visual{width:112px;height:150px;border-radius:9px;}.detail-editorial-visual>span{font-size:8px;left:8px;right:8px;bottom:8px;}}
