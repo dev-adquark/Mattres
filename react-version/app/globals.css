@@ -3136,3 +3136,93 @@
  .home-option-card h3{font-size:26px;}
 }
 @media(prefers-reduced-motion:reduce){.cat-photo-card,.cat-photo-card img,.home-option-card{transition:none}}
+
+
+
+/* ===== HOW IT WORKS + TRUST: calm, clear conversion path ===== */
+.home-how-section{padding-top:92px!important;padding-bottom:96px!important;}
+.home-how-section .home-section-intro{max-width:690px;margin:0 auto 42px;text-align:center;}
+.home-how-section .home-section-intro h2{font-size:clamp(34px,4.6vw,56px);line-height:1.05;margin:15px auto 18px;}
+.home-how-section .home-section-intro p{font-size:15px;line-height:1.8;color:#73796e;max-width:500px;margin:0 auto;}
+.home-how-section .hiw-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid #d7d9cf;border-bottom:1px solid #d7d9cf;}
+.home-how-section .hiw-step{position:relative;padding:34px 25px 31px;border-right:1px solid #d7d9cf;background:transparent;min-height:255px;transition:background .25s ease;}
+.home-how-section .hiw-step:first-child{border-left:1px solid #d7d9cf;}
+.home-how-section .hiw-step:hover{background:rgba(255,255,255,.55);}
+.home-how-section .hiw-step-num{position:absolute;top:19px;right:20px;color:#92998b;font-size:10px;letter-spacing:.12em;}
+.home-how-section .hiw-icon{width:47px;height:47px;display:grid;place-items:center;border:1px solid #d1d6c9;border-radius:50%;color:#52644c;margin:5px 0 29px;background:#eeeee5;}
+.home-how-section .hiw-icon svg{width:21px;height:21px;}
+.home-how-section .hiw-step h5{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:22px;line-height:1.14;letter-spacing:-.025em;color:#263228;margin:0 0 12px;max-width:220px;}
+.home-how-section .hiw-step p{font-size:12px;line-height:1.75;color:#777d73;margin:0;}
+.home-how-section .home-centered-action{margin-top:34px;}
+.home-how-section .home-centered-action .btn{min-height:54px;padding:16px 25px;border-radius:999px;box-shadow:0 7px 20px rgba(32,47,36,.1);}
+.home-trust-section{padding-top:78px!important;}
+.home-trust-section .home-section-intro{max-width:690px;margin:0 auto 35px;text-align:center;}
+.home-trust-section .home-section-intro h2{font-size:clamp(34px,4.5vw,54px);line-height:1.05;margin:14px auto 16px;}
+.home-trust-section .home-section-intro p{max-width:510px;margin:0 auto;color:#747a70;font-size:14px;line-height:1.8;}
+.home-trust-section .trust-badge-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 38px;}
+.home-trust-section .trust-badge{display:flex;align-items:center;justify-content:center;gap:11px;padding:18px 13px;border:1px solid #d9dbd1;border-radius:5px;background:rgba(255,255,255,.38);color:#4c5b49;min-height:60px;}
+.home-trust-section .trust-badge svg{width:19px;height:19px;flex:none;}
+.home-trust-section .trust-badge b{font-size:11px;font-weight:600;letter-spacing:.01em;}
+.home-trust-section .home-brand-block{margin-top:60px;padding-top:34px;border-top:1px solid #d9dbd1;}
+.home-trust-section .home-inline-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px;}
+.home-trust-section .home-inline-heading h3{font-size:32px;margin:0;}
+.home-trust-section .home-inline-heading a{font-size:12px;color:#53634d;border-bottom:1px solid #aeb6a5;padding-bottom:5px;}
+.home-faq-section{padding-top:85px!important;padding-bottom:95px!important;}
+.home-faq-section .home-section-intro{margin-bottom:35px;}
+.home-faq-section .home-section-intro h2{font-size:clamp(34px,4vw,50px);}
+.home-faq-section .faq-list{max-width:850px;margin:0 auto;border-top:1px solid #d5d8ce;}
+.home-faq-section .faq-item{border-bottom:1px solid #d5d8ce;background:transparent;}
+.home-faq-section .faq-q{padding:22px 4px;gap:17px;}
+.home-faq-section .faq-q b{font-size:15px;font-weight:500;letter-spacing:-.01em;color:#29352b;}
+.home-faq-section .faq-q-icon{width:30px;height:30px;border:1px solid #d7dbd1;border-radius:50%;display:grid;place-items:center;color:#67765e;flex:none;}
+.home-faq-section .faq-q-icon svg{width:15px;height:15px;}
+.home-faq-section .faq-chevron{color:#66755e;flex:none;}
+.home-faq-section .faq-a-inner{padding:0 50px 22px;font-size:13px;line-height:1.85;color:#73796f;}
+.home-faq-section .home-centered-action{margin-top:30px;}
+.home-final-cta{position:relative;overflow:hidden;padding:95px 0!important;text-align:center;}
+.home-final-cta:before{content:"";position:absolute;width:520px;height:520px;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(222,231,212,.1);border-radius:50%;pointer-events:none;}
+.home-final-cta:after{content:"";position:absolute;width:390px;height:390px;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(222,231,212,.09);border-radius:50%;pointer-events:none;}
+.home-final-cta .wrap{position:relative;z-index:1;}
+.home-final-cta h2{max-width:750px;margin:18px auto 18px;font-size:clamp(38px,5vw,64px);line-height:1.04;}
+.home-final-cta p{color:rgba(245,241,232,.7);font-size:14px;line-height:1.7;margin:0 auto 29px;}
+.home-final-cta .btn{display:inline-flex;border-radius:999px;background:#d8dfcd;color:#1b2922;padding:17px 27px;min-height:55px;}
+@media(max-width:900px){
+ .home-how-section .hiw-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+ .home-how-section .hiw-step:nth-child(2){border-right:0;}
+ .home-how-section .hiw-step:nth-child(n+3){border-top:1px solid #d7d9cf;}
+ .home-trust-section .trust-badge-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:600px){
+ .home-how-section{padding-top:62px!important;padding-bottom:65px!important;}
+ .home-how-section .home-section-intro{margin-bottom:28px;text-align:left;}
+ .home-how-section .home-section-intro h2{font-size:37px;}
+ .home-how-section .home-section-intro p{font-size:13px;margin:0;}
+ .home-how-section .hiw-grid{grid-template-columns:1fr;border-bottom:0;}
+ .home-how-section .hiw-step,.home-how-section .hiw-step:first-child{min-height:0;padding:25px 16px 25px 77px;border:0;border-top:1px solid #d7d9cf;}
+ .home-how-section .hiw-step:nth-child(2){border-right:0;}
+ .home-how-section .hiw-step:nth-child(n+3){border-top:1px solid #d7d9cf;}
+ .home-how-section .hiw-icon{position:absolute;left:15px;top:28px;width:43px;height:43px;margin:0;}
+ .home-how-section .hiw-step-num{top:13px;right:14px;}
+ .home-how-section .hiw-step h5{font-size:21px;max-width:250px;padding-right:10px;}
+ .home-how-section .hiw-step p{font-size:12px;}
+ .home-trust-section{padding-top:58px!important;}
+ .home-trust-section .home-section-intro{text-align:left;margin-bottom:27px;}
+ .home-trust-section .home-section-intro h2{font-size:37px;}
+ .home-trust-section .home-section-intro p{margin:0;font-size:13px;}
+ .home-trust-section .trust-badge-row{gap:8px;margin-bottom:28px;}
+ .home-trust-section .trust-badge{justify-content:flex-start;padding:13px 10px;min-height:57px;gap:8px;}
+ .home-trust-section .trust-badge b{font-size:10px;}
+ .home-trust-section .trust-badge svg{width:17px;height:17px;}
+ .home-trust-section .home-brand-block{margin-top:42px;padding-top:27px;}
+ .home-trust-section .home-inline-heading{align-items:flex-start;flex-direction:column;gap:12px;}
+ .home-trust-section .home-inline-heading h3{font-size:28px;}
+ .home-faq-section{padding-top:58px!important;padding-bottom:65px!important;}
+ .home-faq-section .home-section-intro h2{font-size:36px;}
+ .home-faq-section .faq-q{padding:18px 0;gap:11px;}
+ .home-faq-section .faq-q b{font-size:13px;line-height:1.45;}
+ .home-faq-section .faq-q-icon{width:26px;height:26px;}
+ .home-faq-section .faq-a-inner{padding:0 10px 19px 37px;font-size:12px;}
+ .home-final-cta{padding:70px 0!important;}
+ .home-final-cta h2{font-size:42px;}
+ .home-final-cta:before{width:360px;height:360px}.home-final-cta:after{width:270px;height:270px}
+}
