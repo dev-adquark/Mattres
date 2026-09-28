@@ -24,6 +24,16 @@
     --paper-2:#e7eff4;
     --slate-900:#0e1f33;
     --slate-600:#5c7286;
+    /* Shared radius/shadow/motion scale so every card added across the
+       redesign reads as one considered system rather than each having
+       its own one-off numbers. */
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --shadow-sm:0 8px 20px -10px rgba(8,15,29,0.35);
+    --shadow-md:0 20px 44px -18px rgba(8,15,29,0.4);
+    --shadow-lg:0 28px 64px -24px rgba(8,15,29,0.5);
+    --ease-premium:cubic-bezier(.16,1,.3,1);
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
@@ -2167,10 +2177,13 @@
 .trust-row-compact .trust-item svg{ width: 16px; height: 16px; }
 
 .hero-preview-card{
-  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg);
   padding: 22px 22px 20px; max-width: 340px; backdrop-filter: blur(10px);
-  box-shadow: 0 24px 60px -24px rgba(0,0,0,0.55);
+  box-shadow: var(--shadow-lg);
+  transition: transform .35s var(--ease-premium);
 }
+@media (hover:hover){ .hero-preview-card:hover{ transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce){ .hero-preview-card{ transition: none; } .hero-preview-card:hover{ transform: none; } }
 @media (max-width:960px){ .hero-preview-card{ margin: 28px auto 0; } }
 .hero-preview-tag{
   display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
@@ -2203,7 +2216,7 @@
 .score-independence-note a{ color: var(--teal-400); font-weight: 600; }
 
 /* --- Comparison preview teaser --- */
-.cmp-teaser{ background: #fff; border: 1px solid #e4ecf1; border-radius: 16px; padding: 18px 22px; max-width: 640px; margin: 0 auto; }
+.cmp-teaser{ background: #fff; border: 1px solid #e4ecf1; border-radius: var(--radius-md); padding: 18px 22px; max-width: 640px; margin: 0 auto; box-shadow: var(--shadow-sm); }
 .cmp-teaser-head{ display: flex; align-items: center; justify-content: center; gap: 14px; font-weight: 700; color: var(--slate-900); font-size: 14px; padding-bottom: 14px; border-bottom: 1px solid #eef2f5; margin-bottom: 10px; text-align: center; }
 @media (max-width:560px){ .cmp-teaser-head{ flex-direction: column; gap: 4px; } }
 .cmp-teaser-vs{ font-size: 11px; color: var(--slate-600); font-weight: 600; text-transform: uppercase; }
@@ -2216,10 +2229,11 @@
 .review-quote-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
 @media (max-width:860px){ .review-quote-grid{ grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
 .review-quote-card{
-  display: block; background: #fff; border: 1px solid #e4ecf1; border-radius: 16px; padding: 20px;
-  text-decoration: none; color: inherit; transition: transform .18s ease, box-shadow .18s ease;
+  display: block; background: #fff; border: 1px solid #e4ecf1; border-radius: var(--radius-md); padding: 20px;
+  text-decoration: none; color: inherit; box-shadow: var(--shadow-sm);
+  transition: transform .3s var(--ease-premium), box-shadow .3s var(--ease-premium);
 }
-.review-quote-card:hover{ transform: translateY(-3px); box-shadow: 0 16px 30px -16px rgba(15,33,64,0.2); }
+.review-quote-card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-md); }
 @media (prefers-reduced-motion: reduce){ .review-quote-card:hover{ transform: none; } }
 .review-quote-card q{ font-size: 14px; line-height: 1.55; color: var(--slate-900); }
 .rq-meta{ display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; font-size: 12px; }
@@ -2255,11 +2269,11 @@
 @media (max-width:480px){ .quiz-option-grid, .quiz-option-grid-wide{ grid-template-columns: 1fr; } }
 .quiz-option-btn{
   display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left;
-  min-height: 56px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid #dfe6ea; background: #fff;
+  min-height: 56px; padding: 14px 16px; border-radius: var(--radius-md); border: 1.5px solid #dfe6ea; background: #fff;
   font-family: inherit; font-size: 15px; font-weight: 600; color: var(--slate-900); cursor: pointer;
-  transition: border-color .15s ease, background .15s ease, transform .1s ease;
+  transition: border-color .2s var(--ease-premium), background .2s var(--ease-premium), transform .15s var(--ease-premium), box-shadow .2s var(--ease-premium);
 }
-.quiz-option-btn:hover{ border-color: var(--teal-500); }
+.quiz-option-btn:hover{ border-color: var(--teal-500); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .quiz-option-btn:active{ transform: scale(0.98); }
 .quiz-option-btn.selected{ border-color: var(--teal-500); background: #eafbf7; box-shadow: 0 0 0 3px rgba(34,201,176,0.15); }
 .quiz-option-btn i{ font-style: normal; font-size: 12px; font-weight: 500; color: var(--slate-600); }
@@ -2296,7 +2310,7 @@
 
 .comparison-tray-sticky{
   position: sticky; bottom: 16px; z-index: 8; display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  background: var(--navy-900); color: #fff; border-radius: 14px; padding: 12px 18px; box-shadow: 0 16px 40px -14px rgba(0,0,0,0.5);
+  background: var(--navy-900); color: #fff; border-radius: var(--radius-md); padding: 12px 18px; box-shadow: var(--shadow-lg);
   margin-top: 20px;
 }
 .comparison-tray-sticky span{ font-size: 13.5px; font-weight: 600; }
@@ -2309,7 +2323,7 @@
 .score-independence-note.on-light a{ color:var(--teal-600,#0e8a72); }
 
 .why-fits-you{
-  background:#f2f9f8; border:1px solid #d9ecea; border-radius:12px; padding:12px 14px; margin:12px 0;
+  background:#f2f9f8; border:1px solid #d9ecea; border-radius:var(--radius-sm); padding:12px 14px; margin:12px 0;
 }
 .why-fits-you b{ display:block; font-size:11.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--teal-600,#0e8a72); margin-bottom:6px; }
 .why-fits-you ul{ margin:0; padding-left:18px; }
@@ -2375,3 +2389,10 @@
   display:flex; gap:16px; flex-wrap:wrap; margin-top:18px; padding:12px 16px; border-radius:14px;
   background:var(--glass-bg); border:1px solid var(--glass-border);
 }
+
+/* --- Shared section-heading type scale, replacing scattered inline
+   font-size overrides so every section heading reads as one
+   considered system rather than ad-hoc numbers per section. --- */
+.section-h2{ font-size: 28px; font-weight: 750; letter-spacing: -0.01em; line-height: 1.15; margin: 8px 0 0; }
+.section-h2-lg{ font-size: 34px; font-weight: 750; letter-spacing: -0.015em; line-height: 1.1; margin-bottom: 12px; }
+@media (max-width:640px){ .section-h2{ font-size: 23px; } .section-h2-lg{ font-size: 26px; } }

@@ -90,7 +90,7 @@ export default function HomeClient({ catalog, heroExample }) {
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
               How it works
             </span>
-            <h2 style={{ color: 'var(--ink)', fontSize: 26, margin: '8px 0 0' }}>From answers to a real score, in four steps</h2>
+            <h2 className="section-h2" style={{ color: 'var(--ink)' }}>From answers to a real score, in four steps</h2>
           </div>
           <HowItWorks />
         </div>
@@ -262,7 +262,7 @@ export default function HomeClient({ catalog, heroExample }) {
             <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
               Comparison preview
             </span>
-            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>
+            <h2 className="section-h2" style={{ color: 'var(--slate-900,#0f2140)' }}>
               See exactly where mattresses differ
             </h2>
             <p style={{ color: 'var(--slate-600)', maxWidth: 560 }}>
@@ -286,7 +286,7 @@ export default function HomeClient({ catalog, heroExample }) {
         <div className="wrap">
           <div className="section-head" style={{ marginBottom: 28 }}>
             <span className="eyebrow-dark">Real review highlights</span>
-            <h2 style={{ fontSize: 24, margin: '8px 0 0' }}>From sources we cite, not sales copy</h2>
+            <h2 className="section-h2">From sources we cite, not sales copy</h2>
             <p style={{ color: 'var(--slate-600)', maxWidth: 560 }}>
               Every quote below is a real, sourced review snippet already attached to a real catalog entry — not a
               customer testimonial we wrote. See each mattress&apos;s page for its full source list.
@@ -315,7 +315,7 @@ export default function HomeClient({ catalog, heroExample }) {
       <section className="section final-cta-section dot-grid-bg on-dark">
         <AmbientParticles className="ambient-canvas" />
         <div className="wrap" style={{ textAlign: 'center' }}>
-          <h2 style={{ color: 'var(--ink)', fontSize: 30, marginBottom: 12 }}>Ready to find your mattress?</h2>
+          <h2 className="section-h2-lg" style={{ color: 'var(--ink)' }}>Ready to find your mattress?</h2>
           <p style={{ color: 'var(--ink-dim)', maxWidth: 480, margin: '0 auto 28px' }}>
             60 seconds, six real questions, a personalized score across {catalog.length} mattresses.
           </p>
@@ -334,7 +334,7 @@ export default function HomeClient({ catalog, heroExample }) {
             <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
               Questions
             </span>
-            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>Frequently asked</h2>
+            <h2 className="section-h2" style={{ color: 'var(--slate-900,#0f2140)' }}>Frequently asked</h2>
           </div>
           <FaqAccordion onLight />
         </div>
