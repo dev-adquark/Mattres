@@ -26,8 +26,34 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const entry = await getMattressById(id);
-  if (!entry) return { title: 'Mattress not found — Mattress Match Score' };
-  return { title: `${displayTitle(entry)} — real score, specs & reviews — Mattress Match Score` };
+  if (!entry) {
+    return {
+      title: 'Mattress not found — Mattress Match Score',
+      robots: { index: false, follow: true },
+    };
+  }
+
+  const name = displayTitle(entry);
+  const verified = isRecordVerified(entry);
+  const description = verified
+    ? `Explore the Mattress Match Score, available specifications, and source-backed details for ${name} by ${entry.brand}.`
+    : `Explore ${name} by ${entry.brand}. Some specifications and price are placeholders pending independent verification; review the page's verification notes.`;
+
+  return {
+    title: `${name} — specs & match score — Mattress Match Score`,
+    description,
+    openGraph: {
+      type: 'website',
+      title: `${name} | Mattress Match Score`,
+      description,
+      siteName: 'Mattress Match Score',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${name} | Mattress Match Score`,
+      description,
+    },
+  };
 }
 
 const SENTIMENT_ICON = { positive: '✓', negative: '✕', neutral: '•' };
