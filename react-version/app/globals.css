@@ -3299,3 +3299,32 @@ footer .brand-cylinder{opacity:.72;}
 .skip-to-content:focus{transform:translateY(0);outline:3px solid #fff;outline-offset:3px;}
 #main-content{min-width:0;}
 @media(prefers-reduced-motion:reduce){.skip-to-content{transition:none;}}
+
+
+
+/* Mattress catalog landing page */
+.catalog-quick-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;}
+.catalog-meta{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px;}
+.catalog-meta span{border:1px solid var(--line);background:rgba(255,255,255,.55);padding:9px 14px;border-radius:999px;font-size:12px;color:var(--ink-soft);}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;}
+.catalog-card{min-width:0;overflow:hidden;border:1px solid rgba(38,53,43,.12);border-radius:18px;background:#fbfaf5;box-shadow:0 8px 28px rgba(22,35,26,.045);transition:transform .25s ease,box-shadow .25s ease;}
+.catalog-card:hover{transform:translateY(-4px);box-shadow:0 18px 42px rgba(22,35,26,.1);}
+.catalog-card-image{display:flex;align-items:center;justify-content:center;height:220px;padding:22px;background:linear-gradient(145deg,#f0f0e8,#e6e8df);overflow:hidden;}
+.catalog-card-image img{width:100%;height:100%;object-fit:contain;}
+.catalog-card-body{padding:20px;}
+.catalog-card-brand{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:#78816f;}
+.catalog-card h2{font-family:'Sora',sans-serif;font-size:17px;line-height:1.35;letter-spacing:-.035em;margin:9px 0 15px;color:#24352a;}
+.catalog-card h2 a:hover{text-decoration:underline;text-underline-offset:3px;}
+.catalog-card-specs{display:flex;flex-wrap:wrap;gap:7px;}
+.catalog-card-specs span{font-size:10px;line-height:1.4;color:#667064;background:#eef0e8;padding:6px 9px;border-radius:999px;}
+.catalog-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid rgba(38,53,43,.1);margin-top:18px;padding-top:15px;}
+.catalog-card-bottom strong{font-size:15px;color:#26382c;}
+.catalog-card-link{font-size:11px;font-weight:700;color:#526c53;white-space:nowrap;}
+.catalog-card-link:hover{color:#24352a;}
+.catalog-disclaimer{max-width:760px;margin:30px auto 0;text-align:center;color:var(--ink-dim);font-size:11px;line-height:1.7;}
+.catalog-empty{text-align:center;padding:60px 20px;background:#f2f1e8;border-radius:20px;}
+.catalog-empty h2{font-family:'Sora',sans-serif;font-size:24px;color:#24352a;}
+.catalog-empty p{color:#657064;margin:12px 0 22px;}
+@media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;}.catalog-card-image{height:190px;}}
+@media(max-width:560px){.catalog-grid{grid-template-columns:1fr;gap:14px;}.catalog-card{display:grid;grid-template-columns:112px minmax(0,1fr);}.catalog-card-image{height:100%;min-height:185px;padding:12px;}.catalog-card-body{padding:15px 13px;}.catalog-card h2{font-size:14px;margin:7px 0 12px;}.catalog-card-specs{gap:5px;}.catalog-card-specs span{font-size:9px;padding:5px 7px;}.catalog-card-bottom{align-items:flex-start;flex-direction:column;gap:8px;margin-top:12px;padding-top:11px;}.catalog-card-bottom strong{font-size:13px;}.catalog-card-link{font-size:10px;}.catalog-quick-links .btn{flex:1;justify-content:center;font-size:12px;padding:12px 13px;}}
+@media(prefers-reduced-motion:reduce){.catalog-card{transition:none;}}
