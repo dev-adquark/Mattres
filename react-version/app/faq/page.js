@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function FaqPage() {
   return (
-    <div>
+    <main className="faq-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
           <span />
@@ -28,6 +28,6 @@ export default function FaqPage() {
           <FaqAccordion onLight />
         </div>
       </section>
-    </div>
+    </main>
   );
 }
