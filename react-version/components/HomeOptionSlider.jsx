@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 const options = [
@@ -8,6 +11,35 @@ const options = [
 ];
 
 export default function HomeOptionSlider() {
+  const trackRef = useRef(null);
+  const [paused, setPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const moveNext = () => {
+      if (paused || reducedMotion.matches || track.matches(':hover') || track.contains(document.activeElement)) return;
+      const cards = Array.from(track.querySelectorAll('.home-option-card'));
+      if (!cards.length) return;
+      const next = (activeIndex + 1) % cards.length;
+      track.scrollTo({ left: cards[next].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+      setActiveIndex(next);
+    };
+    const timer = window.setInterval(moveNext, 4200);
+    return () => window.clearInterval(timer);
+  }, [paused, activeIndex]);
+
+  const move = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll('.home-option-card'));
+    const next = (activeIndex + direction + cards.length) % cards.length;
+    track.scrollTo({ left: cards[next].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+    setActiveIndex(next);
+  };
+
   return (
     <section className="home-options" aria-label="Explore Mattress">
       <div className="home-options-heading">
@@ -15,9 +47,9 @@ export default function HomeOptionSlider() {
           <span className="eyebrow-dark">A simpler way to shop</span>
           <h2>Where would you like to start?</h2>
         </div>
-        <span className="home-slider-hint" aria-hidden="true">Swipe to explore <span>→</span></span>
+        <div className="home-slider-controls"><span className="home-slider-hint">Auto-moving · pause by hovering · swipe anytime</span><button type="button" className="home-slider-button" aria-label="Previous options" onClick={() => move(-1)}>←</button><button type="button" className="home-slider-button" aria-label="Next options" onClick={() => move(1)}>→</button><button type="button" className="home-slider-button home-slider-pause" onClick={() => setPaused((value) => !value)} aria-pressed={paused}>{paused ? "Play" : "Pause"}</button></div>
       </div>
-      <div className="home-options-track" role="list">
+      <div className="home-options-track" role="list" ref={trackRef} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
         {options.map((option, index) => (
           <article className={`home-option-card home-option-${option.tone}`} key={option.tone} role="listitem">
             <img className="home-option-image" src={option.image} alt={option.imageAlt} loading="lazy" />
