@@ -61,8 +61,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <a className="skip-to-content" href="#main-content">Skip to content</a>
         <Nav />
-        <main>{children}</main>
+        <div id="main-content">{children}</div>
         <Footer />
         <ScrollReveal />
         <Analytics />
