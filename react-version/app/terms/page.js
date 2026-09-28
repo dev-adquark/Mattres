@@ -49,9 +49,10 @@ export default function TermsPage() {
           <div className="disc-block">
             <h3>Affiliate &amp; sponsored content</h3>
             <p>
-              This site may earn a commission from outbound retailer links, and some listings are paid sponsored
-              placements. Sponsored status is always labeled and never affects the underlying Match Score
-              calculation. See our full{' '}
+              This site is built to support earning a commission from outbound retailer links and running paid
+              sponsored placements in the future. As of today there is no live affiliate program and no brand has
+              paid for placement. Whenever either goes live, sponsored status will always be labeled and will never
+              affect the underlying Match Score calculation. See our full{' '}
               <a href="/disclosures">disclosures</a> for details.
             </p>
           </div>

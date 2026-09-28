@@ -147,8 +147,10 @@ export default function MethodologyPage() {
             <span className="eyebrow-dark">The model</span>
             <h2>Six scoring categories</h2>
             <p>
-              Your sleep profile is weighed against each category below. Weights shown are the real values the
-              scoring engine uses — some shift slightly based on your sleep position and weight range.
+              Your sleep profile is weighed against each category below. Weights shown are the real, live values the
+              scoring engine uses today — some shift slightly based on your sleep position and weight range. The
+              model is versioned (see below) and its weights and thresholds are refined as more verified product data
+              comes in.
             </p>
           </div>
 
@@ -269,7 +271,9 @@ export default function MethodologyPage() {
             <p style={{ color: 'var(--slate-600)', fontSize: 14.5, lineHeight: 1.7 }}>
               Specs and review themes are normalized into structured tags (e.g. &ldquo;sleeps hot&rdquo;,
               &ldquo;great edge support&rdquo;) and each mattress carries a confidence rating based on how much
-              verified data backs it.
+              verified data backs it. Some of that verification comes from RTINGS.com&apos;s independent lab testing,
+              pulled in through an automated sync and always kept as a separately-cited evidence source — never as
+              the Match Score itself.
             </p>
             <div style={{ display: 'flex', gap: 10, marginTop: 18, flexWrap: 'wrap' }}>
               <span className="conf conf-high">High confidence</span>
