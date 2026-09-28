@@ -2282,7 +2282,7 @@
 
 /* --- Guides index --- */
 .guide-index-card{ display: block; text-decoration: none; color: inherit; cursor: pointer; }
-.guide-index-card h3{ color: var(--slate-900); }
+.guide-index-card h3{ color: var(--slate-900); }\n.guide-index-card{ overflow: hidden; padding: 0; border-radius: 18px; }\n.guide-index-image{ display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--slate-100); }\n.guide-index-copy{ padding: 22px 24px 24px; }\n.guide-index-disclosure{ display: block; margin-top: 14px; color: var(--slate-500); font-size: 11px; letter-spacing: .02em; }\n.guide-index-card:hover .guide-index-image{ transform: scale(1.015); transition: transform .35s ease; }\n@media (prefers-reduced-motion: reduce){ .guide-index-card:hover .guide-index-image{ transform: none; transition: none; } }
 
 /* --- X-Ray per-product context note --- */
 .xray-context-note{ color: var(--cyan-300); font-size: 12.5px; font-style: italic; margin-top: 6px; }
