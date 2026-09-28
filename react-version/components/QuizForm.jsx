@@ -171,7 +171,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
         <span className="quiz-step-count">
           Your Sleep Profile {step + 1} of {STEPS.length}
         </span>
-        <div className="quiz-progress-segments" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
+        <div className="quiz-progress-segments" role="progressbar" aria-label="Sleep profile completion" aria-valuetext={'Step ' + (step + 1) + ' of ' + STEPS.length + ': ' + current.title} aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
           {STEPS.map((s, i) => (
             <i key={s.key} className={i <= step ? 'filled' : ''} />
           ))}
@@ -197,6 +197,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 type="button"
                 key={o.value}
                 className={`quiz-option-btn${fields.sleepPosition === o.value ? ' selected' : ''}`}
+                aria-pressed={fields.sleepPosition === o.value}
                 onClick={() => selectAndAdvance('sleepPosition', o.value)}
               >
                 <span>{o.label}</span>
@@ -213,6 +214,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 type="button"
                 key={b.key}
                 className={`quiz-option-btn${fields.weightBand === b.key ? ' selected' : ''}`}
+                aria-pressed={fields.weightBand === b.key}
                 onClick={() => selectAndAdvance('weightBand', b.key)}
               >
                 <span>{b.label}</span>
@@ -229,6 +231,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 type="button"
                 key={o.value}
                 className={`quiz-option-btn${fields.firmnessPreference === o.value ? ' selected' : ''}`}
+                aria-pressed={fields.firmnessPreference === o.value}
                 onClick={() => selectAndAdvance('firmnessPreference', o.value)}
               >
                 <span>{o.label}</span>
@@ -244,6 +247,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 type="button"
                 key={o.value}
                 className={`quiz-option-btn${fields.sleepTemperature === o.value ? ' selected' : ''}`}
+                aria-pressed={fields.sleepTemperature === o.value}
                 onClick={() => selectAndAdvance('sleepTemperature', o.value)}
               >
                 <span>{o.label}</span>
@@ -259,6 +263,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 type="button"
                 key={o.value}
                 className={`quiz-option-btn${fields.motionSensitivity === o.value ? ' selected' : ''}`}
+                aria-pressed={fields.motionSensitivity === o.value}
                 onClick={() => selectAndAdvance('motionSensitivity', o.value)}
               >
                 <span>{o.label}</span>
