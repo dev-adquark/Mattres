@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import AmbientParticles from './AmbientParticles';
+import DnaHelixScene from './DnaHelixScene';
 import HeroResultPreview from './HeroResultPreview';
 import SleeperCharacter from './SleeperCharacter';
 
@@ -15,10 +16,9 @@ import SleeperCharacter from './SleeperCharacter';
  * the JSON snapshot).
  *
  * heroExample is a real matchProfile() result (see app/page.js) rendered
- * by HeroResultPreview - kept out of this file's own markup so the
- * first-fold promise (headline, subhead, one CTA, compact reassurance
- * row) stays the primary content and the example card reads as a
- * secondary, clearly-labeled supporting visual next to it.
+ * by HeroResultPreview - a secondary, clearly-labeled supporting visual
+ * shown below the DNA scene, alongside (not instead of) the original
+ * Sleep DNA helix visualization and stat row.
  */
 export default function Hero({ catalogCount, brandCount, heroExample }) {
   return (
@@ -72,7 +72,58 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
           </div>
         </div>
 
+        <div className="dna-scene-wrap">
+          <DnaHelixScene scale={1} />
+          <div className="dna-label dl-1">
+            <span className="dl-dot" />
+            <b>Sleep Position</b>
+            <i>Side · Back · Stomach</i>
+          </div>
+          <div className="dna-label dl-2">
+            <span className="dl-dot" />
+            <b>Body Weight</b>
+            <i>Under · Normal · Over</i>
+          </div>
+          <div className="dna-label dl-3">
+            <span className="dl-dot" />
+            <b>Temperature</b>
+            <i>Hot · Neutral · Cool</i>
+          </div>
+          <div className="dna-label dl-4">
+            <span className="dl-dot" />
+            <b>Firmness Preference</b>
+            <i>Soft · Medium · Firm</i>
+          </div>
+          <div className="dna-label dl-5">
+            <span className="dl-dot" />
+            <b>Motion Sensitivity</b>
+            <i>Low · Medium · High</i>
+          </div>
+          <div className="dna-label dl-6">
+            <span className="dl-dot" />
+            <b>Budget</b>
+            <i>Budget · Mid · Premium</i>
+          </div>
+        </div>
+      </div>
+
+      <div className="wrap hero-example-row">
         <HeroResultPreview example={heroExample} />
+      </div>
+
+      <div className="hero-stat-row" aria-label="Catalog stats">
+        <div className="hero-stat-chip">
+          <b>{catalogCount}</b>
+          <span>mattresses scored live</span>
+        </div>
+        <div className="hero-stat-chip">
+          <b>{brandCount}</b>
+          <span>brands in the catalog</span>
+        </div>
+        <div className="hero-stat-chip">
+          <b>6</b>
+          <span>real scoring dimensions</span>
+        </div>
       </div>
     </header>
   );

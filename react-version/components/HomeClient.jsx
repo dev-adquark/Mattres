@@ -1,17 +1,27 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCarouselRow from '@/components/BrandCarouselRow';
+import BrandCollabSlot from '@/components/BrandCollabSlot';
+import CategoryIconGrid from '@/components/CategoryIconGrid';
+import DealBanner from '@/components/DealBanner';
+import FaqAccordion from '@/components/FaqAccordion';
 import HowItWorks from '@/components/HowItWorks';
 import Hero from '@/components/Hero';
+import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
 import NumberTicker from '@/components/NumberTicker';
+import PressMentionRow from '@/components/PressMentionRow';
+import PromoCardCluster from '@/components/PromoCardCluster';
+import PromoGrid from '@/components/PromoGrid';
 import ScoreCoreScene from '@/components/ScoreCoreScene';
 import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
+import TrustBadgeRow from '@/components/TrustBadgeRow';
+import XRaySection from '@/components/XRaySection';
+import { DIMENSION_TO_LAYER } from '@/lib/categories';
 import { auditCatalog } from '@/lib/dataIntegrity';
 import { formatPrice } from '@/lib/format';
 import { useLastResult } from '@/lib/useLastResult';
@@ -46,17 +56,16 @@ function pickRealReviewQuotes(catalog) {
  * neither of which may ship to the browser bundle). app/page.js fetches
  * the real catalog server-side and passes it down as a plain prop.
  *
- * Exactly seven top-level sections, per the site's information
- * architecture: Hero / How It Works / Interactive Result Preview / Why
- * Trust the Score / Comparison Preview / Real Review Highlights / Final
- * CTA. Promotional clusters (deal banners, brand collab slots, category
- * grids) and the X-Ray construction explainer have been moved off the
- * homepage funnel - X-Ray now lives on each mattress's own detail page,
- * where it has real per-product context; the FAQ has its own dedicated
- * /faq page already and doesn't need a homepage copy too.
+ * Includes both the newer top-level sections (Interactive Result
+ * Preview / Why Trust the Score / Comparison Preview / Real Review
+ * Highlights / Final CTA) and the original visual/motion sections
+ * (the promo clusters, MatchedMattressPanel, FAQ and X-Ray) at their
+ * original relative positions - nothing removed, only re-integrated
+ * around the newer sections. X-Ray also has its own copy on each
+ * mattress's detail page (real per-product context there); this one
+ * stays as the general homepage construction explainer it always was.
  */
 export default function HomeClient({ catalog, heroExample }) {
-  const router = useRouter();
   const { payload, hydrated } = useLastResult();
   const top = payload?.top ?? null;
   const overallScore = top ? top.result.overallScore : null;
@@ -68,15 +77,7 @@ export default function HomeClient({ catalog, heroExample }) {
   const brandCount = new Set(catalog.map((m) => m.brand)).size;
   const audit = useMemo(() => auditCatalog(catalog), [catalog]);
   const reviewQuotes = useMemo(() => pickRealReviewQuotes(catalog), [catalog]);
-
-  // The six-dimension click used to jump to an X-Ray layer on this same
-  // page; now that X-Ray lives on the matched mattress's own detail
-  // page, this sends the visitor there instead (or to the quiz, if no
-  // match exists yet) - never a dead click.
-  function handleDimensionClick() {
-    if (top) router.push(`/mattress/${top.entry.id}#construction`);
-    else router.push('/find-match');
-  }
+  const xrayRef = useRef(null);
 
   return (
     <div>
@@ -91,6 +92,24 @@ export default function HomeClient({ catalog, heroExample }) {
             <h2 style={{ color: 'var(--ink)', fontSize: 26, margin: '8px 0 0' }}>From answers to a real score, in four steps</h2>
           </div>
           <HowItWorks />
+        </div>
+      </section>
+
+      <section className="section promo-density-section" style={{ paddingTop: 44, paddingBottom: 44 }}>
+        <div className="wrap">
+          <TrustBadgeRow />
+          <div style={{ marginTop: 28 }}>
+            <PromoCardCluster />
+          </div>
+          <div style={{ marginTop: 32 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)', display: 'block', marginBottom: 16 }}>
+              Browse by mattress type
+            </span>
+            <CategoryIconGrid />
+          </div>
+          <div style={{ marginTop: 32 }}>
+            <DealBanner />
+          </div>
         </div>
       </section>
 
@@ -187,7 +206,10 @@ export default function HomeClient({ catalog, heroExample }) {
             </div>
           </div>
 
-          <ScoreMetrics subScores={top ? top.result.subScores : null} onDimensionClick={handleDimensionClick} />
+          <ScoreMetrics
+            subScores={top ? top.result.subScores : null}
+            onDimensionClick={(cat) => xrayRef.current?.goToLayer(DIMENSION_TO_LAYER[cat])}
+          />
         </div>
 
         <div className="wrap">
@@ -202,6 +224,28 @@ export default function HomeClient({ catalog, heroExample }) {
             </p>
           </div>
           <SixDimensionGallery subScores={top ? top.result.subScores : null} />
+        </div>
+
+        <div className="wrap" style={{ marginTop: 56 }}>
+          <MatchedMattressPanel top={top} />
+        </div>
+      </section>
+
+      <section className="section promo-density-section" style={{ paddingTop: 40, paddingBottom: 40 }}>
+        <div className="wrap">
+          <BrandCollabSlot />
+          <div style={{ marginTop: 36 }}>
+            <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
+              Real brands referenced in our comparisons
+            </span>
+            <BrandCarouselRow />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <PromoGrid />
+          </div>
+          <div style={{ marginTop: 40 }}>
+            <PressMentionRow />
+          </div>
         </div>
       </section>
 
@@ -276,6 +320,20 @@ export default function HomeClient({ catalog, heroExample }) {
           </Link>
         </div>
       </section>
+
+      <section className="section dot-grid-bg" style={{ paddingBottom: 60 }}>
+        <div className="wrap">
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
+              Questions
+            </span>
+            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>Frequently asked</h2>
+          </div>
+          <FaqAccordion onLight />
+        </div>
+      </section>
+
+      <XRaySection ref={xrayRef} />
 
       <div className="mobile-sticky-cta">
         <Link href="/find-match" className="btn btn-primary">
