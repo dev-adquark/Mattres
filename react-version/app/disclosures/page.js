@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function DisclosuresPage() {
   return (
-    <div>
+    <main className="disclosures-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
@@ -123,6 +123,6 @@ export default function DisclosuresPage() {
           </SpotlightCard>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
