@@ -7,6 +7,7 @@ export default async function sitemap() {
   const staticRoutes = [
     '',
     '/find-match',
+    '/mattresses',
     '/compare',
     '/compare/cooling-hybrids-for-couples',
     '/compare/motion-isolation-for-couples',
