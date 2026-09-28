@@ -3785,3 +3785,28 @@ footer .foot-bottom a:hover{color:#fff!important;}
 @media(max-width:900px){.guides-library-page .disc-wrap{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:600px){.guides-library-page>.page-hero{padding:54px 0 38px!important;}.guides-library-page>.page-hero .ph-title{font-size:48px!important;}.guides-library-page>.section{padding:28px 0 76px!important;}.guides-library-page .disc-wrap{grid-template-columns:1fr;gap:12px!important;}.guides-library-page .guide-index-card{min-height:240px;padding:25px!important;}.guides-library-page .guide-index-card h3{font-size:29px!important;margin-top:25px!important;}}
 @media(prefers-reduced-motion:reduce){.guides-library-page .guide-index-card,.guides-library-page .guide-index-card::after{transition:none!important;}}
+
+
+/* ===== FAQ: calm editorial help center ===== */
+.faq-editorial-page{background:#f5f4ef;color:#29372d;}
+.faq-editorial-page>.page-hero{background:#e8e9e1!important;padding:clamp(60px,8vw,102px) 0 52px!important;color:#29372d!important;position:relative;overflow:hidden;}
+.faq-editorial-page>.page-hero .aurora-bg{opacity:.12;filter:grayscale(1);}
+.faq-editorial-page>.page-hero .eyebrow{color:#7a826f!important;font-size:10px!important;letter-spacing:.19em!important;text-transform:uppercase;}
+.faq-editorial-page>.page-hero .ph-title{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(44px,6.6vw,78px)!important;font-weight:400!important;letter-spacing:-.055em!important;line-height:.98!important;color:#29372d!important;margin:22px 0!important;max-width:900px;}
+.faq-editorial-page>.page-hero .ph-sub{color:#697367!important;font-size:14px!important;line-height:1.85!important;max-width:640px;}
+.faq-editorial-page>.section{background:#f5f4ef!important;padding:clamp(36px,6vw,72px) 0 100px!important;}
+.faq-editorial-page .faq-list{max-width:940px;margin:0 auto!important;border-top:1px solid #dfe1d8;}
+.faq-editorial-page .faq-item{border-bottom:1px solid #dfe1d8!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;}
+.faq-editorial-page .faq-q{display:grid!important;grid-template-columns:42px minmax(0,1fr) 22px!important;gap:18px!important;align-items:center!important;width:100%;padding:25px 8px!important;background:transparent!important;color:#2e3c31!important;text-align:left!important;}
+.faq-editorial-page .faq-q-icon{display:grid!important;place-items:center;width:40px;height:40px;border:1px solid #d9ded3;border-radius:50%!important;color:#657c60!important;background:#eeefe8!important;}
+.faq-editorial-page .faq-q-icon svg{width:18px!important;height:18px!important;}
+.faq-editorial-page .faq-q b{font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important;font-size:clamp(18px,2vw,23px)!important;line-height:1.3!important;letter-spacing:-.025em!important;color:#2e3c31!important;}
+.faq-editorial-page .faq-chevron{color:#72806d!important;transition:transform .25s ease!important;}
+.faq-editorial-page .faq-item.open .faq-chevron{transform:rotate(180deg);}
+.faq-editorial-page .faq-a{color:#6a7468!important;font-size:13px!important;line-height:1.9!important;}
+.faq-editorial-page .faq-a-inner{max-width:720px!important;padding:0 48px 26px 68px!important;}
+.faq-editorial-page .faq-item.open .faq-q-icon{background:#e4e9df;border-color:#c6d0c0;}
+.faq-editorial-page .faq-q:hover b{color:#627a5d!important;}
+.faq-editorial-page .faq-q:focus-visible{outline:2px solid #71866b;outline-offset:3px;border-radius:3px;}
+@media(max-width:600px){.faq-editorial-page>.page-hero{padding:52px 0 36px!important;}.faq-editorial-page>.page-hero .ph-title{font-size:43px!important;}.faq-editorial-page>.section{padding:28px 0 72px!important;}.faq-editorial-page .faq-q{grid-template-columns:32px minmax(0,1fr) 18px!important;gap:12px!important;padding:20px 0!important;}.faq-editorial-page .faq-q-icon{width:32px;height:32px;}.faq-editorial-page .faq-q-icon svg{width:15px!important;height:15px!important;}.faq-editorial-page .faq-q b{font-size:18px!important;}.faq-editorial-page .faq-a-inner{padding:0 24px 22px 44px!important;font-size:12px!important;}}
+@media(prefers-reduced-motion:reduce){.faq-editorial-page .faq-chevron{transition:none!important;}}
