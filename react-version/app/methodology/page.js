@@ -124,7 +124,7 @@ export const metadata = {
 
 export default function MethodologyPage() {
   return (
-    <div>
+    <main className="methodology-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
@@ -300,6 +300,6 @@ export default function MethodologyPage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
