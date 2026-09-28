@@ -37,6 +37,7 @@ export default async function MattressesPage({ searchParams }) {
       </header>
       <section className="section">
         <div className="wrap">
+          <div className="catalog-brand-wall" aria-label="Brands in this catalog">{brands.map((brand) => <span className="catalog-brand-pill" key={brand}><BrandLogo brand={brand} size={24} /><span>{brand}</span></span>)}</div>
           <div className="catalog-meta">{selectedType && <Link href="/mattresses" className="catalog-card-link">Clear type filter ×</Link>}<span>{entries.length} listings</span><span>{types.length} mattress types</span><span>{brands.length} brands</span></div>
           {entries.length ? (
             <div className="catalog-grid">
