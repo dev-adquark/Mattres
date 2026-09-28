@@ -40,6 +40,18 @@ export const metadata = {
     title: 'Mattress Match Score — Find Your Perfect Mattress Match',
     description: "A real, transparent mattress scoring engine — not a generic star rating.",
   },
+  applicationName: 'Mattress Match Score',
+  appleWebApp: {
+    capable: true,
+    title: 'Mattress Match',
+    statusBarStyle: 'default',
+  },
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+  },
   robots: { index: true, follow: true },
 };
 
