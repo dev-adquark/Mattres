@@ -52,7 +52,7 @@ export default async function ComparePage() {
   const { results, modelVersion, catalogAudit } = await matchProfile(DEMO_PROFILE);
 
   return (
-    <div>
+    <main className="compare-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true"><span /><span /><span /></div>
         <div className="wrap">
@@ -124,6 +124,6 @@ export default async function ComparePage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
