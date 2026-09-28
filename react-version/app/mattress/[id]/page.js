@@ -76,7 +76,7 @@ export default async function MattressDetailPage({ params }) {
         </div>
         <div className="wrap">
           <span className="eyebrow eyebrow-brand">
-            <BrandLogo brand={entry.brand} size={18} />
+            <BrandLogo brand={entry.brand} size={38} className="detail-brand-logo" />
             {entry.brand}
           </span>
           <h1 className="ph-title">{displayTitle(entry)}</h1>
