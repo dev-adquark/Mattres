@@ -101,7 +101,7 @@ export default function ScoreMetrics({ subScores, onDimensionClick }) {
               <i style={{ width: `${pct}%` }} />
             </div>
             <b>{hasValue ? value.toFixed(1) : '—'}</b>
-            <span className="sm-hint">View in X-Ray →</span>
+            <span className="sm-hint">See how it&apos;s built →</span>
           </SpotlightCard>
         );
       })}

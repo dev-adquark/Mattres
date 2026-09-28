@@ -26,9 +26,10 @@ export default function Footer() {
           </div>
           <div className="foot-links">
             <Link href="/">Home</Link>
-            <Link href="/find-match">Match Score</Link>
+            <Link href="/find-match">Find My Mattress</Link>
             <Link href="/compare">Compare</Link>
-            <Link href="/buying-guide">Guides</Link>
+            <Link href="/guides">Mattress Guides</Link>
+            <Link href="/methodology">How Scoring Works</Link>
             <Link href="/faq">FAQ</Link>
             <Link href="/disclosures">About</Link>
           </div>

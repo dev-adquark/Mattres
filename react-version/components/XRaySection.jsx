@@ -31,7 +31,7 @@ function clampNum(v, min, max) {
  * "current layer" state, exactly matching the original's single entry
  * point (goToXrayStep) that both call.
  */
-const XRaySection = forwardRef(function XRaySection(props, ref) {
+const XRaySection = forwardRef(function XRaySection({ contextNote } = {}, ref) {
   const trackRef = useRef(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -154,7 +154,11 @@ const XRaySection = forwardRef(function XRaySection(props, ref) {
             Explore inside
           </span>
           <h2 style={{ color: 'var(--ink)' }}>X-Ray View</h2>
-          <p style={{ color: 'var(--ink-dim)' }}>Scroll to peel back each layer, or jump straight to one below.</p>
+          <p style={{ color: 'var(--ink-dim)' }}>
+            This shows why each of the six scoring dimensions comes from a physical layer, not an abstract number —
+            scroll to peel the construction apart, or jump straight to a layer below.
+          </p>
+          {contextNote && <p className="xray-context-note">{contextNote}</p>}
           <div className="xray-layer-buttons">
             {XRAY_STEPS.map((s) => (
               <button

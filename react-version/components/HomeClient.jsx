@@ -1,28 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCarouselRow from '@/components/BrandCarouselRow';
-import BrandCollabSlot from '@/components/BrandCollabSlot';
-import CategoryIconGrid from '@/components/CategoryIconGrid';
-import DealBanner from '@/components/DealBanner';
-import FaqAccordion from '@/components/FaqAccordion';
 import HowItWorks from '@/components/HowItWorks';
-import PressMentionRow from '@/components/PressMentionRow';
-import PromoCardCluster from '@/components/PromoCardCluster';
-import PromoGrid from '@/components/PromoGrid';
-import TrustBadgeRow from '@/components/TrustBadgeRow';
 import Hero from '@/components/Hero';
-import MatchedMattressPanel from '@/components/MatchedMattressPanel';
 import MattressUniverseScene from '@/components/MattressUniverseScene';
 import NumberTicker from '@/components/NumberTicker';
 import ScoreCoreScene from '@/components/ScoreCoreScene';
 import ScoreMetrics from '@/components/ScoreMetrics';
 import SixDimensionGallery from '@/components/SixDimensionGallery';
-import SpotlightCard from '@/components/SpotlightCard';
-import XRaySection from '@/components/XRaySection';
-import { DIMENSION_TO_LAYER } from '@/lib/categories';
+import { auditCatalog } from '@/lib/dataIntegrity';
+import { formatPrice } from '@/lib/format';
 import { useLastResult } from '@/lib/useLastResult';
 
 // Ring geometry matches the original project's SVG exactly (r=86, viewBox
@@ -30,6 +21,20 @@ import { useLastResult } from '@/lib/useLastResult';
 // same visual fill fraction for a given overallScore.
 const RING_RADIUS = 86;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+
+/**
+ * Real review-highlight quotes pulled from the actual catalog (not
+ * invented testimonials) - each one is a real snippet already attached
+ * to a real, named catalog entry, shown with its real sentiment/label
+ * and a link to that mattress's own detail page where the same quote
+ * and its confidence level are shown again in full context.
+ */
+function pickRealReviewQuotes(catalog) {
+  return catalog
+    .filter((entry) => entry.reviewHighlights?.some((h) => h.sentiment === 'positive'))
+    .slice(0, 3)
+    .map((entry) => ({ entry, highlight: entry.reviewHighlights.find((h) => h.sentiment === 'positive') }));
+}
 
 /**
  * Split out of app/page.js (a Server Component) because this needs
@@ -40,8 +45,18 @@ const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
  * server-only secret key, and lib/scoreEngine.js-style Node `fs` reads,
  * neither of which may ship to the browser bundle). app/page.js fetches
  * the real catalog server-side and passes it down as a plain prop.
+ *
+ * Exactly seven top-level sections, per the site's information
+ * architecture: Hero / How It Works / Interactive Result Preview / Why
+ * Trust the Score / Comparison Preview / Real Review Highlights / Final
+ * CTA. Promotional clusters (deal banners, brand collab slots, category
+ * grids) and the X-Ray construction explainer have been moved off the
+ * homepage funnel - X-Ray now lives on each mattress's own detail page,
+ * where it has real per-product context; the FAQ has its own dedicated
+ * /faq page already and doesn't need a homepage copy too.
  */
-export default function HomeClient({ catalog }) {
+export default function HomeClient({ catalog, heroExample }) {
+  const router = useRouter();
   const { payload, hydrated } = useLastResult();
   const top = payload?.top ?? null;
   const overallScore = top ? top.result.overallScore : null;
@@ -50,12 +65,22 @@ export default function HomeClient({ catalog }) {
   // 0.15-0.55 opacity range), so a stronger match visibly glows more -
   // never a fixed decorative value, and never shown at all pre-quiz.
   const ringGlow = overallScore != null ? 0.15 + (overallScore / 100) * 0.4 : 0;
-  const xrayRef = useRef(null);
   const brandCount = new Set(catalog.map((m) => m.brand)).size;
+  const audit = useMemo(() => auditCatalog(catalog), [catalog]);
+  const reviewQuotes = useMemo(() => pickRealReviewQuotes(catalog), [catalog]);
+
+  // The six-dimension click used to jump to an X-Ray layer on this same
+  // page; now that X-Ray lives on the matched mattress's own detail
+  // page, this sends the visitor there instead (or to the quiz, if no
+  // match exists yet) - never a dead click.
+  function handleDimensionClick() {
+    if (top) router.push(`/mattress/${top.entry.id}#construction`);
+    else router.push('/find-match');
+  }
 
   return (
     <div>
-      <Hero catalogCount={catalog.length} brandCount={brandCount} />
+      <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
 
       <section className="section hiw-section" style={{ paddingTop: 44, paddingBottom: 24 }}>
         <div className="wrap">
@@ -69,24 +94,6 @@ export default function HomeClient({ catalog }) {
         </div>
       </section>
 
-      <section className="section promo-density-section" style={{ paddingTop: 44, paddingBottom: 44 }}>
-        <div className="wrap">
-          <TrustBadgeRow />
-          <div style={{ marginTop: 28 }}>
-            <PromoCardCluster />
-          </div>
-          <div style={{ marginTop: 32 }}>
-            <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)', display: 'block', marginBottom: 16 }}>
-              Browse by mattress type
-            </span>
-            <CategoryIconGrid />
-          </div>
-          <div style={{ marginTop: 32 }}>
-            <DealBanner />
-          </div>
-        </div>
-      </section>
-
       <section className="section universe-section dot-grid-bg on-dark" id="universe">
         <AmbientParticles className="ambient-canvas" />
         <div className="float-orb" style={{ width: 300, height: 300, left: '-4%', top: '10%', background: 'var(--electric-500)' }} aria-hidden="true" />
@@ -94,12 +101,13 @@ export default function HomeClient({ catalog }) {
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
-              Personalized matching
+              Interactive result preview
             </span>
-            <h2 style={{ color: 'var(--ink)' }}>Explore the Mattress Universe</h2>
+            <h2 style={{ color: 'var(--ink)' }}>Every mattress we score, in one view</h2>
             <p style={{ color: 'var(--ink-dim)' }}>
-              Our model compares your Sleep DNA against every mattress in the catalog to surface the best matches for
-              you.
+              Each node below is a real mattress in our catalog, color-grouped by type (foam / hybrid / innerspring).
+              The larger, glowing node in the center is your top match once you&apos;ve taken the quiz.{' '}
+              <strong>Click any node</strong> to see that mattress&apos;s real score and price.
             </p>
           </div>
           <div className="universe-wrap">
@@ -119,9 +127,9 @@ export default function HomeClient({ catalog }) {
         <div className="wrap match-score-grid">
           <div className="score-ring-wrap">
             <span className="eyebrow-dark" style={{ color: 'var(--cyan-400)' }}>
-              Your perfect match
+              Why trust the score
             </span>
-            <h2 style={{ color: 'var(--ink)', marginBottom: 22 }}>Match Score</h2>
+            <h2 style={{ color: 'var(--ink)', marginBottom: 14 }}>Six real dimensions, never a guess</h2>
             <div className="score-core-wrap">
               <ScoreCoreScene />
               <div className="score-ring-visual" style={{ '--ring-glow': ringGlow }}>
@@ -169,12 +177,17 @@ export default function HomeClient({ catalog }) {
                 to see yours.
               </p>
             )}
+            <div className="score-independence-note">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M12 2 3 6v6c0 5.5 3.8 9.7 9 10 5.2-.3 9-4.5 9-10V6Z" />
+                <path d="m9 12 2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Scores cannot be bought. Sponsored mattresses can pay for visibility, never for a higher Match Score.{' '}
+              <Link href="/methodology">How scoring works</Link>
+            </div>
           </div>
 
-          <ScoreMetrics
-            subScores={top ? top.result.subScores : null}
-            onDimensionClick={(cat) => xrayRef.current?.goToLayer(DIMENSION_TO_LAYER[cat])}
-          />
+          <ScoreMetrics subScores={top ? top.result.subScores : null} onDimensionClick={handleDimensionClick} />
         </div>
 
         <div className="wrap">
@@ -184,48 +197,129 @@ export default function HomeClient({ catalog }) {
             </span>
             <p style={{ color: 'var(--ink-dim)', maxWidth: 560 }}>
               Each dimension gets its own read on your top match — brightness and motion scale with the real
-              sub-score, not a fixed animation.
+              sub-score, not a fixed animation. {audit.verifiedCount} of {audit.total} catalog
+              entries are independently verified today.
             </p>
           </div>
           <SixDimensionGallery subScores={top ? top.result.subScores : null} />
         </div>
+      </section>
 
-        <div className="wrap" style={{ marginTop: 56 }}>
-          <MatchedMattressPanel top={top} />
+      <section className="section dot-grid-bg" style={{ paddingTop: 56, paddingBottom: 56 }}>
+        <div className="wrap">
+          <div className="section-head" style={{ marginBottom: 28 }}>
+            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
+              Comparison preview
+            </span>
+            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>
+              See exactly where mattresses differ
+            </h2>
+            <p style={{ color: 'var(--slate-600)', maxWidth: 560 }}>
+              Select any two or more results and we highlight the real differences — score, price, and each of the
+              six dimensions — instead of repeating what&apos;s identical.
+            </p>
+          </div>
+          <ComparisonPreviewTeaser catalog={catalog} />
+          <div style={{ textAlign: 'center', marginTop: 26 }}>
+            <Link href="/compare" className="btn btn-ghost-dark">
+              Compare mattresses
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="section promo-density-section" style={{ paddingTop: 40, paddingBottom: 40 }}>
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>
         <div className="wrap">
-          <BrandCollabSlot />
+          <div className="section-head" style={{ marginBottom: 28 }}>
+            <span className="eyebrow-dark">Real review highlights</span>
+            <h2 style={{ fontSize: 24, margin: '8px 0 0' }}>From sources we cite, not sales copy</h2>
+            <p style={{ color: 'var(--slate-600)', maxWidth: 560 }}>
+              Every quote below is a real, sourced review snippet already attached to a real catalog entry — not a
+              customer testimonial we wrote. See each mattress&apos;s page for its full source list.
+            </p>
+          </div>
+          <div className="review-quote-grid">
+            {reviewQuotes.map(({ entry, highlight }) => (
+              <Link href={`/mattress/${entry.id}`} className="review-quote-card" key={entry.id}>
+                <q>{highlight.snippet}</q>
+                <div className="rq-meta">
+                  <b>{entry.brand} {entry.model}</b>
+                  <span className={`conf conf-${highlight.confidence}`}>{highlight.confidence} confidence</span>
+                </div>
+              </Link>
+            ))}
+          </div>
           <div style={{ marginTop: 36 }}>
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
               Real brands referenced in our comparisons
             </span>
             <BrandCarouselRow />
           </div>
-          <div style={{ marginTop: 40 }}>
-            <PromoGrid />
-          </div>
-          <div style={{ marginTop: 40 }}>
-            <PressMentionRow />
-          </div>
         </div>
       </section>
 
-      <section className="section dot-grid-bg" style={{ paddingBottom: 60 }}>
-        <div className="wrap">
-          <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <span className="eyebrow-dark" style={{ color: 'var(--teal-600,#0e8a72)' }}>
-              Questions
-            </span>
-            <h2 style={{ color: 'var(--slate-900,#0f2140)', fontSize: 26, margin: '8px 0 0' }}>Frequently asked</h2>
-          </div>
-          <FaqAccordion onLight />
+      <section className="section final-cta-section dot-grid-bg on-dark">
+        <AmbientParticles className="ambient-canvas" />
+        <div className="wrap" style={{ textAlign: 'center' }}>
+          <h2 style={{ color: 'var(--ink)', fontSize: 30, marginBottom: 12 }}>Ready to find your mattress?</h2>
+          <p style={{ color: 'var(--ink-dim)', maxWidth: 480, margin: '0 auto 28px' }}>
+            60 seconds, six real questions, a personalized score across {catalog.length} mattresses.
+          </p>
+          <Link href="/find-match" className="btn btn-primary">
+            Find My Mattress
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
         </div>
       </section>
 
-      <XRaySection ref={xrayRef} />
+      <div className="mobile-sticky-cta">
+        <Link href="/find-match" className="btn btn-primary">
+          Find My Mattress
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * A static, illustrative two-mattress comparison built from two real
+ * catalog entries (highest and lowest-priced verified entries, picked
+ * deterministically - never a fabricated pair), highlighting only the
+ * dimension where they actually differ most. This is a teaser for the
+ * real /compare experience, not the real ad-hoc compare tool itself.
+ */
+function ComparisonPreviewTeaser({ catalog }) {
+  const priced = catalog.filter((e) => typeof e.priceUsd === 'number').slice().sort((a, b) => a.priceUsd - b.priceUsd);
+  if (priced.length < 2) return null;
+  const a = priced[0];
+  const b = priced[priced.length - 1];
+  const rows = [
+    { label: 'Type', av: a.type, bv: b.type, comparable: false },
+    { label: 'Price', av: formatPrice(a), bv: formatPrice(b), comparable: true, aWins: a.priceUsd < b.priceUsd },
+    { label: 'Trial period', av: `${a.trialDays ?? '—'} nights`, bv: `${b.trialDays ?? '—'} nights`, comparable: typeof a.trialDays === 'number' && typeof b.trialDays === 'number', aWins: (a.trialDays ?? -1) > (b.trialDays ?? -1) },
+  ];
+  return (
+    <div className="cmp-teaser">
+      <div className="cmp-teaser-head">
+        <span>{a.brand} {a.model}</span>
+        <span className="cmp-teaser-vs">vs</span>
+        <span>{b.brand} {b.model}</span>
+      </div>
+      {rows.map((r) => (
+        <div className="cmp-teaser-row" key={r.label}>
+          <span className={r.comparable && r.aWins ? 'cmp-win' : ''}>{r.av}</span>
+          <span className="cmp-teaser-label">{r.label}</span>
+          <span className={r.comparable && !r.aWins ? 'cmp-win' : ''}>{r.bv}</span>
+        </div>
+      ))}
     </div>
   );
 }

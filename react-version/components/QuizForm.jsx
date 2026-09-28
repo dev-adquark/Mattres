@@ -3,39 +3,94 @@
 import { useState } from 'react';
 import OwlMascot from './OwlMascot';
 
+// Coarse weight ranges instead of exact entry, per the product brief.
+// weightLb is each band's own lower bound (not a midpoint) - the real
+// scoring engine's only continuous (non-banded) weight check is the
+// durabilityHighWeightLb=200 threshold, which falls inside the 180-230
+// band. A midpoint (205) would flag everyone in that band as high-weight
+// even at 181 lb; the lower bound never claims a higher weight than the
+// person actually confirmed, so it never over-triggers that flag. Every
+// other real scoring lookup (firmnessComfortBands, weightBands itself)
+// is keyed by band, not by the exact value, so this choice doesn't
+// change those outcomes at all - see lib/scoreEngine.js.
+const WEIGHT_BANDS = [
+  { key: 'under-130', label: 'Under 130 lb', kg: 'under 59 kg', weightLb: 115 },
+  { key: '130-180', label: '130–180 lb', kg: '59–82 kg', weightLb: 130 },
+  { key: '180-230', label: '180–230 lb', kg: '82–104 kg', weightLb: 180 },
+  { key: '230-plus', label: '230+ lb', kg: '104+ kg', weightLb: 230 },
+];
+
+const POSITIONS = [
+  { value: 'side', label: 'Side' },
+  { value: 'back', label: 'Back' },
+  { value: 'stomach', label: 'Stomach' },
+  { value: 'combination', label: 'Combination', hint: 'I move around' },
+];
+
+const FIRMNESS = [
+  { value: 'soft', label: 'Soft' },
+  { value: 'medium-soft', label: 'Medium-soft' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'medium-firm', label: 'Medium-firm' },
+  { value: 'firm', label: 'Firm' },
+  { value: 'extra-firm', label: 'Extra-firm' },
+];
+
+const TEMPERATURE = [
+  { value: 'cold', label: 'I sleep cold' },
+  { value: 'neutral', label: 'Neutral' },
+  { value: 'hot', label: 'I sleep hot' },
+];
+
+const MOTION = [
+  { value: 'single', label: 'I sleep alone', hint: 'or not sensitive to movement' },
+  { value: 'couple-low', label: 'Share the bed', hint: 'not easily woken' },
+  { value: 'couple-high', label: 'Share the bed', hint: 'easily woken by movement' },
+];
+
+const TYPE_OPTIONS = ['foam', 'hybrid', 'innerspring'];
+
 const initialFields = {
   sleepPosition: '',
-  weightLb: '',
+  weightBand: '',
   firmnessPreference: '',
   sleepTemperature: '',
-  motionSensitivity: 'single',
-  heightIn: '',
+  motionSensitivity: '',
   budgetMin: '',
   budgetMax: '',
-  painFocus: [],
   mattressTypePreference: [],
 };
+
+const STEPS = [
+  { key: 'sleepPosition', title: 'Sleep position', why: 'Your sleep position changes which parts of your body need the most pressure relief and support.' },
+  { key: 'weightBand', title: 'Body weight', why: 'Firmness and support needs change with body weight — heavier bodies generally need firmer support to stay level.' },
+  { key: 'firmnessPreference', title: 'Firmness preference', why: 'This is your comfort baseline — every result is scored against how close its real firmness is to what you ask for here.' },
+  { key: 'sleepTemperature', title: 'Temperature', why: 'Hot sleepers benefit from breathable covers and less heat-retaining foam — we check for that specifically.' },
+  { key: 'motionSensitivity', title: 'Motion sensitivity', why: 'If a partner’s movement wakes you, motion isolation matters a lot more than if you sleep alone.' },
+  { key: 'budget', title: 'Budget & type', why: 'Only mattresses inside your budget (and preferred type, if you pick one) are scored — everything else is correctly left out, never guessed at.' },
+];
 
 function toggleValue(list, value) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
 /**
- * Real quiz form. Validates the same required fields the original project
- * required (sleep position, weight 60-500lb, firmness, temperature), builds
- * the same Sleep Profile shape the scoring engine expects, and POSTs it to
- * /api/match - the real API route that runs the real scoreEngine against
- * the real catalog. No client-side scoring logic duplicated here.
+ * Real quiz form, now a one-question-per-screen wizard. Builds the exact
+ * same Sleep Profile shape the scoring engine expects (see
+ * app/api/match/route.js) and POSTs it to /api/match - no client-side
+ * scoring logic duplicated here. `heightIn` and `painFocus` were removed:
+ * neither is read anywhere in lib/scoreEngine.js or lib/matchLogic.js
+ * (confirmed by search), so collecting them was asking for data the
+ * real model never uses.
  *
  * onResult(profile, apiResponse) is called with the real API response on
- * success. This component owns only form state/validation/the network
+ * success. This component owns only wizard/form state and the network
  * call, not what happens with the result - that's the page's job.
  */
 export default function QuizForm({ onResult, onSubmittingChange }) {
+  const [step, setStep] = useState(0);
   const [fields, setFields] = useState(initialFields);
-  const [errors, setErrors] = useState([]);
-  const [invalidKeys, setInvalidKeys] = useState([]);
-  const [showMore, setShowMore] = useState(false);
+  const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState(null);
 
@@ -43,31 +98,23 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
     setFields((f) => ({ ...f, [key]: value }));
   }
 
-  function validate() {
-    const errs = [];
-    const invalid = [];
-    if (!fields.sleepPosition) {
-      errs.push('Choose a sleep position.');
-      invalid.push('sleepPosition');
-    }
-    const weight = parseFloat(fields.weightLb);
-    if (!fields.weightLb || Number.isNaN(weight) || weight < 60 || weight > 500) {
-      errs.push('Enter a weight between 60 and 500 lb.');
-      invalid.push('weightLb');
-    }
-    if (!fields.firmnessPreference) {
-      errs.push('Choose a firmness preference.');
-      invalid.push('firmnessPreference');
-    }
-    if (!fields.sleepTemperature) {
-      errs.push('Choose how you sleep, temperature-wise.');
-      invalid.push('sleepTemperature');
-    }
-    return { errs, invalid };
+  function goNext() {
+    setError(null);
+    setStep((s) => Math.min(STEPS.length - 1, s + 1));
+  }
+
+  function goBack() {
+    setError(null);
+    setStep((s) => Math.max(0, s - 1));
+  }
+
+  function selectAndAdvance(key, value) {
+    setField(key, value);
+    goNext();
   }
 
   function buildProfile() {
-    const heightIn = fields.heightIn ? parseFloat(fields.heightIn) : undefined;
+    const band = WEIGHT_BANDS.find((b) => b.key === fields.weightBand);
     const budgetMin = fields.budgetMin ? parseFloat(fields.budgetMin) : undefined;
     // See app/api/match/route.js: an unbounded max must be omitted
     // (undefined), never Infinity - Infinity isn't valid JSON and would
@@ -78,12 +125,10 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
     return {
       profileId: `browser_${Date.now().toString(36)}`,
       sleepPosition: fields.sleepPosition,
-      weightLb: parseFloat(fields.weightLb),
+      weightLb: band ? band.weightLb : undefined,
       preferredFirmnessLabel: fields.firmnessPreference,
       sleepTemperature: fields.sleepTemperature,
-      motionSensitivity: fields.motionSensitivity,
-      painFocus: fields.painFocus,
-      heightIn,
+      motionSensitivity: fields.motionSensitivity || 'single',
       mattressTypePreference: fields.mattressTypePreference,
       budgetUsd,
       source: 'full',
@@ -91,17 +136,9 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
     };
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const { errs, invalid } = validate();
-    setErrors(errs);
-    setInvalidKeys(invalid);
+  async function handleSubmit() {
+    setError(null);
     setApiError(null);
-    if (errs.length) {
-      document.getElementById(`f-${invalid[0]}`)?.focus();
-      return;
-    }
-
     const profile = buildProfile();
     setSubmitting(true);
     onSubmittingChange?.(true);
@@ -125,153 +162,115 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
     }
   }
 
-  function handleClear() {
-    setFields(initialFields);
-    setErrors([]);
-    setInvalidKeys([]);
-    setApiError(null);
-  }
-
-  const fieldClass = (key) => `form-field${invalidKeys.includes(key) ? ' field-invalid' : ''}`;
+  const current = STEPS[step];
+  const progressPct = ((step + 1) / STEPS.length) * 100;
+  const isLastStep = step === STEPS.length - 1;
 
   return (
-    <form className="match-form" noValidate onSubmit={handleSubmit}>
-      {(errors.length > 0 || apiError) && (
-        <div className="form-error" role="alert">
-          {apiError ? (
-            <strong>{apiError}</strong>
-          ) : (
-            <>
-              <strong>Please fix the following:</strong>
-              <ul style={{ margin: '8px 0 0', paddingLeft: 18 }}>
-                {errors.map((err) => (
-                  <li key={err}>{err}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
-
-      <div className="form-grid">
-        <div className={fieldClass('sleepPosition')}>
-          <label htmlFor="f-sleepPosition">
-            Sleep position <span className="req">*</span>
-          </label>
-          <select
-            id="f-sleepPosition"
-            value={fields.sleepPosition}
-            onChange={(e) => setField('sleepPosition', e.target.value)}
-            required
-          >
-            <option value="" disabled>Choose one…</option>
-            <option value="side">Side</option>
-            <option value="back">Back</option>
-            <option value="stomach">Stomach</option>
-            <option value="combination">Combination / I move around</option>
-          </select>
-        </div>
-
-        <div className={fieldClass('weightLb')}>
-          <label htmlFor="f-weightLb">
-            Your weight (lb) <span className="req">*</span>
-          </label>
-          <input
-            id="f-weightLb"
-            type="number"
-            min="60"
-            max="500"
-            step="1"
-            placeholder="e.g. 165"
-            value={fields.weightLb}
-            onChange={(e) => setField('weightLb', e.target.value)}
-            required
-          />
-        </div>
-
-        <div className={fieldClass('firmnessPreference')}>
-          <label htmlFor="f-firmnessPreference">
-            Firmness preference <span className="req">*</span>
-          </label>
-          <select
-            id="f-firmnessPreference"
-            value={fields.firmnessPreference}
-            onChange={(e) => setField('firmnessPreference', e.target.value)}
-            required
-          >
-            <option value="" disabled>Choose one…</option>
-            <option value="soft">Soft</option>
-            <option value="medium-soft">Medium-soft</option>
-            <option value="medium">Medium</option>
-            <option value="medium-firm">Medium-firm</option>
-            <option value="firm">Firm</option>
-            <option value="extra-firm">Extra-firm</option>
-          </select>
-        </div>
-
-        <div className={fieldClass('sleepTemperature')}>
-          <label htmlFor="f-sleepTemperature">
-            How do you sleep, temperature-wise? <span className="req">*</span>
-          </label>
-          <select
-            id="f-sleepTemperature"
-            value={fields.sleepTemperature}
-            onChange={(e) => setField('sleepTemperature', e.target.value)}
-            required
-          >
-            <option value="" disabled>Choose one…</option>
-            <option value="cold">I sleep cold</option>
-            <option value="neutral">Neutral</option>
-            <option value="hot">I sleep hot</option>
-          </select>
+    <div className="quiz-wizard">
+      <div className="quiz-progress-head">
+        <span className="quiz-step-count">
+          Your Sleep Profile {step + 1} of {STEPS.length}
+        </span>
+        <div className="quiz-progress-bar" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
+          <i style={{ width: `${progressPct}%` }} />
         </div>
       </div>
 
-      <button
-        type="button"
-        className="more-options-toggle"
-        aria-expanded={showMore}
-        aria-controls="moreOptionsPanel"
-        onClick={() => setShowMore((v) => !v)}
-      >
-        <span>More options for a better match</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
+      {(error || apiError) && (
+        <div className="form-error" role="alert">
+          <strong>{apiError || error}</strong>
+        </div>
+      )}
 
-      {showMore && (
-        <div className="more-options-panel" id="moreOptionsPanel">
-          <div className="form-grid">
-            <div className="form-field">
-              <label htmlFor="f-motionSensitivity">Motion sensitivity</label>
-              <select
-                id="f-motionSensitivity"
-                value={fields.motionSensitivity}
-                onChange={(e) => setField('motionSensitivity', e.target.value)}
+      <div className="quiz-step" key={current.key}>
+        <h2 className="quiz-step-title">{current.title}</h2>
+        <p className="quiz-why-we-ask">
+          <b>Why we ask:</b> {current.why}
+        </p>
+
+        {step === 0 && (
+          <div className="quiz-option-grid">
+            {POSITIONS.map((o) => (
+              <button
+                type="button"
+                key={o.value}
+                className={`quiz-option-btn${fields.sleepPosition === o.value ? ' selected' : ''}`}
+                onClick={() => selectAndAdvance('sleepPosition', o.value)}
               >
-                <option value="single">I sleep alone / not sensitive</option>
-                <option value="couple-low">Share the bed, not easily woken</option>
-                <option value="couple-high">Share the bed, easily woken by movement</option>
-              </select>
-            </div>
+                <span>{o.label}</span>
+                {o.hint && <i>{o.hint}</i>}
+              </button>
+            ))}
+          </div>
+        )}
 
-            <div className="form-field">
-              <label htmlFor="f-heightIn">Height (inches)</label>
-              <input
-                id="f-heightIn"
-                type="number"
-                min="48"
-                max="84"
-                step="1"
-                placeholder="e.g. 68"
-                value={fields.heightIn}
-                onChange={(e) => setField('heightIn', e.target.value)}
-              />
-            </div>
+        {step === 1 && (
+          <div className="quiz-option-grid">
+            {WEIGHT_BANDS.map((b) => (
+              <button
+                type="button"
+                key={b.key}
+                className={`quiz-option-btn${fields.weightBand === b.key ? ' selected' : ''}`}
+                onClick={() => selectAndAdvance('weightBand', b.key)}
+              >
+                <span>{b.label}</span>
+                <i>{b.kg}</i>
+              </button>
+            ))}
+          </div>
+        )}
 
+        {step === 2 && (
+          <div className="quiz-option-grid quiz-option-grid-wide">
+            {FIRMNESS.map((o) => (
+              <button
+                type="button"
+                key={o.value}
+                className={`quiz-option-btn${fields.firmnessPreference === o.value ? ' selected' : ''}`}
+                onClick={() => selectAndAdvance('firmnessPreference', o.value)}
+              >
+                <span>{o.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className="quiz-option-grid">
+            {TEMPERATURE.map((o) => (
+              <button
+                type="button"
+                key={o.value}
+                className={`quiz-option-btn${fields.sleepTemperature === o.value ? ' selected' : ''}`}
+                onClick={() => selectAndAdvance('sleepTemperature', o.value)}
+              >
+                <span>{o.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {step === 4 && (
+          <div className="quiz-option-grid">
+            {MOTION.map((o) => (
+              <button
+                type="button"
+                key={o.value}
+                className={`quiz-option-btn${fields.motionSensitivity === o.value ? ' selected' : ''}`}
+                onClick={() => selectAndAdvance('motionSensitivity', o.value)}
+              >
+                <span>{o.label}</span>
+                {o.hint && <i>{o.hint}</i>}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {step === 5 && (
+          <div className="quiz-final-step">
             <fieldset className="form-field">
-              <legend>Budget range (USD)</legend>
+              <legend>Budget range (USD) — optional</legend>
               <div className="budget-row">
                 <input
                   type="number"
@@ -294,63 +293,71 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
                 />
               </div>
             </fieldset>
+
+            <fieldset className="form-field" style={{ marginTop: 18 }}>
+              <legend>Mattress type preference — optional, choose any</legend>
+              <div className="checkbox-row">
+                {TYPE_OPTIONS.map((v) => (
+                  <label className="checkbox-pill" key={v}>
+                    <input
+                      type="checkbox"
+                      checked={fields.mattressTypePreference.includes(v)}
+                      onChange={() => setField('mattressTypePreference', toggleValue(fields.mattressTypePreference, v))}
+                    />{' '}
+                    {v.charAt(0).toUpperCase() + v.slice(1)}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
           </div>
-
-          <fieldset className="form-field">
-            <legend>Pain / comfort focus (optional, choose any)</legend>
-            <div className="checkbox-row">
-              {['shoulder', 'hip', 'lowerBack', 'neck'].map((v) => (
-                <label className="checkbox-pill" key={v}>
-                  <input
-                    type="checkbox"
-                    checked={fields.painFocus.includes(v)}
-                    onChange={() => setField('painFocus', toggleValue(fields.painFocus, v))}
-                  />{' '}
-                  {v === 'lowerBack' ? 'Lower back' : v.charAt(0).toUpperCase() + v.slice(1)}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset className="form-field">
-            <legend>Mattress type preference (optional, choose any)</legend>
-            <div className="checkbox-row">
-              {['foam', 'hybrid', 'innerspring'].map((v) => (
-                <label className="checkbox-pill" key={v}>
-                  <input
-                    type="checkbox"
-                    checked={fields.mattressTypePreference.includes(v)}
-                    onChange={() => setField('mattressTypePreference', toggleValue(fields.mattressTypePreference, v))}
-                  />{' '}
-                  {v.charAt(0).toUpperCase() + v.slice(1)}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        </div>
-      )}
-
-      <div className="form-actions">
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? (
-            <>
-              <span className="btn-spinner" aria-hidden="true" />
-              Scoring…
-            </>
-          ) : (
-            <>
-              <OwlMascot variant="nav" idSuffix="Submit" />
-              Find my matches
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </>
-          )}
-        </button>
-        <button type="button" className="btn btn-ghost-dark" onClick={handleClear}>
-          Clear answers
-        </button>
+        )}
       </div>
-    </form>
+
+      <div className="quiz-nav-row">
+        <button type="button" className="btn btn-ghost-dark" onClick={goBack} disabled={step === 0}>
+          Back
+        </button>
+        {isLastStep ? (
+          <button type="button" className="btn btn-primary quiz-sticky-cta" disabled={submitting} onClick={handleSubmit}>
+            {submitting ? (
+              <>
+                <span className="btn-spinner" aria-hidden="true" />
+                Scoring…
+              </>
+            ) : (
+              <>
+                <OwlMascot variant="nav" idSuffix="Submit" />
+                See My Matches
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </>
+            )}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary quiz-sticky-cta"
+            onClick={() => {
+              const requiredMissing =
+                (step === 0 && !fields.sleepPosition) ||
+                (step === 1 && !fields.weightBand) ||
+                (step === 2 && !fields.firmnessPreference) ||
+                (step === 3 && !fields.sleepTemperature);
+              if (requiredMissing) {
+                setError('Choose an option to continue.');
+                return;
+              }
+              goNext();
+            }}
+          >
+            Continue
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
   );
 }

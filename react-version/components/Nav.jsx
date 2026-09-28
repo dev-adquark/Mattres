@@ -8,11 +8,9 @@ import OwlMascot from './OwlMascot';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/find-match', label: 'Match Score' },
   { href: '/compare', label: 'Compare' },
-  { href: '/methodology', label: 'Guides' },
-  { href: '/disclosures', label: 'About' },
+  { href: '/guides', label: 'Mattress Guides' },
+  { href: '/methodology', label: 'How Scoring Works' },
 ];
 
 export default function Nav() {
@@ -70,7 +68,7 @@ export default function Nav() {
           </button>
           <Link href="/find-match" className="btn btn-primary" id="navMagneticCta" ref={magneticRef}>
             <OwlMascot variant="nav" idSuffix="NavCta" />
-            Find My Match
+            Find My Mattress
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>

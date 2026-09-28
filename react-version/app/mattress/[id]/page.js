@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import MattressThumb from '@/components/MattressThumb';
+import XRaySection from '@/components/XRaySection';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
 import { buildRetailerLink } from '@/lib/affiliateLinks';
 import { getCatalog, getMattressById } from '@/lib/db/mattressRepo';
@@ -200,6 +201,12 @@ export default async function MattressDetailPage({ params }) {
           </div>
         </div>
       </section>
+
+      <div id="construction">
+        <XRaySection
+          contextNote={`A general illustration of how a ${entry.type} mattress is typically layered — not a real teardown of this specific ${displayTitle(entry)} unit.`}
+        />
+      </div>
     </div>
   );
 }
