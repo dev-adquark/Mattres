@@ -5,7 +5,7 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div>
+    <main className="privacy-editorial-page">
       <header className="page-hero">
         <div className="aurora-bg" aria-hidden="true">
           <span />
@@ -55,6 +55,6 @@ export default function PrivacyPage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
