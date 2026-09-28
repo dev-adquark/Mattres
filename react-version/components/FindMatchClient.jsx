@@ -49,7 +49,7 @@ export default function FindMatchClient({ brandCount }) {
   }
 
   return (
-    <div>
+    <main className="find-match-experience">
       <header className="page-hero">
         <AmbientParticles className="ambient-canvas" />
         <OwlMascot variant="hero" />
@@ -116,6 +116,6 @@ export default function FindMatchClient({ brandCount }) {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
