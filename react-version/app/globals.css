@@ -2895,3 +2895,54 @@
 @media (prefers-reduced-motion: reduce) {
   .home-option-card, .home-option-link span { transition: none !important; }
 }
+
+
+/* Phase 1: concise, user-first homepage layout */
+.home-short { overflow: clip; }
+.home-simple-section { padding: clamp(44px, 6vw, 76px) 0; }
+.home-how-section { padding-top: 54px; }
+.home-section-intro { max-width: 680px; margin: 0 auto 28px; text-align: center; }
+.home-section-intro h2 {
+  margin: 9px 0 10px;
+  color: var(--slate-900, #0f2140);
+  font-size: clamp(27px, 3.4vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+.home-section-intro p {
+  margin: 0 auto;
+  max-width: 560px;
+  color: var(--slate-600, #5d6c80);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.home-centered-action { display: flex; justify-content: center; margin-top: 26px; }
+.home-trust-section { background: #f4f7fa; }
+.home-browse-block { margin-top: 30px; }
+.home-brand-block { margin-top: 42px; }
+.home-inline-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.home-inline-heading h3 { margin: 0; color: #102440; font-size: clamp(20px, 2vw, 25px); letter-spacing: -.025em; }
+.home-inline-heading a { color: #087f91; font-size: 14px; font-weight: 750; text-decoration: none; }
+.home-faq-section { padding-top: 62px; padding-bottom: 62px; }
+.home-faq-wrap { max-width: 900px; }
+.home-final-cta {
+  padding: clamp(52px, 7vw, 86px) 20px;
+  text-align: center;
+  color: white;
+  background: radial-gradient(ellipse at 50% 0%, rgba(63,212,255,.16), transparent 55%), #07172c;
+}
+.home-final-cta .wrap { max-width: 760px; }
+.home-final-cta h2 { margin: 12px 0; color: #fff; font-size: clamp(30px, 4.5vw, 52px); line-height: 1.08; letter-spacing: -.045em; }
+.home-final-cta p { margin: 0 auto 25px; max-width: 520px; color: rgba(255,255,255,.78); font-size: 16px; line-height: 1.6; }
+.home-final-cta .eyebrow-dark { color: #7ce5f4; }
+.home-final-cta .btn { display: inline-flex; align-items: center; gap: 10px; }
+@media (max-width: 700px) {
+  .home-simple-section { padding: 42px 0; }
+  .home-how-section { padding-top: 42px; }
+  .home-section-intro { margin-bottom: 22px; padding: 0 2px; }
+  .home-section-intro p { font-size: 14px; }
+  .home-inline-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .home-brand-block { margin-top: 30px; }
+  .home-faq-section { padding-top: 44px; padding-bottom: 48px; }
+  .home-final-cta { padding: 52px 18px 66px; }
+}
