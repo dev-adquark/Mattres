@@ -2508,3 +2508,80 @@
     translate: none !important;
   }
 }
+
+
+/* Phase 2 — shared reveal and tactile card motion, without changing layout. */
+.reveal-up {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+.reveal-up:nth-child(2) { transition-delay: 70ms; }
+.reveal-up:nth-child(3) { transition-delay: 130ms; }
+.reveal-up:nth-child(4) { transition-delay: 190ms; }
+
+/* Existing card classes retain their exact dimensions and content. */
+.promo-card,
+.review-quote-card,
+.cmp-teaser,
+.trust-badge,
+.category-icon-card,
+.hiw-card,
+.method-card,
+.result-card,
+.mattress-card {
+  transition: transform .28s cubic-bezier(.2,.7,.2,1),
+              box-shadow .28s ease, border-color .28s ease;
+  transform: translateZ(0);
+}
+.promo-card:hover,
+.review-quote-card:hover,
+.category-icon-card:hover,
+.hiw-card:hover,
+.method-card:hover,
+.result-card:hover,
+.mattress-card:hover {
+  transform: translate3d(0,-5px,0);
+  box-shadow: 0 16px 38px rgba(4,16,38,.13);
+}
+.review-quote-card img,
+.promo-card img,
+.mattress-card img {
+  transition: transform .55s cubic-bezier(.2,.7,.2,1);
+}
+.review-quote-card:hover img,
+.promo-card:hover img,
+.mattress-card:hover img {
+  transform: scale(1.035);
+}
+.btn, a.btn, button {
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn:hover, a.btn:hover, button:hover {
+  filter: brightness(1.045);
+}
+.btn:active, a.btn:active, button:active {
+  transform: translateY(1px) scale(.985);
+}
+:focus-visible {
+  outline: 3px solid rgba(63,212,255,.8);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-up.in-view,
+  .promo-card, .review-quote-card, .category-icon-card,
+  .hiw-card, .method-card, .result-card, .mattress-card,
+  .btn, a.btn, button,
+  .review-quote-card img, .promo-card img, .mattress-card img {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+}
