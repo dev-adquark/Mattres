@@ -101,7 +101,7 @@ export default function HomeClient({ catalog, heroExample }) {
     <main className="home-short">
       <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
 
-      <section className="home-simple-section home-how-section" aria-labelledby="home-how-title">
+      <section className="home-simple-section home-how-section" id="how-it-works" aria-labelledby="home-how-title">
         <div className="wrap">
           <div className="home-section-intro">
             <span className="eyebrow-dark">Simple by design</span>
