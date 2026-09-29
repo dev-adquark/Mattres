@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import FindMatchStats from '@/components/FindMatchStats';
 import OwlMascot from '@/components/OwlMascot';
@@ -24,6 +24,16 @@ export default function FindMatchClient({ brandCount }) {
   const [lastProfile, setLastProfile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const { setPayload } = useLastResult();
+
+  // Move the new score into view after the API response renders.
+  useEffect(() => {
+    if (!apiData || submitting) return;
+    const resultsHeading = document.getElementById('personalized-results');
+    if (resultsHeading) {
+      resultsHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      resultsHeading.focus({ preventScroll: true });
+    }
+  }, [apiData, submitting]);
 
   function handleResult(profile, data) {
     setApiData(data);
@@ -96,7 +106,9 @@ export default function FindMatchClient({ brandCount }) {
               )}
 
               {apiData && apiData.results.length > 0 && (
-                <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
+                <div id="personalized-results" tabIndex={-1} aria-label="Your personalized mattress results" style={{ scrollMarginTop: 20, outline: 'none' }}>
+                  <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
+                </div>
               )}
             </div>
 
