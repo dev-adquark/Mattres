@@ -81,12 +81,14 @@ export default async function MattressDetailPage({ params }) {
     description: verified
       ? `${displayTitle(entry)} - verified specs and pricing.`
       : `${displayTitle(entry)} - real brand and product name; specs and pricing shown are placeholder values, not independently verified.`,
-    ...(entry.priceUsd != null && {
+    ...(verified && entry.priceUsd != null && {
+      // Only publish an Offer when the price is verified. Inventory status
+      // is not tracked in this catalog, so never assert InStock (or any
+      // other availability) without a live, sourced stock signal.
       offers: {
         '@type': 'Offer',
         priceCurrency: 'USD',
         price: entry.priceUsd,
-        availability: 'https://schema.org/InStock',
       },
     }),
   };
