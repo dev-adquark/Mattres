@@ -55,10 +55,9 @@ export default function FindMatchClient({ brandCount }) {
         <OwlMascot variant="hero" />
         <div className="wrap">
           <span className="eyebrow">Find your match</span>
-          <h1 className="ph-title">Find your perfect mattress match</h1>
+          <h1 className="ph-title">Get your mattress match score</h1>
           <p className="ph-sub">
-            Answer a few questions and we&apos;ll score every mattress in our catalog against your sleep profile — live,
-            using a real, transparent scoring engine.
+            Answer 6 quick questions. We’ll score mattresses for your sleep position, comfort, support, temperature, and budget — then show your personal match score and closest matches.
           </p>
         </div>
       </header>
@@ -84,8 +83,7 @@ export default function FindMatchClient({ brandCount }) {
                 <div className="empty-state">
                   <OwlMascot variant="empty" />
                   <p>
-                    Answer the questions above and select <strong>&ldquo;See My Matches&rdquo;</strong> to see your
-                    personalized results.
+                    Answer the questions above and select <strong>&ldquo;See My Matches&rdquo;</strong> to get your personal score and ranked mattress matches.
                   </p>
                 </div>
               )}
