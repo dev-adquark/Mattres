@@ -4094,3 +4094,27 @@ footer .foot-bottom a:hover{color:#fff!important;}
 /* iOS Safari zooms the whole page when focusing an input under 16px. */
 @media (max-width:640px){ input, select, textarea{ font-size:16px!important; } }
 .quiz-final-step fieldset{ margin:0; padding:0; border:0; min-width:0; }
+
+
+/* Airy, premium bedroom art direction for the homepage hero. Kept as a
+   focused layer on top of main so catalog, quiz, and detail-page styles
+   remain untouched. */
+.hero-cinematic{background:#f5f7fc!important;color:#17264b!important;isolation:isolate;}
+.hero-bedroom-video{opacity:.20!important;filter:saturate(.55) brightness(1.25)!important;}
+.hero-video-shade{background:linear-gradient(90deg,rgba(248,250,255,.99) 0%,rgba(248,250,255,.94) 40%,rgba(239,244,253,.68) 75%,rgba(229,237,249,.30) 100%)!important;}
+.hero-cinematic-grain{opacity:.025!important;}
+.hero-copy-cinematic{color:#17264b!important;position:relative;z-index:5;max-width:51%;}
+.hero-copy-cinematic h1{color:#15244b!important;font-size:clamp(44px,5.2vw,76px)!important;letter-spacing:-.058em!important;line-height:1.02!important;}
+.hero-copy-cinematic h1 em{color:#435cf5!important;}
+.hero-cinematic-lead{color:#5a6b8b!important;max-width:480px;font-size:clamp(16px,1.3vw,20px)!important;line-height:1.7!important;}
+.hero-kicker{background:#e9edff!important;color:#4057dc!important;border:0!important;}
+.hero-kicker .hero-live-dot{background:#4d64f4!important;}
+.hero-cream-btn{background:#405cf5!important;color:#fff!important;border-radius:999px!important;box-shadow:0 12px 28px -12px rgba(54,82,236,.45)!important;}
+.hero-text-link,.hero-proof-line,.hero-scroll-cue,.hero-video-status{color:#5e7195!important;}
+.hero-proof-line i{background:#cbd4e7!important;}
+.hero-cinematic-inner{position:relative;min-height:clamp(630px,58vw,800px)!important;}
+.hero-dna-wrap{opacity:.72;transform:scale(.78);transform-origin:right center;right:-6%!important;z-index:3!important;pointer-events:none;}
+.hero-3d-panel{background:rgba(255,255,255,.88)!important;border-color:rgba(191,202,225,.65)!important;box-shadow:0 18px 50px rgba(37,54,95,.12)!important;}
+.hero-3d-caption{color:#657494!important;}
+@media(max-width:900px){.hero-cinematic-inner{min-height:0!important;padding-top:38px!important;padding-bottom:0!important}.hero-copy-cinematic{max-width:100%!important}.hero-bedroom-video{opacity:.12!important}.hero-dna-wrap{display:none!important}}
+@media(max-width:640px){.hero-copy-cinematic h1{font-size:clamp(38px,10vw,54px)!important}.hero-cinematic-inner{padding-left:20px!important;padding-right:20px!important}.hero-proof-line{flex-wrap:wrap;gap:8px 12px;font-size:11px}.hero-cinematic-actions{align-items:flex-start;flex-direction:column;gap:14px}}
