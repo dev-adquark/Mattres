@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import DnaHelixScene from './DnaHelixScene';
 import HeroMattressSlider from './HeroMattressSlider';
 
 // Loaded only client-side, on demand - never part of the initial page
@@ -59,12 +60,46 @@ export default function Hero({ catalogCount, brandCount, heroExamples }) {
         <a className="hero-scroll-cue" href="#universe" aria-label="Scroll to explore"><span /> Scroll to explore</a>
         <div className="hero-video-status"><span className="hero-live-dot" /> A calmer way to choose</div>
 
-        {!webglUnavailable && (
-          <div className="hero-3d-panel">
-            <LayeredMattressScene onUnavailable={() => setWebglUnavailable(true)} />
-            <span className="hero-3d-caption">Illustrative construction · not a specific product</span>
+        <div className="dna-scene-wrap hero-dna-wrap">
+          <DnaHelixScene scale={1} />
+          <div className="dna-label dl-1">
+            <span className="dl-dot" />
+            <b>Sleep Position</b>
+            <i>Side · Back · Stomach</i>
           </div>
-        )}
+          <div className="dna-label dl-2">
+            <span className="dl-dot" />
+            <b>Body Weight</b>
+            <i>Under · Normal · Over</i>
+          </div>
+          <div className="dna-label dl-3">
+            <span className="dl-dot" />
+            <b>Temperature</b>
+            <i>Hot · Neutral · Cool</i>
+          </div>
+          <div className="dna-label dl-4">
+            <span className="dl-dot" />
+            <b>Firmness Preference</b>
+            <i>Soft · Medium · Firm</i>
+          </div>
+          <div className="dna-label dl-5">
+            <span className="dl-dot" />
+            <b>Motion Sensitivity</b>
+            <i>Low · Medium · High</i>
+          </div>
+          <div className="dna-label dl-6">
+            <span className="dl-dot" />
+            <b>Budget</b>
+            <i>Budget · Mid · Premium</i>
+          </div>
+
+          {!webglUnavailable && (
+            <div className="hero-3d-panel">
+              <LayeredMattressScene onUnavailable={() => setWebglUnavailable(true)} />
+              <span className="hero-3d-caption">Illustrative construction · not a specific product</span>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

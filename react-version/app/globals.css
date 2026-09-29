@@ -3971,19 +3971,32 @@ footer .foot-bottom a:hover{color:#fff!important;}
 .home-slider-dot.active{ background:var(--teal-500); transform:scale(1.25); }
 @media(prefers-reduced-motion:reduce){ .home-slider-dot{ transition:none; } }
 
-/* --- Hero 3D focal point: a small, honestly-labeled layered-mattress
-   visualization, positioned as a corner accent so it doesn't compete
-   with the cinematic video background or the primary headline/CTA. --- */
+/* --- Restored old hero visual: the rotating DNA-helix scene + its six
+   attribute labels, now living inside the cinematic video hero rather
+   than replacing it. Positioned as its own right-side column, absolute
+   within .hero-cinematic-inner so it never disturbs the text column's
+   flex layout, and hidden below 1100px (same breakpoint the 3D
+   mattress panel already used) rather than competing for room on
+   tablet/mobile. --- */
+.hero-dna-wrap{
+  position:absolute; top:50%; right:4%; transform:translateY(-50%); z-index:2; width:400px;
+}
+@media (max-width:1100px){ .hero-dna-wrap{ display:none; } }
+
+/* --- Hero 3D focal point: the new layered-mattress visualization,
+   now nested inside the restored DNA-scene column as a small floating
+   card at its corner (the same "float a smaller card over the bigger
+   3D scene" pattern already used elsewhere) instead of its own
+   separate corner of the whole hero. --- */
 .hero-3d-panel{
-  position:absolute; top:100px; right:6.5%; z-index:2; width:230px;
+  position:absolute; right:-10px; bottom:-10px; z-index:3; width:210px;
   display:flex; flex-direction:column; align-items:center; gap:8px;
   padding:14px; border-radius:var(--radius-md);
-  background:rgba(8,15,29,0.38); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.12);
+  background:rgba(8,15,29,0.5); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.14);
 }
-.layered-mattress-canvas{ width:100%; height:170px; display:block; transition:opacity .4s ease; }
-.hero-3d-fallback{ width:100%; height:170px; border-radius:var(--radius-sm); background:linear-gradient(160deg,rgba(63,212,255,0.12),rgba(63,224,201,0.06)); }
+.layered-mattress-canvas{ width:100%; height:150px; display:block; transition:opacity .4s ease; }
+.hero-3d-fallback{ width:100%; height:150px; border-radius:var(--radius-sm); background:linear-gradient(160deg,rgba(63,212,255,0.12),rgba(63,224,201,0.06)); }
 .hero-3d-caption{ font-size:10px; color:rgba(255,255,255,0.65); text-align:center; letter-spacing:.01em; }
-@media (max-width:1100px){ .hero-3d-panel{ display:none; } }
 
 .hero-example-slot{ margin-top:28px; display:flex; }
 @media (max-width:960px){ .hero-example-slot{ justify-content:center; } .hero-example-slot .hero-preview-card{ max-width:320px; } }
