@@ -4324,3 +4324,74 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .hero.hero-cinematic{background:#142630;}
   .home-short .review-quote-card,.home-short .review-quote-card:hover{transition:none;transform:none;}
 }
+
+
+/* ==========================================================
+   MATTRES DREAMSCAPE SYSTEM
+   Clean product usability layered over a connected, illustrated
+   sleep-world. Decorative artwork never replaces product content.
+   ========================================================== */
+.hero.hero-cinematic{isolation:isolate;overflow:hidden;background:#172b25;}
+.hero-bedroom-video{z-index:-3;opacity:.46;filter:saturate(.52) brightness(.62);}
+.hero-video-shade{z-index:-2;background:linear-gradient(90deg,rgba(15,32,26,.97) 0%,rgba(15,32,26,.84) 42%,rgba(15,32,26,.4) 76%,rgba(15,32,26,.28) 100%),linear-gradient(0deg,rgba(15,32,26,.74),transparent 52%);}
+.dreamscape-scene{position:absolute;z-index:0;right:-2%;bottom:-2%;width:min(74%,1000px);height:94%;pointer-events:none;overflow:visible;opacity:.88;mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.2) 12%,#000 36%,#000 100%);}
+.dreamscape-glow{position:absolute;width:65%;aspect-ratio:1;right:5%;bottom:-22%;border-radius:50%;background:radial-gradient(circle,rgba(193,179,145,.2),rgba(127,153,132,.09) 44%,transparent 70%);filter:blur(18px);}
+.dreamscape-art{position:absolute;width:100%;height:100%;inset:0;overflow:visible;filter:drop-shadow(0 25px 35px rgba(0,0,0,.12));}
+.dreamscape-stars{animation:dream-stars-drift 16s ease-in-out infinite alternate;transform-origin:50% 50%;}
+.dreamscape-city{animation:dream-city-breathe 9s ease-in-out infinite alternate;transform-origin:50% 100%;}
+.dreamscape-bed{animation:dream-bed-float 7s ease-in-out infinite;}
+.dreamscape-label{position:absolute;right:8%;bottom:8%;display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px solid rgba(240,235,216,.22);border-radius:999px;background:rgba(21,43,35,.48);backdrop-filter:blur(12px);color:rgba(249,246,233,.78);font-size:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+.dreamscape-label span{width:6px;height:6px;border-radius:50%;background:#d4e4b9;box-shadow:0 0 12px rgba(212,228,185,.8);}
+@keyframes dream-stars-drift{from{transform:translate3d(0,0,0);opacity:.72}to{transform:translate3d(0,-9px,0);opacity:1}}
+@keyframes dream-city-breathe{from{transform:translateY(2px)}to{transform:translateY(-5px)}}
+@keyframes dream-bed-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero-cinematic-inner{position:relative;z-index:2;}
+.hero-copy-cinematic{position:relative;z-index:3;}
+.hero-3d-panel{z-index:4;right:3.5%;top:90px;bottom:auto;width:190px;padding:10px;background:rgba(22,43,32,.48);border-color:rgba(237,232,211,.25);box-shadow:0 22px 70px rgba(0,0,0,.16);}
+.hero-3d-panel .layered-mattress-canvas,.hero-3d-panel .hero-3d-fallback{height:135px;}
+.hero-3d-caption{font-size:9px;letter-spacing:.035em;}
+/* A restrained editorial system for the functional sections: generous
+   whitespace and clear cards remain legible against the immersive scenes. */
+.home-how-section,.home-simple-section{position:relative;isolation:isolate;}
+.home-how-section:before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,#d9dfd1,transparent);}
+.home-section-intro h2{font-size:clamp(32px,4.5vw,54px);line-height:1.04;font-weight:500;letter-spacing:-.055em;color:#26392d;}
+.home-section-intro p{max-width:590px;font-size:15px;line-height:1.85;color:#6b766b;}
+.home-how-section .p-card{border-radius:5px;background:rgba(255,255,250,.76);border:1px solid #e0e3d9;box-shadow:0 16px 50px -38px rgba(34,54,38,.3);transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s;}
+.home-how-section .p-card:hover{transform:translateY(-5px);box-shadow:0 24px 55px -34px rgba(34,54,38,.3);border-color:#c8d4bd;}
+.home-how-section .p-num{border-radius:50%;background:#e7eddf;color:#617d56;}
+.home-short .universe-section,.home-short .match-score-section{position:relative;isolation:isolate;overflow:hidden;background-color:#142820;background-image:radial-gradient(ellipse at 78% 6%,rgba(172,190,143,.18),transparent 38%),radial-gradient(ellipse at 8% 80%,rgba(95,130,118,.14),transparent 40%);}
+.home-short .universe-section:before,.home-short .match-score-section:before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(10,24,20,.12),rgba(10,24,20,.56));pointer-events:none;}
+.home-short .universe-section .section-head,.home-short .match-score-section .wrap{position:relative;z-index:1;}
+.home-short .universe-section .section-h2,.home-short .match-score-section .section-h2{font-weight:500;letter-spacing:-.045em;}
+.home-short .universe-section .section-head p,.home-short .match-score-section .dv-head p{font-size:14px;line-height:1.85;}
+.home-short .universe-wrap{border:1px solid rgba(222,231,207,.13);border-radius:18px;background:rgba(236,241,220,.035);box-shadow:inset 0 1px rgba(255,255,255,.05);overflow:hidden;}
+.home-short .cmp-teaser{background:#fffefa;border:1px solid #e2e4d9;border-radius:6px;box-shadow:0 24px 70px -50px rgba(28,48,33,.35);}
+.review-quote-card{border-radius:5px!important;background:#fffefa!important;border:1px solid #e2e4d9!important;box-shadow:0 16px 45px -35px rgba(28,48,33,.28)!important;transition:transform .3s,border-color .3s!important;}
+.review-quote-card:hover{transform:translateY(-4px);border-color:#c7d5bb!important;}
+.home-final-cta{position:relative;isolation:isolate;overflow:hidden;background:#dfe6d5!important;color:#26392d!important;}
+.home-final-cta:before{content:"";position:absolute;z-index:-1;width:min(70vw,760px);aspect-ratio:1;border:1px solid rgba(95,122,82,.14);border-radius:50%;right:-18%;top:-70%;box-shadow:0 0 0 55px rgba(95,122,82,.035),0 0 0 110px rgba(95,122,82,.025);}
+.home-final-cta h2{font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important;letter-spacing:-.05em!important;line-height:1.03!important;}
+.home-final-cta p{color:#64715f!important;}
+/* Responsive scene composition: preserve the clean CTA first, artwork second. */
+@media(max-width:1100px){
+ .dreamscape-scene{width:78%;height:76%;right:-12%;bottom:0;opacity:.65;}
+ .dreamscape-label{display:none;}
+ .hero-3d-panel{display:none;}
+}
+@media(max-width:700px){
+ .hero.hero-cinematic{min-height:0;padding:48px 0 76px;}
+ .dreamscape-scene{width:118%;height:55%;right:-38%;bottom:-1%;opacity:.43;mask-image:linear-gradient(90deg,transparent 0%,#000 45%,#000 100%);}
+ .hero-bedroom-video{opacity:.25;object-position:60% center;}
+ .hero-video-shade{background:linear-gradient(90deg,rgba(15,32,26,.95),rgba(15,32,26,.72)),linear-gradient(0deg,rgba(15,32,26,.78),transparent 75%);}
+ .hero-copy-cinematic{max-width:560px;}
+ .hero-cinematic h1{max-width:520px;font-size:clamp(39px,10.5vw,56px);}
+ .hero-example-slot{position:relative;z-index:4;}
+ .home-how-section .p-card{padding:25px 22px;}
+ .home-short .universe-wrap{border-radius:12px;margin-left:-8px;margin-right:-8px;}
+ .home-short .section-head{margin-bottom:34px;}
+ .home-final-cta:before{width:130vw;right:-65%;top:-35%;}
+}
+@media(prefers-reduced-motion:reduce){
+ .dreamscape-scene:not(.is-static) .dreamscape-stars,.dreamscape-scene:not(.is-static) .dreamscape-city,.dreamscape-scene:not(.is-static) .dreamscape-bed{animation:none!important;}
+ .home-how-section .p-card,.review-quote-card{transition:none!important;}
+}
