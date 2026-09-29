@@ -4395,3 +4395,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .dreamscape-scene:not(.is-static) .dreamscape-stars,.dreamscape-scene:not(.is-static) .dreamscape-city,.dreamscape-scene:not(.is-static) .dreamscape-bed{animation:none!important;}
  .home-how-section .p-card,.review-quote-card{transition:none!important;}
 }
+
+
+/* Explicit stacking order for the hero's isolated background layers. */
+.hero-bedroom-video{z-index:0;}
+.hero-video-shade{z-index:1;}
+.hero-cinematic-grain{z-index:2;}
+.dreamscape-scene{z-index:2;}
+.hero-cinematic-inner{z-index:3;}
