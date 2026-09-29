@@ -35,7 +35,13 @@ export default function ResultsGrid({ results, catalogAudit }) {
 
   const tiered = results.filter((r) => r.tier);
   const untiered = results.filter((r) => !r.tier);
-  const visible = showAll ? results : tiered;
+  // Top-scoring tiered matches first (results are already sorted by real
+  // score); everything else - remaining tiered matches and below-70
+  // results - is one "Show all" tap away rather than a 20,000px scroll
+  // on mobile.
+  const INITIAL_VISIBLE = 6;
+  const visible = showAll ? results : tiered.slice(0, INITIAL_VISIBLE);
+  const hiddenCount = results.length - visible.length;
 
   function renderCard(item, i) {
     return (
@@ -95,9 +101,9 @@ export default function ResultsGrid({ results, catalogAudit }) {
         </div>
       )}
 
-      {!showAll && untiered.length > 0 && (
+      {!showAll && tiered.length > 0 && hiddenCount > 0 && (
         <button type="button" className="btn btn-ghost-dark show-all-results-btn" onClick={() => setShowAll(true)}>
-          Show all results ({untiered.length} more)
+          Show all results ({hiddenCount} more)
         </button>
       )}
 

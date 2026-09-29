@@ -4009,3 +4009,88 @@ footer .foot-bottom a:hover{color:#fff!important;}
 @media(prefers-reduced-motion:reduce){ .home-show-more-content{ transition:none; } }
 .home-show-more-bar{ display:flex; justify-content:center; padding:28px 20px 56px; }
 .home-show-more-btn{ min-width:200px; justify-content:center; }
+
+/* --- Fixes found via real headless-browser screenshots --- */
+/* Mobile hero headline: the old clamp floor (49px) made "actually fits
+   you" wider than a 390px phone and clipped it off-screen. */
+@media (max-width:640px){
+  .hero-cinematic h1{ font-size:clamp(36px,10.5vw,52px); overflow-wrap:anywhere; }
+  .hero-video-status{ display:none; }
+  .hero-proof-line{ row-gap:6px; }
+}
+@media (max-width:390px){ .hero-cinematic h1{ font-size:38px; } }
+
+/* The slider container inherited .hero-example-slot's flex *row*, so its
+   dots rendered beside the card (pushing it off-centre on mobile). */
+.hero-mattress-slider{ flex-direction:column; align-items:flex-start; gap:12px; }
+.hero-mattress-slider .hero-slider-dots{ margin-top:0; justify-content:flex-start; padding-left:6px; }
+@media (max-width:960px){
+  .hero-mattress-slider{ align-items:center; }
+  .hero-mattress-slider .hero-slider-dots{ justify-content:center; padding-left:0; }
+  .hero-mattress-slider .hero-preview-card{ width:100%; max-width:340px; margin:0; }
+}
+.hero-slider-dots .home-slider-dot{ background:rgba(255,255,255,.3); }
+.hero-slider-dots .home-slider-dot.active{ background:var(--teal-400); }
+
+/* Brand logo was touching the model name with no gap. */
+.hero-preview-name{ display:flex; align-items:center; gap:7px; }
+
+/* Desktop: the nested 3D panel overlapped the "Firmness Preference"
+   label; drop it below the helix's label field. */
+.hero-3d-panel{ bottom:-72px; right:-24px; }
+.hero-slider-dots{ display:flex; gap:8px; }
+
+/* Mobile nav overflow (measured: nav row was 448px wide on a 390px
+   phone, making every mobile page scroll sideways). Below 640px the
+   decorative owl and the CTA's icons go, and the CTA itself moves into
+   the mobile menu (it's already there) so logo + toggle always fit. */
+@media (max-width:640px){
+  .nav-row > .owl-mascot, .nav-row > [class*="owl"]{ display:none; }
+  .nav-main-cta{ display:none !important; }
+  .brand span{ white-space:nowrap; }
+}
+
+/* Grid items default to min-width:auto, so a wide child (spec grid,
+   review card) forced the detail-page column to 386px on a 390px phone. */
+.md-layout > *{ min-width:0; }
+
+/* X-Ray on detail pages: `.mattress-detail-page .section` forced an
+   ivory background onto the X-Ray section too, leaving its light
+   heading/copy (rgb 234,242,248) on ivory - effectively invisible. */
+.mattress-detail-page .section.xray-section{ background:linear-gradient(180deg,var(--navy-950),var(--navy-900))!important; padding:80px 0!important; }
+
+/* Find My Mattress on mobile: put the quiz first (above the fold)
+   instead of below a tall hero and a stats card; compact the hero. */
+@media (max-width:1100px){
+  .find-match-experience .fm-layout{ grid-template-columns:1fr; }
+  .find-match-experience .fm-layout > div:nth-child(2){ order:-1; }
+  .find-match-experience .fm-side{ position:static; display:flex; }
+  .find-match-experience .fm-layout > .fm-side:first-child{ display:none; }
+}
+@media (max-width:640px){
+  .find-match-experience > .page-hero{ padding:26px 0 20px!important; }
+  .find-match-experience > .page-hero .ph-title{ font-size:34px!important; margin:10px 0 8px!important; }
+  .find-match-experience > .page-hero .ph-sub{ font-size:14px; margin:0; }
+  .find-match-experience > .page-hero .owl-mascot{ display:none; }
+  .find-match-experience .section{ padding-top:16px!important; }
+  .find-match-experience .empty-state{ display:none; }
+}
+
+/* Result cards on mobile: secondary detail (sub-scores, data note,
+   review highlight) collapses behind a toggle so each card is quick to
+   scan; desktop always shows everything. */
+.cc-details-toggle{ display:none; }
+@media (max-width:640px){
+  .cc-details-toggle{ display:flex; align-items:center; justify-content:center; gap:6px; width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid #e1e6e9; background:#f7f9fa; color:var(--slate-900); font:600 13px/1 inherit; cursor:pointer; min-height:44px; }
+  .cc-details:not(.open){ display:none; }
+  .cc-details.open{ display:flex; flex-direction:column; gap:14px; }
+}
+@media (min-width:641px){ .cc-details{ display:flex; flex-direction:column; gap:14px; } }
+
+/* Quiz step 6: the two budget inputs kept their intrinsic width and the
+   "Max" field spilled past the card edge on a 390px phone. */
+.budget-row{ display:flex; align-items:center; gap:10px; }
+.budget-row input{ flex:1 1 0; min-width:0; width:100%; }
+/* iOS Safari zooms the whole page when focusing an input under 16px. */
+@media (max-width:640px){ input, select, textarea{ font-size:16px!important; } }
+.quiz-final-step fieldset{ margin:0; padding:0; border:0; min-width:0; }

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { CATEGORIES } from '@/lib/categories';
 import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import { VERIFICATION_LEVEL_LABEL } from '@/lib/dataIntegrity';
@@ -30,6 +31,7 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
   // Capped stagger: a 12-card grid shouldn't push the last card's reveal
   // delay out past what still feels responsive.
   const staggerMs = Math.min(index, 7) * 70;
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <SpotlightCard
@@ -104,6 +106,26 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </ul>
         </div>
       )}
+      <div className="flags">
+        {result.riskFlags.length ? (
+          result.riskFlags.map((f) => (
+            <span className="flag flag-warn" title={f.mitigation} key={f.code}>
+              ⚠ {f.rationale}
+            </span>
+          ))
+        ) : (
+          <span className="flag flag-ok">✓ No flags for your profile</span>
+        )}
+      </div>
+      <button
+        type="button"
+        className="cc-details-toggle"
+        aria-expanded={showDetails}
+        onClick={() => setShowDetails((v) => !v)}
+      >
+        {showDetails ? 'Hide details' : 'Show sub-scores & details'} <span aria-hidden="true">{showDetails ? '▴' : '▾'}</span>
+      </button>
+      <div className={`cc-details${showDetails ? ' open' : ''}`}>
       <div className="subscores">
         {CATEGORIES.map((cat) => {
           const val = result.subScores[cat.key];
@@ -124,17 +146,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           mattress — {estimated.length > 1 ? 'those sub-scores are' : 'that sub-score is'} estimated, not measured.
         </p>
       )}
-      <div className="flags">
-        {result.riskFlags.length ? (
-          result.riskFlags.map((f) => (
-            <span className="flag flag-warn" title={f.mitigation} key={f.code}>
-              ⚠ {f.rationale}
-            </span>
-          ))
-        ) : (
-          <span className="flag flag-ok">✓ No flags for your profile</span>
-        )}
-      </div>
       {entry.reviewHighlights && entry.reviewHighlights.length > 0 && (
         <div className="highlight">
           <q>{entry.reviewHighlights[0].snippet}</q>
@@ -159,6 +170,7 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </ul>
         </details>
       )}
+      </div>
       {whyThisMatch.length === 0 && (
         <p className="data-limitation-note">Baseline score for this mattress type; no profile-specific adjustments applied.</p>
       )}

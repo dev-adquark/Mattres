@@ -30,11 +30,16 @@ export default function Hero({ catalogCount, brandCount, heroExamples }) {
         loop
         playsInline
         preload="metadata"
-        poster="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=2000&q=85"
+        poster="/videos/hero-bedroom-poster.jpg"
         aria-hidden="true"
         tabIndex={-1}
       >
-        <source src="https://videos.pexels.com/video-files/8088572/8088572-hd_1920_1080_25fps.mp4" type="video/mp4" />
+        {/* Self-hosted (Mixkit licence, free commercial use): the previous
+            videos.pexels.com source returns 403 to hotlinked requests, so
+            the video never actually played for anyone. Lighter 360p file
+            for phones keeps first load fast. */}
+        <source src="/videos/hero-bedroom-720.mp4" type="video/mp4" media="(min-width: 900px)" />
+        <source src="/videos/hero-bedroom-360.mp4" type="video/mp4" />
       </video>
       <div className="hero-video-shade" aria-hidden="true" />
       <div className="hero-cinematic-grain" aria-hidden="true" />

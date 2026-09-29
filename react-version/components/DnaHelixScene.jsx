@@ -16,7 +16,17 @@ export default function DnaHelixScene({ scale = 1, className = 'dna-canvas' }) {
     if (!canvas) return undefined;
     const reducedMotion = prefersReducedMotion();
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    // WebGL can be unavailable (older devices, disabled hardware
+    // acceleration, locked-down browsers). Without this guard the
+    // constructor throws and takes the whole page down via the error
+    // boundary - degrade to no 3D instead.
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    } catch {
+      canvas.style.display = 'none';
+      return undefined;
+    }
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     camera.position.set(0, 0, 11 / scale);
