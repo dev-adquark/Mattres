@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
 import { runRtingsSync } from '@/lib/apify/rtingsSync';
 import { MAX_ITEMS_CAP } from '@/lib/apify/apifyClient';
 
@@ -30,7 +31,6 @@ import { MAX_ITEMS_CAP } from '@/lib/apify/apifyClient';
  * used before the DB existed - see lib/apify/rtingsSync.js.
  */
 export async function POST(request) {
-  const authHeader = request.headers.get('authorization');
   const expected = process.env.ADMIN_API_SECRET;
 
   if (!expected) {
@@ -39,7 +39,7 @@ export async function POST(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json(
       { success: false, data: null, meta: {}, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid admin bearer token.' } },
       { status: 401 }
