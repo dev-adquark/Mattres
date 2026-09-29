@@ -6,7 +6,6 @@ import FindMatchStats from '@/components/FindMatchStats';
 import OwlMascot from '@/components/OwlMascot';
 import QuizForm from '@/components/QuizForm';
 import ResultsGrid from '@/components/ResultsGrid';
-import SleepDnaSummary from '@/components/SleepDnaSummary';
 import SleepProfileChips from '@/components/SleepProfileChips';
 import SponsorPromoStrip from '@/components/SponsorPromoStrip';
 import { useLastResult } from '@/lib/useLastResult';
@@ -21,13 +20,11 @@ import { useLastResult } from '@/lib/useLastResult';
  */
 export default function FindMatchClient({ brandCount }) {
   const [apiData, setApiData] = useState(null);
-  const [lastProfile, setLastProfile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const { setPayload } = useLastResult();
 
   function handleResult(profile, data) {
     setApiData(data);
-    setLastProfile(profile);
 
     // Broadcast the real result to the home page's Sleep DNA / Universe /
     // Match Score sections via the same sessionStorage bridge the original
@@ -84,7 +81,7 @@ export default function FindMatchClient({ brandCount }) {
                 <div className="empty-state">
                   <OwlMascot variant="empty" />
                   <p>
-                    Answer the questions above and select <strong>&ldquo;See My Matches&rdquo;</strong> to see your
+                    Answer the questions above and select <strong>&ldquo;Find my matches&rdquo;</strong> to see your
                     personalized results.
                   </p>
                 </div>
@@ -103,11 +100,7 @@ export default function FindMatchClient({ brandCount }) {
             </div>
 
             <div className="fm-side">
-              {apiData && lastProfile ? (
-                <SleepDnaSummary profile={lastProfile} matchCount={apiData.results.length} />
-              ) : (
-                <SleepProfileChips />
-              )}
+              <SleepProfileChips />
             </div>
           </div>
 

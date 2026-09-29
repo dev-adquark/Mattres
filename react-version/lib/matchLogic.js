@@ -134,20 +134,6 @@ export function filterCatalog(profile, catalog) {
   });
 }
 
-/**
- * Pure display bucketing over the real overallScore - never changes what
- * that score is, only how results are grouped on screen. Below 70 has no
- * tier (returns null); the UI hides those by default behind a "Show all
- * results" toggle rather than inventing a tier name for a score that
- * isn't actually a good fit.
- */
-export function matchTier(overallScore) {
-  if (overallScore >= 90) return { key: 'excellent', label: 'Excellent Match' };
-  if (overallScore >= 80) return { key: 'strong', label: 'Strong Match' };
-  if (overallScore >= 70) return { key: 'possible', label: 'Possible Match' };
-  return null;
-}
-
 export function badgeFor(entry, isTopMatch) {
   if (entry.sponsored) return { label: 'Sponsored Verified', className: 'badge-sponsored' };
   if (isTopMatch) return { label: 'Top match — Algorithmic Pick', className: 'badge-top' };
@@ -206,7 +192,6 @@ export async function matchProfile(profile) {
       badge,
       displayTitle: displayTitle(entry),
       whyThisMatch: buildWhyThisMatch(result),
-      tier: matchTier(result.overallScore),
       preselect: index < 3,
       // Recomputed from the real underlying fields every time (see
       // lib/dataIntegrity.js), not trusted from a stored flag - so a

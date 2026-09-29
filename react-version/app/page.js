@@ -1,6 +1,5 @@
 import HomeClient from '@/components/HomeClient';
 import { getCatalog } from '@/lib/db/mattressRepo';
-import { matchProfile } from '@/lib/matchLogic';
 
 // Without this, Next statically prerenders this page once at build time
 // (getCatalog() itself doesn't use any dynamic API, so nothing here
@@ -11,25 +10,7 @@ import { matchProfile } from '@/lib/matchLogic';
 // needing every DB write to also trigger a redeploy.
 export const revalidate = 3600;
 
-// Same fixed, disclosed demo profile app/compare/page.js uses - reused
-// (not duplicated with different values) so the hero's illustrative
-// "example match" card and the /compare demo page always agree with each
-// other, and so this is a real scoreEngine output for a real catalog
-// entry under a stated profile, never an invented score.
-const HERO_EXAMPLE_PROFILE = {
-  sleepPosition: 'side',
-  weightLb: 155,
-  preferredFirmnessLabel: 'medium-firm',
-  sleepTemperature: 'hot',
-  motionSensitivity: 'single',
-  painFocus: [],
-  mattressTypePreference: [],
-  budgetUsd: { min: 0, max: 2000 },
-};
-
 export default async function HomePage() {
   const { entries: catalog } = await getCatalog();
-  const { results: exampleResults } = await matchProfile(HERO_EXAMPLE_PROFILE);
-  const heroExample = exampleResults[0] ?? null;
-  return <HomeClient catalog={catalog} heroExample={heroExample} />;
+  return <HomeClient catalog={catalog} />;
 }

@@ -49,7 +49,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         />{' '}
         Compare
       </label>
-      {item.tier && <span className={`tier-badge tier-${item.tier.key}`} style={{ marginRight: 6 }}>{item.tier.label}</span>}
       <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
       {item.verificationLevel !== 'verified' && (
         <span
@@ -88,16 +87,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         <span className="score-num">{result.overallScore}</span>
         <span className="score-max">/100</span>
       </div>
-      {whyThisMatch.length > 0 && (
-        <div className="why-fits-you">
-          <b>Why it fits you</b>
-          <ul>
-            {whyThisMatch.slice(0, 2).map((bullet, i) => (
-              <li key={i}>{bullet.includes(' — ') ? bullet.split(' — ').slice(1).join(' — ') : bullet}</li>
-            ))}
-          </ul>
-        </div>
-      )}
       <div className="subscores">
         {CATEGORIES.map((cat) => {
           const val = result.subScores[cat.key];
@@ -145,17 +134,16 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </div>
         </div>
       )}
-      {whyThisMatch.length > 2 && (
-        <details className="why-match">
-          <summary>{whyThisMatch.length - 2} more reason{whyThisMatch.length - 2 === 1 ? '' : 's'}</summary>
-          <ul>
-            {whyThisMatch.slice(2).map((b, i) => <li key={i}>{b}</li>)}
-          </ul>
-        </details>
-      )}
-      {whyThisMatch.length === 0 && (
-        <p className="data-limitation-note">Baseline score for this mattress type; no profile-specific adjustments applied.</p>
-      )}
+      <details className="why-match">
+        <summary>Why this match?</summary>
+        <ul>
+          {whyThisMatch.length ? (
+            whyThisMatch.map((b, i) => <li key={i}>{b}</li>)
+          ) : (
+            <li>Baseline score for this mattress type; no profile-specific adjustments applied.</li>
+          )}
+        </ul>
+      </details>
       {(() => {
         const retailer = primaryRetailerLink(entry);
         return retailer ? (
