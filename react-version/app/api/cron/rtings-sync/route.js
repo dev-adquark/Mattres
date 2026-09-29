@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
 import { runRtingsSync } from '@/lib/apify/rtingsSync';
 
 /**
@@ -22,13 +23,12 @@ import { runRtingsSync } from '@/lib/apify/rtingsSync';
  * all).
  */
 export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
   const expected = process.env.CRON_SECRET;
 
   if (!expected) {
     return NextResponse.json({ error: 'CRON_SECRET is not configured on this deployment.' }, { status: 500 });
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
