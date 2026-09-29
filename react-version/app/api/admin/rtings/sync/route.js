@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
+import { checkRateLimit } from '@/lib/rateLimit';
 import { runRtingsSync } from '@/lib/apify/rtingsSync';
 import { MAX_ITEMS_CAP } from '@/lib/apify/apifyClient';
 
@@ -30,7 +32,15 @@ import { MAX_ITEMS_CAP } from '@/lib/apify/apifyClient';
  * used before the DB existed - see lib/apify/rtingsSync.js.
  */
 export async function POST(request) {
-  const authHeader = request.headers.get('authorization');
+  const clientIp = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const authLimit = await checkRateLimit(`admin-auth:sync:${clientIp || 'unknown'}`, { limit: 10, windowMs: 60_000 });
+  if (authLimit.limited) {
+    return NextResponse.json(
+      { success: false, data: null, meta: {}, error: { code: 'TOO_MANY_ATTEMPTS', message: 'Too many attempts. Please wait a minute and try again.' } },
+      { status: 429, headers: { 'Retry-After': '60' } }
+    );
+  }
+
   const expected = process.env.ADMIN_API_SECRET;
 
   if (!expected) {
@@ -39,7 +49,7 @@ export async function POST(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json(
       { success: false, data: null, meta: {}, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid admin bearer token.' } },
       { status: 401 }

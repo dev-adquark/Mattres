@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
+import { checkRateLimit } from '@/lib/rateLimit';
 import fs from 'fs';
 import { isApifyConfigured } from '@/lib/apify/apifyClient';
 import { RAW_PATH, PROPOSALS_PATH } from '@/lib/apify/rtingsSync';
@@ -13,7 +15,15 @@ import { getSupabaseClient, isDbConfigured } from '@/lib/db/supabaseClient';
  * POST /api/admin/rtings/sync.
  */
 export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
+  const clientIp = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const authLimit = await checkRateLimit(`admin-auth:status:${clientIp || 'unknown'}`, { limit: 10, windowMs: 60_000 });
+  if (authLimit.limited) {
+    return NextResponse.json(
+      { success: false, data: null, meta: {}, error: { code: 'TOO_MANY_ATTEMPTS', message: 'Too many attempts. Please wait a minute and try again.' } },
+      { status: 429, headers: { 'Retry-After': '60' } }
+    );
+  }
+
   const expected = process.env.ADMIN_API_SECRET;
 
   if (!expected) {
@@ -22,7 +32,7 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json(
       { success: false, data: null, meta: {}, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid admin bearer token.' } },
       { status: 401 }

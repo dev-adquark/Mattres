@@ -1,0 +1,53 @@
+name: Mattress Match Score CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scoring-engine:
+    name: Scoring engine and data checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install Next.js dependencies for root integration tests
+        run: npm ci
+        working-directory: react-version
+      - run: npm test
+      - name: Report catalog verification status
+        run: |
+          set +e
+          npm run verify-catalog
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "::warning::Catalog has records requiring source verification. Review the report above; this is a data-readiness warning, not a code-test failure."
+          fi
+          exit 0
+
+  next-app:
+    name: Next.js app tests and production build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-version
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react-version/package-lock.json
+      - run: npm ci
+      - run: npm test -- --run
+      - run: npm run build

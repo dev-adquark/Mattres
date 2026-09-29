@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
 import { getCatalog } from '@/lib/db/mattressRepo';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
@@ -18,7 +19,6 @@ const STALE_AFTER_DAYS = 180;
  * reporting what still needs a human to actually go verify.
  */
 export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
   const expected = process.env.CRON_SECRET;
 
   if (!expected) {
@@ -27,7 +27,7 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -36,13 +36,19 @@ export async function GET(request) {
   const stale = [];
   const neverVerified = [];
   const fresh = [];
+  const invalidDates = [];
 
   for (const entry of catalog) {
     if (!isRecordVerified(entry)) {
       neverVerified.push({ id: entry.id, brand: entry.brand, model: entry.model, missing: missingFields(entry) });
       continue;
     }
-    const ageDays = Math.round((now - new Date(entry.lastVerified)) / (1000 * 60 * 60 * 24));
+    const verifiedAt = new Date(entry.lastVerified);
+    if (Number.isNaN(verifiedAt.getTime())) {
+      invalidDates.push({ id: entry.id, brand: entry.brand, model: entry.model, lastVerified: entry.lastVerified });
+      continue;
+    }
+    const ageDays = Math.round((now - verifiedAt) / (1000 * 60 * 60 * 24));
     if (ageDays > STALE_AFTER_DAYS) {
       stale.push({ id: entry.id, brand: entry.brand, model: entry.model, ageDays, sourceUrl: entry.sourceUrl });
     } else {
@@ -57,7 +63,9 @@ export async function GET(request) {
     freshCount: fresh.length,
     staleCount: stale.length,
     neverVerifiedCount: neverVerified.length,
+    invalidVerificationDateCount: invalidDates.length,
     stale,
     neverVerified,
+    invalidDates,
   });
 }
