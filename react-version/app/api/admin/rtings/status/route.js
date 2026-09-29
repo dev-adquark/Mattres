@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
 import fs from 'fs';
 import { isApifyConfigured } from '@/lib/apify/apifyClient';
 import { RAW_PATH, PROPOSALS_PATH } from '@/lib/apify/rtingsSync';
@@ -13,7 +14,6 @@ import { getSupabaseClient, isDbConfigured } from '@/lib/db/supabaseClient';
  * POST /api/admin/rtings/sync.
  */
 export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
   const expected = process.env.ADMIN_API_SECRET;
 
   if (!expected) {
@@ -22,7 +22,7 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json(
       { success: false, data: null, meta: {}, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid admin bearer token.' } },
       { status: 401 }
