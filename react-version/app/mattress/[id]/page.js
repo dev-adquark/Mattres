@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import BrandLogo from '@/components/BrandLogo';
 import MattressThumb from '@/components/MattressThumb';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
 import { buildRetailerLink } from '@/lib/affiliateLinks';
