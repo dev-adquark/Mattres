@@ -39,19 +39,19 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
       <div className="hero-cinematic-grain" aria-hidden="true" />
       <div className="wrap hero-cinematic-inner">
         <div className="hero-copy-cinematic">
-          <div className="hero-kicker"><span className="hero-live-dot" /> THE ART OF BETTER SLEEP</div>
-          <h1>Find the mattress that <em>actually fits you</em></h1>
-          <p className="hero-cinematic-lead">60-second sleep profile, personalised mattress scores.</p>
+          <div className="hero-kicker"><span className="hero-live-dot" /> YOUR PERSONAL MATTRESS MATCH</div>
+          <h1>Find your mattress match <em>in about 60 seconds</em></h1>
+          <p className="hero-cinematic-lead">Answer a few simple questions about how you sleep. Get a personal match score out of 100 and see which mattresses fit your comfort, support, and budget.</p>
           <div className="hero-ctas hero-cinematic-actions">
             <Link href="/find-match" className="btn hero-cream-btn">
-              Find My Mattress <span aria-hidden="true">↗</span>
+              Get My Match Score <span aria-hidden="true">↗</span>
             </Link>
-            <a href="#universe" className="hero-text-link">Explore mattresses <span aria-hidden="true">↓</span></a>
+            <a href="#how-it-works" className="hero-text-link">How it works <span aria-hidden="true">↓</span></a>
           </div>
           <div className="hero-proof-line" aria-label="Reassurance">
-            <span><b>{catalogCount}+</b> mattresses scored</span><i />
-            <span>Scores can&apos;t be bought</span><i />
-            <span>Free · No signup</span>
+            <span>Free to use</span><i />
+            <span>No signup required</span><i />
+            <span>Personalised score /100</span>
           </div>
 
           {heroExample && (
@@ -60,7 +60,7 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
             </div>
           )}
         </div>
-        <a className="hero-scroll-cue" href="#universe" aria-label="Scroll to explore"><span /> Scroll to explore</a>
+        <a className="hero-scroll-cue" href="#how-it-works" aria-label="See how matching works"><span /> See how it works</a>
         <div className="hero-video-status"><span className="hero-live-dot" /> A calmer way to choose</div>
 
         {!webglUnavailable && (
