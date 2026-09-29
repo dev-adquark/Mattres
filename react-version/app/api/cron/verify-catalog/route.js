@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isAuthorizedCronRequest } from '@/lib/cronAuth';
 import { getCatalog } from '@/lib/db/mattressRepo';
 import { isRecordVerified, missingFields } from '@/lib/dataIntegrity';
 
@@ -18,7 +19,6 @@ const STALE_AFTER_DAYS = 180;
  * reporting what still needs a human to actually go verify.
  */
 export async function GET(request) {
-  const authHeader = request.headers.get('authorization');
   const expected = process.env.CRON_SECRET;
 
   if (!expected) {
@@ -27,7 +27,7 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-  if (authHeader !== `Bearer ${expected}`) {
+  if (!isAuthorizedCronRequest(request.headers, expected)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
