@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import HeroResultPreview from './HeroResultPreview';
 
 // Loaded only client-side, on demand - never part of the initial page
 // bundle, and never blocks the hero's real content (headline/CTA) from
@@ -17,7 +18,7 @@ const LayeredMattressScene = dynamic(() => import('./LayeredMattressScene'), {
  * Full-bleed cinematic hero. The video is decorative and muted by default;
  * the clear primary CTA and category shortcuts keep the first screen easy to use.
  */
-export default function Hero({ catalogCount, brandCount }) {
+export default function Hero({ catalogCount, brandCount, heroExample }) {
   const [webglUnavailable, setWebglUnavailable] = useState(false);
   return (
     <header className="hero hero-cinematic" id="top">
@@ -39,21 +40,27 @@ export default function Hero({ catalogCount, brandCount }) {
       <div className="wrap hero-cinematic-inner">
         <div className="hero-copy-cinematic">
           <div className="hero-kicker"><span className="hero-live-dot" /> THE ART OF BETTER SLEEP</div>
-          <h1>Meet your <em>perfect</em><br />mattress match.</h1>
-          <p className="hero-cinematic-lead">Thoughtfully matched to the way you sleep. Discover comfort that feels like it was made just for you.</p>
+          <h1>Find the mattress that <em>actually fits you</em></h1>
+          <p className="hero-cinematic-lead">60-second sleep profile, personalised mattress scores.</p>
           <div className="hero-ctas hero-cinematic-actions">
             <Link href="/find-match" className="btn hero-cream-btn">
-              Find my mattress <span aria-hidden="true">↗</span>
+              Find My Mattress <span aria-hidden="true">↗</span>
             </Link>
-            <a href="#home-categories" className="hero-text-link">Explore mattresses <span aria-hidden="true">↓</span></a>
+            <a href="#universe" className="hero-text-link">Explore mattresses <span aria-hidden="true">↓</span></a>
           </div>
-          <div className="hero-proof-line">
-            <span><b>{catalogCount}+</b> mattresses</span><i />
-            <span><b>{brandCount}+</b> trusted brands</span><i />
+          <div className="hero-proof-line" aria-label="Reassurance">
+            <span><b>{catalogCount}+</b> mattresses scored</span><i />
+            <span>Scores can&apos;t be bought</span><i />
             <span>Free · No signup</span>
           </div>
+
+          {heroExample && (
+            <div className="hero-example-slot">
+              <HeroResultPreview example={heroExample} />
+            </div>
+          )}
         </div>
-        <a className="hero-scroll-cue" href="#home-categories" aria-label="Scroll to explore"><span /> Scroll to explore</a>
+        <a className="hero-scroll-cue" href="#universe" aria-label="Scroll to explore"><span /> Scroll to explore</a>
         <div className="hero-video-status"><span className="hero-live-dot" /> A calmer way to choose</div>
 
         {!webglUnavailable && (

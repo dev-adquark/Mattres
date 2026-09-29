@@ -8,10 +8,9 @@ import OwlMascot from './OwlMascot';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const NAV_LINKS = [
-  { href: '/mattresses', label: 'Shop Mattresses' },
   { href: '/compare', label: 'Compare' },
-  { href: '/guides', label: 'Guides' },
-  { href: '/methodology', label: 'Our Scoring' },
+  { href: '/guides', label: 'Mattress Guides' },
+  { href: '/methodology', label: 'How Scoring Works' },
 ];
 
 export default function Nav() {

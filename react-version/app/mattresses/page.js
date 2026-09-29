@@ -37,7 +37,7 @@ export default async function MattressesPage({ searchParams }) {
           <h1 className="ph-title">Explore the catalog.</h1>
           <p className="ph-sub">Browse {entries.length} mattress listings across {brands.length} brands. Product details may be unverified; check each listing&apos;s verification notes.</p>
           <div className="catalog-quick-links">
-            <Link href="/find-match" className="btn btn-primary">Find my match →</Link>
+            <Link href="/find-match" className="btn btn-primary">Find My Mattress →</Link>
             <Link href="/compare" className="btn btn-ghost-dark">Compare mattresses</Link>
           </div>
         </div>
@@ -89,13 +89,13 @@ export default async function MattressesPage({ searchParams }) {
                 <>
                   <h2>No listings match that type</h2>
                   <p>Try clearing the filter, or use the matching quiz to explore options across every type.</p>
-                  <div className="catalog-quick-links"><Link href="/mattresses" className="btn btn-ghost-dark">Clear filter</Link><Link href="/find-match" className="btn btn-primary">Find my match</Link></div>
+                  <div className="catalog-quick-links"><Link href="/mattresses" className="btn btn-ghost-dark">Clear filter</Link><Link href="/find-match" className="btn btn-primary">Find My Mattress</Link></div>
                 </>
               ) : (
                 <>
                   <h2>Catalog is being updated</h2>
                   <p>Try the matching quiz to explore options as the catalog becomes available.</p>
-                  <Link href="/find-match" className="btn btn-primary">Find my match</Link>
+                  <Link href="/find-match" className="btn btn-primary">Find My Mattress</Link>
                 </>
               )}
             </div>
