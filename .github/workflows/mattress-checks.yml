@@ -32,3 +32,5 @@ jobs:
         run: npm test
       - name: Run ESLint
         run: npm run lint
+      - name: Verify production build
+        run: npm run build
