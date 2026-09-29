@@ -8,6 +8,7 @@ import QuizForm from '@/components/QuizForm';
 import ResultsGrid from '@/components/ResultsGrid';
 import SleepDnaSummary from '@/components/SleepDnaSummary';
 import SleepProfileChips from '@/components/SleepProfileChips';
+import SponsorPromoStrip from '@/components/SponsorPromoStrip';
 import { useLastResult } from '@/lib/useLastResult';
 
 /**
@@ -110,6 +111,9 @@ export default function FindMatchClient({ brandCount }) {
             </div>
           </div>
 
+          <div style={{ marginTop: 48 }}>
+            <SponsorPromoStrip />
+          </div>
         </div>
       </section>
     </main>

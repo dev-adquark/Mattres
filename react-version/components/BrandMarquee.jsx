@@ -1,5 +1,4 @@
 import { brandPartners } from '@/lib/brandCollab';
-import BrandLogo from './BrandLogo';
 
 /**
  * Two duplicated copies of the partner list render side by side; the
@@ -16,7 +15,6 @@ export default function BrandMarquee({ onLight = false }) {
       <div className="brand-marquee-track" aria-hidden="true">
         {track.map((p, i) => (
           <span className="brand-chip" key={`${p.name}-${i}`}>
-            <BrandLogo brand={p.name} size={16} className="brand-chip-logo" />
             <span className="brand-chip-dot" />
             {p.name}
           </span>

@@ -5,7 +5,6 @@ import ResultCard from './ResultCard';
 import ComparisonTable from './ComparisonTable';
 
 const MAX_SELECTED = 4;
-const INITIAL_VISIBLE = 4;
 
 /**
  * The Compare page is a Server Component (it computes real scores at
@@ -20,9 +19,6 @@ const INITIAL_VISIBLE = 4;
 export default function CompareGrid({ results }) {
   const [selectedIds, setSelectedIds] = useState([]);
   const [showComparison, setShowComparison] = useState(false);
-  // Top few first (results are already sorted by real score), the rest
-  // one tap away - keeps the page short on mobile without hiding data.
-  const [showAll, setShowAll] = useState(false);
 
   function toggleCompare(id) {
     setSelectedIds((prev) => {
@@ -40,7 +36,7 @@ export default function CompareGrid({ results }) {
   return (
     <>
       <div className="compare-grid">
-        {(showAll ? results : results.slice(0, INITIAL_VISIBLE)).map((item, i) => (
+        {results.map((item, i) => (
           <ResultCard
             key={item.entry.id}
             item={item}
@@ -51,12 +47,6 @@ export default function CompareGrid({ results }) {
           />
         ))}
       </div>
-
-      {!showAll && results.length > INITIAL_VISIBLE && (
-        <button type="button" className="btn btn-ghost-dark show-all-results-btn" onClick={() => setShowAll(true)}>
-          Show all {results.length} results
-        </button>
-      )}
 
       {selectedIds.length >= 1 && (
         <div className="comparison-tray-sticky">

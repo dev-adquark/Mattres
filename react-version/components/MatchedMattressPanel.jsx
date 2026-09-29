@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { formatPrice } from '@/lib/format';
-import BrandLogo from './BrandLogo';
 import MattressThumb from './MattressThumb';
 
 /**
@@ -41,10 +40,7 @@ export default function MatchedMattressPanel({ top }) {
           </span>
           {top && <span className="mmp-rank-badge">Ranked #1</span>}
         </div>
-        <h3 className="cc-title-row">
-          {top && <BrandLogo brand={top.entry.brand} size={20} />}
-          {top ? top.displayTitle : 'Take the quiz to see your match'}
-        </h3>
+        <h3>{top ? top.displayTitle : 'Take the quiz to see your match'}</h3>
         <p>
           {top
             ? `${top.entry.type.charAt(0).toUpperCase() + top.entry.type.slice(1)} · ${formatPrice(top.entry)} · matched to your profile with a real score of ${top.result.overallScore}/100.`

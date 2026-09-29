@@ -3,35 +3,6 @@ import AnimatedLogo from './AnimatedLogo';
 import AmbientParticles from './AmbientParticles';
 import BrandMarquee from './BrandMarquee';
 
-// Grouped by real purpose (product / learn / legal) instead of one flat
-// row of 7 links - Privacy and Terms are real, existing routes that,
-// until now, were never linked from anywhere outside their own pages.
-const FOOTER_GROUPS = [
-  {
-    heading: 'Product',
-    links: [
-      { href: '/find-match', label: 'Find My Mattress' },
-      { href: '/compare', label: 'Compare' },
-      { href: '/methodology', label: 'How Scoring Works' },
-    ],
-  },
-  {
-    heading: 'Learn',
-    links: [
-      { href: '/guides', label: 'Mattress Guides' },
-      { href: '/faq', label: 'FAQ' },
-      { href: '/disclosures', label: 'About & disclosures' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { href: '/privacy', label: 'Privacy' },
-      { href: '/terms', label: 'Terms' },
-    ],
-  },
-];
-
 export default function Footer() {
   return (
     <footer>
@@ -53,23 +24,20 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="foot-groups">
-            {FOOTER_GROUPS.map((group) => (
-              <div className="foot-group" key={group.heading}>
-                <span className="foot-group-heading">{group.heading}</span>
-                {group.links.map((l) => (
-                  <Link key={l.href} href={l.href}>
-                    {l.label}
-                  </Link>
-                ))}
-              </div>
-            ))}
+          <div className="foot-links">
+            <Link href="/">Home</Link>
+            <Link href="/find-match">Find My Mattress</Link>
+            <Link href="/compare">Compare</Link>
+            <Link href="/guides">Mattress Guides</Link>
+            <Link href="/methodology">How Scoring Works</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/disclosures">About</Link>
           </div>
         </div>
 
-        <div style={{ margin: '28px 0 28px' }}>
+        <div style={{ margin: '8px 0 28px' }}>
           <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-dim)', marginBottom: 14, opacity: 0.7 }}>
-            Real mattress brands
+            Real brands referenced in our comparisons
           </span>
           <BrandMarquee />
         </div>

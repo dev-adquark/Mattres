@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { CATEGORIES } from '@/lib/categories';
 import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import { VERIFICATION_LEVEL_LABEL } from '@/lib/dataIntegrity';
 import { formatPrice } from '@/lib/format';
-import BrandLogo from './BrandLogo';
 import MattressThumb from './MattressThumb';
 import SpotlightCard from './SpotlightCard';
 
@@ -31,7 +29,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
   // Capped stagger: a 12-card grid shouldn't push the last card's reveal
   // delay out past what still feels responsive.
   const staggerMs = Math.min(index, 7) * 70;
-  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <SpotlightCard
@@ -42,50 +39,45 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
       data-mattress-id={entry.id}
       style={{ transitionDelay: `${staggerMs}ms` }}
     >
-      <div className="cc-thumb-wrap">
-        <MattressThumb entry={entry} />
-        <label className="result-select">
-          <input
-            type="checkbox"
-            className="compare-checkbox"
-            checked={compareChecked}
-            onChange={() => onCompareToggle(entry.id)}
-          />{' '}
-          Compare
-        </label>
-      </div>
-      <div className="cc-badges">
-        {item.tier && <span className={`tier-badge tier-${item.tier.key}`}>{item.tier.label}</span>}
-        <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
-        {item.verificationLevel !== 'verified' && (
-          <span
-            className={`unverified-badge vlevel-${item.verificationLevel}`}
-            title={
-              item.verificationLevel === 'unknown'
-                ? `This record has real gaps in its own data (missing: ${item.missingFields.join(', ')}), independent of verification.`
-                : item.verificationLevel === 'partially_verified'
-                  ? 'Real brand/model name. Some verification evidence is on file, but not a complete source + date confirmation yet.'
-                  : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
-            }
-          >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-              <path d="M12 9v4M12 17h.01" />
-              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-            </svg>
-            {VERIFICATION_LEVEL_LABEL[item.verificationLevel]}
-          </span>
-        )}
-        {isBestValue && (
-          <span className="value-badge" title="Real lowest price among the results shown">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg>
-            Best value
-          </span>
-        )}
-      </div>
-      <h3 className="cc-title-row">
-        <BrandLogo brand={entry.brand} size={20} />
+      <MattressThumb entry={entry} />
+      <label className="result-select">
+        <input
+          type="checkbox"
+          className="compare-checkbox"
+          checked={compareChecked}
+          onChange={() => onCompareToggle(entry.id)}
+        />{' '}
+        Compare
+      </label>
+      {item.tier && <span className={`tier-badge tier-${item.tier.key}`} style={{ marginRight: 6 }}>{item.tier.label}</span>}
+      <span className={`listing-badge ${badge.className}`}>{badge.label}</span>
+      {item.verificationLevel !== 'verified' && (
+        <span
+          className={`unverified-badge vlevel-${item.verificationLevel}`}
+          title={
+            item.verificationLevel === 'unknown'
+              ? `This record has real gaps in its own data (missing: ${item.missingFields.join(', ')}), independent of verification.`
+              : item.verificationLevel === 'partially_verified'
+                ? 'Real brand/model name. Some verification evidence is on file, but not a complete source + date confirmation yet.'
+                : 'Real brand/model name. Specs, price, and score are placeholder values, not confirmed against the manufacturer or retailer.'
+          }
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+            <path d="M12 9v4M12 17h.01" />
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+          </svg>
+          {VERIFICATION_LEVEL_LABEL[item.verificationLevel]}
+        </span>
+      )}
+      {isBestValue && (
+        <span className="value-badge" title="Real lowest price among the results shown">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
+          Best value
+        </span>
+      )}
+      <h3>
         <Link href={`/mattress/${entry.id}`}>{displayTitle}</Link>
       </h3>
       <div className="cc-meta">
@@ -106,26 +98,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </ul>
         </div>
       )}
-      <div className="flags">
-        {result.riskFlags.length ? (
-          result.riskFlags.map((f) => (
-            <span className="flag flag-warn" title={f.mitigation} key={f.code}>
-              ⚠ {f.rationale}
-            </span>
-          ))
-        ) : (
-          <span className="flag flag-ok">✓ No flags for your profile</span>
-        )}
-      </div>
-      <button
-        type="button"
-        className="cc-details-toggle"
-        aria-expanded={showDetails}
-        onClick={() => setShowDetails((v) => !v)}
-      >
-        {showDetails ? 'Hide details' : 'Show sub-scores & details'} <span aria-hidden="true">{showDetails ? '▴' : '▾'}</span>
-      </button>
-      <div className={`cc-details${showDetails ? ' open' : ''}`}>
       <div className="subscores">
         {CATEGORIES.map((cat) => {
           const val = result.subScores[cat.key];
@@ -146,6 +118,17 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           mattress — {estimated.length > 1 ? 'those sub-scores are' : 'that sub-score is'} estimated, not measured.
         </p>
       )}
+      <div className="flags">
+        {result.riskFlags.length ? (
+          result.riskFlags.map((f) => (
+            <span className="flag flag-warn" title={f.mitigation} key={f.code}>
+              ⚠ {f.rationale}
+            </span>
+          ))
+        ) : (
+          <span className="flag flag-ok">✓ No flags for your profile</span>
+        )}
+      </div>
       {entry.reviewHighlights && entry.reviewHighlights.length > 0 && (
         <div className="highlight">
           <q>{entry.reviewHighlights[0].snippet}</q>
@@ -170,7 +153,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </ul>
         </details>
       )}
-      </div>
       {whyThisMatch.length === 0 && (
         <p className="data-limitation-note">Baseline score for this mattress type; no profile-specific adjustments applied.</p>
       )}

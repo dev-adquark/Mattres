@@ -1,12 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { primaryRetailerLink } from '@/lib/affiliateLinks';
 import { makeVisibilityGate, fitRendererToCanvas, prefersReducedMotion } from '@/lib/threeUtils';
 import { displayTitle, formatPrice } from '@/lib/format';
-import BrandLogo from './BrandLogo';
 import MattressThumb from './MattressThumb';
 
 /**
@@ -46,17 +43,7 @@ const MattressUniverseScene = forwardRef(function MattressUniverseScene({ catalo
     if (!canvas || !labelsContainer || !catalog?.length) return undefined;
     const reducedMotion = prefersReducedMotion();
 
-    // WebGL can be unavailable (older devices, disabled hardware
-    // acceleration, locked-down browsers). Without this guard the
-    // constructor throws and takes the whole page down via the error
-    // boundary - degrade to no 3D instead.
-    let renderer;
-    try {
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    } catch {
-      canvas.style.display = 'none';
-      return undefined;
-    }
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     camera.position.set(0, 5.2, 8.2);
@@ -250,10 +237,7 @@ const MattressUniverseScene = forwardRef(function MattressUniverseScene({ catalo
             ✕
           </button>
           <MattressThumb entry={selected.entry} />
-          <div className="uip-name cc-title-row">
-            <BrandLogo brand={selected.entry.brand} size={18} />
-            {displayTitle(selected.entry)}
-          </div>
+          <div className="uip-name">{displayTitle(selected.entry)}</div>
           <div className="uip-meta">
             {selected.entry.type.charAt(0).toUpperCase() + selected.entry.type.slice(1)} · {formatPrice(selected.entry)} ·{' '}
             {selected.entry.trialDays}-night trial
@@ -275,24 +259,9 @@ const MattressUniverseScene = forwardRef(function MattressUniverseScene({ catalo
               ))}
             </ul>
           )}
-          {(() => {
-            const retailer = primaryRetailerLink(selected.entry);
-            return retailer ? (
-              <a
-                href={retailer.href}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="uip-cta"
-                style={{ marginTop: '10px' }}
-              >
-                View at {retailer.retailer} →
-              </a>
-            ) : (
-              <Link href={`/mattress/${selected.entry.id}`} className="uip-cta" style={{ marginTop: '10px' }}>
-                See full details →
-              </Link>
-            );
-          })()}
+          <a href="/disclosures" className="uip-cta" style={{ marginTop: '10px' }}>
+            View at retailer →
+          </a>
         </div>
       )}
     </>

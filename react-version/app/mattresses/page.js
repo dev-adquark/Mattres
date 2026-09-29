@@ -17,15 +17,8 @@ export default async function MattressesPage({ searchParams }) {
   const selectedType = typeof params?.type === 'string' ? params.type.toLowerCase().trim() : '';
   const normalize = (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const typeAliases = { 'memory-foam': ['memoryfoam', 'foam'], innerspring: ['innerspring', 'innersprings'], hybrid: ['hybrid'], latex: ['latex'], adjustable: ['adjustable'] };
-  // An unrecognized `?type=` value used to silently fall through to
-  // "no filter" (showing the full catalog) instead of the real,
-  // useful answer - zero results for a type that doesn't exist - so
-  // the empty-state UI below could never actually be reached.
-  const hasTypeFilter = selectedType.length > 0;
-  const acceptedTypes = typeAliases[selectedType] || [];
-  const entries = hasTypeFilter
-    ? allEntries.filter((entry) => acceptedTypes.some((type) => normalize(entry.type).includes(type)))
-    : allEntries;
+  const acceptedTypes = typeAliases[selectedType];
+  const entries = acceptedTypes ? allEntries.filter((entry) => acceptedTypes.some((type) => normalize(entry.type).includes(type))) : allEntries;
   const brands = [...new Set(entries.map((entry) => entry.brand).filter(Boolean))];
   const types = [...new Set(entries.map((entry) => entry.type).filter(Boolean))];
 
@@ -35,9 +28,9 @@ export default async function MattressesPage({ searchParams }) {
         <div className="wrap">
           <span className="eyebrow">The mattress collection</span>
           <h1 className="ph-title">Explore the catalog.</h1>
-          <p className="ph-sub">Browse {entries.length} mattress listings across {brands.length} brands. Product details may be unverified; check each listing&apos;s verification notes.</p>
+          <p className="ph-sub">Browse {entries.length} mattress listings across {brands.length} brands. Product details may be unverified; check each listing's verification notes.</p>
           <div className="catalog-quick-links">
-            <Link href="/find-match" className="btn btn-primary">Find My Mattress →</Link>
+            <Link href="/find-match" className="btn btn-primary">Find my match →</Link>
             <Link href="/compare" className="btn btn-ghost-dark">Compare mattresses</Link>
           </div>
         </div>
@@ -84,21 +77,7 @@ export default async function MattressesPage({ searchParams }) {
               ))}
             </div>
           ) : (
-            <div className="catalog-empty">
-              {hasTypeFilter ? (
-                <>
-                  <h2>No listings match that type</h2>
-                  <p>Try clearing the filter, or use the matching quiz to explore options across every type.</p>
-                  <div className="catalog-quick-links"><Link href="/mattresses" className="btn btn-ghost-dark">Clear filter</Link><Link href="/find-match" className="btn btn-primary">Find My Mattress</Link></div>
-                </>
-              ) : (
-                <>
-                  <h2>Catalog is being updated</h2>
-                  <p>Try the matching quiz to explore options as the catalog becomes available.</p>
-                  <Link href="/find-match" className="btn btn-primary">Find My Mattress</Link>
-                </>
-              )}
-            </div>
+            <div className="catalog-empty"><h2>Catalog is being updated</h2><p>Try the matching quiz to explore options as the catalog becomes available.</p><Link href="/find-match" className="btn btn-primary">Find my match</Link></div>
           )}
           <p className="catalog-disclaimer">Catalog listings are not endorsements. Specifications and prices are shown as recorded in our catalog; consult each product page for verification status and source notes.</p>
         </div>

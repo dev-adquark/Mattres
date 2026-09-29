@@ -163,6 +163,7 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
   }
 
   const current = STEPS[step];
+  const progressPct = ((step + 1) / STEPS.length) * 100;
   const isLastStep = step === STEPS.length - 1;
 
   return (
@@ -171,10 +172,8 @@ export default function QuizForm({ onResult, onSubmittingChange }) {
         <span className="quiz-step-count">
           Your Sleep Profile {step + 1} of {STEPS.length}
         </span>
-        <div className="quiz-progress-segments" role="progressbar" aria-label="Sleep profile completion" aria-valuetext={'Step ' + (step + 1) + ' of ' + STEPS.length + ': ' + current.title} aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
-          {STEPS.map((s, i) => (
-            <i key={s.key} className={i <= step ? 'filled' : ''} />
-          ))}
+        <div className="quiz-progress-bar" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
+          <i style={{ width: `${progressPct}%` }} />
         </div>
       </div>
 

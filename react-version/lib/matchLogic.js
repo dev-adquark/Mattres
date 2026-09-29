@@ -184,17 +184,7 @@ export async function matchProfile(profile) {
   const { entries: catalog, source: catalogSource } = await getCatalog();
   const filtered = filterCatalog(profile, catalog);
   if (filtered.length === 0) {
-    // Same real contract as the non-empty path below (modelVersion,
-    // catalogAudit, catalogSource) - a legitimately empty result set
-    // (e.g. a very tight budget) must not silently drop the fields
-    // AuditBanner and other consumers expect on every response.
-    return {
-      results: [],
-      modelVersion: '0.1',
-      all: [],
-      catalogAudit: auditCatalog(catalog),
-      catalogSource,
-    };
+    return { results: [], modelVersion: null, all: [], catalogSource };
   }
 
   const scored = filtered.map((entry) => {

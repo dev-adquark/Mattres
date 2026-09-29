@@ -8,27 +8,17 @@ import OwlMascot from './OwlMascot';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const NAV_LINKS = [
+  { href: '/mattresses', label: 'Shop Mattresses' },
   { href: '/compare', label: 'Compare' },
-  { href: '/guides', label: 'Mattress Guides' },
-  { href: '/methodology', label: 'How Scoring Works' },
+  { href: '/guides', label: 'Guides' },
+  { href: '/methodology', label: 'Our Scoring' },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lastPathname, setLastPathname] = useState(pathname);
   const magneticRef = useRef(null);
   const menuRef = useRef(null);
-
-  // Closes the mobile menu on route change. Adjusted during render (the
-  // pattern React itself recommends for "reset state when a prop
-  // changes") rather than in a useEffect, which would call setState
-  // unconditionally on every pathname-triggered effect run and risk a
-  // cascading extra render.
-  if (pathname !== lastPathname) {
-    setLastPathname(pathname);
-    setMenuOpen(false);
-  }
 
   useEffect(() => {
     const el = magneticRef.current;
@@ -78,6 +68,8 @@ export default function Nav() {
     };
   }, [menuOpen]);
 
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
+
   return (
     <nav className="nav" aria-label="Main navigation">
       <div className="wrap nav-row">
@@ -93,7 +85,13 @@ export default function Nav() {
           })}
         </div>
         <div className="nav-right">
-          <Link href="/find-match" className="btn btn-primary nav-main-cta" id="navMagneticCta" ref={magneticRef}>
+          <button className="icon-btn" aria-label="Search" type="button">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+          <Link href="/find-match" className="btn btn-primary" id="navMagneticCta" ref={magneticRef}>
             <OwlMascot variant="nav" idSuffix="NavCta" />
             <span>Find My Mattress</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" aria-hidden="true">
@@ -109,14 +107,12 @@ export default function Nav() {
           </button>
         </div>
       </div>
-      <div className={`mobile-menu${menuOpen ? ' open' : ''}`} id="mobile-primary-menu" ref={menuRef} aria-hidden={!menuOpen}>
-        {NAV_LINKS.map((l) => {
-          const active = pathname === l.href || (l.href === '/mattresses' && pathname.startsWith('/mattresses'));
-          return <Link key={l.href} href={l.href} data-nav={l.href} className={active ? 'active' : ''} aria-current={active ? 'page' : undefined} tabIndex={menuOpen ? 0 : -1}>{l.label}<span aria-hidden="true">↗</span></Link>;
-        })}
-        <Link href="/find-match" className="btn btn-primary mobile-menu-cta" tabIndex={menuOpen ? 0 : -1}>
-          Find My Mattress <span aria-hidden="true">→</span>
-        </Link>
+      <div className="mobile-menu" id="mobile-primary-menu" ref={menuRef} aria-hidden={!menuOpen} style={{ display: menuOpen ? 'flex' : undefined }}>
+        {NAV_LINKS.map((l) => (
+          <Link key={l.href} href={l.href} data-nav={l.href} onClick={() => setMenuOpen(false)}>
+            {l.label}
+          </Link>
+        ))}
       </div>
     </nav>
   );

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { formatPrice } from '@/lib/format';
-import BrandLogo from './BrandLogo';
 
 const PREVIEW_CATS = [
   { key: 'pressureRelief', label: 'Pressure Relief' },
@@ -28,10 +27,7 @@ export default function HeroResultPreview({ example }) {
           <span className="hero-preview-label">Match</span>
         </div>
         <div>
-          <div className="hero-preview-name">
-            <BrandLogo brand={entry.brand} size={16} />
-            {displayTitle}
-          </div>
+          <div className="hero-preview-name">{displayTitle}</div>
           <div className="hero-preview-meta">
             {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} · {formatPrice(entry)}
           </div>

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import BrandLogo from '@/components/BrandLogo';
 import MattressThumb from '@/components/MattressThumb';
 import XRaySection from '@/components/XRaySection';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
@@ -217,18 +216,14 @@ export default async function MattressDetailPage({ params }) {
 
               <div className="md-side-card">
                 <h5>Where to buy</h5>
-                {entry.retailPartners?.length ? (
-                  entry.retailPartners.map((r) => (
-                    <div className="md-retailer-row" key={r}>
-                      <span style={{ fontSize: 13.5 }}>{r}</span>
-                      <a href={buildRetailerLink(entry.id, r)} target="_blank" rel="noopener noreferrer sponsored" className="btn btn-ghost-dark" style={{ padding: '6px 12px', fontSize: 12.5 }}>
-                        View
-                      </a>
-                    </div>
-                  ))
-                ) : (
-                  <p style={{ fontSize: 13, color: 'var(--slate-600)' }}>No retailer on file for this mattress yet.</p>
-                )}
+                {entry.retailPartners?.map((r) => (
+                  <div className="md-retailer-row" key={r}>
+                    <span style={{ fontSize: 13.5 }}>{r}</span>
+                    <a href={buildRetailerLink(entry.id, r)} target="_blank" rel="noopener noreferrer sponsored" className="btn btn-ghost-dark" style={{ padding: '6px 12px', fontSize: 12.5 }}>
+                      View
+                    </a>
+                  </div>
+                ))}
                 <p style={{ fontSize: 11, color: 'var(--slate-600)', marginTop: 12 }}>
                   Retailer names shown are generic placeholders — this project has no real retailer or affiliate
                   accounts yet. Outbound links carry real UTM tracking parameters as a working example of the

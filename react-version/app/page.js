@@ -30,8 +30,6 @@ const HERO_EXAMPLE_PROFILE = {
 export default async function HomePage() {
   const { entries: catalog } = await getCatalog();
   const { results: exampleResults } = await matchProfile(HERO_EXAMPLE_PROFILE);
-  // Top 4 real results under the same disclosed demo profile - real
-  // catalog entries, real computed scores, never invented mattresses.
-  const heroExamples = exampleResults.slice(0, 4);
-  return <HomeClient catalog={catalog} heroExamples={heroExamples} />;
+  const heroExample = exampleResults[0] ?? null;
+  return <HomeClient catalog={catalog} heroExample={heroExample} />;
 }
