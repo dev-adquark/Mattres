@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { matchProfile } from '@/lib/matchLogic';
-import { isRateLimited } from '@/lib/rateLimit';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 const POSITIONS = new Set(['side', 'back', 'stomach', 'combination']);
 const FIRMNESS = new Set(['soft', 'medium-soft', 'medium', 'medium-firm', 'firm', 'extra-firm']);
@@ -37,7 +37,8 @@ function invalidProfile(profile) {
 /** POST /api/match — validated wrapper around the shared scoring engine. */
 export async function POST(request) {
   const clientIp = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  if (isRateLimited(clientIp, { limit: 30, windowMs: 60_000 })) {
+  const rateLimit = await checkRateLimit(clientIp, { limit: 30, windowMs: 60_000 });
+  if (rateLimit.limited) {
     return NextResponse.json({ error: 'Too many requests. Please wait a minute and try again.' }, { status: 429, headers: { 'Retry-After': '60' } });
   }
 
