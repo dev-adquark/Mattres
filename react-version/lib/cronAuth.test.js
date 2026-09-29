@@ -11,7 +11,7 @@ describe('isAuthorizedCronRequest', () => {
   });
 
   it.each([undefined, '', 'wrong-secret'])('rejects missing or incorrect credentials: %s', (secret) => {
-    expect(isAuthorizedCronRequest(headers('Bearer wrong-secret'), secret)).toBe(false);
+    expect(isAuthorizedCronRequest(headers('Bearer ***'), secret)).toBe(false);
   });
 
   it.each([null, '', 'cron-secret', 'bearer cron-secret', 'Bearer cron-secret '])('rejects malformed authorization header: %s', (authorization) => {
