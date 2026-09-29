@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import FindMatchStats from '@/components/FindMatchStats';
 import OwlMascot from '@/components/OwlMascot';
@@ -24,6 +24,16 @@ export default function FindMatchClient({ brandCount }) {
   const [lastProfile, setLastProfile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const { setPayload } = useLastResult();
+
+  // Move the new score into view after the API response renders.
+  useEffect(() => {
+    if (!apiData || submitting) return;
+    const resultsHeading = document.getElementById('personalized-results');
+    if (resultsHeading) {
+      resultsHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      resultsHeading.focus({ preventScroll: true });
+    }
+  }, [apiData, submitting]);
 
   function handleResult(profile, data) {
     setApiData(data);
@@ -55,10 +65,9 @@ export default function FindMatchClient({ brandCount }) {
         <OwlMascot variant="hero" />
         <div className="wrap">
           <span className="eyebrow">Find your match</span>
-          <h1 className="ph-title">Find your perfect mattress match</h1>
+          <h1 className="ph-title">Get your mattress match score</h1>
           <p className="ph-sub">
-            Answer a few questions and we&apos;ll score every mattress in our catalog against your sleep profile — live,
-            using a real, transparent scoring engine.
+            Answer 6 quick questions. We’ll score mattresses for your sleep position, comfort, support, temperature, and budget — then show your personal match score and closest matches.
           </p>
         </div>
       </header>
@@ -84,8 +93,7 @@ export default function FindMatchClient({ brandCount }) {
                 <div className="empty-state">
                   <OwlMascot variant="empty" />
                   <p>
-                    Answer the questions above and select <strong>&ldquo;See My Matches&rdquo;</strong> to see your
-                    personalized results.
+                    Answer the questions above and select <strong>&ldquo;See My Matches&rdquo;</strong> to get your personal score and ranked mattress matches.
                   </p>
                 </div>
               )}
@@ -98,7 +106,9 @@ export default function FindMatchClient({ brandCount }) {
               )}
 
               {apiData && apiData.results.length > 0 && (
-                <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
+                <div id="personalized-results" tabIndex={-1} aria-label="Your personalized mattress results" style={{ scrollMarginTop: 20, outline: 'none' }}>
+                  <ResultsGrid results={apiData.results} catalogAudit={apiData.catalogAudit} />
+                </div>
               )}
             </div>
 

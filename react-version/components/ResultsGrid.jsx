@@ -67,6 +67,47 @@ export default function ResultsGrid({ results, catalogAudit }) {
         <Link href="/methodology">methodology</Link>.
       </p>
 
+      {results.length > 0 && (
+        <section
+          aria-label="Your top mattress match"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 16,
+            padding: '20px clamp(16px, 4vw, 28px)',
+            margin: '0 0 28px',
+            border: '1px solid var(--slate-200, #e2e8f0)',
+            borderRadius: 20,
+            background: 'linear-gradient(135deg, #f0fdfa 0%, #ffffff 75%)',
+            boxShadow: '0 8px 28px rgba(15, 23, 42, 0.06)',
+          }}
+        >
+          <div style={{ flex: '1 1 220px', minWidth: 0 }}>
+            <p style={{ margin: '0 0 6px', color: '#0f766e', fontSize: 12, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase' }}>
+              Your closest mattress match
+            </p>
+            <h2 style={{ margin: '0 0 6px', fontSize: 'clamp(19px, 3vw, 25px)', lineHeight: 1.2, color: '#0f172a' }}>
+              {results[0].displayTitle}
+            </h2>
+            <p style={{ margin: 0, color: '#475569', fontSize: 14 }}>
+              Based on your answers. Compare the score and fit details below.
+            </p>
+            <Link href={`/mattress/${results[0].entry.id}`} className="btn btn-primary" style={{ display: 'inline-flex', marginTop: 14 }}>
+              See mattress details
+            </Link>
+          </div>
+          <div style={{ flex: '0 0 auto', minWidth: 112, textAlign: 'center', padding: '12px 18px', borderRadius: 16, background: '#ffffff', border: '1px solid #ccfbf1' }}>
+            <div style={{ fontSize: 'clamp(34px, 7vw, 46px)', fontWeight: 850, lineHeight: 1, letterSpacing: '-.05em', color: '#0f766e', fontVariantNumeric: 'tabular-nums' }}>
+              {results[0].result.overallScore}
+              <span style={{ fontSize: 15, fontWeight: 650, letterSpacing: 0, color: '#64748b' }}>/100</span>
+            </div>
+            <div style={{ marginTop: 7, fontSize: 11, fontWeight: 750, color: '#64748b', textTransform: 'uppercase', letterSpacing: '.06em' }}>Match score</div>
+          </div>
+        </section>
+      )}
+
       {TIER_ORDER.map((tierKey) => {
         const items = visible.filter((r) => r.tier?.key === tierKey);
         if (!items.length) return null;

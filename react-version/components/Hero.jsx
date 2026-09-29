@@ -39,18 +39,18 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
       <div className="hero-cinematic-grain" aria-hidden="true" />
       <div className="wrap hero-cinematic-inner">
         <div className="hero-copy-cinematic">
-          <div className="hero-kicker"><span className="hero-live-dot" /> THE ART OF BETTER SLEEP</div>
-          <h1>Find the mattress that <em>actually fits you</em></h1>
-          <p className="hero-cinematic-lead">60-second sleep profile, personalised mattress scores.</p>
+          <div className="hero-kicker"><span className="hero-live-dot" /> PERSONALIZED MATTRESS MATCH</div>
+          <h1>Find your mattress <em>match score</em></h1>
+          <p className="hero-cinematic-lead">Answer 6 quick questions about how you sleep. Get your personal match score for mattresses that fit your comfort, support, and budget.</p>
           <div className="hero-ctas hero-cinematic-actions">
             <Link href="/find-match" className="btn hero-cream-btn">
-              Find My Mattress <span aria-hidden="true">↗</span>
+              Get My Match Score <span aria-hidden="true">↗</span>
             </Link>
-            <a href="#universe" className="hero-text-link">Explore mattresses <span aria-hidden="true">↓</span></a>
+            <a href="#how-it-works" className="hero-text-link">How it works <span aria-hidden="true">↓</span></a>
           </div>
           <div className="hero-proof-line" aria-label="Reassurance">
             <span><b>{catalogCount}+</b> mattresses scored</span><i />
-            <span>Scores can&apos;t be bought</span><i />
+            <span>Personalized to you</span><i />
             <span>Free · No signup</span>
           </div>
 
