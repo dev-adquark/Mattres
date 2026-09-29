@@ -4,6 +4,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import HeroResultPreview from './HeroResultPreview';
+import DreamscapeScene from './DreamscapeScene';
 
 // Loaded only client-side, on demand - never part of the initial page
 // bundle, and never blocks the hero's real content (headline/CTA) from
@@ -36,6 +37,7 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
         <source src="https://videos.pexels.com/video-files/8088572/8088572-hd_1920_1080_25fps.mp4" type="video/mp4" />
       </video>
       <div className="hero-video-shade" aria-hidden="true" />
+      <DreamscapeScene />
       <div className="hero-cinematic-grain" aria-hidden="true" />
       <div className="wrap hero-cinematic-inner">
         <div className="hero-copy-cinematic">
