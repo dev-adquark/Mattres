@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import AmbientParticles from '@/components/AmbientParticles';
 import BrandCarouselRow from '@/components/BrandCarouselRow';
+import HomeShowMore from '@/components/HomeShowMore';
 import HowItWorks from '@/components/HowItWorks';
 import Hero from '@/components/Hero';
 import MatchedMattressPanel from '@/components/MatchedMattressPanel';
@@ -77,7 +78,7 @@ function ComparisonPreviewTeaser({ catalog }) {
  * homepage copy too - kept deliberately short rather than turning into
  * a second catalog or documentation page.
  */
-export default function HomeClient({ catalog, heroExample }) {
+export default function HomeClient({ catalog, heroExamples }) {
   const router = useRouter();
   const { payload, hydrated } = useLastResult();
   const top = payload?.top ?? null;
@@ -99,9 +100,10 @@ export default function HomeClient({ catalog, heroExample }) {
 
   return (
     <main className="home-short">
-      <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
+      <Hero catalogCount={catalog.length} brandCount={brandCount} heroExamples={heroExamples} />
 
-      <section className="home-simple-section home-how-section" id="how-it-works" aria-labelledby="home-how-title">
+      <HomeShowMore>
+      <section className="home-simple-section home-how-section" aria-labelledby="home-how-title">
         <div className="wrap">
           <div className="home-section-intro">
             <span className="eyebrow-dark">Simple by design</span>
@@ -273,6 +275,7 @@ export default function HomeClient({ catalog, heroExample }) {
           <Link href="/find-match" className="btn btn-primary">Find My Mattress <span aria-hidden="true">→</span></Link>
         </div>
       </section>
+      </HomeShowMore>
 
       <div className="mobile-sticky-cta">
         <Link href="/find-match" className="btn btn-primary">Find My Mattress <span aria-hidden="true">→</span></Link>
