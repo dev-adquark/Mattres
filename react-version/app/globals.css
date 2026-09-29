@@ -4155,3 +4155,17 @@ footer .foot-bottom a:hover{color:#fff!important;}
 .find-match-experience .quiz-nav-row .btn-ghost-dark:hover{background:#f5f7ff!important;border-color:#bdc7ff!important;}
 @media(max-width:640px){.find-match-experience .quiz-wizard{padding:20px!important;border-radius:22px!important}.find-match-experience .quiz-nav-row{background:rgba(248,250,255,.94)!important;border-top-color:#e1e7f4!important;backdrop-filter:blur(12px)!important}}
 @media(prefers-reduced-motion:reduce){.find-match-experience .quiz-option-btn:hover{transform:none!important}}
+
+/* Match results: improve scanability and tactile controls in the results flow. */
+.find-match-experience .results-header .chip{background:#eef1ff!important;border:1px solid #dce2ff!important;color:#4659c5!important;font-weight:700!important;border-radius:999px!important;padding:8px 13px!important;}
+.find-match-experience .score-independence-note{padding:14px 16px!important;border:1px solid #e2e8f5!important;border-radius:15px!important;background:rgba(255,255,255,.76)!important;color:#657391!important;line-height:1.65!important;}
+.find-match-experience .score-independence-note a{color:#465ff0!important;font-weight:700!important;text-underline-offset:3px!important;}
+.find-match-experience .tier-heading{margin:34px 0 16px!important;gap:12px!important;}
+.find-match-experience .tier-badge{border-radius:999px!important;padding:7px 13px!important;letter-spacing:.045em!important;}
+.find-match-experience .tier-count{font-size:12px!important;color:#7885a0!important;font-weight:600!important;}
+.find-match-experience .show-all-results-btn{display:flex!important;width:fit-content!important;margin:28px auto!important;border:1px solid #dce3f2!important;border-radius:999px!important;background:#fff!important;color:#4c5e85!important;padding:12px 22px!important;box-shadow:0 5px 18px rgba(33,51,99,.05)!important;}
+.find-match-experience .show-all-results-btn:hover{background:#f5f7ff!important;border-color:#bfc9ff!important;color:#4056d7!important;}
+.find-match-experience .comparison-tray-sticky{border:1px solid #dfe5f2!important;border-bottom:0!important;border-radius:20px 20px 0 0!important;background:rgba(255,255,255,.94)!important;box-shadow:0 -12px 38px rgba(35,51,92,.09)!important;backdrop-filter:blur(14px)!important;color:#344466!important;}
+.find-match-experience .comparison-tray-sticky .btn-primary{border-radius:999px!important;background:#465ff0!important;border-color:#465ff0!important;box-shadow:0 8px 22px rgba(70,95,240,.18)!important;}
+.find-match-experience .comparison-tray-sticky .btn-primary:disabled{opacity:.45!important;box-shadow:none!important;}
+@media(max-width:640px){.find-match-experience .score-independence-note{font-size:12.5px!important}.find-match-experience .tier-heading{margin-top:28px!important}.find-match-experience .comparison-tray-sticky{border-radius:18px 18px 0 0!important}}
