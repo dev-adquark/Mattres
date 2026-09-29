@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import HeroResultPreview from './HeroResultPreview';
+import HeroMattressSlider from './HeroMattressSlider';
 
 // Loaded only client-side, on demand - never part of the initial page
 // bundle, and never blocks the hero's real content (headline/CTA) from
@@ -18,7 +18,7 @@ const LayeredMattressScene = dynamic(() => import('./LayeredMattressScene'), {
  * Full-bleed cinematic hero. The video is decorative and muted by default;
  * the clear primary CTA and category shortcuts keep the first screen easy to use.
  */
-export default function Hero({ catalogCount, brandCount, heroExample }) {
+export default function Hero({ catalogCount, brandCount, heroExamples }) {
   const [webglUnavailable, setWebglUnavailable] = useState(false);
   return (
     <header className="hero hero-cinematic" id="top">
@@ -54,11 +54,7 @@ export default function Hero({ catalogCount, brandCount, heroExample }) {
             <span>Free · No signup</span>
           </div>
 
-          {heroExample && (
-            <div className="hero-example-slot">
-              <HeroResultPreview example={heroExample} />
-            </div>
-          )}
+          <HeroMattressSlider examples={heroExamples} />
         </div>
         <a className="hero-scroll-cue" href="#universe" aria-label="Scroll to explore"><span /> Scroll to explore</a>
         <div className="hero-video-status"><span className="hero-live-dot" /> A calmer way to choose</div>
