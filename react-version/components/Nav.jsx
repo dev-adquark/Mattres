@@ -8,17 +8,23 @@ import OwlMascot from './OwlMascot';
 import { prefersReducedMotion } from '@/lib/threeUtils';
 
 const NAV_LINKS = [
-  { href: '/mattresses', label: 'Shop Mattresses' },
+  { href: '/find-match', label: 'Find My Mattress' },
   { href: '/compare', label: 'Compare' },
-  { href: '/guides', label: 'Guides' },
-  { href: '/methodology', label: 'Our Scoring' },
+  { href: '/guides', label: 'Mattress Guides' },
+  { href: '/methodology', label: 'How Scoring Works' },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const magneticRef = useRef(null);
   const menuRef = useRef(null);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setMenuOpen(false);
+  }
 
   useEffect(() => {
     const el = magneticRef.current;
@@ -68,8 +74,6 @@ export default function Nav() {
     };
   }, [menuOpen]);
 
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
-
   return (
     <nav className="nav" aria-label="Main navigation">
       <div className="wrap nav-row">
@@ -80,7 +84,7 @@ export default function Nav() {
         <OwlMascot variant="nav" idSuffix="Nav" />
         <div className="nav-links">
           {NAV_LINKS.map((l) => {
-            const active = pathname === l.href || (l.href === '/mattresses' && pathname.startsWith('/mattresses'));
+            const active = pathname === l.href;
             return <Link key={l.href} href={l.href} data-nav={l.href} className={active ? 'active' : ''} aria-current={active ? 'page' : undefined}>{l.label}</Link>;
           })}
         </div>
@@ -107,7 +111,7 @@ export default function Nav() {
           </button>
         </div>
       </div>
-      <div className="mobile-menu" id="mobile-primary-menu" ref={menuRef} aria-hidden={!menuOpen} style={{ display: menuOpen ? 'flex' : undefined }}>
+      <div className={`mobile-menu${menuOpen ? ' open' : ''}`} id="mobile-primary-menu" ref={menuRef} aria-hidden={!menuOpen}>
         {NAV_LINKS.map((l) => (
           <Link key={l.href} href={l.href} data-nav={l.href} onClick={() => setMenuOpen(false)}>
             {l.label}

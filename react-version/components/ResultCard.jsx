@@ -87,26 +87,16 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
         <span className="score-num">{result.overallScore}</span>
         <span className="score-max">/100</span>
       </div>
-      <div className="subscores">
-        {CATEGORIES.map((cat) => {
-          const val = result.subScores[cat.key];
-          return (
-            <div className="ss-row" key={cat.key}>
-              <span>{cat.label}</span>
-              <div className="ss-bar">
-                <i style={{ width: `${(val / 10) * 100}%` }} />
-              </div>
-              <b>{val.toFixed(1)}</b>
-            </div>
-          );
-        })}
+      <div className="why-fits-you">
+        <b>Why it fits you</b>
+        <ul>
+          {whyThisMatch.length ? (
+            whyThisMatch.slice(0, 4).map((b, i) => <li key={i}>{b}</li>)
+          ) : (
+            <li>Baseline score for this mattress type; no profile-specific adjustments applied.</li>
+          )}
+        </ul>
       </div>
-      {estimated.length > 0 && (
-        <p className="data-limitation-note">
-          {estimated.join(', ')} {estimated.length > 1 ? "aren't" : "isn't"} independently verified for this
-          mattress — {estimated.length > 1 ? 'those sub-scores are' : 'that sub-score is'} estimated, not measured.
-        </p>
-      )}
       <div className="flags">
         {result.riskFlags.length ? (
           result.riskFlags.map((f) => (
@@ -118,6 +108,29 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           <span className="flag flag-ok">✓ No flags for your profile</span>
         )}
       </div>
+      <details className="subscores-detail">
+        <summary>See the 6 score dimensions</summary>
+        <div className="subscores">
+          {CATEGORIES.map((cat) => {
+            const val = result.subScores[cat.key];
+            return (
+              <div className="ss-row" key={cat.key}>
+                <span>{cat.label}</span>
+                <div className="ss-bar">
+                  <i style={{ width: `${(val / 10) * 100}%` }} />
+                </div>
+                <b>{val.toFixed(1)}</b>
+              </div>
+            );
+          })}
+        </div>
+        {estimated.length > 0 && (
+          <p className="data-limitation-note">
+            {estimated.join(', ')} {estimated.length > 1 ? "aren't" : "isn't"} independently verified for this
+            mattress — {estimated.length > 1 ? 'those sub-scores are' : 'that sub-score is'} estimated, not measured.
+          </p>
+        )}
+      </details>
       {entry.reviewHighlights && entry.reviewHighlights.length > 0 && (
         <div className="highlight">
           <q>{entry.reviewHighlights[0].snippet}</q>
@@ -134,16 +147,6 @@ export default function ResultCard({ item, index = 0, isBestValue = false, compa
           </div>
         </div>
       )}
-      <details className="why-match">
-        <summary>Why this match?</summary>
-        <ul>
-          {whyThisMatch.length ? (
-            whyThisMatch.map((b, i) => <li key={i}>{b}</li>)
-          ) : (
-            <li>Baseline score for this mattress type; no profile-specific adjustments applied.</li>
-          )}
-        </ul>
-      </details>
       {(() => {
         const retailer = primaryRetailerLink(entry);
         return retailer ? (

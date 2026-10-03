@@ -178,7 +178,7 @@ describe('badgeFor', () => {
 });
 
 describe('buildWhyThisMatch', () => {
-  it('omits zero-delta rules and formats the sign for positive/negative deltas', () => {
+  it('returns the plain-language note for positive-delta rules only, in order', () => {
     const scored = {
       trace: {
         categoryRulesUsed: [
@@ -189,10 +189,10 @@ describe('buildWhyThisMatch', () => {
         riskRulesUsed: [],
       },
     };
-    expect(buildWhyThisMatch(scored)).toEqual(['support: +1.5 — in band', 'heat: -2 — no cooling']);
+    expect(buildWhyThisMatch(scored)).toEqual(['in band']);
   });
 
-  it('includes only triggered risk flags', () => {
+  it('does not surface risk flags - those are shown separately on the card', () => {
     const scored = {
       trace: {
         categoryRulesUsed: [],
@@ -202,10 +202,10 @@ describe('buildWhyThisMatch', () => {
         ],
       },
     };
-    expect(buildWhyThisMatch(scored)).toEqual(['Flagged: edge support concern']);
+    expect(buildWhyThisMatch(scored)).toEqual([]);
   });
 
-  it('returns an empty array when nothing moved the score and nothing was flagged', () => {
+  it('returns an empty array when nothing improved the score', () => {
     expect(buildWhyThisMatch({ trace: { categoryRulesUsed: [], riskRulesUsed: [] } })).toEqual([]);
   });
 });

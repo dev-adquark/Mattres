@@ -140,18 +140,18 @@ export function badgeFor(entry, isTopMatch) {
   return { label: 'Algorithmic Pick', className: 'badge-none' };
 }
 
+/**
+ * Plain-language "why it fits you" reasons for a result card - the same
+ * real rule notes the scoring trace already carries (see
+ * lib/scoreEngine.js's recordCategoryRule calls), just without the
+ * debug-style "category: +N —" prefix, and limited to rules that
+ * actually helped the score. Risk flags (real negatives) are already
+ * shown separately on the card, so they're not duplicated here.
+ */
 export function buildWhyThisMatch(scored) {
-  const bullets = [];
-  scored.trace.categoryRulesUsed.forEach((r) => {
-    if (r.delta === 0) return;
-    const sign = r.delta > 0 ? '+' : '';
-    bullets.push(`${r.category || 'overall'}: ${sign}${r.delta} — ${r.note}`);
-  });
-  scored.trace.riskRulesUsed.forEach((r) => {
-    if (!r.triggered) return;
-    bullets.push(`Flagged: ${r.ruleId.replace(/_/g, ' ').toLowerCase()}`);
-  });
-  return bullets;
+  return scored.trace.categoryRulesUsed
+    .filter((r) => r.delta > 0)
+    .map((r) => r.note);
 }
 
 /**

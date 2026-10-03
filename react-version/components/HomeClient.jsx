@@ -1,94 +1,173 @@
 'use client';
 
 import Link from 'next/link';
+import { useMemo } from 'react';
 import BrandCarouselRow from '@/components/BrandCarouselRow';
-import CategoryIconGrid from '@/components/CategoryIconGrid';
-import FaqAccordion from '@/components/FaqAccordion';
 import HowItWorks from '@/components/HowItWorks';
-import HomeOptionSlider from '@/components/HomeOptionSlider';
 import Hero from '@/components/Hero';
-import TrustBadgeRow from '@/components/TrustBadgeRow';
+import InteractiveResultPreview from '@/components/InteractiveResultPreview';
+import { CATEGORIES, CATEGORY_BLURB } from '@/lib/categories';
+import { formatPrice } from '@/lib/format';
 
 /**
- * Homepage is intentionally a short, guided landing page: cinematic hero,
- * swipeable paths, a compact explanation, browse shortcuts and FAQs.
- * Full scoring, catalog exploration, comparison and X-Ray tools remain
- * available on their dedicated pages instead of stacking every tool here.
+ * Real review-highlight quotes pulled from the actual catalog (not
+ * invented testimonials) - each one is a real snippet already attached
+ * to a real, named catalog entry, shown with its real sentiment/label
+ * and a link to that mattress's own detail page where the same quote is
+ * shown again in full context.
  */
-export default function HomeClient({ catalog, heroExample }) {
+function pickRealReviewQuotes(catalog) {
+  return catalog
+    .filter((entry) => entry.reviewHighlights?.some((h) => h.sentiment === 'positive'))
+    .slice(0, 3)
+    .map((entry) => ({ entry, highlight: entry.reviewHighlights.find((h) => h.sentiment === 'positive') }));
+}
+
+/**
+ * A static, illustrative two-mattress comparison built from two real
+ * catalog entries (lowest and highest-priced, picked deterministically -
+ * never a fabricated pair), highlighting only where they actually
+ * differ. A teaser for the real /compare experience, not the real
+ * ad-hoc compare tool itself.
+ */
+function ComparisonPreviewTeaser({ catalog }) {
+  const priced = catalog.filter((e) => typeof e.priceUsd === 'number').slice().sort((a, b) => a.priceUsd - b.priceUsd);
+  if (priced.length < 2) return null;
+  const a = priced[0];
+  const b = priced[priced.length - 1];
+  const rows = [
+    { label: 'Type', av: a.type, bv: b.type, comparable: false },
+    { label: 'Price', av: formatPrice(a), bv: formatPrice(b), comparable: true, aWins: a.priceUsd < b.priceUsd },
+    {
+      label: 'Trial period',
+      av: `${a.trialDays ?? '—'} nights`,
+      bv: `${b.trialDays ?? '—'} nights`,
+      comparable: typeof a.trialDays === 'number' && typeof b.trialDays === 'number',
+      aWins: (a.trialDays ?? -1) > (b.trialDays ?? -1),
+    },
+  ];
+  return (
+    <div className="cmp-teaser reveal-up">
+      <div className="cmp-teaser-head">
+        <span>{a.brand} {a.model}</span>
+        <span className="cmp-teaser-vs">vs</span>
+        <span>{b.brand} {b.model}</span>
+      </div>
+      {rows.map((r) => (
+        <div className="cmp-teaser-row" key={r.label}>
+          <span className={r.comparable && r.aWins ? 'cmp-win' : ''}>{r.av}</span>
+          <span className="cmp-teaser-label">{r.label}</span>
+          <span className={r.comparable && !r.aWins ? 'cmp-win' : ''}>{r.bv}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Exactly seven top-level sections, per the funnel this homepage is
+ * built around: Hero / How It Works / Interactive Result Preview / Why
+ * Trust the Score / Comparison Preview / Testimonials / Final CTA.
+ * Everything else (promo clusters, brand/category browse grids, the
+ * X-Ray construction explainer, FAQ) lives on its own dedicated page
+ * instead of competing for attention in this funnel.
+ */
+export default function HomeClient({ catalog, heroExample, previewExamples = [] }) {
   const brandCount = new Set(catalog.map((m) => m.brand)).size;
+  const reviewQuotes = useMemo(() => pickRealReviewQuotes(catalog), [catalog]);
 
   return (
     <main className="home-short">
       <Hero catalogCount={catalog.length} brandCount={brandCount} heroExample={heroExample} />
-      <HomeOptionSlider />
-      <section className="home-editorial-showcase" aria-label="A closer look at better sleep">
-        <div className="wrap">
-          <div className="showcase-heading"><span className="eyebrow-dark">Designed around your nights</span><h2>Make room for <em>better sleep.</em></h2><p>Explore the materials, details and rituals that turn a mattress into your own sleep sanctuary.</p></div>
-          <div className="showcase-mosaic">
-            <Link href="/mattresses" className="showcase-tile showcase-tile-large"><img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1600&q=90" alt="Calm luxury bedroom with layered bedding" loading="lazy" /><span className="showcase-shade" /><span className="showcase-tile-copy"><small>01 / THE SANCTUARY</small><strong>Your best nights<br/>start here.</strong><b>Explore mattresses ↗</b></span></Link>
-            <Link href="/mattresses?type=memory-foam" className="showcase-tile showcase-tile-top"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1000&q=85" alt="Close-up of a plush mattress and bedding" loading="lazy" /><span className="showcase-shade" /><span className="showcase-tile-copy"><small>02 / PRESSURE RELIEF</small><strong>Sink into comfort.</strong><b>Discover foam ↗</b></span></Link>
-            <Link href="/mattresses?type=hybrid" className="showcase-tile showcase-tile-bottom"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=85" alt="Contemporary bedroom with a refined mattress setup" loading="lazy" /><span className="showcase-shade" /><span className="showcase-tile-copy"><small>03 / BALANCED SUPPORT</small><strong>Comfort meets support.</strong><b>Explore hybrid ↗</b></span></Link>
-          </div>
-          <div className="showcase-footnote"><span>THE ART OF REST</span><span>Thoughtfully matched. Personally yours.</span></div>
-        </div>
-      </section>
 
-      <section className="home-simple-section home-how-section" aria-labelledby="home-how-title">
+      <section className="section home-simple-section" aria-labelledby="home-how-title">
         <div className="wrap">
           <div className="home-section-intro">
-            <span className="eyebrow-dark">Simple by design</span>
-            <h2 id="home-how-title">Your mattress, without the guesswork.</h2>
-            <p>Tell us how you sleep. We compare real mattresses against what matters to you.</p>
+            <span className="eyebrow-dark">How it works</span>
+            <h2 id="home-how-title">From answers to a real score, in four steps.</h2>
           </div>
           <HowItWorks />
-          <div className="home-centered-action">
-            <Link href="/find-match" className="btn btn-primary">Find my mattress <span aria-hidden="true">→</span></Link>
-          </div>
         </div>
       </section>
 
-      <section className="home-simple-section home-trust-section" aria-labelledby="home-trust-title">
+      <section className="section home-simple-section" aria-labelledby="home-preview-title">
         <div className="wrap">
           <div className="home-section-intro">
-            <span className="eyebrow-dark">Shop with clarity</span>
-            <h2 id="home-trust-title">Explore what works for you.</h2>
-            <p>Start with a mattress type, or browse brands and compare your shortlist.</p>
+            <span className="eyebrow-dark">Interactive result preview</span>
+            <h2 id="home-preview-title">See how the score changes with you.</h2>
+            <p>Pick a sample sleep profile below and watch a real match update instantly - no quiz required yet.</p>
           </div>
-          <TrustBadgeRow />
-          <div className="home-browse-block" id="home-categories">
-            <CategoryIconGrid />
+          <InteractiveResultPreview examples={previewExamples} />
+        </div>
+      </section>
+
+      <section className="section home-simple-section home-trust-score-section" aria-labelledby="home-trust-score-title">
+        <div className="wrap">
+          <div className="home-section-intro">
+            <span className="eyebrow-dark">Why trust the score</span>
+            <h2 id="home-trust-score-title">Six real dimensions, never a guess.</h2>
           </div>
-          <div className="home-brand-block">
-            <div className="home-inline-heading">
-              <h3>Brands in our catalog</h3>
-              <Link href="/mattresses">Browse all mattresses <span aria-hidden="true">↗</span></Link>
-            </div>
-            <BrandCarouselRow />
+          <div className="dimension-grid">
+            {CATEGORIES.map((cat) => (
+              <div className="dimension-card reveal-up" key={cat.key}>
+                <h3>{cat.label}</h3>
+                <p>{CATEGORY_BLURB[cat.key]}</p>
+              </div>
+            ))}
+          </div>
+          <p className="score-independence-note on-light">
+            Scores can&apos;t be bought. Sponsored mattresses can pay for visibility, never for a higher Match Score.{' '}
+            <Link href="/disclosures">How this works →</Link>
+          </p>
+        </div>
+      </section>
+
+      <section className="section home-simple-section" aria-labelledby="home-compare-title">
+        <div className="wrap">
+          <div className="home-section-intro">
+            <span className="eyebrow-dark">Comparison preview</span>
+            <h2 id="home-compare-title">See exactly where mattresses differ.</h2>
+            <p>Select any two or more results and we highlight the real differences - never what&apos;s identical.</p>
+          </div>
+          <ComparisonPreviewTeaser catalog={catalog} />
+          <div className="home-centered-action">
+            <Link href="/compare" className="btn btn-ghost-dark">
+              Compare mattresses <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="home-simple-section home-faq-section" aria-labelledby="home-faq-title">
-        <div className="wrap home-faq-wrap">
+      <section className="section home-simple-section" aria-labelledby="home-testimonials-title">
+        <div className="wrap">
           <div className="home-section-intro">
-            <span className="eyebrow-dark">Need a hand?</span>
-            <h2 id="home-faq-title">Frequently asked questions</h2>
-            <p>Quick answers to help you choose with confidence.</p>
+            <span className="eyebrow-dark">Testimonials</span>
+            <h2 id="home-testimonials-title">From sources we cite, not sales copy.</h2>
+            <p>Every quote below is a real, sourced review snippet attached to a real catalog entry - see each mattress&apos;s page for its full source list.</p>
           </div>
-          <FaqAccordion onLight />
-          <div className="home-centered-action">
-            <Link href="/methodology" className="btn btn-ghost-dark">How our scores work <span aria-hidden="true">→</span></Link>
+          {reviewQuotes.length > 0 && (
+            <div className="review-quote-grid">
+              {reviewQuotes.map(({ entry, highlight }) => (
+                <Link href={`/mattress/${entry.id}`} className="review-quote-card reveal-up" key={entry.id}>
+                  <q>{highlight.snippet}</q>
+                  <div className="rq-meta">
+                    <b>{entry.brand} {entry.model}</b>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+          <div style={{ marginTop: 36 }}>
+            <BrandCarouselRow onLight />
           </div>
         </div>
       </section>
 
       <section className="home-final-cta" aria-labelledby="home-final-title">
         <div className="wrap">
-          <span className="eyebrow-dark">Better sleep starts here</span>
-          <h2 id="home-final-title">Find the mattress that fits your sleep.</h2>
-          <p>A free, quick quiz. Personalized scores. No signup required.</p>
-          <Link href="/find-match" className="btn btn-primary">Find my mattress <span aria-hidden="true">→</span></Link>
+          <h2 id="home-final-title">Ready to find your mattress?</h2>
+          <p>60 seconds, six real questions, a personalized score across {catalog.length} mattresses.</p>
+          <Link href="/find-match" className="btn btn-primary">Find My Mattress <span aria-hidden="true">→</span></Link>
         </div>
       </section>
 

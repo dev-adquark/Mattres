@@ -13,13 +13,13 @@ export default function BrandCarouselRow({ onLight = false }) {
   }
 
   return (
-    <div className="marquee-row">
+    <div className={`marquee-row${onLight ? ' on-light' : ''}`}>
       <div className="marquee-bookend">
         <div>
           <b>Explore mattress types</b>
           <span>Find the right fit for your sleep style</span>
         </div>
-        <Link href="/find-match" className="pc-cta" style={{ color: 'var(--cyan-400)' }}>
+        <Link href="/find-match" className="pc-cta">
           Browse
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
             <path d="M5 12h14M13 6l6 6-6 6" />
@@ -59,7 +59,7 @@ export default function BrandCarouselRow({ onLight = false }) {
           <b>Smart sleep technology</b>
           <span>Science-backed comfort, scored live</span>
         </div>
-        <Link href="/methodology" className="pc-cta" style={{ color: 'var(--cyan-400)' }}>
+        <Link href="/methodology" className="pc-cta">
           Learn more
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6">
             <path d="M5 12h14M13 6l6 6-6 6" />

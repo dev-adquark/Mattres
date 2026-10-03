@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import BrandLogo from '@/components/BrandLogo';
 import MattressThumb from '@/components/MattressThumb';
+import MattressXRay from '@/components/MattressXRay';
 import YourRealScoreForThisMattress from '@/components/YourRealScoreForThisMattress';
 import { buildRetailerLink } from '@/lib/affiliateLinks';
 import { getCatalog, getMattressById } from '@/lib/db/mattressRepo';
@@ -116,7 +117,7 @@ export default async function MattressDetailPage({ params }) {
         <div className="wrap">
           <div className="md-layout">
             <div>
-              <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', marginBottom: 8 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start', marginBottom: 8 }}>
                 <div className="detail-editorial-visual">
                   <img
                     src={
@@ -178,10 +179,12 @@ export default async function MattressDetailPage({ params }) {
               <h2 style={{ fontSize: 20, margin: '32px 0 14px' }}>Review highlights</h2>
               {entry.reviewHighlights?.length ? (
                 entry.reviewHighlights.map((h) => (
-                  <div className="md-review-card" key={h.tag}>
+                  <div className="md-review-card" key={h.label}>
                     <span>
                       {SENTIMENT_ICON[h.sentiment] || '•'} <strong>{h.label}</strong>
-                      <span className={`conf conf-${h.confidence}`}>{CONFIDENCE_LABEL[h.confidence] || h.confidence}</span>
+                      {h.confidence && (
+                        <span className={`conf conf-${h.confidence}`}>{CONFIDENCE_LABEL[h.confidence] || h.confidence}</span>
+                      )}
                     </span>
                     <p>&ldquo;{h.snippet}&rdquo;</p>
                   </div>
@@ -189,6 +192,9 @@ export default async function MattressDetailPage({ params }) {
               ) : (
                 <p style={{ fontSize: 13.5, color: 'var(--slate-600)' }}>No review highlights on file for this mattress yet.</p>
               )}
+
+              <h2 id="construction" style={{ fontSize: 20, margin: '32px 0 14px' }}>Construction</h2>
+              <MattressXRay mattressId={entry.id} coreMaterialNotes={entry.coreMaterialNotes} />
 
               {entry.reviewSources?.length > 0 && (
                 <>
