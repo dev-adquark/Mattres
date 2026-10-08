@@ -1,0 +1,60 @@
+/* /sleep-position hub: cinematic data hero, then four ruled position
+   modules (typography-led, no figures), then a guide shelf. */
+
+.hero { --hero-pad-top: clamp(1.25rem, 0.5rem + 2vw, 2.5rem); padding-bottom: clamp(3.5rem, 2rem + 5vw, 7rem); }
+.heroGrid { display: grid; gap: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); align-items: end; margin-top: clamp(2rem, 1rem + 4vw, 4.5rem); }
+@media (min-width: 1000px) {
+  .heroGrid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(3rem, 1rem + 5vw, 7rem); }
+}
+.heroText { display: grid; gap: var(--space-lg); }
+.kicker { font-size: var(--step-small); font-weight: 650; color: var(--highlight); letter-spacing: 0.02em; }
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 1.4rem + 5.6vw, 7.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  font-weight: 340;
+  color: var(--text-strong);
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.title em { font-variation-settings: "SOFT" 100, "WONK" 1; }
+.lead { font-size: var(--step-lead); line-height: 1.5; color: var(--text); max-width: 44ch; }
+.chart { margin: 0; padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); background: var(--surface); border: 1px solid var(--border); }
+.chartNote { margin-top: var(--space-sm); font-size: var(--step-xs); color: var(--muted); }
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(3rem, 2rem + 3vw, 5rem) clamp(2rem, 1rem + 4vw, 6rem);
+}
+@media (min-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { display: grid; align-content: start; gap: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--text-strong); scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+.cardHead { display: flex; align-items: baseline; gap: var(--space-md); }
+.cardNo { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 2rem + 5vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 330;
+  text-transform: capitalize;
+}
+.cardTitleLink { color: var(--text-strong); text-decoration: none; }
+.cardTitleLink:hover, .cardTitleLink:focus-visible { font-style: italic; font-variation-settings: "SOFT" 100, "WONK" 1; }
+.cardLead { font-size: var(--step-lead); line-height: 1.45; color: var(--text); max-width: 42ch; }
+.cardChart { margin-top: var(--space-xs); }
+.weights { font-size: var(--step-small); color: var(--text); line-height: 1.55; }
+.weightsLabel { font-weight: 650; color: var(--text-strong); }
+.weightsBase { color: var(--muted); }
+.cardLinks { display: grid; gap: 0.6rem; margin-top: var(--space-xs); padding-top: var(--space-sm); border-top: 1px solid var(--border); }
+.cardLink { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; color: var(--text-strong); text-decoration: none; justify-self: start; }
+.cardLink svg { width: 1rem; height: 1rem; color: var(--highlight-text, currentColor); flex: none; }
+.cardLink:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.cardLinkQuiet { font-size: var(--step-small); color: var(--muted); justify-self: start; }
+.note { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); max-width: 70ch; font-size: var(--step-small); color: var(--muted); }
+.shelf { overflow-x: clip; }

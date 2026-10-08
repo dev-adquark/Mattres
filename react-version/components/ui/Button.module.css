@@ -1,0 +1,82 @@
+@layer components {
+  /* Button - pill CTAs. Primary is ink on light, linen on dark. */
+  .btn {
+    --btn-h: 48px;
+    --btn-px: 1.35rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: var(--btn-h);
+    padding: 0 var(--btn-px);
+    border-radius: var(--r-pill);
+    border: 1px solid transparent;
+    font-family: var(--font-sans);
+    font-size: 0.96rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      color var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-3) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+  }
+  .btn:hover { text-decoration: none; }
+  .btn:active:not(:disabled):not([aria-disabled="true"]) { transform: scale(0.985); }
+  .btn svg { width: 1.1em; height: 1.1em; flex: none; }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+  .block { width: 100%; }
+
+  .sm { --btn-h: 40px; --btn-px: 1rem; font-size: 0.875rem; }
+  .md { --btn-h: 48px; }
+  .lg { --btn-h: 58px; --btn-px: 1.7rem; font-size: 1.03rem; }
+
+  /* Arrow capsule: the arrow slides out and a twin slides in on hover. */
+  .hasArrow { padding-right: calc(var(--btn-h) * 0.14); gap: 0.85rem; }
+  .arrow {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: calc(var(--btn-h) - 12px);
+    height: calc(var(--btn-h) - 12px);
+    border-radius: 50%;
+    overflow: hidden;
+    background: color-mix(in srgb, currentColor 12%, transparent);
+    flex: none;
+  }
+  .arrow svg { grid-area: 1 / 1; width: 1.05em; height: 1.05em; transition: transform var(--dur-3) var(--ease-out); }
+  .arrow svg + svg { transform: translateX(-180%); }
+  .btn:hover .arrow svg:first-child, .btn:focus-visible .arrow svg:first-child { transform: translateX(180%); }
+  .btn:hover .arrow svg + svg, .btn:focus-visible .arrow svg + svg { transform: none; }
+  .ghost .arrow, .secondary .arrow { background: transparent; width: auto; }
+  .ghost.hasArrow, .secondary.hasArrow { padding-right: var(--btn-px); gap: 0.5rem; }
+
+  .primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+  .primary:hover { background: var(--btn-primary-hover); box-shadow: 0 14px 30px -16px color-mix(in srgb, var(--btn-primary-bg) 70%, transparent); }
+
+  .secondary { background: transparent; color: var(--text-strong); border-color: var(--border-strong); }
+  .secondary:hover { border-color: var(--text-strong); background: color-mix(in srgb, var(--text) 5%, transparent); }
+
+  .ghost { background: transparent; color: var(--text-strong); padding-inline: 0.4rem; border-radius: var(--r-sm); }
+  .ghost > span:first-of-type {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+    padding-bottom: 2px;
+    transition: background-size var(--dur-3) var(--ease-out);
+  }
+  .ghost:hover > span:first-of-type { background-size: 0% 1px; background-position: 100% 100%; }
+
+  .onDark { background: rgb(255 255 255 / 0.06); color: #fff; border-color: rgb(255 255 255 / 0.26); }
+  .onDark:hover { background: rgb(255 255 255 / 0.13); border-color: rgb(255 255 255 / 0.5); }
+
+  @media (forced-colors: active) {
+    .btn { border: 1px solid CanvasText; }
+  }
+}

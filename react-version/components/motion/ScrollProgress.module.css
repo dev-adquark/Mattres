@@ -1,0 +1,8 @@
+@layer components {
+  /* Reading progress hairline (amber). */
+  .root { position: fixed; left: 0; right: 0; height: 2px; z-index: calc(var(--z-header) + 1); pointer-events: none; }
+  .header { top: var(--nav-h); }
+  .top { top: 0; }
+  .bar { display: block; height: 100%; background: var(--signal-amber); transform-origin: left center; transform: scaleX(0); transition: transform 90ms linear; }
+  .root[data-complete="true"] .bar { opacity: 0.6; }
+}

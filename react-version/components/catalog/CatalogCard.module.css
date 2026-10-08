@@ -1,0 +1,430 @@
+/*
+ * Gallery module - no box, no white panel, no filled chips. Four bands
+ * (mediaWrap, copy, facts, foot). Inside the catalog gallery the parent grid
+ * gives every card the same four row tracks (`grid-template-rows: subgrid`),
+ * so titles, attribute rows and compare toggles line up across a row however
+ * long a model name runs. Standalone, the bands simply stack.
+ */
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-width: 0;
+}
+
+.mediaWrap {
+  position: relative;
+}
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  /* The stills' studio floor colour, so nothing ever letterboxes. */
+  background: var(--warm-sand);
+  isolation: isolate;
+}
+.mediaInner {
+  position: absolute;
+  inset: 0;
+  transition: transform 900ms var(--ease-out);
+  will-change: transform;
+}
+/* The corner shot sits closer in on the quilted corner. */
+.card[data-zoom='true'] .mediaInner {
+  inset: -6% -14% -4% -14%;
+}
+
+.tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  /* One tag style on every backdrop (night, dusk, linen, sand): an opaque
+     night-ink chip with a hairline, so it never reads lighter or darker
+     depending on the still behind it. */
+  background: rgb(5 11 22 / 0.86);
+  box-shadow: inset 0 0 0 1px rgb(233 228 218 / 0.16);
+  color: var(--linen);
+  backdrop-filter: none;
+}
+
+/* Hover/focus reveal (fine pointers only): the engine's score for each
+   reference sleeper position, rising over the bottom of the tile. On touch it
+   is not rendered, so the touch layout is unchanged. */
+.reveal {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .reveal {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    display: block;
+    padding: 0.8rem 0.85rem 0.85rem;
+    background: rgb(5 11 22 / 0.88);
+    color: var(--linen);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(100%);
+    transition:
+      opacity 360ms var(--ease-out),
+      transform 520ms var(--ease-out);
+  }
+  .card:hover .reveal,
+  .card:focus-within .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+.revealHead {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(233 228 218 / 0.78);
+}
+.revealNote {
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 500;
+}
+.revealList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.revealItem {
+  display: grid;
+  row-gap: 0.15rem;
+  min-width: 0;
+}
+.revealLabel {
+  font-size: 12px;
+  color: rgb(233 228 218 / 0.82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.revealScore {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--linen);
+}
+.revealBar {
+  margin-top: 0.2rem;
+  height: 2px;
+  background: rgb(233 228 218 / 0.22);
+}
+.revealBar > span {
+  display: block;
+  height: 100%;
+  background: var(--signal-amber, #f2b45a);
+}
+.sponsored {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 2;
+}
+.rank {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.85rem;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 340;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  font-variant-numeric: tabular-nums;
+}
+/* Score ring overlaps the tile's bottom-right corner. */
+.ring {
+  position: absolute;
+  z-index: 2;
+  right: 0.75rem;
+  bottom: 0;
+  transform: translateY(50%);
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--bg);
+  pointer-events: none;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-top: 1rem;
+}
+.headline {
+  margin-bottom: 0.55rem;
+}
+.brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.title {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.2rem + 0.35vw, 1.6rem);
+  font-weight: 380;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--text-strong);
+  font-variation-settings: 'SOFT' 40;
+  text-wrap: balance;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
+  transition: background-size 320ms var(--ease-out);
+}
+/* The whole module is one link target. */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.link:focus-visible {
+  outline: none;
+}
+.card:has(.link:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+.tier {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.tier strong {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+.line {
+  margin-top: 0.45rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Engine positioning: the reference sleeper it scores highest for. */
+.fit {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--text-strong);
+}
+.fitLabel {
+  margin-right: 0.15rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fitNote {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Facts band: pinned to the top of its (shared) track, so hairlines align. */
+.facts {
+  align-self: start;
+  padding-top: 0.85rem;
+  transition: transform 420ms var(--ease-out);
+}
+.attrs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+  color: var(--text);
+}
+.attr {
+  white-space: nowrap;
+}
+.sep {
+  padding: 0 0.45rem;
+  color: var(--muted);
+}
+.missing {
+  font-style: italic;
+  color: var(--muted);
+}
+.price {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.priceNote {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.price .missing {
+  font-weight: 400;
+  font-size: 0.9375rem;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+  /* Status on its own line, actions beneath: the same shape in every card. */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  margin-top: 0.35rem;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 12px;
+  color: var(--muted);
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+.dotOn {
+  background: var(--success);
+}
+.dotOff {
+  border: 1px solid var(--muted);
+}
+
+/* Compare toggle and CTA share row 1; the toggle's "Compare limit reached"
+   status (rendered inside the toggle) is lifted onto its own full-width row 2
+   via display: contents, so the CTA never wraps or detaches its arrow. */
+.actions {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1.1rem;
+}
+.actions > .compare {
+  display: contents;
+}
+.compare :global(.compare-toggle__btn) {
+  grid-row: 1;
+  grid-column: 1;
+}
+.actions > .cta {
+  grid-row: 1;
+  grid-column: 2;
+}
+.compare > :last-child {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  /* Contribute no width to the column tracks: wrap within the row above. */
+  width: 0;
+  min-width: 100%;
+  padding-bottom: 0.35rem;
+}
+/* Visible on every pointer type: a quiet text CTA with an arrow. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cta svg {
+  flex: none;
+}
+.cta svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 320ms var(--ease-out);
+}
+.cta:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Compare: a quiet checkbox text link, not a pill button. */
+.compare :global(.compare-toggle__btn) {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.compare :global(.compare-toggle__btn):hover {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.compare :global(.compare-toggle__box) {
+  width: 15px;
+  height: 15px;
+  border-width: 1.25px;
+}
+.compare :global(.compare-toggle__btn[aria-pressed='true']) {
+  background: transparent;
+  color: var(--text-strong);
+}
+.compare :global(.compare-toggle__btn[aria-pressed='true'] .compare-toggle__box) {
+  background: var(--text-strong);
+  color: var(--bg);
+  border-color: var(--text-strong);
+}
+
+/* Hover: the image scales inside its frame, the facts lift, the CTA arrow nudges. */
+.card:hover .link,
+.card:focus-within .link {
+  background-size: 100% 1px;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card:hover .mediaInner {
+    transform: scale(1.04);
+  }
+  .card:hover .facts {
+    transform: translateY(-3px);
+  }
+  .card:hover .cta svg {
+    transform: translateX(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .mediaInner,
+  .facts,
+  .cta svg,
+  .link {
+    transition: none;
+  }
+}

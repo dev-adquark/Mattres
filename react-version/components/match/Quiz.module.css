@@ -1,0 +1,660 @@
+/* Match quiz - "interactive" page personality on the cinematic Night Ink stage.
+   Tokens only (globals.css); radii: tiles/panels --r-md, CTAs pill. */
+
+.stage {
+  --hero-pad-top: clamp(1.5rem, 1rem + 3vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding-bottom: 0;
+  overflow-x: clip;
+}
+
+.layout {
+  flex: 1 0 auto;
+  width: 100%;
+  padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 5rem);
+  display: grid;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr);
+    gap: clamp(3rem, 2rem + 4vw, 7rem);
+  }
+  .aside {
+    position: sticky;
+    top: calc(var(--nav-h) + 2rem);
+  }
+}
+
+/* ---------- Aside: statement + chapter progress ---------- */
+.aside {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 1.5rem + 2.8vw, 4.25rem);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-display);
+  color: var(--text-strong);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.intro {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: var(--step-body);
+}
+
+@media (max-width: 999px) {
+  .layout { gap: var(--space-md); }
+  .title { font-size: clamp(1.9rem, 1.4rem + 2.6vw, 2.75rem); }
+  .intro { display: none; }
+}
+
+/* After step 1 the rail collapses to the progress list: the statement
+   stays in the DOM as the page's h1 but is visually hidden. */
+.aside[data-collapsed] .title,
+.aside[data-collapsed] .intro,
+.aside[data-collapsed] > :global(.eyebrow) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.aside[data-collapsed] .progress { margin-top: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .aside[data-collapsed] .progress { animation: railIn var(--motion-2-dur) var(--motion-2-ease) both; }
+}
+@keyframes railIn { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+
+/* Progress */
+.progress {
+  position: relative;
+  margin-top: var(--space-sm);
+}
+
+.progressList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 1px solid var(--border);
+}
+
+.progressItem { border-bottom: 1px solid var(--border); }
+
+.progressBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 46px;
+  padding: 0.55rem 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--step-small);
+  text-align: left;
+}
+
+button.progressBtn { cursor: pointer; }
+button.progressBtn:hover .progressLabel { color: var(--text-strong); text-decoration: underline; text-underline-offset: 4px; }
+button.progressBtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.progressIndex {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.progressIndex svg { width: 14px; height: 14px; }
+
+.progressLabel { transition: color var(--dur-2) var(--ease-out); }
+
+.progressItem[data-done] .progressIndex { border-color: var(--accent); color: var(--accent-text); }
+.progressItem[data-done] .progressLabel { color: var(--text); }
+.progressItem[data-current] .progressIndex { background: var(--text-strong); border-color: var(--text-strong); color: var(--bg); }
+.progressItem[data-current] .progressLabel { color: var(--text-strong); font-weight: 600; }
+
+.progressBar { display: none; }
+
+/* Results is not a question: set apart from 01-05 by a gap and a dashed rule. */
+.progressItem[data-results] { margin-top: 0.85rem; border-top: 1px dashed var(--border-strong); }
+.progressItem[data-results] .progressIndex { border-style: dashed; }
+.progressItem[data-results][data-current] .progressIndex { border-style: solid; background: var(--highlight); border-color: var(--highlight); color: var(--bg); }
+
+/* Compact horizontal progress below 1000px */
+@media (max-width: 999px) {
+  .progress { margin-top: 0; padding-bottom: 0.6rem; }
+  .progressList {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(2.25rem, 0.8fr);
+    border: 0;
+    gap: 4px;
+  }
+  .progressItem[data-results] { margin: 0 0 0 0.6rem; border-top: 0; }
+  .progressItem[data-results] .progressBtn { border-top-style: dashed; }
+  .progressItem[data-results] .progressIndex svg { width: 14px; height: 14px; }
+  .progressItem[data-results][data-current] .progressBtn { border-top-color: var(--highlight); border-top-style: solid; }
+  .progressItem[data-results][data-current] .progressIndex { color: var(--highlight-text) !important; }
+  .progressItem { border: 0; }
+  .progressBtn {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0.35rem 0 0;
+    border-top: 2px solid var(--border);
+    font-size: var(--step-eyebrow);
+  }
+  .progressItem[data-done] .progressBtn { border-top-color: var(--accent); }
+  .progressItem[data-current] .progressBtn { border-top-color: var(--text-strong); }
+  .progressIndex {
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: none !important;
+    color: inherit !important;
+    font-size: var(--step-eyebrow);
+  }
+  .progressLabel {
+    font-size: 0.6875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .progressItem:not([data-current]) .progressLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .progressItem[data-current] .progressIndex { color: var(--text-strong) !important; }
+}
+@media (max-width: 999px) and (min-width: 560px) {
+  .progressItem:not([data-current]) .progressLabel { position: static; width: auto; height: auto; clip: auto; }
+}
+
+/* ---------- Question panel ---------- */
+.panel {
+  display: grid;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.notice {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--highlight);
+  background: var(--warning-soft);
+  color: var(--text);
+  font-size: var(--step-small);
+}
+.notice svg { width: 18px; height: 18px; flex: none; margin-top: 2px; color: var(--warning-text); }
+
+.stepAnim {
+  display: grid;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* No data-dir on first paint: the opening question is the LCP text and
+     must not start at opacity 0. */
+  .stepAnim[data-dir] { animation: stepIn var(--dur-4) var(--ease-out) both; }
+  .stepAnim[data-dir="back"] { animation-name: stepInBack; }
+}
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translate3d(28px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes stepInBack {
+  from { opacity: 0; transform: translate3d(-28px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.stepCount { margin: 0; color: var(--accent-text); }
+
+.question {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.85rem, 1.35rem + 1.8vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  color: var(--text-strong);
+  text-wrap: balance;
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
+}
+.question:focus { outline: none; }
+
+.sub {
+  margin: calc(var(--space-xs) * -1) 0 var(--space-xs);
+  color: var(--muted);
+  font-size: var(--step-lead);
+  max-width: 46ch;
+}
+
+.fields { display: grid; gap: var(--space-xl); }
+
+.subQuestion {
+  display: grid;
+  gap: var(--space-sm);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border);
+}
+.fields > .subQuestion:first-child { padding-top: 0; border-top: 0; }
+
+.subTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--step-h4);
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: 0;
+}
+
+.optional {
+  margin-left: 0.5rem;
+  font-size: var(--step-xs);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.hint { margin: -0.4rem 0 0; color: var(--muted); font-size: var(--step-small); }
+
+.error { margin-top: var(--space-xs); }
+/* Validation reads as a calm amber prompt on night, never red. */
+.panel .error { color: var(--highlight-text); }
+.panel .error svg { color: var(--highlight); }
+
+/* ---------- Choice tiles ---------- */
+.choices {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+}
+.choices[data-layout="list"] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.choices[data-count="4"] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+@media (min-width: 640px) { .choices[data-count="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.choices[data-layout="visual"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 1200px) {
+  .choices[data-layout="visual"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.choice {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.85rem;
+  min-height: 64px;
+  padding: 1rem 1.1rem;
+  border: 0;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--linen) 5%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.choice:hover { background: color-mix(in srgb, var(--linen) 9%, transparent); }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .choice:hover { transform: translateY(-2px); }
+  .choice:active { transform: translateY(0) scale(0.99); }
+}
+
+.choiceInput {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.choiceMark {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 50%;
+  color: var(--bg);
+  transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.choices[role="group"] .choiceMark { border-radius: var(--r-xs); }
+.choiceMark svg { width: 13px; height: 13px; opacity: 0; transform: scale(0.6); transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+
+.choiceBody { display: grid; gap: 0.2rem; min-width: 0; }
+.choiceTitle { font-weight: 600; color: var(--text-strong); font-size: var(--step-body); }
+.choiceDesc { font-size: var(--step-small); color: var(--muted); line-height: 1.45; }
+
+/* Selected: one amber outline + filled amber mark with a check (never colour
+   alone). Drawn on ::after so a full-bleed illustration never covers it. */
+.choice::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px var(--highlight);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.choice[data-checked] { background: color-mix(in srgb, var(--linen) 9%, transparent); }
+.choice[data-checked]::after { opacity: 1; }
+.choice[data-checked] .choiceMark { background: var(--highlight); border-color: var(--highlight); color: var(--night-ink, #050b16); }
+.choice[data-checked] .choiceMark svg { opacity: 1; transform: none; }
+.choice:has(.choiceInput:focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
+.choices[aria-invalid="true"] .choice { outline: 1px dashed color-mix(in srgb, var(--highlight) 75%, transparent); outline-offset: -1px; }
+
+/* Visual tiles (sleep position) */
+.choices[data-layout="visual"] .choice {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-content: start;
+  padding: 0 1rem 1.1rem;
+  min-height: 0;
+  overflow: hidden;
+}
+/* The illustration fills the card top edge to edge (~120px). */
+.choices[data-layout="visual"] .choiceVisual {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  height: clamp(104px, 6rem + 2vw, 132px);
+  margin: 0 -1rem 0.9rem;
+  padding: 0.6rem 0.4rem 0;
+  background:
+    radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--indigo-dusk) 55%, transparent), transparent 70%),
+    color-mix(in srgb, var(--linen) 3%, transparent);
+  color: var(--text);
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+.choices[data-layout="visual"] .choiceBody { grid-row: 2; grid-column: 1; }
+.choices[data-layout="visual"] .choiceMark { grid-row: 2; grid-column: 2; }
+
+.glyph { display: block; width: 100%; height: 100%; }
+.glyph [data-glyph-marker] { color: var(--highlight); }
+.choice[data-checked] .glyph { color: var(--text-strong); }
+
+/* Exact weight */
+.exact { max-width: 18rem; }
+.exact :global(.input) { font-size: var(--step-lead); }
+.textButton {
+  justify-self: start;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--step-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- Firmness spectrum ---------- */
+.spectrum {
+  display: grid;
+  gap: var(--space-sm);
+  padding: clamp(1rem, 0.6rem + 2vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--indigo-dusk) 22%, transparent), transparent 70%);
+}
+
+.spectrumArt { display: block; width: 100%; height: auto; overflow: visible; }
+.spectrumBody { fill: color-mix(in srgb, var(--linen) 7%, transparent); stroke: var(--border-strong); stroke-width: 1; }
+.spectrumLayer { fill: none; stroke: var(--border-strong); stroke-width: 1.2; }
+.spectrumSurface { fill: none; stroke: var(--linen); stroke-width: 2.5; stroke-linejoin: round; }
+.spectrumWeight circle { fill: var(--linen); }
+.spectrumWeight .spectrumSheen { fill: #ffffff; opacity: 0.55; }
+.spectrumWeight { transform-box: view-box; transform: translate(var(--weight-x, 0px), var(--weight-y, 0px)); }
+.spectrum[data-unset] .spectrumWeight { opacity: 0.35; }
+.spectrum[data-unset] .spectrumSurface { stroke-dasharray: 6 6; opacity: 0.7; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .spectrumWeight { transition: transform var(--dur-4) var(--ease-out), opacity var(--dur-3) var(--ease-out); }
+  .spectrumSurface, .spectrumLayer { transition: d var(--dur-4) var(--ease-out); }
+}
+
+.spectrumControl { position: relative; display: grid; gap: 0.25rem; }
+/* Unset: a pulsing amber ring on the resting thumb invites the first move. */
+.spectrumPulse {
+  position: absolute;
+  top: 22px;
+  left: calc(12px + (100% - 24px) * var(--i) / 5);
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--highlight);
+  pointer-events: none;
+  z-index: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .spectrumPulse { animation: thumbPulse 1.6s var(--ease-out) infinite; }
+}
+@keyframes thumbPulse {
+  0% { box-shadow: 0 0 0 2px var(--highlight), 0 0 0 0 rgb(242 180 90 / 0.5); }
+  70% { box-shadow: 0 0 0 2px var(--highlight), 0 0 0 14px rgb(242 180 90 / 0); }
+  100% { box-shadow: 0 0 0 2px var(--highlight), 0 0 0 0 rgb(242 180 90 / 0); }
+}
+.spectrumRange { --thumb: 24px; }
+.spectrum[data-unset] .spectrumRange::-webkit-slider-thumb { border-style: dashed; }
+
+.spectrumTicks {
+  position: relative;
+  height: 2.25rem;
+}
+.spectrumTick {
+  position: absolute;
+  top: 0;
+  left: calc(12px + (100% - 24px) * var(--i) / 5);
+  transform: translateX(-50%);
+  min-height: 32px;
+  padding: 0.25rem 0.3rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--step-xs);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.spectrumTick:hover { color: var(--text-strong); }
+.spectrumTick[data-active] { color: var(--text-strong); font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 5px; text-decoration-thickness: 2px; }
+.spectrumTick:first-child { transform: none; left: 0; }
+.spectrumTick:last-child { transform: none; left: auto; right: 0; }
+
+.spectrumPoles {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--step-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.spectrumReadout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+  margin: 0;
+  min-height: 2.6rem;
+  color: var(--muted);
+}
+.spectrumReadout strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-h3);
+  color: var(--text-strong);
+}
+
+@media (max-width: 559px) {
+  .spectrumTick { font-size: 0.6875rem; padding-inline: 0.1rem; }
+  .spectrumTick:nth-child(2), .spectrumTick:nth-child(4) { top: 1.05rem; }
+  .spectrumTicks { height: 2.6rem; }
+}
+
+/* ---------- Priorities ---------- */
+.budget { display: grid; gap: 0.25rem; max-width: 36rem; }
+.budgetReadout {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-h3);
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.eligible {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.eligible strong { font-family: var(--font-display); font-weight: 400; font-size: var(--step-h3); color: var(--text-strong); line-height: 1; }
+.eligible[data-empty] { border-left-color: var(--highlight); background: var(--warning-soft); }
+
+/* ---------- Why we ask ---------- */
+.why {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: var(--step-small);
+  max-width: 62ch;
+}
+.why p { margin: 0; }
+.whyLabel {
+  font-size: var(--step-eyebrow) !important;
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-text);
+  padding-top: 0.2rem;
+}
+@media (max-width: 559px) {
+  .why { grid-template-columns: 1fr; }
+}
+
+/* ---------- Navigation ---------- */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-strong);
+}
+
+.nav {
+  position: sticky;
+  bottom: var(--tray-h, 0px);
+  z-index: 5;
+  margin-inline: calc(var(--gutter) * -1);
+  padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom));
+  background: var(--bg);
+  box-shadow: 0 -22px 30px -14px var(--bg);
+}
+/* Reserve the sticky bar's height (published as --quiz-nav-h by QuizStage)
+   plus the compare tray when the browser scrolls focus into view, so a
+   focused control never sits under the bar (WCAG 2.2 SC 2.4.11). */
+:global(html):has(.nav) {
+  scroll-padding-bottom: calc(var(--quiz-nav-h, 5.5rem) + var(--tray-h, 0px) + 2rem);
+}
+@media (min-width: 1000px) {
+  .nav { margin-inline: -1.5rem; padding-inline: 1.5rem; border-radius: var(--r-md) var(--r-md) 0 0; }
+}
+
+.saved {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--step-xs);
+}
+.saved svg { width: 13px; height: 13px; flex: none; }
+
+/* Edge importance: three equal segments that never wrap awkwardly */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  max-width: 30rem;
+  border-radius: var(--r-md);
+}
+.segmented span { justify-content: center; text-align: center; width: 100%; border-radius: var(--r-sm); padding-inline: 0.5rem; line-height: 1.2; }
+
+/* ---------- Minimal quiz footer (immersive stages) ---------- */
+/* While a quiz / loading / error stage is mounted, the full marketing
+   footer is hidden: the flow should feel like a product, not a page
+   section. The results page renders no QuizFooter, so it keeps it. */
+:global(body):has(.quizFooter) :global([data-site-footer]) { display: none; }
+
+.quizFooter {
+  border-top: 1px solid var(--border);
+  padding: 1.1rem 0 calc(1.1rem + var(--tray-h, 0px) + env(safe-area-inset-bottom));
+  color: var(--muted);
+  font-size: var(--step-xs);
+}
+.quizFooterInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+}
+.quizFooter .saved { margin: 0; max-width: 62ch; }
+.quizFooterLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.quizFooterLinks a {
+  display: inline-block;
+  padding: 0.5rem 0;
+  color: var(--muted);
+  text-decoration: none;
+}
+.quizFooterLinks a:hover { color: var(--text-strong); text-decoration: underline; text-underline-offset: 4px; }
+.quizFooterLinks a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }

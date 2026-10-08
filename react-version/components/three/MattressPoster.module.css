@@ -1,0 +1,8 @@
+/* MattressPoster: the SVG fills the stage box the canvas will occupy. */
+@layer components {
+  .poster {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

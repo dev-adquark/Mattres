@@ -12,11 +12,9 @@
  *
  * Usage: SUPABASE_URL=... SUPABASE_SECRET_KEY=... node scripts/migrate-catalog-to-db.js
  */
-const path = require('path');
-const { upsertMattress, loadJsonFallback, JSON_FALLBACK_PATH } = require(
-  path.join(__dirname, '..', 'react-version', 'lib', 'db', 'mattressRepo')
-);
-const { isDbConfigured, getSupabaseClient } = require(path.join(__dirname, '..', 'react-version', 'lib', 'db', 'supabaseClient'));
+const { requireAppModule } = require('./lib/app-modules');
+const { upsertMattress, loadJsonFallback, JSON_FALLBACK_PATH } = requireAppModule('lib/db/mattressRepo');
+const { isDbConfigured, getSupabaseClient } = requireAppModule('lib/db/supabaseClient');
 
 async function main() {
   if (!isDbConfigured()) {

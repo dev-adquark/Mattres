@@ -2,7 +2,7 @@
 /**
  * Catalog verification/freshness audit.
  * Uses the same required-field and lifetime-warranty rules as
- * react-version/lib/dataIntegrity.js. Keep both implementations aligned.
+ * react-version/lib/dataIntegrity.ts. Keep both implementations aligned.
  *
  * Usage: node scripts/verify-catalog-freshness.js
  * Exit code 1 when records need source verification or are stale.

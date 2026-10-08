@@ -1,0 +1,96 @@
+/* /methodology weight explorer (client component). Split out of Methodology.module.css unchanged. */
+
+/* ---------- 04 Weight explorer ---------- */
+.explorer { display: grid; gap: var(--space-2xl); }
+@media (min-width: 1000px) {
+  .explorer { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-3xl); align-items: start; }
+}
+.explorerControls { display: grid; gap: var(--space-lg); align-content: start; }
+.explorerControls > button { justify-self: start; }
+.explorerControls > button:disabled { opacity: 0.5; cursor: default; }
+.explorerField legend { color: var(--text-strong); }
+.explorerField :global(.segmented) { border-radius: 24px; }
+.explorerOutput {
+  padding: clamp(1.25rem, 0.8rem + 2vw, 2.25rem);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+@media (min-width: 1000px) {
+  .explorerOutput { position: sticky; top: calc(var(--nav-h) + var(--space-md)); }
+}
+.explorerOutputTitle {
+  margin: 0 0 var(--space-md);
+  font-size: var(--step-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.weightRows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-md); }
+.weightRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name value" "track track";
+  gap: 0.4rem var(--space-sm);
+  align-items: end;
+}
+.weightName { grid-area: name; font-size: var(--step-small); color: var(--text); }
+.weightValue { grid-area: value; display: inline-flex; align-items: baseline; gap: var(--space-xs); }
+.weightPct {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 1.3rem + 1vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.6ch;
+  text-align: right;
+}
+.weightDelta { font-size: var(--step-xs); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.weightRow[data-dir="up"] .weightDelta { color: var(--accent-text); }
+.weightRow[data-dir="down"] .weightDelta { color: var(--warning-text); }
+.weightTrack { grid-area: track; position: relative; height: 14px; }
+.weightTrack::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--border-strong);
+}
+.weightFill {
+  position: absolute;
+  left: 0; top: 3px; bottom: 3px;
+  width: calc(var(--w) * 100%);
+  background: var(--accent);
+  transition: width var(--dur-3) var(--ease-out);
+}
+.weightBase {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(var(--w) * 100%);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--text-strong);
+}
+.weightLegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: var(--space-md) 0 0;
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.weightLegendFill, .weightLegendBase { display: inline-block; flex: none; }
+.weightLegendFill { width: 18px; height: 8px; background: var(--accent); }
+.weightLegendBase { width: 2px; height: 14px; background: var(--text-strong); margin-left: var(--space-sm); }
+.appliedRules { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--border); }
+.appliedTitle { margin: 0; font-weight: 600; color: var(--text-strong); font-size: var(--step-small); }
+.appliedList { list-style: none; margin: var(--space-sm) 0 0; padding: 0; display: grid; gap: var(--space-sm); }
+.appliedList li { display: grid; gap: 0.15rem; padding-left: var(--space-sm); border-left: 1px solid var(--accent); }
+.appliedMult { font-size: var(--step-xs); font-weight: 600; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.appliedDesc { font-size: var(--step-small); color: var(--text); }
+.appliedWhy { font-size: var(--step-xs); color: var(--muted); }
+@media (min-width: 640px) { .weightDelta { min-width: 10.5em; } }

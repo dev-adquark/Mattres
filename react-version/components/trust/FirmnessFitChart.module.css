@@ -1,0 +1,34 @@
+/* /methodology firmness-fit chart (client component). Split out of Methodology.module.css unchanged. */
+
+.chart { margin: 0; display: grid; gap: var(--space-sm); min-width: 0; }
+.chartControls legend { font-size: var(--step-xs); color: var(--muted); font-weight: 600; }
+.chartSvg { width: 100%; height: auto; display: block; overflow: visible; }
+.chartGrid { stroke: var(--border); stroke-width: 1; }
+.chartTick { fill: var(--muted); font-size: 12px; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.chartAxis { fill: var(--muted); font-size: 12px; font-family: var(--font-sans); }
+.chartBand { fill: color-mix(in srgb, var(--accent) 12%, transparent); stroke: color-mix(in srgb, var(--accent) 45%, transparent); stroke-width: 1; stroke-dasharray: 2 3; }
+.chartBandLabel { fill: var(--accent-text); font-size: 12px; font-weight: 600; font-family: var(--font-sans); }
+.chartLineSupport { fill: none; stroke: var(--text-strong); stroke-width: 2.5; stroke-linejoin: round; }
+.chartLinePressure { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 7 5; stroke-linejoin: round; }
+.chartLabelSupport { fill: var(--text-strong); font-size: 13px; font-weight: 600; font-family: var(--font-sans); }
+.chartLabelPressure { fill: var(--accent-text); font-size: 13px; font-weight: 600; font-family: var(--font-sans); }
+.chartSvg path { transition: d var(--dur-4) var(--ease-out); }
+.chartSvg rect { transition: x var(--dur-4) var(--ease-out), width var(--dur-4) var(--ease-out); }
+.chartCaption { font-size: var(--step-xs); color: var(--muted); }
+.chartTable summary {
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--accent-text);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.chartTable table { font-size: var(--step-small); max-width: 32rem; }
+.chartTable th, .chartTable td { padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--border); text-align: left; font-variant-numeric: tabular-nums; }
+.chartTable thead th { font-size: var(--step-xs); color: var(--muted); }
+@media (max-width: 639px) {
+  .chartTick, .chartAxis { font-size: 20px; }
+  .chartBandLabel { font-size: 19px; }
+  .chartLabelSupport, .chartLabelPressure { display: none; }
+}

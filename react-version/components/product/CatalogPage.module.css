@@ -1,0 +1,125 @@
+/* /mattresses page frame: a compact, typography-led utility hero with a
+   cropped render that runs off the right edge (and sits above the fold on
+   phones), a hairline category index, the product-mood catalog, and a
+   short cinematic close. No stats strip (that lives on /methodology). */
+
+.hero {
+  overflow: hidden;
+  padding-top: clamp(1.5rem, 0.8rem + 3vw, 3.5rem);
+  padding-bottom: var(--space-xl);
+}
+.heroContainer {
+  display: grid;
+  gap: var(--space-lg);
+}
+@media (min-width: 900px) {
+  .heroContainer {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    grid-template-areas:
+      'copy visual'
+      'index index';
+    align-items: end;
+    column-gap: var(--split-gap);
+    row-gap: var(--space-xl);
+  }
+  .heroCopy {
+    grid-area: copy;
+    padding-bottom: var(--space-sm);
+  }
+  .heroVisual {
+    grid-area: visual;
+  }
+  .heroIndex {
+    grid-area: index;
+  }
+}
+
+.heroCopy {
+  display: grid;
+  gap: var(--space-md);
+  justify-items: start;
+  min-width: 0;
+}
+.title {
+  margin: 0;
+  max-width: 13ch;
+  font-size: clamp(2.6rem, 1.6rem + 3.6vw, 4.75rem);
+}
+.lead {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.heroVisual {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+}
+.heroFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--warm-sand);
+}
+.heroTag {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1;
+}
+/* Phones: full-bleed strip so the first screen carries an image. */
+@media (max-width: 899px) {
+  .heroVisual {
+    margin-inline: calc(50% - 50vw);
+  }
+  .heroFrame {
+    aspect-ratio: 16 / 8;
+    border-radius: 0;
+  }
+}
+@media (min-width: 900px) {
+  /* intentional crop: the frame runs off the right edge of the page */
+  .heroVisual {
+    margin-right: calc(-1 * (100vw - min(100vw, var(--w-default) + var(--gutter) * 2)) / 2 - var(--gutter));
+  }
+  .heroFrame {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.heroIndex {
+  min-width: 0;
+}
+
+.browse {
+  padding-top: var(--section-y-sm);
+}
+
+.closingGrid {
+  display: grid;
+  gap: var(--space-lg);
+}
+@media (min-width: 900px) {
+  .closingGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    column-gap: var(--split-gap);
+  }
+}
+.closingTitle {
+  margin: 0;
+}
+.closingBody {
+  display: grid;
+  gap: var(--space-md);
+}

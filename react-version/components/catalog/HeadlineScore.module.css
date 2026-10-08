@@ -1,0 +1,145 @@
+/*
+ * Catalog headline score. Row variant: a Fraunces numeral with the tier word
+ * and "who it's for" beside it (compact rows) or stacked beneath it (the
+ * wide index column), over a hairline 0-100 meter. Inline variant: one quiet
+ * line for gallery cards.
+ */
+.score {
+  min-width: 0;
+}
+
+.figure {
+  margin: 0;
+  line-height: 1;
+}
+.num {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-variation-settings: 'SOFT' 30, 'opsz' 144;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.04em;
+  color: var(--text-strong);
+}
+.decimal {
+  font-size: 0.6em;
+  letter-spacing: 0.01em;
+}
+.words {
+  min-width: 0;
+}
+.tier {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-strong);
+}
+.caption {
+  margin: 0.15rem 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* The two top tiers carry the signal amber (text-safe ink on light). */
+.score[data-tier='excellent'] .tier,
+.score[data-tier='strong'] .tier {
+  color: var(--highlight-text);
+}
+.score[data-tier='none'] .num {
+  color: var(--muted);
+  font-weight: 300;
+}
+.score[data-tier='none'] .tier {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Row variant ---------------------------------------------------------- */
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.7rem;
+}
+.row .num {
+  font-size: 2.5rem;
+}
+.meter {
+  grid-column: 1 / -1;
+  position: relative;
+  display: block;
+  block-size: 2px;
+  margin-top: 0.55rem;
+  max-inline-size: 9rem;
+  background: var(--border);
+  overflow: hidden;
+}
+.meterFill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  background: var(--text-strong);
+}
+.score[data-tier='excellent'] .meterFill,
+.score[data-tier='strong'] .meterFill {
+  background: var(--highlight);
+}
+
+/* In the wide index the numeral sits over its words. */
+@container catalog-group (min-width: 800px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.35rem;
+    align-items: start;
+  }
+  .row .num {
+    font-size: clamp(2.25rem, 1.6rem + 0.9vw, 2.75rem);
+  }
+  .meter {
+    margin-top: 0.2rem;
+  }
+}
+
+/* Compact phone rows (CatalogRow below 600px of list width): the score sits
+   in the narrow column under the thumbnail, so the numeral stacks over its
+   words and the meter is left out (the numeral already carries the value). */
+@container catalog-group (max-width: 599.98px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.25rem;
+    align-items: start;
+  }
+  .row .num {
+    font-size: 2rem;
+  }
+  .row .meter {
+    display: none;
+  }
+  /* The basis ("Avg. reference sleeper") is the same on every row and is
+     stated once in the sort note above the list; screen readers still get it
+     from the visually hidden prefix. */
+  .row .caption {
+    display: none;
+  }
+}
+
+/* Inline variant (gallery cards) --------------------------------------- */
+.inline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.inline .num {
+  font-size: 2rem;
+}
+.inline .words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.4rem;
+}
+.inline .caption {
+  margin: 0;
+}

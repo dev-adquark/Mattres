@@ -412,9 +412,319 @@ function scoreV0_1(rules, profile, mattress) {
   };
 }
 
+// ===========================================================================
+// v0.2 implementation (BEGIN v0.2). Same logic as the app's TypeScript
+// engine, react-version/lib/scoreEngine.ts; scripts/test-score-engine.js and
+// react-version/lib/scoreEngine.v02.test.ts check the two produce
+// byte-identical output.
+// ===========================================================================
+
+/** Round to 4 decimal places (weights), deterministic. */
+function round4(value) {
+  return Math.round(value * 10000) / 10000;
+}
+
+function isRating(value) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 10;
+}
+
+/**
+ * Normalises the optional painFocus input. Accepts the v0.2 single value
+ * ('shoulders' | 'hips' | 'lower-back' | 'whole-body' | 'none') or the
+ * legacy array form (e.g. ['shoulder', 'hip']), mapped through
+ * rules.painFocusAliases. Returns a sorted, de-duplicated list without 'none'.
+ */
+function normalizePainFocus(rules, painFocus) {
+  const raw = Array.isArray(painFocus) ? painFocus : painFocus == null ? [] : [painFocus];
+  const out = new Set();
+  for (const value of raw) {
+    if (typeof value !== 'string' || value === 'description') continue;
+    const mapped = rules.painFocusAliases[value];
+    if (mapped && mapped !== 'none') out.add(mapped);
+  }
+  return [...out].sort();
+}
+
+/** True when a weightModifiers rule's `when` clause matches the profile. */
+function weightRuleApplies(rule, profile, painFocusList) {
+  const when = rule.when;
+  if (when.weightLbAtLeast !== undefined) return typeof profile.weightLb === 'number' && profile.weightLb >= when.weightLbAtLeast;
+  if (when.painFocus !== undefined) return painFocusList.indexOf(when.painFocus) !== -1;
+  const key = Object.keys(when)[0];
+  return profile[key] === when[key];
+}
+
+/**
+ * Computes the profile's effective dimension weights: base weights x every
+ * applicable modifier, renormalised to sum to 1. Returns the weights plus
+ * the list of modifier rules that applied (for the trace).
+ */
+function computeEffectiveWeights(rules, profile) {
+  const painFocusList = normalizePainFocus(rules, profile.painFocus);
+  const raw = { ...rules.baseWeights };
+  const weightRulesUsed = [];
+  for (const rule of rules.weightModifiers.rules) {
+    if (!weightRuleApplies(rule, profile, painFocusList)) continue;
+    for (const [dim, factor] of Object.entries(rule.multiply)) raw[dim] *= factor;
+    weightRulesUsed.push({ ruleId: rule.id, description: rule.description, multiply: rule.multiply });
+  }
+  const total = rules.categories.reduce((sum, key) => sum + raw[key], 0);
+  const effective = {};
+  for (const key of rules.categories) effective[key] = raw[key] / total;
+  return { effective, weightRulesUsed, painFocusList };
+}
+
+/** 1.0 at band centre, insideEdgeFit at the band edges, then falling per point outside (floored at 0). */
+function bandFitFor(fit, firmness, bandMin, bandMax) {
+  const centre = (bandMin + bandMax) / 2;
+  const halfWidth = (bandMax - bandMin) / 2;
+  if (firmness >= bandMin && firmness <= bandMax) {
+    const offCentre = halfWidth > 0 ? Math.abs(firmness - centre) / halfWidth : 0;
+    return 1 - (1 - fit.insideEdgeFit) * offCentre;
+  }
+  const distance = firmness < bandMin ? bandMin - firmness : firmness - bandMax;
+  return Math.max(0, fit.insideEdgeFit - fit.outsidePerPointLoss * distance);
+}
+
+function scoreV0_2(rules, profile, mattress) {
+  const fit = rules.firmnessFit;
+  const thresholds = rules.thresholds;
+  const ruleCatalogById = Object.fromEntries(rules.categoryRuleCatalog.map((r) => [r.id, r]));
+  const ruleByCode = Object.fromEntries(rules.riskFlagRules.map((r) => [r.code, r]));
+  const type = mattress.type;
+  const typeKey = rules.typeBaselines[type] ? type : 'default';
+  const baseline = rules.typeBaselines[typeKey];
+
+  const weightBandKey = resolveWeightBand(rules, profile.weightLb);
+  const [bandMin, bandMax] = resolveComfortBand(rules, profile.sleepPosition, weightBandKey);
+  const { effective: effectiveWeights, weightRulesUsed, painFocusList } = computeEffectiveWeights(rules, profile);
+
+  const sub = {};
+  const dimensionProvenance = {};
+  const categoryRulesUsed = [];
+  function record(ruleId, category, delta, note, value) {
+    const entry = { ruleId, category, description: ruleCatalogById[ruleId].description, delta: round1(delta), note };
+    if (value !== undefined) entry.value = round1(value);
+    categoryRulesUsed.push(entry);
+  }
+
+  // --- Firmness-derived dimensions: support + pressure relief ---
+  const firmnessKnown = isRating(mattress.firmnessRating);
+  const firmness = firmnessKnown ? mattress.firmnessRating : fit.unknownFirmnessNeutral;
+  const bandFit = bandFitFor(fit, firmness, bandMin, bandMax);
+  let bandDistance = 0;
+  let bandDirection = 'in-band';
+  if (firmness < bandMin) { bandDistance = bandMin - firmness; bandDirection = 'softer'; }
+  else if (firmness > bandMax) { bandDistance = firmness - bandMax; bandDirection = 'firmer'; }
+
+  let support = fit.supportFloor + fit.supportRange * bandFit;
+  record('SUPPORT_FIRMNESS_FIT', 'support', 0,
+    `Firmness ${round1(firmness)}/10 vs comfort band ${bandMin}-${bandMax}: band fit ${round1(bandFit * 100)}%.`, support);
+  const typeMod = fit.supportTypeModifier[typeKey] ?? fit.supportTypeModifier.default;
+  if (typeMod !== 0) {
+    support += typeMod;
+    record('SUPPORT_TYPE_MODIFIER', 'support', typeMod, `Construction type "${type}".`);
+  }
+  if (bandDirection === 'softer') {
+    const extra = -fit.supportTooSoftExtraPerPoint * bandDistance;
+    support += extra;
+    record('SUPPORT_FIRMNESS_FIT', 'support', extra, `${round1(bandDistance)} point(s) softer than the band: extra alignment penalty.`);
+  }
+
+  let pressure = fit.pressureTypeBase[typeKey] ?? fit.pressureTypeBase.default;
+  let pressureDelta;
+  if (bandDirection === 'firmer') {
+    pressureDelta = -fit.pressureTooFirmPerPoint * bandDistance;
+  } else if (bandDirection === 'softer') {
+    pressureDelta = fit.pressureTooSoftBonus;
+  } else {
+    const position = bandMax > bandMin ? (firmness - bandMin) / (bandMax - bandMin) : 0;
+    pressureDelta = fit.pressureInBandBonusAtSoftEdge +
+      (fit.pressureInBandBonusAtFirmEdge - fit.pressureInBandBonusAtSoftEdge) * position;
+  }
+  pressure += pressureDelta;
+  record('PRESSURE_FIRMNESS_FIT', 'pressureRelief', pressureDelta,
+    `Type "${type}" base ${fit.pressureTypeBase[typeKey] ?? fit.pressureTypeBase.default}; firmness ${round1(firmness)}/10 is ${bandDirection === 'in-band' ? 'within' : bandDirection + ' than'} the ${bandMin}-${bandMax} band.`, pressure);
+
+  if (firmnessKnown) {
+    dimensionProvenance.support = 'measured';
+    dimensionProvenance.pressureRelief = 'measured';
+  } else {
+    // Unknown firmness must not read as a strong positive OR a strong
+    // negative, so the band-fit math above is discarded and the capped
+    // construction-type estimate is used instead (still traced above).
+    support = Math.min(baseline.support, rules.estimateCap);
+    pressure = Math.min(baseline.pressureRelief, rules.estimateCap);
+    dimensionProvenance.support = 'estimated';
+    dimensionProvenance.pressureRelief = 'estimated';
+    record('FIRMNESS_UNKNOWN', 'support', 0, `No firmness on file; "${type}" support baseline ${baseline.support}/10 capped at ${rules.estimateCap}.`, support);
+    record('FIRMNESS_UNKNOWN', 'pressureRelief', 0, `No firmness on file; "${type}" pressure-relief baseline ${baseline.pressureRelief}/10 capped at ${rules.estimateCap}.`, pressure);
+  }
+  sub.support = support;
+  sub.pressureRelief = pressure;
+
+  // --- Rated dimensions: heat, motion, edge, durability ---
+  for (const [dim, field] of Object.entries(rules.ratedDimensions)) {
+    if (dim === 'description') continue;
+    const rating = mattress[field];
+    if (isRating(rating)) {
+      sub[dim] = rating;
+      dimensionProvenance[dim] = 'measured';
+      record('RATED_DIMENSION', dim, 0, `Third-party rating ${rating}/10 (${field}).`, rating);
+    } else {
+      const estimate = Math.min(baseline[dim], rules.estimateCap);
+      sub[dim] = estimate;
+      dimensionProvenance[dim] = 'estimated';
+      record('ESTIMATED_FROM_TYPE', dim, 0, `No rating on file; "${type}" baseline ${baseline[dim]}/10, capped at ${rules.estimateCap}.`, estimate);
+    }
+  }
+
+  // --- Durability adjustments ---
+  const dur = rules.durability;
+  if (type === 'foam' && typeof profile.weightLb === 'number' && profile.weightLb >= dur.heavierSleeperLb) {
+    sub.durability -= dur.heavierSleeperFoamPenalty;
+    record('DURABILITY_HEAVIER_SLEEPER_FOAM', 'durability', -dur.heavierSleeperFoamPenalty,
+      `All-foam construction for a sleeper at ${profile.weightLb} lb (>= ${dur.heavierSleeperLb} lb).`);
+  }
+  const density = isRating(mattress.topFoamDensityLbFt3) ? mattress.topFoamDensityLbFt3 : null;
+  const lowDensityRisk = density != null && density < dur.lowDensityThresholdLbFt3 &&
+    typeof profile.weightLb === 'number' && profile.weightLb >= dur.lowDensityHighWeightLb;
+  if (lowDensityRisk) {
+    sub.durability -= dur.lowDensityPenalty;
+    record('DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY', 'durability', -dur.lowDensityPenalty,
+      `Top foam density ${density} lb/ft³ is below ${dur.lowDensityThresholdLbFt3} lb/ft³ for a sleeper at ${profile.weightLb} lb.`);
+  }
+
+  for (const key of rules.categories) sub[key] = round1(clamp(sub[key], 0, 10));
+
+  // --- Overall: weighted sub-scores, then the stated-preference adjustment ---
+  let weightedSum = 0;
+  for (const key of rules.categories) weightedSum += sub[key] * effectiveWeights[key];
+  const weightedTotal = clamp(weightedSum, 0, 10) * 10;
+
+  const preferred = resolveProfileFirmness(rules, profile);
+  const pref = rules.preferenceFit;
+  const preferenceDistance = preferred !== null && firmnessKnown ? Math.abs(firmness - preferred) : null;
+  let preferenceAdjustment = 0;
+  const overallAdjustments = [];
+  if (preferenceDistance !== null) {
+    preferenceAdjustment = -Math.min(pref.maxPenalty, Math.max(0, preferenceDistance - pref.tolerancePoints) * pref.pointsPerFirmnessPoint);
+    if (preferenceAdjustment !== 0) {
+      overallAdjustments.push({
+        ruleId: 'PREFERENCE_FIT_PENALTY',
+        description: ruleCatalogById.PREFERENCE_FIT_PENALTY.description,
+        delta: round1(preferenceAdjustment),
+        note: `Firmness ${round1(firmness)}/10 is ${round1(preferenceDistance)} point(s) from the stated preference (${preferred}/10).`,
+      });
+    }
+  }
+  const overallScore = Math.round(clamp(weightedTotal + preferenceAdjustment, 0, 100));
+
+  // --- Risk flags (every rule evaluated + recorded) ---
+  const riskFlags = [];
+  const riskRulesUsed = [];
+  function evaluate(code, triggered, details, rationale, basis) {
+    const rule = ruleByCode[code];
+    riskRulesUsed.push({ ruleId: code, triggered, thresholdId: rule.thresholdId, ...details });
+    if (triggered) riskFlags.push({ code, category: rule.category, rationale, mitigation: rule.mitigation, basis });
+  }
+
+  evaluate('SUPPORT_THRESHOLD_MISMATCH', firmnessKnown && bandDirection !== 'in-band',
+    { thresholdValue: [bandMin, bandMax], evaluatedValue: firmnessKnown ? firmness : null },
+    `This mattress's firmness (${round1(firmness)}/10) is ${round1(bandDistance)} point(s) ${bandDirection} than the ${bandMin}-${bandMax}/10 range typical for a ${profile.sleepPosition} sleeper in the ${weightBandKey} lb range.`,
+    'measured');
+
+  evaluate('PREFERRED_FIRMNESS_MISMATCH', preferenceDistance !== null && preferenceDistance > thresholds.preferredFirmnessMismatchPoints,
+    { thresholdValue: thresholds.preferredFirmnessMismatchPoints, evaluatedValue: preferenceDistance === null ? null : round1(preferenceDistance) },
+    `You said you prefer a firmness around ${preferred}/10, but this mattress is about ${round1(firmness)}/10 - a ${round1(preferenceDistance ?? 0)}-point difference.`,
+    'measured');
+
+  evaluate('HEAT_RETENTION_LIKELY', profile.sleepTemperature === 'hot' && sub.heat <= thresholds.heatRetentionMaxHeatScore,
+    { thresholdValue: thresholds.heatRetentionMaxHeatScore, evaluatedValue: sub.heat },
+    dimensionProvenance.heat === 'measured'
+      ? `Its cooling is rated ${sub.heat}/10 by an independent reviewer, and you sleep hot.`
+      : `No independent cooling rating is on file; based on its construction, cooling is estimated at ${sub.heat}/10, and you sleep hot.`,
+    dimensionProvenance.heat);
+
+  const edgeImportant = profile.edgeImportance === 'high';
+  const edgeThreshold = edgeImportant ? thresholds.edgeSupportMinScoreWhenImportant : thresholds.edgeSupportMinScore;
+  evaluate('EDGE_SUPPORT_CONCERN', profile.edgeImportance !== 'low' && sub.edge < edgeThreshold,
+    { thresholdValue: edgeThreshold, evaluatedValue: sub.edge },
+    dimensionProvenance.edge === 'measured'
+      ? `Edge support is rated ${sub.edge}/10 by an independent reviewer${edgeImportant ? ', and you said edge support matters a lot' : ''}.`
+      : `No independent edge rating is on file; based on its construction, edge support is estimated at ${sub.edge}/10.`,
+    dimensionProvenance.edge);
+
+  evaluate('MOTION_TRANSFER_LIKELY', profile.motionSensitivity === 'couple-high' && sub.motion < thresholds.motionTransferMinScore,
+    { thresholdValue: thresholds.motionTransferMinScore, evaluatedValue: sub.motion },
+    dimensionProvenance.motion === 'measured'
+      ? `Motion isolation is rated ${sub.motion}/10 by an independent reviewer, and you are easily woken by a partner's movement.`
+      : `No independent motion rating is on file; based on its construction, motion isolation is estimated at ${sub.motion}/10, and you are easily woken by a partner's movement.`,
+    dimensionProvenance.motion);
+
+  const pressureSensitive = profile.sleepPosition === 'side' || painFocusList.indexOf('shoulders') !== -1 || painFocusList.indexOf('hips') !== -1;
+  evaluate('PRESSURE_POINT_RISK', pressureSensitive && sub.pressureRelief < thresholds.pressurePointMinScore,
+    { thresholdValue: thresholds.pressurePointMinScore, evaluatedValue: sub.pressureRelief },
+    `Pressure relief scores ${sub.pressureRelief}/10 for your profile; ${profile.sleepPosition === 'side' ? 'side sleeping' : 'shoulder or hip discomfort'} makes pressure points more likely.`,
+    dimensionProvenance.pressureRelief);
+
+  const heavier = typeof profile.weightLb === 'number' && profile.weightLb >= dur.heavierSleeperLb;
+  const ratedWearRisk = heavier && dimensionProvenance.durability === 'measured' && sub.durability < thresholds.durabilityHeavierSleeperMinScore;
+  evaluate('DURABILITY_SAG_RISK', lowDensityRisk || ratedWearRisk,
+    { thresholdValue: { minDensity: dur.lowDensityThresholdLbFt3, heavierSleeperLb: dur.heavierSleeperLb, minRatedDurability: thresholds.durabilityHeavierSleeperMinScore },
+      evaluatedValue: { density, weightLb: profile.weightLb ?? null, durability: sub.durability, durabilityProvenance: dimensionProvenance.durability } },
+    lowDensityRisk
+      ? `Top foam density is ${density} lb/ft³ (below ${dur.lowDensityThresholdLbFt3}) for a sleeper at ${profile.weightLb} lb, which raises long-term sag risk.`
+      : `Durability scores ${sub.durability}/10 against an independent rating, and at ${profile.weightLb} lb you will put more wear on the comfort layers.`,
+    'measured');
+
+  const roundedWeights = {};
+  for (const key of rules.categories) roundedWeights[key] = round4(effectiveWeights[key]);
+
+  return {
+    modelVersion: rules.version,
+    scoreModelVersion: rules.version,
+    mattressId: mattress.id || null,
+    overallScore,
+    subScores: sub,
+    weights: roundedWeights,
+    effectiveWeights: roundedWeights,
+    baseWeights: rules.baseWeights,
+    dimensionProvenance,
+    comfortBand: { min: bandMin, max: bandMax, weightBand: weightBandKey },
+    firmnessFit: {
+      firmness: firmnessKnown ? round1(firmness) : null,
+      known: firmnessKnown,
+      bandDirection: firmnessKnown ? bandDirection : 'unknown',
+      bandDistance: firmnessKnown ? round1(bandDistance) : null,
+      bandFit: round4(bandFit),
+      preferred,
+      preferenceDistance: preferenceDistance === null ? null : round1(preferenceDistance),
+    },
+    scoreBreakdown: {
+      weightedSubScoreTotal: round1(weightedTotal),
+      preferenceAdjustment: round1(preferenceAdjustment),
+    },
+    profileFactors: { painFocus: painFocusList, edgeImportance: profile.edgeImportance ?? null, motionSensitivity: profile.motionSensitivity ?? null },
+    riskFlags,
+    trace: {
+      modelVersion: rules.version,
+      categoryRulesUsed,
+      riskRulesUsed,
+      weightRulesUsed,
+      overallAdjustments,
+    },
+  };
+}
+
+// ===========================================================================
+// END v0.2
+// ===========================================================================
+
 /** Registry of implementations, keyed by version string. */
 const VERSION_IMPLEMENTATIONS = {
   '0.1': scoreV0_1,
+  '0.2': scoreV0_2,
 };
 
 /**
@@ -444,4 +754,6 @@ module.exports = {
   resolveWeightBand,
   resolveComfortBand,
   resolveProfileFirmness,
+  computeEffectiveWeights,
+  normalizePainFocus,
 };

@@ -1,0 +1,122 @@
+@layer components {
+  .tray {
+    position: fixed;
+    z-index: var(--z-tray);
+    left: 0; right: 0; bottom: 0;
+    padding: 0.7rem var(--gutter) calc(0.7rem + env(safe-area-inset-bottom));
+    background: var(--night-ink);
+    color: var(--moon);
+    border-top: 1px solid rgb(228 223 213 / 0.14);
+    box-shadow: 0 -16px 40px -24px rgb(5 11 22 / 0.6);
+    view-transition-name: compare-tray;
+    animation: tray-in var(--dur-3) var(--ease-out);
+  }
+  .inner { display: flex; align-items: center; gap: var(--space-sm); max-width: var(--w-default); margin-inline: auto; }
+  .label { font-size: var(--step-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moon-muted); white-space: nowrap; margin: 0; }
+  /* Chips shrink (names ellipsize) before the list ever scrolls, so every chip's remove button stays visible. */
+  .items { display: flex; gap: 0.4rem; list-style: none; margin: 0; padding: 0; min-width: 0; flex: 1 1 auto; overflow-x: auto; scrollbar-width: none; }
+  .items::-webkit-scrollbar { display: none; }
+  .item {
+    display: inline-flex; align-items: center; gap: 0.1rem;
+    max-width: max-content;
+    padding: 0 0.15rem 0 0.8rem;
+    min-height: 36px;
+    border-radius: var(--r-pill);
+    background: rgb(255 255 255 / 0.09);
+    border: 1px solid transparent;
+    font-size: var(--step-small);
+    font-weight: 500;
+    white-space: nowrap;
+    flex: 1 1 0;
+    min-width: 6.25rem;
+  }
+  .name { min-width: 0; max-width: 12.5rem; overflow: hidden; text-overflow: ellipsis; }
+  .remove { width: 32px; height: 32px; display: inline-grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: inherit; flex: none; }
+  .remove:hover { background: rgb(255 255 255 / 0.12); }
+  .remove svg { width: 15px; height: 15px; }
+  .actions { display: flex; align-items: center; gap: 0.4rem; flex: none; }
+  .hint { font-size: var(--step-xs); color: var(--moon-muted); padding-inline: 0.5rem; }
+  .popular { text-decoration: underline; text-underline-offset: 0.25em; }
+  .tray .primaryAction { --btn-primary-bg: var(--linen); --btn-primary-fg: var(--night-ink); --btn-primary-hover: #fff; }
+  .tray .ghostAction { color: var(--moon); }
+  .tray :focus-visible { outline-color: var(--signal-amber); }
+  .head { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+  .toggle { display: none; }
+
+  /* Mobile: a compact pill by default; the toggle expands the full bar. */
+  @media (max-width: 899px) {
+    .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .toggle {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      min-height: 44px;
+      padding: 0 0.85rem 0 1rem;
+      border: 1px solid transparent;
+      border-radius: var(--r-pill);
+      background: rgb(255 255 255 / 0.08);
+      color: var(--moon);
+      font: inherit;
+      font-size: var(--step-small);
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .toggle:hover { background: rgb(255 255 255 / 0.12); }
+    .chevron { width: 16px; height: 16px; transition: transform var(--dur-2) var(--ease-out); }
+    .tray[data-open="true"] .chevron { transform: rotate(180deg); }
+    .linkCount { display: none; }
+
+    .tray[data-open="false"] {
+      left: auto;
+      right: var(--gutter);
+      bottom: calc(0.85rem + env(safe-area-inset-bottom));
+      padding: 0.3rem;
+      border: 1px solid rgb(228 223 213 / 0.16);
+      border-radius: var(--r-pill);
+      box-shadow: var(--shadow-3);
+    }
+    .tray[data-open="false"] .toggle { border-color: transparent; background: transparent; }
+    .tray[data-open="false"] .items,
+    .tray[data-open="false"] .detail { display: none; }
+    .tray[data-open="false"] .inner { gap: 0.3rem; }
+    .tray[data-open="false"]:not(:has(.primaryAction)) .actions { display: none; }
+
+    /* Open: toggle + the chip (two or more chips get their own row, names in
+       full), then the actions on their own row. */
+    .tray[data-open="true"] .inner { flex-wrap: wrap; row-gap: 0.55rem; }
+    .tray[data-open="true"] .items { flex: 1 1 0; }
+    .tray[data-open="true"]:has(.item + .item) .items { flex-basis: 100%; }
+    .tray[data-open="true"] .actions { flex-basis: 100%; justify-content: space-between; }
+    .tray[data-open="true"] .ghostAction { margin-right: auto; }
+    .hint { white-space: nowrap; }
+  }
+  @media (min-width: 900px) {
+    .tray {
+      left: 50%;
+      right: auto;
+      bottom: 1.25rem;
+      width: min(62rem, calc(100% - 2 * var(--gutter)));
+      transform: translateX(-50%);
+      border: 1px solid rgb(228 223 213 / 0.16);
+      border-radius: var(--r-pill);
+      padding: 0.5rem 0.5rem 0.5rem 1.4rem;
+      box-shadow: var(--shadow-3);
+      animation-name: tray-in-desktop;
+    }
+  }
+  @keyframes tray-in { from { transform: translateY(100%); } to { transform: none; } }
+  @keyframes tray-in-desktop { from { transform: translate(-50%, 140%); } to { transform: translate(-50%, 0); } }
+  /* Compare tray: device-only note. */
+  .note { font-size: 0.7rem; color: var(--moon-muted); margin: 0; white-space: nowrap; }
+  @media (max-width: 899px) { .note { display: none; } }
+
+  /* Pages where the tray would only get in the way (404, error) opt out with
+     data-compare-tray="off"; --tray-h drops to 0 because the panel measures 0. */
+  :global(body:has([data-compare-tray="off"])) .tray { display: none; }
+
+  /* The mobile menu is modal: the tray must not draw over it or sit outside its focus trap. */
+  :global(body:has(header[data-menu-open="true"])) .tray { visibility: hidden; }
+
+  @media print {
+    .tray { display: none !important; }
+  }
+}

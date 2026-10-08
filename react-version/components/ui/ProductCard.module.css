@@ -1,0 +1,107 @@
+@layer components {
+  /* Product card - editorial product module: no box, no white panel.
+     A full-bleed render tile (sharp-ish radius), then type on the page
+     ground. Hover: the render drifts, the title underlines, the CTA reveals. */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: transparent;
+  }
+  .media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    background:
+      radial-gradient(60% 48% at 50% 72%, rgb(255 255 255 / 0.5), transparent 70%),
+      var(--media-bg);
+  }
+  .media > :global(.mattress-render):not(:global(.mattress-render--fill)) { max-width: 78%; }
+  .media :global(.mattress-render) { transition: transform var(--motion-4-dur) var(--motion-3-ease); }
+  .illus {
+    position: absolute; right: 0.6rem; bottom: 0.6rem; z-index: 1;
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--r-pill);
+    background: rgb(246 243 237 / 0.78);
+    color: var(--ink-muted);
+    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.05em;
+    backdrop-filter: blur(6px);
+  }
+  .score { position: absolute; top: var(--space-sm); left: var(--space-sm); z-index: 1; padding: 4px; border-radius: 50%; background: rgb(246 243 237 / 0.86); backdrop-filter: blur(6px); }
+  .rank {
+    position: absolute; top: var(--space-sm); right: var(--space-sm); z-index: 1;
+    padding: 0.1rem 0.6rem;
+    border-radius: var(--r-pill);
+    /* Light pill like .score/.illus so the label stays legible on both the
+       linen and the dark dusk renders. */
+    background: rgb(246 243 237 / 0.86);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    font-family: var(--font-display); font-size: 1.05rem; font-weight: 400; font-style: italic;
+    color: var(--ink-strong); font-variant-numeric: tabular-nums;
+  }
+  .reveal {
+    position: absolute;
+    left: var(--space-sm);
+    bottom: var(--space-sm);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--r-pill);
+    background: var(--night-ink);
+    color: var(--warm-white);
+    font-size: var(--step-xs);
+    font-weight: 600;
+    transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+  }
+  .reveal svg { width: 14px; height: 14px; }
+  .body { display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem 0 0; flex: 1; }
+  .brand { font-size: var(--step-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .title { margin-top: 0.25rem; font-family: var(--font-display); font-size: clamp(1.4rem, 1.2rem + 0.5vw, 1.7rem); font-weight: 380; line-height: 1.08; letter-spacing: -0.025em; }
+  .title a {
+    text-decoration: none;
+    color: var(--text-strong);
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
+    transition: background-size var(--dur-3) var(--ease-out);
+  }
+  .title a::after { content: ""; position: absolute; inset: 0; z-index: 0; }
+  .title a:focus-visible { outline: none; }
+  .card:has(.title a:focus-visible) { outline: 2px solid var(--focus); outline-offset: 6px; border-radius: var(--r-sm); }
+  .tier { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; font-size: var(--step-small); color: var(--muted); }
+  .tier strong { color: var(--text-strong); }
+  .reason { font-size: var(--step-small); color: var(--muted); line-height: 1.5; }
+  /* Spec line: four quiet facts, hairline above - no table cells. */
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem 1rem; margin: 0; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+  .facts > div { min-width: 0; }
+  .facts dt { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 0.1rem 0 0; font-size: 0.93rem; font-weight: 500; color: var(--text-strong); }
+  .footer {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    margin-top: auto;
+    padding-top: 0.25rem;
+  }
+  .cta { font-weight: 600; font-size: var(--step-small); color: var(--text-strong); display: inline-flex; align-items: center; gap: 0.35rem; }
+  .cta svg { width: 16px; height: 16px; transition: transform var(--dur-2) var(--ease-out); }
+  .badges { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  @media (min-width: 1100px) { .card :global(.compare-toggle__btn) { min-height: 34px; } }
+
+  .card:hover .title a, .card:focus-within .title a { background-size: 100% 1px; }
+  .card:hover .cta svg { transform: translateX(3px); }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .card:hover .media :global(.mattress-render) { transform: scale(1.045); }
+    .reveal { opacity: 0; transform: translateY(8px); }
+    .card:hover .reveal,
+    .card:focus-within .reveal { opacity: 1; transform: none; }
+  }
+}

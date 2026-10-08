@@ -1,0 +1,7 @@
+@layer components {
+  /* The canvas host fills the viewer's canvas layer. */
+  .host {
+    position: absolute;
+    inset: 0;
+  }
+}

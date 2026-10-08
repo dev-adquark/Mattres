@@ -7,7 +7,7 @@
     },
     {
       "path": "/api/cron/rtings-sync",
-      "schedule": "0 6 * * 1"
+      "schedule": "30 6 * * *"
     }
   ]
 }

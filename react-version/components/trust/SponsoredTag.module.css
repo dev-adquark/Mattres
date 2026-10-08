@@ -1,0 +1,10 @@
+/* Compact inline "Sponsored" tag: sits on a brand eyebrow or a list row. */
+.tag {
+  min-height: 0;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  vertical-align: 0.08em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+}

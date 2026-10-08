@@ -1,0 +1,22 @@
+@layer components {
+  /* Scroll choreography (opt-in via <Reveal> / useReveal + revealClassName).
+     Content is visible by default (SSR, no JS, reduced motion). JS only
+     sets data-reveal="pending" on elements that start below the fold. */
+  .reveal[data-reveal] { transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+  .reveal[data-reveal="pending"] { opacity: 0; transform: translate3d(0, var(--reveal-distance), 0); }
+  .reveal[data-reveal-variant="fade"][data-reveal="pending"] { transform: none; }
+  .reveal[data-reveal-variant="scale"][data-reveal="pending"] { transform: scale(0.97); }
+  /* Stagger: the container is the observed element; children animate. */
+  .reveal[data-reveal-stagger] { transition: none; }
+  .reveal[data-reveal-stagger][data-reveal="pending"] { opacity: 1; transform: none; }
+  .reveal[data-reveal-stagger] > * {
+    transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+    transition-delay: calc(var(--reveal-delay, 0ms) + var(--reveal-i, 0) * var(--reveal-stagger));
+  }
+  .reveal[data-reveal-stagger][data-reveal="pending"] > * { opacity: 0; transform: translate3d(0, var(--reveal-distance), 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal[data-reveal="pending"],
+    .reveal[data-reveal-stagger][data-reveal="pending"] > * { opacity: 1; transform: none; }
+  }
+}

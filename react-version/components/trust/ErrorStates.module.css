@@ -1,0 +1,62 @@
+/* not-found, error and loading states. */
+.wrap {
+  --hero-pad-top: clamp(2.5rem, 1rem + 6vw, 6rem);
+  min-height: min(100svh, 62rem);
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+}
+.grid { display: grid; gap: var(--space-2xl); align-items: end; }
+@media (min-width: 960px) {
+  .grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--space-3xl); }
+}
+.copy { display: grid; gap: var(--space-md); justify-items: start; }
+.copy h1 { margin: 0; max-width: 12ch; }
+.copy .lead { margin: 0; }
+.numeral {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(6rem, 2rem + 18vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: var(--text-strong);
+  opacity: 0.14;
+  font-variant-numeric: tabular-nums lining-nums;
+  user-select: none;
+  margin: 0 0 calc(-1 * var(--space-lg));
+}
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xs); }
+.destTitle {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--step-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dest { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-strong); }
+.dest a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: var(--space-xs);
+  align-items: baseline;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+}
+.dest a:hover .destName, .dest a:focus-visible .destName { text-decoration: underline; text-underline-offset: 0.2em; }
+.destNum { font-size: var(--step-xs); color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.destName { font-family: var(--font-display); font-size: var(--step-h4); color: var(--text-strong); font-size: 1.3rem; }
+.destDesc { grid-column: 2 / -1; font-size: var(--step-small); color: var(--muted); }
+.destArrow { width: 18px; height: 18px; color: var(--muted); }
+
+/* Loading skeleton */
+.loadHero { --hero-pad-top: clamp(2rem, 1rem + 4vw, 4.5rem); }
+.loadStack { display: grid; gap: var(--space-md); max-width: 52rem; }
+.loadCards { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.loadCard { display: grid; gap: var(--space-sm); }
+
+/* Skeleton shapes in app/loading.tsx. */
+.loadLead { max-width: 34rem; margin-top: 1rem; }
+.loadMedia { aspect-ratio: 5 / 4; border-radius: var(--r-card); }

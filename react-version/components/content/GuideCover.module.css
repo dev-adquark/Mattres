@@ -1,0 +1,144 @@
+/* Guide covers: a fixed "printed object" palette (linen + night ink),
+   independent of the section mood, so a cover looks the same on light
+   and dark pages. Diagram tokens are re-scoped here. */
+
+.cover {
+  --surface: #f3efe7;
+  --text-strong: #0b1222;
+  --text: #2a3042;
+  --muted: #5a5f6c;
+  --accent: #2b3a67;
+  --accent-text: #2b3a67;
+  --warning-text: #8a5210;
+  --track: rgb(11 18 34 / 0.1);
+  --border: rgb(11 18 34 / 0.14);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #e9e4da;
+  color: var(--text-strong);
+  isolation: isolate;
+}
+
+.diagram {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 13% 6% 6%;
+  background: #e9e4da;
+}
+.diagramArt { width: 100%; min-width: 0; container: cover-art / inline-size; }
+
+/* SVG labels are drawn at 12.5-14 user units in a 440-unit viewBox, so they
+   render at >= 12px only when the art is >= ~424px wide. Narrower panes
+   (tiles, phones, small tablets) show the diagram as pure line art. */
+@container cover-art (max-width: 423.98px) {
+  .diagramArt :global(svg) text { display: none; }
+}
+
+/* Comfort-window covers: HTML chart when there is room, SVG line art when not. */
+.bandsSvg { display: none; }
+@container cover-art (max-width: 319.98px) {
+  .bandsHtml { display: none; }
+  .bandsSvg { display: block; }
+}
+.bandsChart { --rc-label: minmax(5.5rem, 7rem); --rc-value: 4rem; }
+.bandsChart :global(caption) { font-size: 0.8125rem; letter-spacing: 0.02em; margin-bottom: 0.75rem; }
+.bandsChart [data-minor] { display: none; }
+.diagramArt figure { margin: 0; }
+
+.number {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.85rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.still { position: relative; min-width: 0; overflow: hidden; background: #0a1020; }
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--cover-focus);
+  transform-origin: var(--cover-focus);
+  transform: scale(var(--cover-zoom));
+  transition: transform var(--motion-3-dur, 600ms) var(--motion-3-ease, cubic-bezier(0.2, 0.7, 0.2, 1));
+}
+.tag { position: absolute; right: 0.6rem; bottom: 0.6rem; z-index: 1; }
+
+/* Hover lift lives on the tile's link (see .coverLink in consumers) */
+@media (prefers-reduced-motion: no-preference) {
+  :global(a):hover .img,
+  :global(a):focus-visible .img { transform: scale(calc(var(--cover-zoom) * 1.05)); }
+}
+
+/* --- Tile: small, decorative. Labels would be illegible, so the diagram
+   becomes pure line art. -------------------------------------------------- */
+.tile .diagramArt figure > div[role="img"] { font-size: 0.6rem; }
+.tile[data-diagram="cooling-data"] .diagramArt :global(*) { font-size: 0 !important; }
+.tile[data-diagram="cooling-data"] .diagram { padding-inline: 4%; }
+
+/* --- Feature (hub cover story) and hero (guide page) ------------------- */
+.feature, .hero { aspect-ratio: 16 / 10; }
+/* Small tablets: give the diagram the larger share so its labels stay
+   at a readable size (see the container query above). */
+@media (min-width: 640px) and (max-width: 999.98px) {
+  .feature, .hero { grid-template-columns: 3fr 2fr; }
+  .feature .diagram, .hero .diagram { padding: 11% 5% 6%; }
+}
+
+/* --- Lead (home guides spread) ----------------------------------------- */
+.lead { aspect-ratio: 16 / 9; grid-template-columns: 3fr 2fr; border-radius: var(--r-card, 0); }
+/* A shade lighter than the linen section it sits on, so the cover reads as a printed object. */
+.lead .diagram { padding: 9% 5% 4%; background: #f3efe7; }
+.lead .bandsChart :global(caption) { margin-bottom: 0.4rem; }
+.lead .bandsChart tr { padding-block: 0.45rem; }
+.lead .number { top: 1rem; left: 1.1rem; font-size: 0.9rem; }
+.lead .tag { right: 0.8rem; bottom: 0.8rem; }
+@media (max-width: 639px) {
+  .lead[data-diagram="cooling-data"] .diagramArt :global(*) { font-size: 0 !important; }
+}
+.feature .number, .hero .number { top: 1.1rem; left: 1.3rem; font-size: 1rem; }
+.feature .number { left: var(--gutter, 1.3rem); }
+.feature .tag, .hero .tag { right: 1rem; bottom: 1rem; }
+
+@media (max-width: 639px) {
+  .feature[data-diagram="cooling-data"] .diagramArt :global(*),
+  .hero[data-diagram="cooling-data"] .diagramArt :global(*) { font-size: 0 !important; }
+  .feature .diagram, .hero .diagram { padding: 14% 7% 8%; }
+}
+@media (min-width: 1000px) {
+  .feature { aspect-ratio: 21 / 9; }
+  .hero { aspect-ratio: 21 / 9; }
+  .feature .diagram, .hero .diagram { padding: 9% 9% 7%; }
+}
+
+/* Checklist cover: pure type */
+.numeral { display: grid; justify-items: start; gap: 0.4em; container-type: inline-size; width: 100%; }
+.numeralValue {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 62cqi;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--text-strong);
+  font-variation-settings: "SOFT" 60;
+}
+.numeralLabel { font-family: var(--font-display); font-style: italic; font-size: max(0.7rem, 7.5cqi); line-height: 1.15; color: var(--muted); max-width: 12ch; }
+@media (min-width: 1000px) {
+  .feature { aspect-ratio: auto; height: min(42vw, 74vh); min-height: 26rem; }
+  .feature .diagramArt { max-width: 36rem; }
+}
+
+/* Axis words in the cover chart: never below 12px. */
+.bandsChart [aria-hidden="true"] span { font-size: max(0.75rem, 12px); }

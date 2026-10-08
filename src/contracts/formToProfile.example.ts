@@ -74,8 +74,14 @@ export function buildProfileSummaryChips(profile: SleepProfile): string[] {
   if (profile.heightIn) {
     chips.push(`${profile.heightIn}" tall`);
   }
-  if (profile.painFocus.length > 0) {
-    chips.push(`${profile.painFocus.join('/')} relief priority`);
+  const painFocusList: string[] = Array.isArray(profile.painFocus)
+    ? profile.painFocus
+    : profile.painFocus === 'none' ? [] : [profile.painFocus];
+  if (painFocusList.length > 0) {
+    chips.push(`${painFocusList.join('/')} relief priority`);
+  }
+  if (profile.edgeImportance === 'high') {
+    chips.push('Edge support matters');
   }
   if (profile.mattressTypePreference && profile.mattressTypePreference.length > 0) {
     chips.push(`Prefers ${profile.mattressTypePreference.join(' or ')}`);

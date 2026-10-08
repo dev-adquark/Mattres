@@ -1,24 +1,34 @@
 #!/usr/bin/env node
 /**
- * Human/CI-run RTINGS sync. When the database is configured
- * (SUPABASE_URL + SUPABASE_SECRET_KEY), matched enrichment is
- * auto-applied to the real `mattresses` table (additive-only - see
- * lib/apify/rtingsSync.js's module doc comment). Otherwise it falls back
- * to staging proposals in a git-committed JSON file for manual review,
- * matching this project's pre-database pattern (scripts/ingest-mattresses.js,
- * scripts/verify-catalog-freshness.js).
+ * Human-run RTINGS sync (trigger 'manual', trigger_source 'cli').
+ *
+ * Runs the same pipeline as the cron/admin routes (react-version/lib/rtings/
+ * syncPipeline.ts). Storage:
+ *   - SUPABASE_URL + SUPABASE_SECRET_KEY set -> the rtings_* tables
+ *   - otherwise -> the local file store (FileRtingsRepository):
+ *       data/rtings/store.json                         normalized rows + run history
+ *       data/rtings/raw/run-<id>.json                   raw actor items, never overwritten
+ *       react-version/lib/data/rtings-evidence.json     published-only snapshot the site reads
+ *
+ * Calls Apify (costs credits). Needs APIFY_API_TOKEN in the environment; it
+ * is sent only as an Authorization header and is never printed.
  *
  * Usage:
- *   APIFY_API_TOKEN=... SUPABASE_URL=... SUPABASE_SECRET_KEY=... node scripts/sync-rtings.js [--maxItems=50] [--search="query"] [--url="https://www.rtings.com/..."]
+ *   node scripts/sync-rtings.js [--maxItems=50] [--search="query"] [--url="https://www.rtings.com/mattress/reviews/..."]
+ *                               [--waitMinutes=15]
  *
- * Exit code 1 on any hard failure (not configured, run already in
- * progress, run failed), 0 otherwise - review_required/unmatched
- * results are not failures, they are the honest output of a real sync
- * and are printed for a human to act on.
+ * Exit code 1 when the run failed or was refused, 0 otherwise (held,
+ * partial, pending and new_candidate results are honest outcomes, printed
+ * for a human to act on).
  */
 const path = require('path');
-const { runRtingsSync } = require(path.join(__dirname, '..', 'react-version', 'lib', 'apify', 'rtingsSync'));
-const { isDbConfigured } = require(path.join(__dirname, '..', 'react-version', 'lib', 'db', 'supabaseClient'));
+const { requireAppModule } = require('./lib/app-modules');
+
+const { runRtingsSync } = requireAppModule('lib/apify/rtingsSync');
+const { FileRtingsRepository, SupabaseRtingsRepository } = requireAppModule('lib/rtings/repository');
+const { isDbConfigured, getSupabaseClient } = requireAppModule('lib/db/supabaseClient');
+
+const REPO_ROOT = path.join(__dirname, '..');
 
 function parseArgs(argv) {
   const out = {};
@@ -29,9 +39,32 @@ function parseArgs(argv) {
   return out;
 }
 
+function printSummary(summary) {
+  const c = summary.counts;
+  console.log(`RTINGS sync ${summary.status.toUpperCase()} (store: ${summary.store}, run #${summary.syncRunId ?? '-'})`);
+  console.log(`  Actor:            ${summary.actorId}`);
+  console.log(`  Apify run:        ${summary.apifyRunId ?? '-'}   dataset: ${summary.datasetId ?? '-'}`);
+  console.log(`  Coverage:         ${summary.coverage ?? '-'}`);
+  console.log(`  Received:         ${c.received}   valid: ${c.valid}   rejected: ${c.rejected}`);
+  console.log(`  Created:          ${c.created}   updated: ${c.updated}   unchanged: ${c.unchanged}   failed: ${c.failed}`);
+  console.log(`  Published:        ${c.published}   pending: ${c.pending}   new candidates: ${c.newCandidate}   source missing: ${c.sourceMissing}`);
+  console.log(`  Apify usage:      ${summary.estimatedCostUsd == null ? 'not reported' : `$${summary.estimatedCostUsd}`}`);
+  if (summary.safety.flags.length > 0) {
+    console.log('  Safety gate:      HELD - nothing from this run was published');
+    summary.safety.flags.forEach((f) => console.log(`    - ${f.code}: ${f.message}`));
+  }
+  if (summary.errors.length > 0) {
+    console.log('  Errors:');
+    summary.errors.forEach((e) => {
+      const affected = e.affected.length ? ` (affected: ${e.affected.slice(0, 20).join(', ')}${e.affected.length > 20 ? ', ...' : ''})` : '';
+      console.log(`    - [${e.code}] ${e.message}${affected}`);
+    });
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const options = { triggerSource: 'cli' };
+  const options = { trigger: 'manual', triggerSource: 'cli' };
   if (args.maxItems) options.maxItems = Number(args.maxItems);
   if (args.search) {
     options.mode = 'search';
@@ -40,37 +73,20 @@ async function main() {
     options.mode = 'url';
     options.reviewUrl = args.url;
   }
+  const waitMinutes = args.waitMinutes ? Number(args.waitMinutes) : 15;
+  options.waitBudgetMs = (Number.isFinite(waitMinutes) && waitMinutes > 0 ? waitMinutes : 15) * 60000;
 
-  const result = await runRtingsSync(options);
+  options.repo = isDbConfigured() ? new SupabaseRtingsRepository(getSupabaseClient()) : new FileRtingsRepository({ rootDir: REPO_ROOT });
 
-  if (!result.success) {
-    console.error(`RTINGS sync failed: [${result.code}] ${result.message}`);
-    process.exit(1);
+  const summary = await runRtingsSync(options);
+  printSummary(summary);
+  if (summary.store === 'file' && summary.syncRunId != null) {
+    console.log('\nLocal file store: data/rtings/store.json, data/rtings/raw/, react-version/lib/data/rtings-evidence.json');
   }
-
-  console.log(`RTINGS sync complete (database: ${isDbConfigured() ? 'configured, auto-applied' : 'not configured, staged to file'}).`);
-  console.log(`  Fetched:          ${result.fetched}`);
-  console.log(`  Normalized:       ${result.normalized}`);
-  console.log(`  Rejected:         ${result.rejected}`);
-  if (result.rejectedReasons.length) {
-    result.rejectedReasons.forEach((r) => console.log(`    - productId ${r.productId}: ${r.problems.join('; ')}`));
-  }
-  console.log(`  Matched:          ${result.matched}${isDbConfigured() ? ` (${result.applied} applied to the database)` : result.proposalsFile ? ` -> staged in ${result.proposalsFile}` : ''}`);
-  console.log(`  Review required:  ${result.reviewRequired}${isDbConfigured() ? ' (persisted to rtings_review_required)' : ''}`);
-  result.reviewRequiredDetail.forEach((r) =>
-    console.log(`    - ${r.rtingsBrand} ${r.rtingsModel} (${r.reason}; candidates: ${r.candidates.join(', ')})`)
-  );
-  console.log(`  Unmatched (new to RTINGS, not yet researched/added): ${result.unmatched}`);
-  result.unmatchedDetail.forEach((u) => console.log(`    - ${u.rtingsBrand} ${u.rtingsModel}`));
-  console.log(`  Raw snapshot:     ${result.rawSnapshotFile}`);
-  if (!isDbConfigured()) {
-    console.log(
-      `\nNo database configured - nothing was written to the production catalog. Review ${result.proposalsFile || '(no proposals this run)'} and apply changes by hand.`
-    );
-  }
+  if (summary.status === 'failed') process.exit(1);
 }
 
 main().catch((err) => {
-  console.error('RTINGS sync crashed unexpectedly:', err);
+  console.error('RTINGS sync crashed unexpectedly:', err && err.message ? err.message : err);
   process.exit(1);
 });

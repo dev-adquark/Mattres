@@ -12,9 +12,15 @@
 
 # testing
 /coverage
+# agent / local QA scratch dirs (Playwright scripts, screenshots)
+/.qa-*/
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
+/.next-*/
+.next-*
 /out/
 
 # production

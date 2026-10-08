@@ -1,0 +1,10 @@
+@layer components {
+  /* Magnetic: the wrapper never moves (stable hit-testing); only the child
+     drifts a few px TOWARD the pointer, so the cursor stays on target. */
+  .magnetic { display: inline-flex; position: relative; }
+  .block { display: flex; width: 100%; }
+  .block > * { width: 100%; }
+  .magnetic > * { transition: transform var(--dur-4) var(--ease-out); will-change: transform; }
+  .magnetic[data-active="true"] > * { transition-duration: 160ms; }
+  .magnetic :global(.btn) > span:first-of-type { transition: transform var(--dur-4) var(--ease-out); }
+}

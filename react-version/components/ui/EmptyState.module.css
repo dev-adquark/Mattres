@@ -1,0 +1,15 @@
+@layer components {
+  /* Empty state - typographic, framed by hairlines rather than a box */
+  .root {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--space-sm);
+    padding: clamp(3rem, 2rem + 4vw, 5.5rem) var(--space-md);
+    border-block: 1px solid var(--border);
+  }
+  .icon { width: 36px; height: 36px; color: var(--muted); }
+  .title { font-size: var(--step-h3); }
+  .desc { color: var(--muted); max-width: 46ch; }
+  .action { margin-top: var(--space-xs); display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xs); }
+}

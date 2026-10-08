@@ -1,0 +1,51 @@
+@layer components {
+  /* Badge - small technical label (subtle radius, not a pill). Borderless
+     tinted token: the tint is the shape, never a 1px outline. */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 26px;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--r-sm);
+    border: 1px solid transparent;
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+    color: var(--text);
+    font-size: var(--step-xs);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .badge svg { width: 14px; height: 14px; flex: none; }
+  .accent { background: var(--accent-soft); color: var(--accent-text); }
+  .warning { background: var(--warning-soft); color: var(--warning-text); }
+  .success { background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success-text); }
+  .muted { background: transparent; color: var(--muted); }
+  .onDark { background: rgb(255 255 255 / 0.1); color: #fff; }
+
+  /* Verification badge */
+  .wrap { display: inline-grid; gap: 0.3rem; justify-items: start; }
+    /* Verification: plain text with a 6px status dot - not a coloured chip.
+     The label always carries the meaning (never colour alone). */
+  .vbadge {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex: none; background: var(--muted); }
+  .verified .dot { background: var(--success); }
+  .partially_verified .dot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--success); }
+  .unverified .dot { background: var(--warning); }
+  .unknown .dot { background: transparent; box-shadow: inset 0 0 0 1px var(--muted); }
+  .verified { color: var(--text); }
+  .desc { font-size: var(--step-xs); color: var(--muted); max-width: 44ch; }
+
+  @media (forced-colors: active) {
+    .badge { border: 1px solid CanvasText; }
+  }
+}

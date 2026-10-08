@@ -1,0 +1,919 @@
+/* /mattress/[id] - editorial commerce story. Rhythm:
+   cinematic hero -> score by position (editorial) -> inspect (deep) ->
+   specs + independent notes (editorial, ruled) -> compare + guides (linen). */
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4.75rem);
+  font-weight: 360;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--text-strong);
+  font-variation-settings:
+    "SOFT" 50,
+    "opsz" 144;
+  text-wrap: balance;
+}
+.h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-h3);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+}
+.lead {
+  margin: 0;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 34rem;
+}
+.fine {
+  margin: 0;
+  font-size: var(--step-xs);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 40rem;
+}
+.footLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--highlight);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+.footLink svg {
+  width: 1em;
+  height: 1em;
+  transition: transform var(--motion-1-dur, 160ms)
+    var(--motion-1-ease, ease-out);
+}
+.footLink:hover svg {
+  transform: translateX(3px);
+}
+
+/* 1. Hero ------------------------------------------------------------------ */
+.hero {
+  --hero-pad-top: var(--space-sm);
+  overflow: clip;
+  padding-bottom: var(--space-xl);
+}
+.heroGrid {
+  /* The grid is its own inline-size container, so 100cqw is its real content
+     width whatever max-width the container utility resolves to. The gap from
+     that content edge to the viewport edge is then (100vw - 100cqw) / 2:
+     the render bleeds exactly to the viewport edge (a scrollbar's sliver of
+     overshoot is clipped by .hero), never stopping short of it. */
+  container-type: inline-size;
+  --bleed: calc((100vw - 100cqw) / 2);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "crumbs"
+    "visual"
+    "copy"
+    "score"
+    "facts";
+  row-gap: var(--space-md);
+}
+.crumbs {
+  grid-area: crumbs;
+  min-width: 0;
+}
+.heroVisual {
+  grid-area: visual;
+  position: relative;
+  min-width: 0;
+  /* Full-bleed band below 1024px (the hero clips any scrollbar sliver). */
+  margin-inline: calc(50% - 50vw);
+}
+.stage {
+  position: relative;
+  /* A clean, full-bleed crop of the studio still: its own dark backdrop
+     reads as a deliberate frame, never a fade into the page. */
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #05070d;
+  box-shadow: inset 0 0 0 1px rgb(233 228 218 / 0.06);
+}
+.stage :global(.mattress-render),
+.stage :global(.mattress-render) > div {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  border-radius: 0;
+  background: transparent;
+}
+.stageTag {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 1rem;
+  z-index: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage :global(img) {
+    animation: settle 1.4s var(--ease-out) both;
+  }
+}
+/* Transform only: the hero still is the page's LCP image, and an opacity
+   fade from 0 held its LCP back by the length of the animation. */
+@keyframes settle {
+  from {
+    transform: scale(1.04) translate3d(0, 10px, 0);
+  }
+}
+
+.heroCopy {
+  grid-area: copy;
+  display: grid;
+  gap: var(--space-md);
+  justify-items: start;
+  align-content: start;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: var(--step-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.kickerRule {
+  width: 2rem;
+  height: 1px;
+  background: var(--rule-mark, var(--border-strong));
+}
+.brandLink {
+  color: var(--highlight-text);
+  text-decoration: none;
+}
+.brandLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 1.6rem + 6.4vw, 8.75rem);
+  font-weight: 340;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: var(--text-strong);
+  font-variation-settings:
+    "SOFT" 60,
+    "opsz" 144;
+  max-width: 11ch;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+/* Long model names step down so no single word is wider than the column. */
+.titleLong {
+  font-size: clamp(2.6rem, 1.2rem + 3.9vw, 5.5rem);
+  max-width: 13ch;
+}
+.positioning {
+  margin: 0;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 32rem;
+}
+.standouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.standouts strong {
+  color: var(--highlight-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.sponsored {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: var(--step-small);
+  color: var(--text);
+}
+.heroActions {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-sm);
+  margin-top: var(--space-2xs);
+}
+.heroScore {
+  grid-area: score;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+.heroFacts {
+  grid-area: facts;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-lg);
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-strong);
+}
+.heroFacts dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.heroFacts dd {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.6rem);
+  font-weight: 400;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+.factUnit {
+  font-family: var(--font-sans);
+  font-size: var(--step-xs);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.factQualifier {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-sans);
+  font-size: var(--step-xs);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.factQualifier::before {
+  content: "";
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-right: 0.45em;
+  border-radius: 50%;
+  background: var(--signal-amber);
+  vertical-align: 0.12em;
+}
+.heroFacts dd :global(.data-value--missing) {
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+}
+
+@media (min-width: 720px) {
+  .heroFacts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .stage {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-bottom: var(--space-2xl);
+  }
+  /* Render bleeds off the right edge with a hard left crop; the Match Score
+     sits below it (never over the mattress), the copy holds the left. */
+  .heroGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "crumbs visual"
+      "copy visual"
+      "copy score"
+      "facts facts";
+    column-gap: var(--space-xl);
+    row-gap: 0;
+  }
+  .crumbs {
+    align-self: start;
+    margin-bottom: var(--space-lg);
+  }
+  .heroCopy {
+    align-self: start;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-lg);
+  }
+  .heroVisual {
+    margin: 0 calc(var(--bleed) * -1) 0 0;
+  }
+  .stage {
+    aspect-ratio: 16 / 9;
+    border-radius: 6px 0 0 6px;
+  }
+  .stageTag {
+    left: 1rem;
+    bottom: 1rem;
+  }
+  .heroScore {
+    margin-top: var(--space-md);
+    align-self: start;
+    min-width: 0;
+  }
+  .heroFacts {
+    margin-top: var(--space-xl);
+  }
+}
+@media (min-width: 1600px) {
+  /* Very wide screens: trim empty studio floor so the score stays in view. */
+  .stage {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+/* 2. Score by position ---------------------------------------------------- */
+.scoreGrid {
+  display: grid;
+  gap: var(--space-xl);
+}
+.scoreHead {
+  display: grid;
+  gap: var(--space-md);
+  justify-items: start;
+  align-content: start;
+}
+.scoreCta {
+  margin-top: var(--space-2xs);
+}
+.scoreBody {
+  display: grid;
+  gap: var(--space-2xl);
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .scoreGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--split-gap);
+  }
+  .scoreHead {
+    /* A stretched grid item fills the row and can't stick: size it to its content. */
+    align-self: start;
+    position: sticky;
+    top: calc(var(--nav-h) + var(--space-lg));
+  }
+}
+
+/* 3. Inspect -------------------------------------------------------------- */
+.inspect {
+  overflow: clip;
+}
+.inspectHead {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+.inspectTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 1.2rem + 6vw, 8rem);
+  font-weight: 330;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: var(--text-strong);
+  font-variation-settings:
+    "SOFT" 60,
+    "opsz" 144;
+}
+.inspectIntro {
+  margin: 0;
+  max-width: 38rem;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+  color: var(--text);
+}
+@media (min-width: 1024px) {
+  .inspectHead {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    column-gap: var(--split-gap);
+  }
+  .inspectHead > :first-child {
+    grid-column: 1 / -1;
+  }
+  .inspectIntro {
+    padding-bottom: 0.6rem;
+  }
+}
+
+/* 4. Specs ------------------------------------------------------------------ */
+.specsSection {
+  padding-bottom: var(--space-xl);
+}
+.specsHead {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+@media (min-width: 960px) {
+  .specsHead {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+    column-gap: var(--split-gap);
+  }
+  .specsHead > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+.provenance {
+  display: grid;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.dotPartial {
+  background: var(--highlight);
+}
+.sourceLine {
+  margin: 0;
+  font-size: var(--step-small);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 34rem;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-md);
+  margin: 0;
+}
+@media (min-width: 900px) {
+  .specs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+}
+@media (min-width: 1200px) {
+  .specs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+/* Label / value / note share one three-row grid, so values sit on the same
+   line across a row however long a neighbour's note runs. */
+.spec {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  gap: 0.6rem;
+  padding: var(--space-sm) 0 var(--space-lg);
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+.specs > .spec:nth-child(-n + 2) {
+  border-top-color: var(--text-strong);
+}
+@media (min-width: 900px) {
+  .specs > .spec:nth-child(-n + 3) {
+    border-top-color: var(--text-strong);
+  }
+}
+@media (min-width: 1200px) {
+  .specs > .spec:nth-child(-n + 4) {
+    border-top-color: var(--text-strong);
+  }
+}
+.specLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.specValue {
+  margin: 0;
+  align-self: start;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.specValue :global(.data-value--missing) {
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  letter-spacing: 0;
+}
+.specUnit {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.specNote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 40ch;
+}
+.specNote:empty {
+  display: none;
+}
+.footnote {
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* 5. Independent notes -------------------------------------------------- */
+.reviews {
+  padding-top: var(--space-xl);
+}
+.reviewGrid {
+  display: grid;
+  gap: var(--space-xl);
+  border-top: 1px solid var(--text-strong);
+  padding-top: var(--space-2xl);
+}
+.reviewHead {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+@media (min-width: 960px) {
+  .reviewGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--split-gap);
+  }
+}
+.sources {
+  display: grid;
+  gap: 0.5rem;
+}
+.sources ul,
+.moreBrand ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sources li {
+  padding-block: 0.35rem;
+}
+.sourcesLabel {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.extIcon {
+  display: inline;
+  width: 0.9em;
+  height: 0.9em;
+  margin-left: 0.25rem;
+  vertical-align: -0.1em;
+}
+.highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.highlight {
+  display: grid;
+  gap: 0.6rem;
+  padding: var(--space-md) 0 var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+.highlight:first-child {
+  padding-top: 0;
+}
+.highlightHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: var(--step-small);
+}
+.highlightHead svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.highlight[data-sentiment="positive"] .highlightHead svg {
+  color: var(--success-text);
+}
+.highlight[data-sentiment="negative"] .highlightHead svg {
+  color: var(--warning-text);
+}
+.highlightKind {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.highlightLabel {
+  color: var(--muted);
+}
+.highlightLabel::before {
+  content: "· ";
+}
+.highlightText {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2.1rem);
+  font-weight: 360;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+  max-width: 34ch;
+}
+.attribution {
+  margin: 0;
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.noReviews {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--muted);
+}
+
+/* 6. Compare + guides ------------------------------------------------------ */
+.related {
+  overflow: clip;
+}
+.sliderHead {
+  display: grid;
+  gap: var(--space-sm);
+  justify-items: start;
+}
+.nextSteps {
+  display: grid;
+  gap: var(--space-2xl);
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--text-strong);
+}
+@media (min-width: 960px) {
+  .nextSteps {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--split-gap);
+  }
+}
+.compareBox {
+  display: grid;
+  gap: var(--space-sm);
+  align-content: start;
+  justify-items: start;
+}
+.compareActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-2xs);
+}
+.moreBrand {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: var(--space-lg);
+}
+.moreBrand ul {
+  border-top: 1px solid var(--border);
+}
+.brandRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text-strong);
+  text-decoration: none;
+}
+.brandRow:hover span:first-child {
+  color: var(--highlight-text);
+}
+.brandRowMeta {
+  font-family: var(--font-sans);
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.moreBrand .footLink {
+  margin-top: 0.5rem;
+}
+.guides {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+.guideList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 640px) {
+  .guideList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+}
+.guideList li {
+  border-bottom: 1px solid var(--border);
+}
+.guideLink {
+  display: grid;
+  gap: 0.35rem;
+  padding: var(--space-md) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.guideCat {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--highlight-text);
+}
+.guideTitle {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--text-strong);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.guideDesc {
+  font-size: var(--step-xs);
+  line-height: 1.5;
+  color: var(--muted);
+}
+.guideLink:hover .guideTitle {
+  color: var(--highlight-text);
+}
+
+/* 3. Fit ------------------------------------------------------------------- */
+.fit {
+  display: grid;
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--text-strong);
+}
+@media (min-width: 720px) {
+  .fit {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--space-xl);
+    align-items: start;
+  }
+  .fitScore {
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-lg);
+    align-items: center;
+  }
+}
+.fitScore {
+  display: grid;
+  gap: var(--space-sm);
+  justify-items: start;
+}
+.fitScoreText {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.fitScoreText p {
+  margin: 0;
+}
+.fitKicker {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--highlight-text);
+}
+.fitHeadline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-h3);
+  line-height: 1.2;
+  color: var(--text-strong);
+}
+.fitBars,
+.fitWhy {
+  display: grid;
+  gap: var(--space-sm);
+  align-content: start;
+  min-width: 0;
+}
+.fitHeading {
+  margin: 0;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.fitWhy .fitHeading + * {
+  margin-bottom: var(--space-sm);
+}
+.reasonList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+.reasonList li {
+  padding: 0.75rem 0 0.75rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+.reasonList li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 1.2rem;
+  width: 0.55rem;
+  height: 1px;
+  background: var(--accent);
+}
+.dataNotes {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: var(--step-xs);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.fitInvite {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  justify-items: start;
+}
+.fitInvite h3,
+.fitInvite p {
+  margin: 0;
+}
+.fitSkeleton {
+  min-height: 12rem;
+}
+
+/* RTINGS product photo in the hero: the source is 390 px wide, so it is shown
+   framed at a modest size (never bled off the edge or enlarged past ~1.4x). */
+@media (min-width: 720px) {
+  .heroVisual[data-photo="true"] {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 560px;
+  }
+  .heroVisual[data-photo="true"] .stage {
+    aspect-ratio: 16 / 9;
+    border-radius: 6px;
+  }
+}
+@media (min-width: 1024px) {
+  .heroVisual[data-photo="true"] {
+    margin: 0 0 0 auto;
+    align-self: start;
+    padding-top: var(--space-md);
+  }
+}

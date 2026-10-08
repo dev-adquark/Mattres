@@ -173,4 +173,87 @@ test('scoreEngine: trace.riskRulesUsed records untriggered rules too (well-match
   assert.ok(result.trace.riskRulesUsed.every((e) => e.triggered === false));
 });
 
+// ---------------------------------------------------------------------------
+// v0.1 byte-identical regression + v0.2 (root copy of the engine)
+// ---------------------------------------------------------------------------
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+
+test('scoreEngine v0.1: root engine output is byte-identical to the pre-v0.2 snapshot', () => {
+  const snapshot = require('../react-version/lib/__fixtures__/scoreEngine-v0.1-snapshot.json');
+  const mismatches = [];
+  snapshot.profiles.forEach((profile, i) => {
+    const outs = snapshot.inputs.map((m) => JSON.stringify(scoreEngine('0.1', profile, m)));
+    const hash = crypto.createHash('sha256').update(outs.join('\n')).digest('hex').slice(0, 24);
+    if (hash !== snapshot.hashes[i]) mismatches.push(i);
+  });
+  assert.deepStrictEqual(mismatches, []);
+});
+
+// src/scoreEngine.js stays plain JavaScript on purpose: it is the engine the
+// root Node CLI tooling runs (score-demo, serve-demo-api, the trace API
+// handler) under bare `node` with no TypeScript toolchain or bundler. The
+// app's engine is react-version/lib/scoreEngine.ts. They used to be compared
+// as source text; since the app copy is TypeScript, they are now compared
+// output-for-output (same rules files, same JSON for every profile x input).
+test('scoreEngine v0.1 + v0.2: rules identical and output byte-identical to the react-version TypeScript engine', () => {
+  const read = (p) => fs.readFileSync(path.join(__dirname, '..', p), 'utf8');
+  assert.strictEqual(read('data/rules/0.1.json'), read('react-version/lib/rules/0.1.json'));
+  assert.strictEqual(read('data/rules/0.2.json'), read('react-version/lib/rules/0.2.json'));
+
+  // The app engine resolves lib/rules from process.cwd() (the Next app root).
+  const { requireAppModule, APP_ROOT } = require('./lib/app-modules');
+  const previousCwd = process.cwd();
+  process.chdir(APP_ROOT);
+  let appEngine;
+  try {
+    appEngine = requireAppModule('lib/scoreEngine');
+  } finally {
+    process.chdir(previousCwd);
+  }
+
+  const snapshot = require('../react-version/lib/__fixtures__/scoreEngine-v0.1-snapshot.json');
+  const v02Inputs = require('../react-version/lib/data/mattress-catalog.json').map((e) => ({
+    id: e.id,
+    type: e.type,
+    firmnessRating: e.firmnessRange && typeof e.firmnessRange.min === 'number' && typeof e.firmnessRange.max === 'number'
+      ? (e.firmnessRange.min + e.firmnessRange.max) / 2
+      : null,
+    coolingRatingOutOf10: e.coolingRatingOutOf10,
+    motionIsolationRatingOutOf10: e.motionIsolationRatingOutOf10,
+    edgeSupportRatingOutOf10: e.edgeSupportRatingOutOf10,
+    durabilityRatingOutOf10: e.durabilityRatingOutOf10,
+    topFoamDensityLbFt3: e.topFoamDensityLbFt3,
+  }));
+  const extras = [{}, { painFocus: 'shoulders', edgeImportance: 'high', motionSensitivity: 'couple-high' }, { painFocus: ['hip', 'lowerBack'], edgeImportance: 'low' }];
+  let compared = 0;
+  for (const profile of snapshot.profiles) {
+    for (const m of snapshot.inputs) {
+      assert.strictEqual(JSON.stringify(appEngine.scoreEngine('0.1', profile, m)), JSON.stringify(scoreEngine('0.1', profile, m)));
+      compared += 1;
+    }
+    for (const extra of extras) {
+      const p = { ...profile, ...extra };
+      for (const m of v02Inputs) {
+        assert.strictEqual(JSON.stringify(appEngine.scoreEngine('0.2', p, m)), JSON.stringify(scoreEngine('0.2', p, m)));
+        compared += 1;
+      }
+    }
+  }
+  assert.ok(compared > 100000, `compared ${compared} outputs`);
+});
+
+test('scoreEngine v0.2: deterministic, weights sum to 1, provenance reported', () => {
+  const profile = { sleepPosition: 'side', weightLb: 160, preferredFirmnessLabel: 'medium-soft', sleepTemperature: 'hot', motionSensitivity: 'couple-high', painFocus: 'shoulders', edgeImportance: 'high' };
+  const mattress = { id: 'm', type: 'hybrid', firmnessRating: 4.5, coolingRatingOutOf10: 8, motionIsolationRatingOutOf10: null, edgeSupportRatingOutOf10: 7, durabilityRatingOutOf10: null };
+  const a = scoreEngine('0.2', profile, mattress);
+  assert.strictEqual(JSON.stringify(a), JSON.stringify(scoreEngine('0.2', profile, mattress)));
+  assert.strictEqual(a.modelVersion, '0.2');
+  const sum = Object.values(a.effectiveWeights).reduce((s, w) => s + w, 0);
+  assert.ok(Math.abs(sum - 1) < 0.001, `weights sum ${sum}`);
+  assert.deepStrictEqual(a.dimensionProvenance, { support: 'measured', pressureRelief: 'measured', heat: 'measured', motion: 'estimated', edge: 'measured', durability: 'estimated' });
+  assert.ok(a.overallScore >= 0 && a.overallScore <= 100);
+});
+
 console.log(`\n${passed} test(s) passed.`);

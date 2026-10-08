@@ -1,0 +1,11 @@
+@layer components {
+  /* Data value */
+  .value { font-variant-numeric: tabular-nums; }
+  .missing {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.92em;
+  }
+  .missing svg { width: 0.95em; height: 0.95em; flex: none; }
+}

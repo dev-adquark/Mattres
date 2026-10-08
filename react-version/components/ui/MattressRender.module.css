@@ -1,0 +1,12 @@
+@layer components {
+  /* Mattress illustration */
+  .render { margin: 0; display: grid; gap: var(--space-xs); width: 100%; }
+  .svg { width: 100%; height: auto; overflow: visible; }
+  .sm { max-width: 200px; }
+  .md { max-width: 360px; }
+  .lg { max-width: 560px; }
+  .caption { font-size: var(--step-xs); color: var(--muted); }
+  .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; font-size: var(--step-small); }
+  .legend li { display: flex; align-items: center; gap: 0.6rem; }
+  .swatch { width: 14px; height: 14px; border-radius: var(--r-xs); border: 1px solid rgb(0 0 0 / 0.18); flex: none; }
+}

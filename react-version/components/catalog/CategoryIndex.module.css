@@ -1,0 +1,131 @@
+/* Columns: a hairline typographic index (not a grid of boxes). */
+.index {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
+  gap: var(--space-lg) var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--text-strong);
+}
+.groupTitle {
+  margin: 0 0 0.6rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 40px;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-strong);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 380;
+  letter-spacing: -0.012em;
+  transition: padding 240ms var(--ease-out), color 240ms var(--ease-out);
+}
+.link:hover {
+  padding-left: 0.35rem;
+}
+.link:hover span:first-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.count {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phones: the whole index becomes one swipeable row of chips. */
+@media (max-width: 639px) {
+  .index {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: var(--space-md) var(--gutter) 0.25rem;
+    scroll-padding-inline: var(--gutter);
+  }
+  .index::-webkit-scrollbar {
+    display: none;
+  }
+  .group,
+  .list {
+    display: contents;
+  }
+  .groupTitle {
+    display: none;
+  }
+  .list li {
+    flex: none;
+  }
+  .link {
+    min-height: 44px;
+    padding: 0 0.95rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    gap: 0.5rem;
+    align-items: center;
+    white-space: nowrap;
+  }
+  .link:hover {
+    padding-left: 0.95rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+}
+
+/* Chips variant */
+.chipsNav {
+  min-width: 0;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-strong);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: border-color 200ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.chip:hover {
+  border-color: var(--text-strong);
+  background: var(--accent-soft);
+}

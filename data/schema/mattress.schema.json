@@ -15,8 +15,8 @@
     "model": { "type": "string" },
     "type": {
       "type": "string",
-      "enum": ["foam", "hybrid", "innerspring"],
-      "description": "Canonical mattress type bucket required by the brief (foam / hybrid / in-spring)."
+      "enum": ["foam", "hybrid", "innerspring", "latex"],
+      "description": "Canonical mattress type bucket (foam / hybrid / in-spring / latex). 'latex' covers all-latex constructions with no coil layer; latex-over-coil models are 'hybrid'. Scoring v0.1 and v0.2 both carry a latex baseline."
     },
     "coreMaterialNotes": {
       "type": ["string", "null"],

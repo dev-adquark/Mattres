@@ -1,0 +1,45 @@
+.wrap {
+  display: inline-grid;
+  gap: 0.55rem;
+  justify-items: start;
+}
+.block {
+  display: grid;
+  width: 100%;
+}
+.wrap :global(.btn) svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+.host,
+.disclosure {
+  margin: 0;
+  font-size: var(--step-xs);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.disclosure strong {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
+/* Honest missing state - deliberately not a button. */
+.unavailable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.7rem 0;
+  border-top: 1px dashed var(--border-strong);
+  border-bottom: 1px dashed var(--border-strong);
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+  cursor: default;
+}
+.unavailable svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}

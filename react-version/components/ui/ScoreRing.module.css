@@ -1,0 +1,42 @@
+@layer components {
+  /* Score ring */
+  .ring {
+    --ring-size: 96px;
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: var(--ring-size);
+    height: var(--ring-size);
+    flex: none;
+  }
+  .sm { --ring-size: 58px; }
+  .md { --ring-size: 100px; }
+  .lg { --ring-size: 156px; }
+  .xl { --ring-size: clamp(190px, 46vw, 260px); }
+  .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .track { stroke: var(--track); }
+  .ticks { stroke: var(--border-strong); }
+  .value { stroke: var(--highlight); stroke-linecap: round; }
+  .ring[data-tier="fair"] .value,
+  .ring[data-tier="weak"] .value { stroke: var(--muted); }
+  .center { position: relative; display: grid; justify-items: center; line-height: 1; }
+  .number {
+    font-family: var(--font-display);
+    font-weight: 360;
+    font-size: calc(var(--ring-size) * 0.36);
+    letter-spacing: -0.045em;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--text-strong);
+    font-variation-settings: "SOFT" 50;
+  }
+  .unit { margin-top: 0.3em; font-size: max(10px, calc(var(--ring-size) * 0.068)); color: var(--muted); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .sm .unit { display: none; }
+  .sm .number { font-size: calc(var(--ring-size) * 0.38); font-weight: 420; }
+  .block { display: inline-flex; align-items: center; gap: var(--space-sm); }
+  .tier { font-family: var(--font-display); font-size: 1.2rem; font-weight: 400; letter-spacing: -0.01em; color: var(--text-strong); line-height: 1.2; }
+  .desc { display: block; font-size: var(--step-small); color: var(--muted); max-width: 34ch; }
+
+  @media (forced-colors: active) {
+    .value { forced-color-adjust: none; }
+  }
+}

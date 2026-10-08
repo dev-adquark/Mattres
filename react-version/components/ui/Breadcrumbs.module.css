@@ -1,0 +1,9 @@
+@layer components {
+  /* Breadcrumbs */
+  .breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-size: var(--step-small); color: var(--muted); }
+  .breadcrumbs li { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .breadcrumbs a { color: var(--muted); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--text); text-decoration: underline; }
+  .breadcrumbs [aria-current="page"] { color: var(--text); font-weight: 500; }
+  .sep { width: 14px; height: 14px; opacity: 0.55; }
+}

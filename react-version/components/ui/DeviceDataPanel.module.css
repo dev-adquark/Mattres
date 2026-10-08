@@ -1,0 +1,12 @@
+@layer components {
+  .list { margin: 0; border-top: 1px solid var(--text-strong); }
+  .row { display: grid; gap: 0.35rem 2rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  @media (min-width: 760px) { .row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+  .row dt { display: grid; gap: 0.2rem; justify-items: start; }
+  .row dd { margin: 0; color: var(--text); }
+  .label { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; font-variation-settings: normal; }
+  .key { font-size: var(--step-xs); color: var(--muted); }
+  .where { font-size: var(--step-xs); color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: var(--space-lg); }
+  .status { font-size: var(--step-small); color: var(--muted); }
+}

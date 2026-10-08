@@ -1,0 +1,18 @@
+@layer components {
+  /* Skeleton */
+  .skeleton {
+    display: block;
+    background: linear-gradient(90deg, var(--track) 0%, color-mix(in srgb, var(--track) 35%, transparent) 50%, var(--track) 100%);
+    background-size: 200% 100%;
+    border-radius: var(--r-sm);
+    animation: shimmer 1.6s linear infinite;
+  }
+  .text { height: 0.9em; border-radius: var(--r-xs); }
+  .circle { border-radius: 50%; }
+  .lines { display: grid; gap: 0.6rem; }
+  .lines > :last-child { width: 62%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton { animation: none; }
+  }
+}

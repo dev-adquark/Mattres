@@ -2,7 +2,7 @@
   "name": "mattress-match-score",
   "version": "0.1.0",
   "private": true,
-  "description": "Match Scoring Engine skeleton (v0.1) and static frontend mockups for Mattress Match Score.",
+  "description": "Match Scoring Engine (v0.1 + v0.2), catalog tooling and data contracts for Mattress Match Score. The website is the Next.js app in react-version/.",
   "main": "src/scoreEngine.js",
   "scripts": {
     "score-demo": "node scripts/score-demo.js",
@@ -14,7 +14,7 @@
     "test": "node scripts/test-score-engine.js && node scripts/test-ingest.js && node scripts/test-score-trace-api.js && node scripts/test-rtings-sync.js && (cd react-version && npm test) && npm run typecheck --silent"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=22.18"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

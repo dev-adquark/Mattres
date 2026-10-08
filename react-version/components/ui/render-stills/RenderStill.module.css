@@ -1,0 +1,81 @@
+/* Rendered stills: the frame reserves the exact aspect ratio, the image fills it. */
+.still {
+  margin: 0;
+  display: grid;
+  gap: var(--space-xs, 0.5rem);
+  width: 100%;
+  min-width: 0;
+}
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--media-bg, #e9e4da);
+}
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--still-position, 50% 50%);
+}
+
+/* fill: the still covers its positioned parent edge to edge (no letterbox
+   strips when a square still sits in a wide tile). Parent needs a size:
+   position: relative + aspect-ratio or height. */
+.fill.fill {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  height: 100%;
+  gap: 0;
+}
+.fill .frame {
+  height: 100%;
+}
+
+/* Inside a product card the still runs full-bleed in the 5:4 media box
+   (the card keeps its own padding for the SVG illustration). */
+:global(.product-card__media) > .still.still {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  height: 100%;
+}
+:global(.product-card__media) > .still .frame {
+  aspect-ratio: auto !important;
+  height: 100%;
+}
+
+/* Credited RTINGS photo: 16:9 source shown cover-fit inside the same frame. */
+.photoFrame {
+  aspect-ratio: 16 / 9;
+}
+.fill .photoFrame {
+  aspect-ratio: auto;
+}
+.photo {
+  object-fit: cover;
+  object-position: var(--still-position, 50% 60%);
+}
+.credit {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 2;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: rgb(5 11 22 / 0.78);
+  color: #fff;
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+a.credit:hover {
+  text-decoration: underline;
+}
+a.credit:focus-visible {
+  outline: 2px solid var(--signal-amber, #f2b45a);
+  outline-offset: 2px;
+}

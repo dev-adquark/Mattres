@@ -41,8 +41,8 @@ export type SleepTemperature = 'cold' | 'neutral' | 'hot';
 /** Read by scoreEngine.js's motion-isolation adjustment (branches on 'couple-high'). */
 export type MotionSensitivity = 'single' | 'couple-low' | 'couple-high';
 
-/** Matches the `type` enum in data/schema/mattress.schema.json. */
-export type MattressType = 'foam' | 'hybrid' | 'innerspring';
+/** Matches the `type` enum in data/schema/mattress.schema.json (latex added with scoring v0.2). */
+export type MattressType = 'foam' | 'hybrid' | 'innerspring' | 'latex';
 
 /**
  * Comfort/pain priorities collected on the full form. Used to build the
@@ -50,6 +50,23 @@ export type MattressType = 'foam' | 'hybrid' | 'innerspring';
  * formToProfile.example.ts and resultsPageViewModel.example.ts.
  */
 export type PainFocusArea = 'shoulder' | 'hip' | 'lowerBack' | 'neck';
+
+/**
+ * v0.2 single-value pain focus (react-version/lib/profileValidation.ts).
+ * Re-weights dimensions in scoring v0.2 (see weightModifiers in
+ * data/rules/0.2.json). Legacy PainFocusArea arrays are still accepted and
+ * normalised via painFocusAliases ('neck' has no v0.2 effect).
+ */
+export type PainFocus = 'shoulders' | 'hips' | 'lower-back' | 'whole-body' | 'none';
+
+/** Optional v0.2 input: how much edge support matters to the sleeper. */
+export type EdgeImportance = 'low' | 'medium' | 'high';
+
+/** Scoring model versions the engine implements. v0.2 is the default for /api/match. */
+export type ScoreVersion = '0.1' | '0.2';
+
+/** v0.2: whether a dimension's sub-score is based on real catalog data or a construction-type estimate. */
+export type DimensionProvenance = 'measured' | 'estimated';
 
 /** Matches the `tag` values in data/schema/review-tags.vocabulary.json exactly. */
 export type ReviewTag =
@@ -68,12 +85,15 @@ export type ReviewTag =
 /** Matches the six categories scoreEngine.js computes sub-scores for. */
 export type ScoreCategory = 'pressureRelief' | 'support' | 'heat' | 'motion' | 'edge' | 'durability';
 
-/** Matches the four risk-flag rule codes defined in data/rules/0.1.json. */
+/** Matches the risk-flag rule codes in data/rules/0.1.json and data/rules/0.2.json (the last two are v0.2 only). */
 export type RiskFlagCode =
   | 'SUPPORT_THRESHOLD_MISMATCH'
+  | 'PREFERRED_FIRMNESS_MISMATCH'
   | 'HEAT_RETENTION_LIKELY'
   | 'EDGE_SUPPORT_CONCERN'
-  | 'DURABILITY_SAG_RISK';
+  | 'DURABILITY_SAG_RISK'
+  | 'MOTION_TRANSFER_LIKELY'
+  | 'PRESSURE_POINT_RISK';
 
 /** Matches the `id` values in data/rules/0.1.json's categoryRuleCatalog. */
 export type CategoryRuleId =
@@ -87,7 +107,16 @@ export type CategoryRuleId =
   | 'MOTION_COUPLE_HIGH_LOW_ISOLATION_PENALTY'
   | 'EDGE_REINFORCED_BONUS'
   | 'DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY'
-  | 'DURABILITY_HIGH_DENSITY_BONUS';
+  | 'DURABILITY_HIGH_DENSITY_BONUS'
+  // v0.2 (data/rules/0.2.json categoryRuleCatalog)
+  | 'RATED_DIMENSION'
+  | 'ESTIMATED_FROM_TYPE'
+  | 'SUPPORT_FIRMNESS_FIT'
+  | 'SUPPORT_TYPE_MODIFIER'
+  | 'PRESSURE_FIRMNESS_FIT'
+  | 'FIRMNESS_UNKNOWN'
+  | 'DURABILITY_HEAVIER_SLEEPER_FOAM'
+  | 'PREFERENCE_FIT_PENALTY';
 
 // ---------------------------------------------------------------------------
 // Form input contracts
@@ -150,7 +179,12 @@ export interface SleepProfile {
   preferredFirmnessLabel: FirmnessLabel;
   sleepTemperature: SleepTemperature;
   motionSensitivity: MotionSensitivity;
-  painFocus: PainFocusArea[];
+  /** Legacy array form, or the v0.2 single value. */
+  painFocus: PainFocusArea[] | PainFocus;
+  /** v0.2 optional input; omitted = no edge re-weighting. */
+  edgeImportance?: EdgeImportance;
+  /** Optional; /api/match defaults to '0.2'. */
+  scoreVersion?: ScoreVersion;
   heightIn?: number;
   mattressTypePreference?: MattressType[];
   budgetUsd?: { min: number; max: number };
@@ -171,6 +205,8 @@ export interface RiskFlag {
   category: ScoreCategory;
   rationale: string;
   mitigation: string;
+  /** v0.2 only: whether the flag rests on real data or a construction-type estimate. */
+  basis?: DimensionProvenance;
 }
 
 /** Matches scoreEngine.js's `comfortBand` return field exactly. */
@@ -225,11 +261,74 @@ export interface RiskRuleUsage {
   evaluatedValue: unknown;
 }
 
+/** v0.2: a weight modifier that applied to this profile. */
+export interface WeightRuleUsage {
+  ruleId: string;
+  description: string;
+  multiply: Partial<Record<ScoreCategory, number>>;
+}
+
+/** v0.2: an adjustment applied to the overall score after the weighted sub-score total. */
+export interface OverallAdjustment {
+  ruleId: 'PREFERENCE_FIT_PENALTY';
+  description: string;
+  delta: number;
+  note: string;
+}
+
 /** Matches scoreEngine.js's `trace` return field exactly. */
 export interface ScoreTrace {
   modelVersion: string;
   categoryRulesUsed: CategoryRuleUsage[];
   riskRulesUsed: RiskRuleUsage[];
+  /** v0.2 only. */
+  weightRulesUsed?: WeightRuleUsage[];
+  /** v0.2 only. */
+  overallAdjustments?: OverallAdjustment[];
+}
+
+/** v0.2: how the mattress's stated firmness relates to the sleeper. */
+export interface FirmnessFit {
+  /** null when the catalog has no firmness. */
+  firmness: number | null;
+  known: boolean;
+  bandDirection: 'in-band' | 'softer' | 'firmer' | 'unknown';
+  bandDistance: number | null;
+  bandFit: number;
+  preferred: number | null;
+  preferenceDistance: number | null;
+}
+
+/** Engine output (scoreEngine(version, profile, mattress)). v0.2-only fields are optional. */
+export interface ScoreResult {
+  modelVersion: string;
+  scoreModelVersion: string;
+  mattressId: string | null;
+  overallScore: number;
+  subScores: Record<ScoreCategory, number>;
+  /** v0.1: fixed base weights. v0.2: the effective weights used (same as effectiveWeights). */
+  weights: Record<ScoreCategory, number>;
+  comfortBand: ComfortBand;
+  riskFlags: RiskFlag[];
+  trace: ScoreTrace;
+  effectiveWeights?: Record<ScoreCategory, number>;
+  baseWeights?: Record<ScoreCategory, number>;
+  dimensionProvenance?: Record<ScoreCategory, DimensionProvenance>;
+  firmnessFit?: FirmnessFit;
+  scoreBreakdown?: { weightedSubScoreTotal: number; preferenceAdjustment: number };
+  profileFactors?: { painFocus: PainFocus[]; edgeImportance: EdgeImportance | null; motionSensitivity: MotionSensitivity | null };
+}
+
+/** react-version/lib/explain.ts explainMatch() output, attached to every matchProfile() item as `explanation`. */
+export interface MatchExplanation {
+  tier: { id: 'excellent' | 'strong' | 'good' | 'fair' | 'weak' | 'unscored'; label: string; description: string; min: number | null; max: number | null };
+  headline: string;
+  /** dimension is a ScoreCategory, or 'preference' for the stated-firmness fit. Only measured dimensions appear. */
+  reasons: { dimension: ScoreCategory | 'preference'; text: string }[];
+  /** `code` is a rendering/analytics key only - never shown to users. */
+  watchOuts: { code: RiskFlagCode | 'MULTIPLE_FIRMNESS_OPTIONS'; severity: 'info' | 'caution' | 'warning'; title: string; text: string; mitigation: string }[];
+  profileFactors: { id: string; label: string; text: string }[];
+  dataNotes: { id: string; text: string }[];
 }
 
 // ---------------------------------------------------------------------------

@@ -1,0 +1,525 @@
+/*
+ * Homepage chapters (02 Understand, 05 Compare, 06 Choose) + shared pieces.
+ * Grounds are limited to three tokens: night ink (cinematic), linen
+ * (editorial) and warm sand (final CTA only). Chapter transitions are
+ * gradient seams painted into the top of the next chapter, or (desktop,
+ * motion allowed) chapter 02 rising over the pinned hero.
+ * Chapter padding: 160px desktop / 96px mobile.
+ */
+
+/* ======================================================================
+   Firmness scale (shared)
+   ====================================================================== */
+.scale {
+  --label-w: 0px;
+  --row-h: 30px;
+  display: grid;
+  gap: 0.4rem;
+  font-size: var(--step-xs);
+  color: var(--muted);
+  padding-top: 1.4rem;
+}
+.scaleLabelled { --label-w: clamp(6.25rem, 24vw, 8.5rem); }
+.scaleCompact { --row-h: 24px; }
+.scaleRows { position: relative; display: grid; gap: 0.45rem; }
+.scaleRow {
+  display: grid;
+  grid-template-columns: var(--label-w) minmax(0, 1fr);
+  align-items: center;
+  min-height: var(--row-h);
+}
+.scaleLabel {
+  padding-right: 0.75rem;
+  color: var(--text);
+  font-weight: 500;
+  font-size: var(--step-small);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.scaleTrack {
+  grid-column: 2;
+  position: relative;
+  height: var(--row-h);
+  background:
+    linear-gradient(var(--border-strong), var(--border-strong)) center / 100% 1px no-repeat;
+}
+.scaleBand {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: var(--from);
+  right: calc(100% - var(--to));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  border-radius: var(--r-pill);
+  transition: left var(--dur-4) var(--ease-out), right var(--dur-4) var(--ease-out);
+}
+.scaleRow[data-active='true'] .scaleBand { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+.scaleBandText {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent-text);
+  font-variant-numeric: tabular-nums;
+}
+.scaleMarker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: calc(var(--label-w) + (100% - var(--label-w)) * var(--at));
+  width: 0;
+  border-left: 2px solid var(--text-strong);
+  transition: left var(--dur-4) var(--ease-out);
+}
+.scaleMarkerLabel {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  translate: calc(-100% * var(--at)) 0;
+  padding-bottom: 3px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.scaleMarker[data-kind='match'] { border-left-style: dashed; border-left-color: var(--highlight); }
+.scaleMarker[data-kind='match'] .scaleMarkerLabel { bottom: auto; top: 100%; padding: 3px 0 0; color: var(--text); }
+.scaleAxis {
+  position: relative;
+  height: 1.1em;
+  margin-left: var(--label-w);
+  font-variant-numeric: tabular-nums;
+}
+.scaleAxis span { position: absolute; left: calc(var(--at) * 100%); translate: calc(-100% * var(--at)) 0; }
+.scaleEnds { display: flex; justify-content: space-between; margin-left: var(--label-w); }
+.scale:has(.scaleMarker[data-kind='match']) .scaleAxis { margin-top: 1.1rem; }
+
+
+/* ======================================================================
+   02 Understand
+   ====================================================================== */
+.understand {
+  /* Dawn seam (night -> linen) painted into the top of the chapter, so
+     Understand emerges from the hero's night stage instead of cutting to it. */
+  --rise: clamp(7rem, 16vh, 11rem);
+  --dawn: linear-gradient(180deg, #050b16 0%, #0a1020 16%, #2b3a67 38%, #8d8794 58%, #d8cbb7 78%, #e9e4da 100%);
+  position: relative;
+  z-index: 3;
+  padding-block: calc(var(--rise) + clamp(1.5rem, 1rem + 1.5vw, 2.5rem)) clamp(3rem, 2rem + 4vw, 6rem);
+}
+section.understand {
+  background: var(--dawn) top / 100% var(--rise) no-repeat, linear-gradient(var(--linen), var(--linen)) 0 var(--rise) / 100% 100% no-repeat;
+  background-color: var(--night-ink);
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  /* Rises over the still-pinned hero stage (Hero.module.css: 290vh section).
+     The seam starts transparent so the night stage shows through its first
+     band: the linen surfaces out of the dark rather than sliding over it as a slab. */
+  .understand { margin-top: -100vh; --rise: clamp(10rem, 26vh, 16rem); }
+  section.understand {
+    background:
+      linear-gradient(180deg, rgb(5 11 22 / 0) 0%, rgb(5 11 22 / 0.7) 10%, #0a1020 22%, #2b3a67 42%, #8d8794 61%, #d8cbb7 80%, #e9e4da 100%) top / 100% var(--rise) no-repeat,
+      linear-gradient(var(--linen), var(--linen)) 0 var(--rise) / 100% 100% no-repeat;
+    background-color: transparent;
+  }
+}
+.statement {
+  margin-top: var(--space-lg);
+  font-size: clamp(2.6rem, 1rem + 6.4vw, 8.25rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  font-weight: 340;
+  max-width: 15ch;
+}
+.statement em, .personalTitle em, .chooseTitle em, .trustTitle em, .finalTitle em, .sleepTitle em, .compareTitle em {
+  font-style: italic;
+  font-weight: 300;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.understandRow { display: grid; gap: var(--space-2xl); margin-top: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
+.understandText { display: grid; gap: var(--space-md); align-content: start; max-width: 36rem; }
+.understandLead { font-size: var(--step-lead); line-height: 1.5; color: var(--text-strong); }
+.understandSub { color: var(--muted); }
+
+.evidence { margin: 0; padding-top: var(--space-md); border-top: 2px solid var(--text-strong); }
+.evidenceKicker { font-size: var(--step-xs); font-weight: 600; letter-spacing: 0.04em; color: var(--muted); }
+.evidenceName { margin-top: 0.25rem; font-family: var(--font-display); font-size: var(--step-h3); color: var(--text-strong); }
+.evidenceScores { list-style: none; margin: var(--space-md) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.evidenceScores li { display: grid; gap: 0.3rem; align-content: start; }
+.evidenceScores li + li { padding-left: var(--space-md); border-left: 1px solid var(--border); }
+.evidenceWho { font-size: var(--step-small); color: var(--muted); }
+.evidenceNumber { font-family: var(--font-display); font-weight: 300; font-size: clamp(3.75rem, 2.5rem + 4vw, 6.5rem); line-height: 0.85; letter-spacing: -0.05em; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.evidenceTier { font-size: var(--step-small); font-weight: 600; color: var(--text-strong); }
+.evidenceScale { margin-top: var(--space-md); }
+.evidenceCaption { margin-top: var(--space-md); font-size: var(--step-xs); line-height: 1.55; color: var(--muted); }
+
+.personal { margin-top: clamp(4rem, 2.5rem + 5vw, 8rem); }
+.personalTitle { font-size: clamp(1.9rem, 1.3rem + 2vw, 3.25rem); line-height: 1.02; letter-spacing: -0.03em; font-weight: 360; max-width: 20ch; margin-bottom: var(--space-xl); }
+.panels { --slider-gap: clamp(1rem, 0.5rem + 2vw, 2.5rem); }
+.panel { display: grid; align-content: start; gap: 0.6rem; height: 100%; padding-top: var(--space-md); border-top: 1px solid var(--text-strong); }
+.panelNo { font-family: var(--font-display); font-style: italic; color: var(--highlight-text); }
+.panelTitle { font-family: var(--font-display); font-weight: 380; font-size: clamp(1.45rem, 1.2rem + 0.7vw, 1.9rem); line-height: 1.1; letter-spacing: -0.015em; }
+.panelText { color: var(--muted); font-size: var(--step-small); line-height: 1.55; max-width: 44ch; }
+.panelFigure { margin-top: var(--space-sm); }
+@media (min-width: 900px) {
+  .understandRow { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(3rem, 2rem + 4vw, 7rem); align-items: start; }
+  .evidence { margin-top: calc(-1 * clamp(1rem, 4vw, 4rem)); }
+  /* three columns fit: the carousel chrome is not needed */
+  .panels :global(.slider__foot) { display: none; }
+  .panels :global(.slider__track) { cursor: auto; }
+}
+
+/* Sticky horizontal story (PersonalStory; desktop + motion only). The stage is
+   only as tall as its content (--pin-h) and pins at --pin-top, centred in the
+   space under the nav; both are measured by PersonalStory. The wrapper is
+   stage height + horizontal travel (--shift), so the stage pins for exactly the
+   travel while --progress (0..1) slides the track, and no blank scroll is
+   reserved before the first panel or after the last. */
+.hstory { position: relative; height: calc(var(--pin-h, 100svh) + var(--shift, 0px)); }
+.hpin {
+  /* --edge: the container's content edge, measured by PersonalStory (gutter until then). */
+  --edge: var(--story-edge, var(--gutter));
+  position: sticky;
+  top: var(--pin-top, calc(var(--nav-h) + 1.5rem));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  row-gap: clamp(1.5rem, 5svh, 3.5rem);
+}
+.hhead { display: flex; align-items: end; justify-content: space-between; gap: var(--space-xl); padding-inline: var(--edge); }
+.hhead .personalTitle { margin-bottom: 0; }
+.hcount { flex: none; font-size: var(--step-small); color: var(--muted); font-variant-numeric: tabular-nums; }
+.hcount strong { font-family: var(--font-display); font-weight: 340; font-size: clamp(2.25rem, 1.5rem + 2vw, 3.5rem); line-height: 1; letter-spacing: -0.03em; color: var(--text-strong); margin-right: 0.15em; }
+/* The track's window: the container's content box. Overflow is clipped there,
+   and a short feather appears on the side panels are travelling out of (left
+   once the story has started, right until the last panel has arrived). */
+.hviewport {
+  --fade: 4rem;
+  --fade-l: calc(clamp(0, var(--progress, 0) * 12, 1) * var(--fade));
+  --fade-r: calc(clamp(0, (1 - var(--progress, 0)) * 12, 1) * var(--fade));
+  margin-inline: var(--edge);
+  min-width: 0;
+  overflow: clip;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+}
+.htrack {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(2.5rem, 1rem + 4vw, 6rem);
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translate3d(calc(var(--progress, 0) * var(--shift, 0px) * -1), 0, 0);
+  will-change: transform;
+}
+.hslide { width: min(52rem, 62vw); display: grid; transition: opacity var(--motion-3-dur) var(--motion-3-ease); }
+.hslide[data-active='false'] { opacity: 0.38; }
+.hslide .panel {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-rows: auto auto 1fr;
+  column-gap: clamp(2rem, 1rem + 3vw, 4.5rem);
+  align-content: start;
+  padding-top: var(--space-lg);
+}
+.hslide .panelNo { font-size: clamp(3rem, 2rem + 3vw, 5.5rem); line-height: 0.9; }
+.hslide .panelTitle { font-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.75rem); line-height: 1.04; letter-spacing: -0.025em; }
+.hslide .panelText { font-size: var(--step-body); }
+.hslide .panelFigure { grid-column: 2; grid-row: 1 / span 3; align-self: end; margin-top: 0; }
+.hbar { margin-inline: var(--edge); height: 1px; background: var(--border); }
+.hbar span { display: block; height: 100%; background: var(--text-strong); transform-origin: 0 50%; transform: scaleX(var(--progress, 0)); }
+@media (max-height: 760px) {
+  .hslide .panelText { font-size: var(--step-small); }
+}
+
+.coolingFigure { display: grid; gap: 0.7rem; padding-top: 1.4rem; font-size: var(--step-small); }
+.coolingRow { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 3rem; align-items: center; gap: 0.75rem; color: var(--muted); }
+.coolingRow > :last-child { text-align: right; color: var(--text-strong); font-weight: 600; }
+.coolingBar { display: block; height: 8px; background: linear-gradient(var(--border-strong), var(--border-strong)) 0 0 / var(--w) 100% no-repeat, var(--track); }
+.coolingRow[data-active='true'] { color: var(--text-strong); }
+.coolingRow[data-active='true'] .coolingBar { background: linear-gradient(var(--highlight), var(--highlight)) 0 0 / var(--w) 100% no-repeat, var(--track); }
+
+/* ======================================================================
+   Seams: dusk (linen -> night) at the top of chapter 03, dawn (night -> linen) at the top of chapter 05.
+   ====================================================================== */
+.seamDusk, .seamDawn { --seam: clamp(6rem, 12vh, 9rem); background-repeat: no-repeat; background-size: 100% var(--seam); }
+/* Short seams: the colour shift happens behind the chapter's opening lines,
+   and the eyebrow starts only once the ground is dark (dusk) or light (dawn)
+   enough for its text colour, so there is no empty gradient band. */
+.seamDusk {
+  background-image: linear-gradient(180deg, #e9e4da 0%, #d8cbb7 18%, #6f6f86 40%, #2b3a67 58%, #050b16 100%);
+  padding-top: calc(var(--seam) * 0.62 + clamp(1.5rem, 1rem + 1.5vw, 2.5rem)) !important;
+}
+.seamDawn {
+  background-image: linear-gradient(180deg, #050b16 0%, #2b3a67 20%, #8d8794 36%, #d8cbb7 50%, #e9e4da 64%);
+  padding-top: calc(var(--seam) * 0.64 + clamp(1.5rem, 1rem + 1.5vw, 2.5rem)) !important;
+}
+
+/* ======================================================================
+   05 Compare
+   ====================================================================== */
+.compare { padding-block: clamp(6rem, 3rem + 8vw, 10rem) clamp(3rem, 2rem + 4vw, 6rem); background-color: var(--linen); overflow-x: clip; }
+.compareGrid { display: grid; gap: var(--space-2xl); }
+.compareTitle { margin-block: var(--space-md); font-size: clamp(2.5rem, 1.4rem + 4vw, 5.5rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 340; max-width: 9ch; }
+.compareIntro :global(.lead) { font-size: var(--step-body); }
+.compareProfile {
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--warm-white);
+  border-left: 2px solid var(--text-strong);
+  font-size: var(--step-small);
+  color: var(--text-strong);
+}
+.compareProfileLabel { display: block; font-size: var(--step-xs); font-weight: 600; color: var(--muted); margin-bottom: 0.15rem; }
+.compareActions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); margin-top: var(--space-xl); }
+.compareSwipe { display: none; margin-bottom: var(--space-xs); font-size: var(--step-xs); color: var(--muted); }
+@media (max-width: 699px) {
+  .compareSwipe { display: block; }
+}
+
+.compareTableWrap { min-width: 0; }
+.compareTableWrap :global(.table-scroll) {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.compareTableWrap :global(.table-scroll):focus-visible { outline-offset: 2px; }
+.compareTable { min-width: 34rem; font-size: var(--step-small); table-layout: fixed; }
+.compareTable th, .compareTable td { padding: 0.8rem 0.9rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+.compareTable tbody tr:last-child > * { border-bottom: 0; }
+.compareTable thead th, .compareTable thead td { vertical-align: bottom; padding-top: 1.1rem; border-bottom-color: var(--border-strong); }
+.compareTable tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  width: 24%;
+  background: var(--surface);
+  font-weight: 500;
+  color: var(--muted);
+}
+.compareCorner { font-size: var(--step-xs); font-weight: 400; color: var(--muted); position: sticky; left: 0; background: var(--surface); z-index: 1; }
+.compareCol { font-weight: 400; }
+.compareRank, .compareBrand { display: block; font-size: var(--step-xs); color: var(--muted); }
+.compareRank { font-variant-numeric: tabular-nums; margin-bottom: 0.25rem; }
+.compareName {
+  display: inline-block;
+  margin-top: 0.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
+  line-height: 1.15;
+  color: var(--text-strong);
+}
+.compareScoreRow td { padding-block: 1rem; }
+.compareScore { display: block; font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 1.6rem + 1.8vw, 3.25rem); line-height: 0.95; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.compareTier { display: block; margin-top: 0.3rem; font-size: var(--step-xs); color: var(--muted); }
+.compareBest { color: var(--accent-text); font-weight: 600; }
+.compareDim { display: grid; grid-template-columns: minmax(2.5rem, 1fr) auto; align-items: center; gap: 0.25rem 0.6rem; color: var(--text-strong); }
+.compareBar {
+  height: 3px;
+  background: linear-gradient(var(--border-strong), var(--border-strong)) 0 0 / calc(var(--v) * 100%) 100% no-repeat, var(--track);
+}
+.compareDim[data-best='true'] .compareBar { background: linear-gradient(var(--accent), var(--accent)) 0 0 / calc(var(--v) * 100%) 100% no-repeat, var(--track); }
+.compareBar[data-estimated='true'] {
+  background: repeating-linear-gradient(to right, var(--border-strong) 0 4px, transparent 4px 7px) 0 0 / calc(var(--v) * 100%) 100% no-repeat, var(--track);
+}
+.compareBestMark { color: var(--accent-text); font-size: 0.75em; }
+.compareEst { grid-column: 1 / -1; font-size: var(--step-xs); color: var(--muted); }
+.compareFlag [data-severity='warning'], .compareFlag [data-severity='caution'] { color: var(--warning-text); font-weight: 600; }
+.compareNote { margin-top: var(--space-sm); font-size: var(--step-xs); color: var(--muted); }
+
+/* Phones: the table snaps one mattress column at a time, the row labels stay put. */
+@media (max-width: 699px) {
+  .compareTableWrap :global(.table-scroll) { scroll-snap-type: x mandatory; scroll-padding-left: 7.5rem; }
+  .compareTable { min-width: calc(7.5rem + 3 * 13.5rem); }
+  .compareTable tbody th, .compareCorner { width: 7.5rem; }
+  .compareCol { scroll-snap-align: start; }
+}
+@media (min-width: 1100px) {
+  .compareGrid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--split-gap); align-items: start; }
+  .compareIntro { position: sticky; top: calc(var(--nav-h) + var(--space-lg)); }
+}
+
+/* Discover by how you sleep */
+.sleepDiscover { margin-top: clamp(5rem, 3rem + 6vw, 9rem); }
+.sleepHead { display: grid; gap: 0.5rem; }
+.sleepTitle { font-size: clamp(2rem, 1.3rem + 2.6vw, 3.75rem); line-height: 1; letter-spacing: -0.03em; font-weight: 360; }
+.sleepLead { max-width: 46ch; color: var(--muted); }
+.sleepCard { display: grid; gap: 0.45rem; height: 100%; color: inherit; text-decoration: none; border-radius: var(--r-xs); }
+.sleepMedia { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r-card); background: var(--warm-white); margin-bottom: 0.5rem; }
+.sleepMedia :global(img) { transition: transform 600ms cubic-bezier(0.2, 0.7, 0, 1); }
+.sleepTag { position: absolute; left: 0.7rem; top: 0.7rem; }
+.sleepName { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 0.9vw, 2rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--text-strong); }
+.sleepName svg { width: 1.3rem; height: 1.3rem; flex: none; transition: transform var(--motion-1-dur) var(--ease-out); }
+.sleepCount { font-size: var(--step-small); color: var(--muted); }
+.sleepTop { display: grid; gap: 0.1rem; margin-top: 0.4rem; padding-top: 0.6rem; border-top: 1px solid var(--border); }
+.sleepTopLabel { font-size: var(--step-xs); font-weight: 600; color: var(--highlight-text); }
+.sleepTopName { font-weight: 600; color: var(--text-strong); }
+.sleepTopName .tabular { margin-left: 0.35rem; font-family: var(--font-display); font-weight: 400; }
+.sleepProfile { font-size: var(--step-xs); color: var(--muted); }
+.sleepCard:hover .sleepName svg, .sleepCard:focus-visible .sleepName svg { transform: translate(3px, -3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .sleepCard:hover .sleepMedia :global(img) { transform: scale(1.04); }
+}
+
+/* ======================================================================
+   06 Choose
+   ====================================================================== */
+.choose { position: relative; }
+.chooseLinen { padding-block: clamp(3rem, 2rem + 4vw, 6rem) clamp(4rem, 2rem + 6vw, 8rem); }
+.chooseHeader { display: grid; gap: var(--space-md); margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+.chooseTitle { font-size: clamp(2.5rem, 1.4rem + 4vw, 5.5rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 340; max-width: 12ch; }
+.chooseAll { justify-self: start; }
+@media (min-width: 900px) {
+  .chooseHeader { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .chooseHeader > :first-child { grid-column: 1 / -1; }
+}
+
+.guidesSpread { display: grid; gap: var(--space-2xl); }
+.guideLeadLink { display: grid; gap: 0.5rem; color: inherit; text-decoration: none; }
+/* Only spacing and radius: GuideCover's .lead grid (diagram 3fr | still 2fr,
+   16:9) must stay intact. min-height lets the cover grow past 16:9 when the
+   comfort-window chart needs more room (around 1024px) instead of clipping
+   its axis labels. */
+.guideLeadLink .guideLeadArt {
+  margin-bottom: var(--space-md);
+  min-height: min-content;
+  border-radius: var(--r-card);
+}
+.guideLeadWord {
+  position: absolute;
+  left: -0.04em;
+  bottom: -0.18em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3.5rem, 1rem + 9vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--linen);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  transition: transform var(--dur-5) var(--ease-out);
+}
+.guideLeadNo { position: absolute; top: var(--space-md); right: var(--space-md); font-size: var(--step-small); color: var(--moon-muted); font-variant-numeric: tabular-nums; }
+.guideCat { font-size: var(--step-xs); font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+.guideLeadTitle { font-family: var(--font-display); font-size: clamp(1.9rem, 1.3rem + 2vw, 3.25rem); line-height: 1.04; letter-spacing: -0.025em; color: var(--text-strong); }
+.guideLeadText { max-width: 52ch; color: var(--muted); }
+.guideRead { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: var(--text-strong); }
+.guideRead svg { width: 1.1rem; height: 1.1rem; transition: transform var(--dur-3) var(--ease-out); }
+.guideLeadLink:hover .guideRead svg, .guideLeadLink:focus-visible .guideRead svg { transform: translateX(4px); }
+.guideLeadLink:hover .guideLeadTitle { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .guideLeadLink:hover .guideLeadWord { transform: translateX(2%); }
+}
+.guideList { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--text-strong); }
+.guideList > li { border-bottom: 1px solid var(--border); }
+.guideItem { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) auto; gap: var(--space-sm); padding-block: var(--space-lg); color: inherit; text-decoration: none; }
+.guideNo { font-family: var(--font-display); color: var(--muted); font-variant-numeric: tabular-nums; }
+.guideItemBody { display: grid; gap: 0.3rem; }
+.guideItemTitle { font-family: var(--font-display); font-size: var(--step-h3); line-height: 1.15; color: var(--text-strong); }
+.guideArrow { width: 1.25rem; height: 1.25rem; margin-top: 0.3rem; transition: transform var(--dur-3) var(--ease-out); }
+.guideItem:hover .guideArrow, .guideItem:focus-visible .guideArrow { transform: translateX(4px); }
+.guideItem:hover .guideItemTitle { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+@media (min-width: 900px) {
+  .guidesSpread { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--split-gap); align-items: start; }
+}
+
+.trust { margin-top: clamp(5rem, 3rem + 6vw, 9rem); padding-top: var(--space-lg); border-top: 1px solid var(--text-strong); }
+.trustTitle { font-family: var(--font-display); font-size: clamp(2.25rem, 1.4rem + 3vw, 4.5rem); line-height: 0.98; letter-spacing: -0.035em; font-weight: 340; color: var(--text-strong); }
+.trustCols { display: grid; gap: var(--space-lg) var(--gutter); margin-top: var(--space-xl); }
+.trustCols p { color: var(--muted); font-size: var(--step-small); line-height: 1.6; max-width: 42ch; }
+.trustHead { font-family: var(--font-sans); font-size: var(--step-small); font-weight: 600; letter-spacing: 0; margin-bottom: 0.4rem; color: var(--text-strong); }
+.trustLinks { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); margin-top: var(--space-xl); }
+@media (min-width: 760px) {
+  .trustCols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Final CTA on warm sand, entered through a short linen -> sand seam. */
+.final {
+  padding-block: clamp(5rem, 2rem + 9vw, 10rem) clamp(4rem, 2rem + 6vw, 8rem);
+  background-color: var(--warm-sand);
+  background-image: linear-gradient(180deg, var(--linen), var(--warm-sand) clamp(4rem, 12vh, 8rem));
+  overflow: hidden;
+}
+.finalTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 14vw, 17rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  font-weight: 330;
+  color: var(--ink-strong);
+  white-space: nowrap;
+  margin-left: -0.04em;
+}
+.finalFoot { display: grid; gap: var(--space-lg); margin-top: clamp(2rem, 1rem + 3vw, 4rem); }
+.finalText { max-width: 34ch; font-size: var(--step-lead); line-height: 1.45; color: var(--text-strong); }
+.finalActions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); }
+.ghostFlush { padding-inline: 0; }
+@media (min-width: 900px) {
+  .finalFoot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+}
+
+/* ======================================================================
+   Phones: keep the story to about a dozen screens.
+   ====================================================================== */
+@media (max-width: 699px) {
+  .seamDusk, .seamDawn { --seam: clamp(5rem, 11vh, 7rem); }
+  .guideLeadArt, .guideLeadText { display: none; }
+  .guidesSpread { gap: var(--space-lg); }
+  .guideItem { padding-block: var(--space-md); }
+  .trust { margin-top: var(--space-3xl); }
+  .trustCols { gap: var(--space-md); margin-top: var(--space-lg); }
+  .understandSub, .evidenceScale, .compareIntro :global(.lead) { display: none; }
+  .evidenceCaption { margin-top: var(--space-sm); }
+  .compareActions { margin-top: var(--space-lg); }
+  .compareGrid { gap: var(--space-xl); }
+  .sleepLead { display: none; }
+  .chooseHeader { margin-bottom: var(--space-lg); }
+  .understandRow { gap: var(--space-xl); }
+  .personal { margin-top: var(--space-3xl); }
+  .personalTitle { margin-bottom: var(--space-lg); }
+  .sleepDiscover { margin-top: var(--space-3xl); }
+}
+
+/* ======================================================================
+   Chapter rail clearance (desktop, >= 1200px, where ChapterRail shows).
+   The fixed rail sits in the left gutter, so on the homepage the gutter
+   is widened to hold it, header and footer included so the logo stays on
+   the same edge as every chapter. On hover/focus the labels open
+   *below* each number in small caps, inside that gutter, instead of as a
+   panel over the content column. These rules are unlayered, so they
+   override ChapterRail.module.css (@layer components) on this page only;
+   the selectors follow ChapterRail's markup
+   (nav > ol > li > a > span.num + span.label).
+   ====================================================================== */
+@media (min-width: 1200px) {
+  :global(html):has(.chapterRail) { --gutter: 6.75rem; }
+  /* Fixed inset so the opened labels keep >= 24px clear of the content edge. */
+  .chapterRail { left: max(0.875rem, env(safe-area-inset-left)); }
+
+  .chapterRail:hover,
+  .chapterRail:focus-within { mix-blend-mode: difference; color: #e9e4da; }
+  .chapterRail ol { gap: 0.35rem; }
+  .chapterRail:hover ol,
+  .chapterRail:focus-within ol {
+    background: none; padding: 0; margin: 0; border-radius: 0; backdrop-filter: none;
+  }
+  .chapterRail a {
+    flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.2rem;
+    min-height: 40px;
+  }
+  .chapterRail a > span:last-child {
+    font-size: 0.56rem; letter-spacing: 0.1em; line-height: 1;
+    white-space: nowrap;
+    opacity: 0; transform: translateY(-2px);
+  }
+  .chapterRail:hover a > span:last-child,
+  .chapterRail:focus-within a > span:last-child { opacity: 1; transform: none; }
+}

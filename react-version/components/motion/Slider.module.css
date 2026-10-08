@@ -1,0 +1,83 @@
+@layer components {
+  /* Slider: native scroll-snap track. --spv* = slides per view per breakpoint. */
+  .slider { --slider-gap: clamp(0.85rem, 0.5rem + 1.2vw, 1.75rem); --spv-now: var(--spv, 1.12); position: relative; min-width: 0; }
+  @media (min-width: 640px) { .slider { --spv-now: var(--spv-sm, var(--spv, 1.12)); } }
+  @media (min-width: 900px) { .slider { --spv-now: var(--spv-md, var(--spv-sm, var(--spv, 1.12))); } }
+  @media (min-width: 1200px) { .slider { --spv-now: var(--spv-lg, var(--spv-md, var(--spv-sm, var(--spv, 1.12)))); } }
+  @media (min-width: 1600px) { .slider { --spv-now: var(--spv-xl, var(--spv-lg, var(--spv-md, var(--spv-sm, var(--spv, 1.12))))); } }
+  .head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-md); margin-bottom: clamp(1.25rem, 1rem + 1vw, 2rem); }
+  .heading { min-width: 0; }
+  .viewport { position: relative; }
+  .track {
+    display: flex;
+    gap: var(--slider-gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px; /* room for focus rings */
+    cursor: grab;
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .track[data-dragging="true"] { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+  .track[data-dragging="true"] * { pointer-events: none; }
+  .track img { -webkit-user-drag: none; user-select: none; }
+  .slide {
+    flex: 0 0 calc((100% - (var(--spv-now) - 1) * var(--slider-gap)) / var(--spv-now));
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .bleed .viewport { margin-right: calc(50% - 50vw); }
+  .bleed .track { padding-right: var(--gutter); scroll-padding-right: var(--gutter); }
+  /* With the edge fade on, the viewport bleeds left into the gutter by the fade's
+     width and the track pads (and snaps) back by the same amount: the snapped
+     slide sits exactly where it did, and the left fade only ever covers content
+     that has already scrolled past it - never the active slide. */
+  .fade { --fade-w: min(clamp(1.5rem, 1rem + 3vw, 4.5rem), var(--gutter)); }
+  .fade .viewport { margin-left: calc(var(--fade-w) * -1); }
+  .fade .track { padding-left: var(--fade-w); scroll-padding-left: var(--fade-w); }
+  /* Edge fades read the section ground (--bg), so they work in every mood. */
+  .fade .viewport::before,
+  .fade .viewport::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 4px;
+    width: var(--fade-w);
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity var(--motion-1-dur) var(--ease-out);
+  }
+  .fade .viewport::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .fade .viewport::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+  .slider[data-at-start="true"] .viewport::before,
+  .slider[data-at-end="true"] .viewport::after { opacity: 0; }
+  .foot { display: flex; align-items: center; gap: var(--space-md); margin-top: clamp(1.25rem, 1rem + 1vw, 2rem); }
+  .progress { position: relative; flex: 1; height: 1px; background: var(--track); overflow: hidden; }
+  .progressFill { position: absolute; inset: 0; background: var(--highlight); transform-origin: left center; transform: scaleX(0.2); transition: transform 120ms linear; }
+  .dots { display: flex; flex: 1; gap: 0.15rem; }
+  .dot { width: 28px; height: 28px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
+  .dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); transition: transform var(--motion-1-dur) var(--ease-out), background-color var(--motion-1-dur); }
+  .dot[aria-current="true"]::before { background: var(--highlight); transform: scale(1.35); }
+  .controls { display: inline-flex; align-items: center; gap: 0.4rem; flex: none; }
+  .count { margin-right: 0.6rem; font-size: var(--step-small); color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .count strong { color: var(--text-strong); font-weight: 600; }
+  .sep { margin-inline: 0.3rem; opacity: 0.6; }
+  .btn {
+    display: inline-grid; place-items: center;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-strong);
+    transition: background-color var(--motion-1-dur) var(--ease-out), border-color var(--motion-1-dur) var(--ease-out), color var(--motion-1-dur) var(--ease-out), opacity var(--motion-1-dur);
+  }
+  .btn svg { width: 18px; height: 18px; transition: transform var(--motion-1-dur) var(--ease-out); }
+  .btn:hover:not([aria-disabled="true"]) { background: var(--text-strong); border-color: var(--text-strong); color: var(--bg); }
+  .btn:hover:not([aria-disabled="true"]):last-of-type svg { transform: translateX(2px); }
+  .btn:hover:not([aria-disabled="true"]):nth-last-of-type(2) svg { transform: translateX(-2px); }
+  /* Dim the glyph and ring, not the element: an end button keeps keyboard focus, so its focus outline must stay at full strength. */
+  .btn[aria-disabled="true"] { cursor: default; border-color: var(--border); }
+  .btn[aria-disabled="true"] svg { opacity: 0.3; }
+  @media (max-width: 639px) { .btn { width: 44px; height: 44px; } }
+}

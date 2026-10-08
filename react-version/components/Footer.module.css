@@ -1,0 +1,58 @@
+@layer components {
+  /* Footer */
+  .footer {
+    padding-top: clamp(4.5rem, 3rem + 6vw, 9rem);
+    /* --tray-h: the compare tray's height while it is open (CompareTray),
+       so the end of the page clears the fixed tray on the footer's own
+       night background instead of a linen band under it. */
+    padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom) + var(--tray-h, 0px));
+    transition: padding-bottom var(--dur-3) var(--ease-out);
+  }
+  .top {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    border-bottom: 1px solid var(--border);
+  }
+  @media (min-width: 960px) {
+    .top { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr); gap: var(--space-3xl); }
+  }
+  .statement {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 1.4rem + 3.6vw, 4.5rem);
+    font-weight: 360;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--text-strong);
+    font-variation-settings: "SOFT" 40;
+    margin-top: var(--space-lg);
+    max-width: 13ch;
+  }
+  .statement em { font-style: italic; font-weight: 300; color: var(--linen); opacity: 0.7; font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .honesty { margin-top: var(--space-md); color: var(--muted); font-size: var(--step-small); max-width: 42ch; }
+  .nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl) var(--space-lg); }
+  @media (min-width: 720px) { .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .heading {
+    font-family: var(--font-sans);
+    font-size: var(--step-eyebrow);
+    font-weight: 600;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-xs);
+    font-variation-settings: normal;
+  }
+  .links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.1rem; }
+  .links a { display: inline-block; padding: 0.35rem 0; color: var(--text); text-decoration: none; font-size: 0.95rem; }
+  .links a:hover { color: var(--text-strong); text-decoration: underline; }
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    justify-content: space-between;
+    padding-top: var(--space-lg);
+    color: var(--muted);
+    font-size: var(--step-small);
+  }
+  .bottom p { max-width: 62ch; }
+}

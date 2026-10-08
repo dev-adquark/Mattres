@@ -1,0 +1,39 @@
+@layer components {
+  /* Score bars - horizontal editorial scales: hairline track with quarter
+     ticks, a solid fill and an end marker. */
+  .bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.15rem; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-xs); font-size: var(--step-small); }
+  .label { font-weight: 600; color: var(--text-strong); display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .value { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .value strong { color: var(--text-strong); font-weight: 650; }
+  .track {
+    position: relative;
+    margin-top: 0.5rem;
+    height: 4px;
+    background:
+      linear-gradient(90deg, transparent calc(25% - 0.5px), var(--border-strong) calc(25% - 0.5px) calc(25% + 0.5px), transparent calc(25% + 0.5px) calc(50% - 0.5px), var(--border-strong) calc(50% - 0.5px) calc(50% + 0.5px), transparent calc(50% + 0.5px) calc(75% - 0.5px), var(--border-strong) calc(75% - 0.5px) calc(75% + 0.5px), transparent calc(75% + 0.5px)),
+      linear-gradient(var(--track), var(--track)) 0 50% / 100% 1px no-repeat;
+  }
+  .fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 0 2px 2px 0;
+    background: var(--data);
+    transform-origin: left center;
+    transition: transform var(--dur-5) var(--ease-out);
+  }
+  .fillEstimated {
+    background: repeating-linear-gradient(90deg, var(--data) 0 5px, transparent 5px 8px);
+  }
+  .estimated {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--warning-text);
+  }
+  .estimated svg { width: 12px; height: 12px; }
+  .note { margin-top: var(--space-sm); font-size: var(--step-xs); color: var(--muted); }
+
+  @media (forced-colors: active) {
+    .fill { forced-color-adjust: none; }
+  }
+}

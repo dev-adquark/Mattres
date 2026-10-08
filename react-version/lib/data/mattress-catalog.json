@@ -306,17 +306,6 @@
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 47,
     "firmnessLabelFromRtings": "Medium",
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness"
-    ],
     "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
@@ -561,7 +550,7 @@
       {
         "label": "editorial recognition",
         "sentiment": "positive",
-        "snippet": "One of Sleep Foundation's top-tested premium mattresses; \"exceptionally cool\" in testing."
+        "snippet": "One of Sleep Foundation's top-tested premium mattresses; it describes this one as sleeping exceptionally cool in its testing."
       }
     ],
     "reviewSources": [
@@ -871,17 +860,6 @@
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 51,
     "firmnessLabelFromRtings": "Medium-Firm",
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness"
-    ],
     "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
@@ -1104,17 +1082,6 @@
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 45,
     "firmnessLabelFromRtings": "Medium",
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness"
-    ],
     "rtingsCrossCheckedAt": "2026-09-25T11:54:51.403Z"
   },
   {
@@ -1323,19 +1290,6 @@
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 46,
     "firmnessLabelFromRtings": "Medium",
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Firmness",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness",
-      "Edge Support"
-    ],
     "rtingsCrossCheckedAt": "2026-09-25T11:54:51.403Z"
   },
   {
@@ -1474,12 +1428,12 @@
     "manufacturer": null,
     "officialProductUrl": "https://www.leesa.com/products/sapira-chill-mattress",
     "type": "hybrid",
-    "firmnessDescription": "Sold in three firmness options: Plush, Medium-Firm (\"ideal balance\"), Firm. Score below reflects the Medium-Firm option since it's presented as the balanced default.",
+    "firmnessDescription": "Sold in three firmness options: Plush, Medium-Firm (\"ideal balance\"), Firm. Score below uses the midpoint of the listed range (5.75/10), not one specific option.",
     "firmnessRange": {
       "min": 3,
       "max": 8.5
     },
-    "firmnessNote": "Multi-option product; Medium-Firm (7/10) used as the representative value because the quiz does not currently ask which firmness variant a shopper would choose.",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (3-8.5/10 = 5.75/10) because the quiz does not currently ask which firmness variant a shopper would choose. The brand presents Medium-Firm as the balanced default.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 14,
     "coreMaterialNotes": "Ultra Cool Cover (73% polyester/25% polyethylene/2% spandex); 2\" Quilt Foam; 1.5\" GreenFlex BioFoam (3lb, USDA BioPreferred); 1\" Responsive Foam; 1\" Transition Support Foam; 8\" Zoned Lumbar Springs; 0.75\" Durable Support Foam",
@@ -1540,12 +1494,12 @@
     "manufacturer": "Bear Mattress",
     "officialProductUrl": "https://www.bearmattress.com/products/elite-hybrid-mattress",
     "type": "hybrid",
-    "firmnessDescription": "Sold in three firmness options: Soft (5/10), Medium (6/10, \"most popular\"), Firm (7/10). Score below reflects the Medium option.",
+    "firmnessDescription": "Sold in three firmness options: Soft (5/10), Medium (6/10, \"most popular\"), Firm (7/10). Score below uses the midpoint of the listed range (6/10), which lines up with the Medium option.",
     "firmnessRange": {
       "min": 5,
       "max": 7
     },
-    "firmnessNote": "Multi-option product; Medium (6/10) used as the representative value since the manufacturer names it the most popular option.",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (5-7/10 = 6/10) because the quiz does not currently ask which firmness variant a shopper would choose. That midpoint lines up with Medium, which the manufacturer names its most popular option.",
     "firmnessSource": "stated_numeric_range_representative",
     "heightIn": 14,
     "coreMaterialNotes": "Quilted Celliant Infrared Cover; Quilt Foam with optional cooling layer; Copper-Infused Memory Foam; Responsive Comfort Foam; Dynamic Transition Foam; 8\" Zoned Ascension Coils; DuraDense Base Foam",
@@ -1611,17 +1565,6 @@
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 51,
     "firmnessLabelFromRtings": "Medium-Firm",
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness"
-    ],
     "rtingsCrossCheckedAt": "2026-09-25T11:54:51.405Z"
   },
   {
@@ -1706,12 +1649,12 @@
     "manufacturer": "PlushBeds",
     "officialProductUrl": "https://www.plushbeds.com/products/the-botanical-bliss-organic-latex-mattress",
     "type": "latex",
-    "firmnessDescription": "Medium (~75% of customers, \"ideal for side sleepers\") or Medium-Firm (~25%, \"ideal for back/stomach sleepers\"); dual-firmness split option also offered. Score below reflects the Medium option (majority preference).",
+    "firmnessDescription": "Medium (~75% of customers, \"ideal for side sleepers\") or Medium-Firm (~25%, \"ideal for back/stomach sleepers\"); dual-firmness split option also offered. Score below uses the midpoint of the listed range (6.25/10), not one specific option.",
     "firmnessRange": {
       "min": 5.5,
       "max": 7
     },
-    "firmnessNote": "Multi-option product; Medium used as the representative value since the manufacturer states it is preferred by ~75% of customers.",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (5.5-7/10 = 6.25/10) because the quiz does not currently ask which firmness variant a shopper would choose. The brand states Medium is preferred by ~75% of customers.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 10,
     "heightNote": "Sold in 9\", 10\", or 12\" profile options; 10\" (the middle option) used as the representative height and matched to the price recorded below.",
@@ -1780,12 +1723,12 @@
     "manufacturer": "Silk & Snow",
     "officialProductUrl": "https://www.silkandsnow.com/en-ca/mattress/",
     "type": "foam",
-    "firmnessDescription": "Sold in three firmness options on Silk & Snow's own 8-point scale: Plush (4/8), Medium-Firm (6/8, recommended for back/side sleepers), Firm (7/8). Score below reflects Medium-Firm, scaled to this site's 1-10 range (6/8 * 1.25 = 7.5).",
+    "firmnessDescription": "Sold in three firmness options on Silk & Snow's own 8-point scale: Plush (4/8), Medium-Firm (6/8, recommended for back/side sleepers), Firm (7/8). Converted to this site's 1-10 range that is 5-8.75/10; score below uses the midpoint of the converted range (6.875/10), not one specific option.",
     "firmnessRange": {
       "min": 5,
       "max": 8.75
     },
-    "firmnessNote": "Silk & Snow's own firmness scale is 1-8, not 1-10; converted by proportional scaling (multiply by 1.25), not independently measured. Multi-option product; Medium-Firm used as the representative value.",
+    "firmnessNote": "Silk & Snow's own firmness scale is 1-8, not 1-10; converted by proportional scaling (multiply by 1.25), not independently measured. Multi-option product; the score uses the midpoint of the converted range (5-8.75/10 = 6.875/10) because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "brand_scale_converted",
     "heightIn": null,
     "heightNote": "Height varies 9\"-12\" by firmness option; no single height recorded.",
@@ -1923,17 +1866,6 @@
     "lastVerifiedAt": "2026-09-25",
     "sourceCheckedAt": "2026-09-25",
     "firmnessPaPerMm": 47,
-    "rtingsRecommendedFor": [
-      "Side Sleeping",
-      "Back Sleeping",
-      "Stomach Sleeping",
-      "Longevity",
-      "Pressure Relief",
-      "Support",
-      "Cooling",
-      "Motion Dissipation",
-      "Responsiveness"
-    ],
     "rtingsCrossCheckedAt": "2026-09-26",
     "rtingsIdentityResolutionNote": "RTINGS's generic listing \"Big Fig Mattress\" (brandSlug big-fig, modelSlug \"mattress\") was resolved as this entry: RTINGS's own scraped Mattress Type (Hybrid) and comfort-foam material (Latex) match this entry's official-source-verified type and materials exactly, and Big Fig has no other current product line this listing could instead refer to (confirmed via official-site research - Classic is its sole mattress model). Resolved via rtings_review_required, not silently auto-merged by the identity matcher."
   },
@@ -2097,12 +2029,12 @@
     "manufacturer": "Avocado Green Mattress",
     "officialProductUrl": "https://www.avocadogreenmattress.com/products/green-natural-organic-mattress",
     "type": "hybrid",
-    "firmnessDescription": "Sold in three firmness options: Firm (back/stomach sleepers), Medium (all sleep positions, most popular), Plush (side/back/combo). Score below reflects Medium.",
+    "firmnessDescription": "Sold in three firmness options: Firm (back/stomach sleepers), Medium (all sleep positions, most popular), Plush (side/back/combo). Score below uses the midpoint of the listed range (5.75/10), not one specific option.",
     "firmnessRange": {
       "min": 3,
       "max": 8.5
     },
-    "firmnessNote": "Multi-option product; no numeric scale stated by the brand; Medium used as the representative value (manufacturer's stated most-popular option).",
+    "firmnessNote": "Multi-option product; no numeric scale stated by the brand. The score uses the midpoint of the full range (3-8.5/10 = 5.75/10) because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 11,
     "heightNote": "Firm 11.5\", Medium 11\", Plush 13\" - height varies by firmness option.",
@@ -2170,12 +2102,12 @@
     "manufacturer": "Sleep On Latex",
     "officialProductUrl": "https://sleeponlatex.com/products/hybrid-mattress",
     "type": "hybrid",
-    "firmnessDescription": "Medium (most popular) or Firm; no numeric scale stated by the brand. Score below reflects Medium.",
+    "firmnessDescription": "Medium (most popular) or Firm; no numeric scale stated by the brand. Score below uses the midpoint of the listed range (7/10), not one specific option.",
     "firmnessRange": {
       "min": 5.5,
       "max": 8.5
     },
-    "firmnessNote": "Multi-option product; Medium used as the representative value.",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (5.5-8.5/10 = 7/10) because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": 13,
     "coreMaterialNotes": "4\" GOLS-certified organic latex foam; 8\" steel pocket-spring core (1,000-coil density, individually encased, unglued); organic cotton brushed-twill encasing; organic wool batting; organic hemp buffer layer. Certifications: GOTS, GOLS, Fair For Life Fair Trade Latex, Greenguard Gold.",
@@ -2226,12 +2158,12 @@
     "manufacturer": "Sleep On Latex",
     "officialProductUrl": "https://sleeponlatex.com/products/natural-latex-mattress",
     "type": "latex",
-    "firmnessDescription": "Medium or Firm; no numeric scale stated by the brand. Score below reflects Medium.",
+    "firmnessDescription": "Medium or Firm; no numeric scale stated by the brand. Score below uses the midpoint of the listed range (7/10), not one specific option.",
     "firmnessRange": {
       "min": 5.5,
       "max": 8.5
     },
-    "firmnessNote": "Multi-option product; Medium used as the representative value. Confirmed genuinely distinct from Sleep On Latex's own Hybrid model (all-latex, no coils, vs. latex+coil hybrid construction).",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (5.5-8.5/10 = 7/10) because the quiz does not currently ask which firmness variant a shopper would choose. Confirmed genuinely distinct from Sleep On Latex's own Hybrid model (all-latex, no coils, vs. latex+coil hybrid construction).",
     "firmnessSource": "label_mapped_range_representative",
     "heightIn": null,
     "coreMaterialNotes": "8\" solid organic latex foam (comfort+base); organic cotton knit face; organic wool batting; organic cotton quilt backing. Certifications: GOLS, GOTS, Fair For Life Fair Trade Latex, Oeko-Tex Standard 100, Greenguard Gold. NOTE: independent Sleep Foundation review states \"6 inches of Dunlop latex\" vs. the brand's own stated 8\" - conflicting figures, both recorded, not reconciled.",
@@ -2442,12 +2374,12 @@
     "manufacturer": "Brooklyn Bedding",
     "officialProductUrl": "https://brooklynbedding.com/products/signature-hybrid",
     "type": "hybrid",
-    "firmnessDescription": "Sold in three firmness options: Soft (4/10), Medium (6/10), Firm (8/10) - firmness numbers per an independent Sleep Foundation cross-check, not stated numerically on the Brooklyn Bedding page itself. Score below reflects Medium.",
+    "firmnessDescription": "Sold in three firmness options: Soft (4/10), Medium (6/10), Firm (8/10) - firmness numbers per an independent Sleep Foundation cross-check, not stated numerically on the Brooklyn Bedding page itself. Score below uses the midpoint of the listed range (6/10), which lines up with the Medium option.",
     "firmnessRange": {
       "min": 4,
       "max": 8
     },
-    "firmnessNote": "Multi-option product; Medium (6/10) used as the representative value.",
+    "firmnessNote": "Multi-option product; the score uses the midpoint of the full range (4-8/10 = 6/10) because the quiz does not currently ask which firmness variant a shopper would choose.",
     "firmnessSource": "independent_numeric_range_representative",
     "heightIn": 13.25,
     "heightNote": "13.25\" standard; 14\" with pillow-top upgrade.",

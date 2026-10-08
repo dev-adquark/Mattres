@@ -1,0 +1,55 @@
+@layer components {
+  /* 10. Compare ----------------------------------------------------------- */
+  .toggle { position: relative; z-index: 1; display: inline-grid; gap: 0.25rem; justify-items: start; }
+  /* Borderless tinted token (no 1px pill); always one line. */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    min-height: 38px;
+    padding: 0 0.9rem 0 0.7rem;
+    border-radius: var(--r-pill);
+    border: 1px solid transparent;
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+    color: var(--text);
+    font-size: var(--step-small);
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+    transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+  }
+  .btn:hover { background: color-mix(in srgb, var(--text) 13%, transparent); color: var(--text-strong); }
+  .label { white-space: nowrap; }
+  .box { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: var(--r-xs); border: 1.5px solid currentColor; flex: none; }
+  .box svg { width: 13px; height: 13px; opacity: 0; transition: opacity var(--dur-1) linear; }
+  .btn[aria-pressed="true"] { background: var(--text-strong); color: var(--bg); }
+  .btn[aria-pressed="true"] .box svg { opacity: 1; }
+
+  /* Under 1100px: a compact checkbox with a one-word caption, 44px tall
+     target, no pill. The full label remains the accessible name
+     (aria-label on the button). */
+  .short { display: none; }
+  @media (max-width: 1099.98px) {
+    .btn[data-collapse="true"] { min-height: 44px; padding: 0 0.5rem 0 0.15rem; gap: 0.45rem; border-radius: var(--r-sm); background: transparent; color: var(--text-strong); font-size: var(--step-xs); }
+    .btn[data-collapse="true"]:hover { background: color-mix(in srgb, var(--text) 8%, transparent); }
+    .btn[data-collapse="true"] .label { display: none; }
+    .btn[data-collapse="true"] .short { display: inline; }
+    .btn[data-collapse="true"] .box { width: 20px; height: 20px; }
+    .btn[data-collapse="true"][aria-pressed="true"] { background: transparent; color: var(--text-strong); }
+    .btn[data-collapse="true"][aria-pressed="true"] .box { background: var(--text-strong); border-color: var(--text-strong); color: var(--bg); }
+  }
+  /* The limit message floats under the button instead of growing the card's action
+     row, so nothing around it moves when it appears. */
+  .msg { font-size: var(--step-xs); color: var(--warning-text); font-weight: 500; }
+  .msg:empty { display: none; }
+  .msg:not(:empty) {
+    position: absolute; top: calc(100% + 4px); inset-inline-end: 0; z-index: 4;
+    width: max-content; max-width: min(17rem, 80vw);
+    padding: 0.4rem 0.65rem;
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--r-sm);
+    box-shadow: 0 6px 18px rgb(5 11 22 / 0.18);
+    text-align: start;
+  }
+
+  @media (forced-colors: active) {
+    .btn { border: 1px solid CanvasText; }
+  }
+}

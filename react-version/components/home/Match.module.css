@@ -1,0 +1,253 @@
+/* Chapter 03 - Match: split 5/7, sticky controls, live surface, result, score anatomy. Night ink ground. */
+
+.match { padding-block: clamp(6rem, 3rem + 8vw, 10rem) clamp(3rem, 2rem + 4vw, 6rem); background-color: var(--night-ink); }
+
+.grid { display: grid; gap: var(--space-2xl); }
+.title {
+  margin-top: var(--space-md);
+  font-size: clamp(2.5rem, 1.5rem + 3.6vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  font-weight: 360;
+  max-width: 13ch;
+}
+.title em { font-style: italic; font-weight: 300; color: var(--linen); font-variation-settings: "SOFT" 100, "WONK" 1; }
+
+.fieldset { margin: var(--space-xl) 0 0; padding: 0; border: 0; min-width: 0; display: grid; gap: var(--space-sm); }
+.legend { padding: 0; font-weight: 600; color: var(--text-strong); font-size: var(--step-body); }
+.firmValue { margin-left: 0.4em; font-family: var(--font-display); font-weight: 400; font-style: italic; color: var(--highlight-text); }
+
+/* Position cards: the glyph fills ~60% of the card height. */
+.positions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+.position { position: relative; display: block; cursor: pointer; }
+.positionInput { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.positionCard {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.35rem;
+  height: 7.25rem;
+  padding: 0.75rem 0.85rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: transparent;
+  transition: border-color var(--motion-1-dur) var(--ease-out), background-color var(--motion-1-dur) var(--ease-out);
+}
+.glyph { align-self: center; width: 100%; height: 100%; max-height: 4.4rem; }
+.positionLabel { font-size: var(--step-small); font-weight: 600; color: var(--muted); }
+.position:hover .positionCard { border-color: var(--border-strong); }
+.positionInput:checked + .positionCard { border-color: var(--signal-amber); background: rgb(242 180 90 / 0.06); }
+.positionInput:checked + .positionCard .positionLabel { color: var(--text-strong); }
+.positionInput:focus-visible + .positionCard { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.range { margin-top: var(--space-2xs); }
+.lead { margin-top: var(--space-md); max-width: 40ch; font-size: var(--step-small); line-height: 1.55; color: var(--muted); }
+
+/* Body / temperature / sharing: three compact segmented rows (radio groups). */
+.profileRows { display: grid; gap: var(--space-sm); margin-top: var(--space-xl); }
+.segRow { display: grid; gap: 0.4rem; margin: 0; padding: 0; border: 0; min-width: 0; }
+.segLegend { padding: 0; margin-bottom: 0.4rem; font-size: var(--step-xs); font-weight: 600; letter-spacing: 0.02em; color: var(--muted); }
+.seg { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 0.35rem; }
+.segOption { position: relative; display: block; min-width: 0; cursor: pointer; }
+.segInput { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.segFace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 3.25rem;
+  height: 100%;
+  padding: 0.4rem 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  color: var(--muted);
+  text-align: center;
+  transition: border-color var(--motion-1-dur) var(--ease-out), background-color var(--motion-1-dur) var(--ease-out), color var(--motion-1-dur) var(--ease-out);
+}
+.segIcon { width: 1.05rem; height: 1.05rem; flex: none; stroke-width: 1.6; }
+/* Abstract marks for pain focus and edge use (no human figures). */
+.segMark { width: 1.5rem; height: 1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+.segMark [data-on='false'] { opacity: 0.4; }
+.segMark circle[data-on='true'], .segMark rect[data-on='true'] { fill: currentColor; stroke: none; }
+.segInput:checked + .segFace .segMark { color: var(--signal-amber); }
+.resultPending { color: var(--muted); }
+.segIcon rect { fill: currentColor; opacity: 0.28; }
+.segIcon rect[data-on='true'] { opacity: 1; }
+.segLabel { font-size: var(--step-xs); font-weight: 600; line-height: 1.2; color: inherit; font-variant-numeric: tabular-nums; }
+.segOption:hover .segFace { border-color: var(--border-strong); }
+.segInput:checked + .segFace { border-color: var(--signal-amber); background: rgb(242 180 90 / 0.06); color: var(--text-strong); }
+.segInput:checked + .segFace .segIcon { color: var(--signal-amber); }
+.segInput:focus-visible + .segFace { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.rangeScale { margin-top: -4px; }
+
+/* Stage column */
+.stage { display: grid; gap: clamp(2.5rem, 2rem + 3vw, 5rem); min-width: 0; }
+.surfaceFigure { margin: 0; }
+.surface { width: 100%; }
+.surfaceCaption { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.35rem 0.75rem; align-items: baseline; margin-top: var(--space-sm); font-size: var(--step-small); color: var(--text); }
+.alignDot { width: 8px; height: 8px; border-radius: 50%; background: var(--data); translate: 0 -1px; }
+.alignDot[data-align='softer'], .alignDot[data-align='firmer'] { background: var(--signal-amber); }
+.illus { grid-column: 2; font-size: var(--step-xs); color: var(--muted); }
+
+.result { display: grid; gap: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border-strong); }
+.resultKicker { font-size: var(--step-small); color: var(--muted); }
+.resultBody { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-lg); align-items: start; }
+.resultNumber {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(5rem, 3rem + 6vw, 9rem);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  color: var(--signal-amber);
+  font-variant-numeric: tabular-nums;
+}
+.resultText { display: grid; gap: 0.4rem; min-width: 0; }
+.resultTier { font-weight: 600; color: var(--text-strong); font-size: var(--step-small); }
+.resultName { font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem); line-height: 1.06; letter-spacing: -0.02em; }
+.resultMeta { font-size: var(--step-small); color: var(--muted); }
+.reasons { list-style: none; margin: var(--space-xs) 0 0; padding: 0; border-top: 1px solid var(--border); }
+.reasons li { position: relative; padding: 0.7rem 0 0.7rem 1.3rem; border-bottom: 1px solid var(--border); font-size: var(--step-small); line-height: 1.55; }
+.reasons li::before { content: ""; position: absolute; left: 0; top: calc(0.7rem + 0.7em); width: 0.55rem; height: 1px; background: var(--signal-amber); }
+.resultCount { margin-top: var(--space-2xs); font-size: var(--step-small); color: var(--muted); }
+.resultActions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); }
+.resultNote { flex: 1 1 18rem; font-size: var(--step-xs); color: var(--muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .resultBody { animation: resultIn 520ms var(--motion-3-ease) both; }
+}
+@keyframes resultIn { from { transform: translate3d(0, 10px, 0); opacity: 0.4; } }
+
+@media (max-width: 559px) {
+  .resultBody { grid-template-columns: 1fr; gap: var(--space-sm); }
+  .resultNumber { font-size: 5.5rem; }
+}
+
+@media (min-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(3rem, 2rem + 4vw, 7rem); align-items: start; }
+  .controls { align-self: stretch; }
+  .title { font-size: clamp(2.5rem, 1.25rem + 3vw, 4.25rem); }
+  .fieldset { margin-top: var(--space-lg); }
+  .profileRows { margin-top: var(--space-lg); gap: 0.6rem; }
+  .stage { padding-top: clamp(4rem, 2rem + 6vw, 9rem); }
+}
+@media (min-width: 1200px) {
+  .segRow { grid-template-columns: 7rem minmax(0, 1fr); align-items: center; column-gap: var(--space-sm); }
+  .segLegend { float: left; margin: 0; }
+  .positions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .positionCard { height: 6.5rem; padding: 0.6rem 0.65rem; }
+}
+/* 1200-1439px: the homepage gutter is widened for the chapter rail
+   (Home.module.css), so the controls take half the row here; otherwise the
+   four position cards get too narrow for "Combination". */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.5rem; }
+  .positionCard { padding-inline: 0.55rem; }
+}
+/* Sticky only when the whole control column (~1060px wide-desktop, ~1220px at
+   900-1199px) fits in the viewport below the header; otherwise both columns scroll. */
+@media (min-width: 1200px) and (min-height: 1150px), (min-width: 900px) and (min-height: 1380px) {
+  .sticky { position: sticky; top: calc(var(--nav-h) + var(--space-md)); }
+}
+@media (min-width: 900px) and (max-height: 820px) {
+  .title { font-size: clamp(2.5rem, 1.5rem + 2.6vw, 4rem); }
+  .fieldset { margin-top: var(--space-lg); }
+  .positionCard { height: 6.25rem; }
+}
+
+/* ---------- Score anatomy: its own full-width row under the split ---------- */
+.anatomy { display: grid; gap: var(--space-lg); margin-top: clamp(4rem, 2rem + 6vw, 9rem); padding-top: var(--space-xl); border-top: 1px solid var(--border-strong); }
+.anatomyHead { display: grid; gap: var(--space-sm); }
+.anatomyTitle { font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; font-weight: 360; max-width: 16ch; }
+.anatomyTitle em { font-style: italic; font-weight: 300; color: var(--linen); font-variation-settings: "SOFT" 100, "WONK" 1; }
+.anatomyLead { max-width: 52ch; color: var(--muted); }
+.presetBar { display: grid; gap: var(--space-xs); }
+.presetLabel { font-size: var(--step-xs); font-weight: 600; color: var(--muted); }
+.presetChips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.presetChips :global(.chip) { white-space: normal; text-align: left; line-height: 1.25; padding-block: 0.45rem; }
+
+.anatomyBody { display: grid; gap: var(--space-lg); align-items: center; }
+.ringFigure { position: relative; margin: 0 auto; width: min(320px, 100% - 32px); aspect-ratio: 1; }
+.ring { width: 100%; height: 100%; overflow: visible; }
+.ringTrack { fill: none; stroke: var(--track); stroke-width: 16; }
+.ringArc { fill: none; stroke-width: 16; transition: stroke-dasharray var(--motion-3-dur) var(--motion-3-ease), stroke-dashoffset var(--motion-3-dur) var(--motion-3-ease), opacity var(--motion-1-dur), stroke-width var(--motion-1-dur); }
+.ringArc[data-dim='pressureRelief'], .swatch[data-dim='pressureRelief'] { stroke: #e9e4da; background: #e9e4da; }
+.ringArc[data-dim='support'], .swatch[data-dim='support'] { stroke: #8adfe9; background: #8adfe9; }
+.ringArc[data-dim='heat'], .swatch[data-dim='heat'] { stroke: #f2b45a; background: #f2b45a; }
+.ringArc[data-dim='motion'], .swatch[data-dim='motion'] { stroke: #8f9bc4; background: #8f9bc4; }
+.ringArc[data-dim='edge'], .swatch[data-dim='edge'] { stroke: #b9a888; background: #b9a888; }
+.ringArc[data-dim='durability'], .swatch[data-dim='durability'] { stroke: #56658f; background: #56658f; }
+.swatch[data-dim='penalty'] { background: transparent; border: 1px dashed var(--signal-amber); }
+.ring:has(.ringArc[data-active='true']) .ringArc:not([data-active='true']) { opacity: 0.28; }
+.ringArc[data-active='true'] { stroke-width: 22; }
+.ringPenalty { fill: none; stroke: var(--signal-amber); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 2 4; }
+.ringCenter { position: absolute; inset: 20%; border-radius: 50%; background: var(--night-ink); display: grid; place-content: center; justify-items: center; text-align: center; pointer-events: none; }
+.ringValue { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.75rem, 2rem + 2.5vw, 4.25rem); line-height: 0.9; letter-spacing: -0.04em; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.ringLabel { margin-top: 0.4rem; max-width: 13ch; font-size: var(--step-xs); color: var(--text-strong); }
+
+.weightList { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--text-strong); }
+.weightRow {
+  display: grid;
+  grid-template-columns: 0.6rem minmax(0, 1fr) auto;
+  column-gap: var(--space-sm);
+  align-items: baseline;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--motion-1-dur) var(--ease-out);
+}
+.weightRow[data-active='true'] { background: var(--accent-soft); }
+.swatch { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 50%; }
+.weightName { font-weight: 500; color: var(--text-strong); font-size: var(--step-small); }
+.weightValue { font-family: var(--font-display); font-size: 1.5rem; line-height: 1; color: var(--text-strong); font-variant-numeric: tabular-nums; text-align: right; }
+.weightDelta { grid-column: 2 / -1; font-size: var(--step-xs); color: var(--muted); }
+.weightDelta:empty { display: none; }
+.weightPenalty { border-bottom-style: dashed; }
+.weightPenalty .weightValue { font-size: 1.05rem; color: var(--warning-text); }
+
+.tierStrip { display: grid; gap: var(--space-xs); }
+.tiers { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--border); border: 1px solid var(--border); }
+.tiers li { display: grid; gap: 0.15rem; align-content: start; padding: 0.6rem clamp(0.35rem, 1vw, 0.75rem); background: var(--bg); font-size: 0.72rem; line-height: 1.3; color: var(--muted); }
+.tiers li > :first-child { font-family: var(--font-display); font-size: 1.25rem; color: var(--text-strong); line-height: 1; }
+.anatomyLink { justify-self: start; margin-top: var(--space-sm); }
+
+@media (min-width: 640px) {
+  .anatomyBody { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .ringFigure { width: 100%; max-width: 320px; }
+}
+
+/* Desktop: head left / presets right, then ring (~45%) beside the weight list, tiers across all twelve columns. */
+@media (min-width: 900px) {
+  .anatomy {
+    grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+    column-gap: clamp(3rem, 2rem + 4vw, 7rem);
+    row-gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+    padding-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  }
+  .anatomyTitle { font-size: clamp(2.75rem, 1.4rem + 3vw, 4.75rem); line-height: 0.96; max-width: 12ch; }
+  .presetBar { align-self: end; }
+  .anatomyBody { grid-column: 1 / -1; grid-template-columns: subgrid; }
+  .ringFigure { width: min(100%, 27rem); max-width: none; margin: 0 auto; }
+  .ringLabel { font-size: var(--step-small); }
+  .weightRow { padding-block: 0.95rem; }
+  .weightName { font-size: var(--step-body); }
+  .weightValue { font-size: 2rem; }
+  .tierStrip { grid-column: 1 / -1; }
+  .tiers li { padding: 1rem 1.25rem 1.1rem; font-size: var(--step-small); }
+  .tiers li > :first-child { font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem); letter-spacing: -0.02em; }
+}
+
+@media (max-width: 699px) {
+  .fieldset { margin-top: var(--space-lg); }
+  .positionCard { height: 6rem; }
+  .reasons li + li { display: none; }
+  .stage { gap: var(--space-xl); }
+  .anatomy { gap: var(--space-md); }
+  .anatomyLead { display: none; }
+  .presetChips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+  .presetChips::-webkit-scrollbar { display: none; }
+  .presetChips :global(.chip) { flex: none; white-space: nowrap; }
+  .ringFigure { width: min(200px, 100% - 32px); }
+  .weightRow { padding-block: 0.5rem; }
+  .tierStrip .tiers, .tierStrip > .presetLabel { display: none; }
+  .title { max-width: none; }
+}

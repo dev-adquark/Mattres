@@ -1,0 +1,156 @@
+{
+  "version": "0.2",
+  "description": "Second scoring model. v0.1 could not discriminate between mattresses (every quiz profile's top match scored exactly 78) because it reduced real third-party ratings to booleans, relied on a foam-density field that is never populated, and barely penalized firmness that disagreed with the sleeper's stated preference. v0.2 uses the graded third-party ratings stored in the catalog when they exist, falls back to (capped) v0.1 type baselines when they do not and marks that dimension 'estimated', grades firmness fit by distance from both the position/weight comfort band and the stated preference, and re-weights the six dimensions from the sleeper's own answers. Every constant below is a modelling assumption documented with its rationale; none were tuned to inflate scores. Deterministic: no randomness, no clock.",
+
+  "categories": ["pressureRelief", "support", "heat", "motion", "edge", "durability"],
+
+  "baseWeights": {
+    "pressureRelief": 0.20,
+    "support": 0.25,
+    "heat": 0.15,
+    "motion": 0.15,
+    "edge": 0.15,
+    "durability": 0.10
+  },
+
+  "weightModifiers": {
+    "description": "Each applicable modifier multiplies the base weight of the listed dimensions. After all multipliers are applied the six weights are divided by their sum so effectiveWeights always sum to 1. A missing or unrecognised optional input applies no modifier.",
+    "rules": [
+      { "id": "WEIGHT_POSITION_SIDE", "when": { "sleepPosition": "side" }, "multiply": { "pressureRelief": 1.3 }, "description": "Side sleepers put their full weight on shoulders and hips.", "rationale": "Narrow contact points concentrate pressure, so pressure relief matters more than for other positions." },
+      { "id": "WEIGHT_POSITION_BACK", "when": { "sleepPosition": "back" }, "multiply": { "support": 1.15 }, "description": "Back sleepers need the lumbar curve held level.", "rationale": "Spinal alignment is the main comfort driver on the back; pressure is spread over a wide area." },
+      { "id": "WEIGHT_POSITION_STOMACH", "when": { "sleepPosition": "stomach" }, "multiply": { "support": 1.25, "pressureRelief": 0.8 }, "description": "Stomach sleepers are most exposed to the hips sinking.", "rationale": "A sagging midsection over-extends the lower back; deep cushioning is less of a priority in this position." },
+      { "id": "WEIGHT_TEMPERATURE_HOT", "when": { "sleepTemperature": "hot" }, "multiply": { "heat": 2.0 }, "description": "Sleeper reports sleeping hot.", "rationale": "Heat retention is a frequent reason hot sleepers return a mattress, so cooling counts roughly twice as much." },
+      { "id": "WEIGHT_TEMPERATURE_COLD", "when": { "sleepTemperature": "cold" }, "multiply": { "heat": 0.5 }, "description": "Sleeper reports sleeping cold.", "rationale": "Airflow is not a benefit for someone who already sleeps cold; it should not drive the ranking." },
+      { "id": "WEIGHT_MOTION_SINGLE", "when": { "motionSensitivity": "single" }, "multiply": { "motion": 0.4 }, "description": "Sleeps alone.", "rationale": "Motion transfer only matters when someone else shares the bed (pets aside), so its weight is reduced but not removed." },
+      { "id": "WEIGHT_MOTION_COUPLE_HIGH", "when": { "motionSensitivity": "couple-high" }, "multiply": { "motion": 2.0 }, "description": "Shares the bed and is easily woken by a partner's movement.", "rationale": "For a light sleeper sharing a bed, motion isolation is a primary need." },
+      { "id": "WEIGHT_EDGE_LOW", "when": { "edgeImportance": "low" }, "multiply": { "edge": 0.5 }, "description": "Sleeper says edge support matters little.", "rationale": "Edge support mostly matters for sitting on the edge or sleeping near it." },
+      { "id": "WEIGHT_EDGE_HIGH", "when": { "edgeImportance": "high" }, "multiply": { "edge": 2.0 }, "description": "Sleeper says edge support matters a lot.", "rationale": "Sitting on the edge, getting in and out easily, or sharing a smaller bed all depend on a firm perimeter." },
+      { "id": "WEIGHT_PAIN_SHOULDERS", "when": { "painFocus": "shoulders" }, "multiply": { "pressureRelief": 1.4 }, "description": "Shoulder discomfort reported.", "rationale": "Shoulder pain is usually aggravated by pressure at the contact point." },
+      { "id": "WEIGHT_PAIN_HIPS", "when": { "painFocus": "hips" }, "multiply": { "pressureRelief": 1.25, "support": 1.15 }, "description": "Hip discomfort reported.", "rationale": "Hips need both cushioning at the contact point and enough support to keep them from sinking out of line." },
+      { "id": "WEIGHT_PAIN_LOWER_BACK", "when": { "painFocus": "lower-back" }, "multiply": { "support": 1.4 }, "description": "Lower-back discomfort reported.", "rationale": "Lower-back discomfort is most often linked to the midsection sinking out of alignment." },
+      { "id": "WEIGHT_PAIN_WHOLE_BODY", "when": { "painFocus": "whole-body" }, "multiply": { "pressureRelief": 1.2, "support": 1.2 }, "description": "General aches reported.", "rationale": "No single contact point dominates, so both cushioning and alignment matter more." },
+      { "id": "WEIGHT_HEAVIER_SLEEPER", "when": { "weightLbAtLeast": 230 }, "multiply": { "durability": 1.5, "support": 1.1 }, "description": "Sleeper weighs 230 lb or more.", "rationale": "Higher loads compress comfort layers faster and need a stronger support core." }
+    ]
+  },
+
+  "painFocusAliases": {
+    "description": "Older forms collect painFocus as an array of these legacy values; they are normalised to the v0.2 vocabulary. 'neck' has no v0.2 equivalent and is ignored.",
+    "shoulder": "shoulders",
+    "shoulders": "shoulders",
+    "hip": "hips",
+    "hips": "hips",
+    "back": "lower-back",
+    "lowerBack": "lower-back",
+    "lower-back": "lower-back",
+    "whole-body": "whole-body",
+    "none": "none"
+  },
+
+  "weightBands": [
+    { "key": "under-130", "maxLb": 130 },
+    { "key": "130-180", "minLb": 130, "maxLb": 180 },
+    { "key": "180-230", "minLb": 180, "maxLb": 230 },
+    { "key": "over-230", "minLb": 230 }
+  ],
+
+  "firmnessLabelScale": {
+    "soft": 2,
+    "medium-soft": 4,
+    "medium": 5.5,
+    "medium-firm": 7,
+    "firm": 8.5,
+    "extra-firm": 10
+  },
+
+  "firmnessComfortBands": {
+    "description": "Unchanged from v0.1: the [min, max] firmness (1-10) range typically comfortable for a position and weight band.",
+    "side": { "under-130": [2, 5], "130-180": [3, 6], "180-230": [5, 8], "over-230": [6, 9] },
+    "back": { "under-130": [4, 7], "130-180": [5, 8], "180-230": [6, 9], "over-230": [7, 10] },
+    "stomach": { "under-130": [5, 8], "130-180": [6, 9], "180-230": [7, 10], "over-230": [8, 10] },
+    "combination": { "under-130": [4, 7], "130-180": [5, 8], "180-230": [6, 9], "over-230": [7, 10] }
+  },
+
+  "typeBaselines": {
+    "description": "The v0.1 type baselines. Used ONLY for a dimension that has no third-party rating on file, and then capped at estimateCap (see below).",
+    "hybrid":      { "pressureRelief": 7, "support": 8, "heat": 7, "motion": 7, "edge": 7, "durability": 7 },
+    "foam":        { "pressureRelief": 9, "support": 6, "heat": 4, "motion": 9, "edge": 5, "durability": 6 },
+    "innerspring": { "pressureRelief": 4, "support": 7, "heat": 8, "motion": 4, "edge": 8, "durability": 6 },
+    "latex":       { "pressureRelief": 8, "support": 8, "heat": 6, "motion": 6, "edge": 6, "durability": 9 },
+    "default":     { "pressureRelief": 6, "support": 6, "heat": 6, "motion": 6, "edge": 6, "durability": 6 }
+  },
+
+  "estimateCap": 6.5,
+  "estimateCapRationale": "An estimated (unrated) dimension is capped at 6.5, just below the typical real third-party rating in the catalog (most fall between 6.5 and 8), so an assumption based on construction type never outranks a mattress that was actually rated as average or better.",
+
+  "ratedDimensions": {
+    "description": "Catalog field (0-10 third-party rating) used as the sub-score for each rated dimension when present.",
+    "heat": "coolingRatingOutOf10",
+    "motion": "motionIsolationRatingOutOf10",
+    "edge": "edgeSupportRatingOutOf10",
+    "durability": "durabilityRatingOutOf10"
+  },
+
+  "firmnessFit": {
+    "description": "Support and pressure relief are computed from the mattress's stated firmness relative to the sleeper's comfort band. bandFit is 1.0 at the band centre, falls linearly to insideEdgeFit at either edge of the band, and then continues to fall by outsidePerPointLoss for each firmness point outside the band (floored at 0). Firmness is the catalog's stated firmness (midpoint of firmnessRange when a range is given).",
+    "insideEdgeFit": 0.75,
+    "outsidePerPointLoss": 0.3,
+    "supportFloor": 3,
+    "supportRange": 7,
+    "supportTooSoftExtraPerPoint": 0.5,
+    "supportTypeModifier": { "hybrid": 0.5, "latex": 0.5, "innerspring": 0, "foam": -0.5, "default": 0 },
+    "pressureTypeBase": { "foam": 7.5, "latex": 7, "hybrid": 7, "innerspring": 5, "default": 6 },
+    "pressureInBandBonusAtSoftEdge": 2.5,
+    "pressureInBandBonusAtFirmEdge": 1.5,
+    "pressureTooFirmPerPoint": 1.5,
+    "pressureTooSoftBonus": 2,
+    "unknownFirmnessNeutral": 5.5,
+    "unknownFirmnessNote": "unknownFirmnessNeutral only appears in the trace; scores for an unknown firmness come from the capped type baseline (FIRMNESS_UNKNOWN)."
+  },
+
+  "preferenceFit": {
+    "description": "Graded penalty (in overall-score points out of 100) for distance between the mattress's firmness and the sleeper's stated preference: max(0, distance - tolerancePoints) * pointsPerFirmnessPoint, capped at maxPenalty. Applied after the weighted sub-score total. Skipped when either firmness is unknown.",
+    "tolerancePoints": 0.5,
+    "pointsPerFirmnessPoint": 2.5,
+    "maxPenalty": 12
+  },
+
+  "durability": {
+    "heavierSleeperLb": 230,
+    "heavierSleeperFoamPenalty": 1,
+    "lowDensityThresholdLbFt3": 1.8,
+    "lowDensityHighWeightLb": 200,
+    "lowDensityPenalty": 2
+  },
+
+  "thresholds": {
+    "heatRetentionMaxHeatScore": 6.5,
+    "edgeSupportMinScore": 6,
+    "edgeSupportMinScoreWhenImportant": 7,
+    "motionTransferMinScore": 7,
+    "pressurePointMinScore": 6.5,
+    "durabilityHeavierSleeperMinScore": 7,
+    "preferredFirmnessMismatchPoints": 2
+  },
+
+  "categoryRuleCatalog": [
+    { "id": "RATED_DIMENSION", "description": "The dimension's sub-score is the mattress's third-party rating (0-10) from the catalog.", "rationale": "A measured rating is better evidence than an assumption based on construction type." },
+    { "id": "ESTIMATED_FROM_TYPE", "description": "No rating is on file for this dimension, so the v0.1 construction-type baseline is used, capped at estimateCap.", "rationale": "The cap stops an assumption from outranking a mattress that has actually been rated." },
+    { "id": "SUPPORT_FIRMNESS_FIT", "description": "Support = supportFloor + supportRange x bandFit, plus a construction-type modifier, minus an extra penalty per point when the mattress is softer than the band.", "rationale": "Alignment is best when firmness sits mid-band for the sleeper's position and weight; a mattress that is too soft lets the hips sink, which hurts alignment more than being slightly too firm." },
+    { "id": "SUPPORT_TYPE_MODIFIER", "description": "Coil and latex support cores add a small amount to support; all-foam cores subtract a small amount.", "rationale": "Pocketed coils and latex resist deep sinkage under concentrated weight better than polyfoam cores." },
+    { "id": "PRESSURE_FIRMNESS_FIT", "description": "Pressure relief starts at a construction-type base and is adjusted by where firmness sits relative to the band: softer within the band adds more, firmer than the band subtracts per point.", "rationale": "Pressure relief depends on how far shoulders and hips can sink in; a surface firmer than the sleeper needs creates pressure points." },
+    { "id": "FIRMNESS_UNKNOWN", "description": "No firmness is on file, so support and pressure relief fall back to the construction-type baselines capped at estimateCap and are marked estimated. Comfort-band and preference checks are skipped.", "rationale": "An unknown must never read as a strong positive or a strong negative." },
+    { "id": "DURABILITY_HEAVIER_SLEEPER_FOAM", "description": "All-foam construction and a sleeper at or above heavierSleeperLb: durability is reduced.", "rationale": "Foam comfort and support layers compress faster under higher sustained loads than coil cores." },
+    { "id": "DURABILITY_LOW_DENSITY_HIGH_WEIGHT_PENALTY", "description": "Stated top-foam density below the threshold for a sleeper at or above the weight threshold (carried over from v0.1; only fires when density is on file).", "rationale": "Low-density foam softens and sags faster." },
+    { "id": "PREFERENCE_FIT_PENALTY", "description": "Overall score is reduced by a graded amount for each firmness point between the mattress and the sleeper's stated preference beyond the tolerance.", "rationale": "A mattress can suit a body type on paper and still feel wrong to the person sleeping on it; stated preference is a real signal." }
+  ],
+
+  "riskFlagRules": [
+    { "code": "SUPPORT_THRESHOLD_MISMATCH", "category": "support", "description": "Mattress firmness falls outside the comfort band for the sleeper's position and weight.", "rationale": "Outside the band, alignment or pressure relief degrades noticeably.", "thresholdId": "firmnessComfortBands.<sleepPosition>.<weightBand>", "mitigation": "Consider a firmer or softer version of the same line, or a topper to move the feel into your comfort range." },
+    { "code": "PREFERRED_FIRMNESS_MISMATCH", "category": "support", "description": "Mattress firmness differs from the sleeper's stated preference by more than the mismatch threshold.", "rationale": "Stated preference is independent of the objective comfort band and worth surfacing on its own.", "thresholdId": "thresholds.preferredFirmnessMismatchPoints", "mitigation": "Use the in-home trial period to judge the feel, or look at a different firmness option in the same line." },
+    { "code": "HEAT_RETENTION_LIKELY", "category": "heat", "description": "Sleeper reports sleeping hot and the heat sub-score is at or below the threshold.", "rationale": "Hot sleepers notice heat retention quickly.", "thresholdId": "thresholds.heatRetentionMaxHeatScore", "mitigation": "Look for a coil layer, open-cell or gel foams, or add a breathable cover or topper." },
+    { "code": "EDGE_SUPPORT_CONCERN", "category": "edge", "description": "Edge sub-score is below the threshold (a higher threshold applies when the sleeper says edge support matters a lot). Not evaluated when the sleeper says edge support matters little.", "rationale": "A soft perimeter makes sitting on the edge and getting in and out harder.", "thresholdId": "thresholds.edgeSupportMinScore | thresholds.edgeSupportMinScoreWhenImportant", "mitigation": "Fine if you sleep centred; otherwise prefer a model with a reinforced coil perimeter." },
+    { "code": "MOTION_TRANSFER_LIKELY", "category": "motion", "description": "Sleeper shares the bed and is easily woken, and the motion sub-score is below the threshold.", "rationale": "Light sleepers sharing a bed are the people most affected by motion transfer.", "thresholdId": "thresholds.motionTransferMinScore", "mitigation": "All-foam or foam-heavy hybrids generally isolate movement better; a larger bed size also helps." },
+    { "code": "PRESSURE_POINT_RISK", "category": "pressureRelief", "description": "Sleeper sleeps on their side or reports shoulder/hip discomfort, and the pressure-relief sub-score is below the threshold.", "rationale": "These sleepers concentrate weight on small contact points.", "thresholdId": "thresholds.pressurePointMinScore", "mitigation": "A softer comfort layer or a 2-3 inch topper can relieve shoulder and hip pressure." },
+    { "code": "DURABILITY_SAG_RISK", "category": "durability", "description": "Either stated top-foam density is below the threshold for a sleeper at or above the weight threshold, or a sleeper at or above heavierSleeperLb has a rated durability below the heavier-sleeper threshold. Never fires on an estimated durability.", "rationale": "Heavier sleepers wear mattresses faster; only real data should raise this alarm.", "thresholdId": "durability.* & thresholds.durabilityHeavierSleeperMinScore", "mitigation": "Check the warranty's sag-depth threshold and use the full trial period to catch early softening." }
+  ]
+}

@@ -1,0 +1,51 @@
+@layer components {
+  /* Chapter marker + rail (homepage chapters). */
+  .marker {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    font-size: var(--step-eyebrow); font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase;
+    color: var(--muted);
+  }
+  .index { font-variant-numeric: tabular-nums; color: var(--highlight-text); letter-spacing: 0.04em; }
+  .rule { width: 2.25rem; height: 1px; background: var(--rule-mark); }
+  .rail {
+    display: none;
+    position: fixed;
+    z-index: calc(var(--z-header) - 1);
+    left: max(0.75rem, env(safe-area-inset-left));
+    bottom: calc(1rem + var(--tray-h) + env(safe-area-inset-bottom));
+    color: #e9e4da;
+    mix-blend-mode: difference;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--motion-3-dur) var(--ease-out);
+  }
+  .rail[data-visible="true"],
+  .rail:focus-within { opacity: 1; pointer-events: auto; }
+  .list { display: none; list-style: none; margin: 0; padding: 0; }
+  .compact { margin: 0; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .compact span { font-variant-numeric: tabular-nums; opacity: 0.7; margin-right: 0.35rem; }
+  @media (min-width: 1200px) {
+    .rail { display: block; top: 50%; bottom: auto; left: clamp(0.75rem, 1.2vw, 1.75rem); transform: translateY(-50%); }
+    .compact { display: none; }
+    .list { display: grid; gap: 0.15rem; }
+    .link {
+      display: flex; align-items: center; gap: 0.6rem;
+      min-height: 32px;
+      color: inherit; text-decoration: none;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      opacity: 0.55;
+      transition: opacity var(--motion-1-dur) var(--ease-out);
+    }
+    .num { width: 1.4rem; font-variant-numeric: tabular-nums; }
+    .num::before { content: ""; display: inline-block; width: 10px; height: 1px; margin-right: 6px; vertical-align: middle; background: currentColor; transition: width var(--motion-3-dur) var(--motion-3-ease); }
+    .label { opacity: 0; transform: translateX(-4px); transition: opacity var(--motion-1-dur) var(--ease-out), transform var(--motion-1-dur) var(--ease-out); }
+    .rail:hover .label,
+    .rail:focus-within .label { opacity: 1; transform: none; }
+    /* Labels can overlap the content column, so give them a ground when shown. */
+    .rail:hover, .rail:focus-within { mix-blend-mode: normal; color: var(--linen); }
+    .rail:hover .list, .rail:focus-within .list { background: rgb(5 11 22 / 0.88); border-radius: var(--r-sm); padding: 0.4rem 0.75rem 0.4rem 0.5rem; margin: -0.4rem -0.75rem -0.4rem -0.5rem; backdrop-filter: blur(8px); }
+    .link[aria-current="location"] { opacity: 1; }
+    .link[aria-current="location"] .num::before { width: 22px; }
+    .link:hover, .link:focus-visible { opacity: 1; }
+  }
+}

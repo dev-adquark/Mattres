@@ -1,0 +1,350 @@
+/* "Independent testing by RTINGS" - a deep-night evidence band between the
+   specs and the review notes. Typography-led: one oversized measured figure,
+   then a ruled ledger of RTINGS' own values. No cards, no third-party images. */
+
+.section {
+  overflow: clip;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-xl);
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--split-gap);
+    align-items: start;
+  }
+  .head {
+    position: sticky;
+    top: calc(var(--header-h, 72px) + var(--space-md));
+  }
+}
+
+.head {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sourceMark {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.55rem 0.28rem;
+  border: 1px solid var(--highlight);
+  border-radius: 2px;
+  color: var(--highlight-text);
+  letter-spacing: 0.18em;
+}
+.kickerRule {
+  width: 2.5rem;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 1.3rem + 4.4vw, 5.5rem);
+  font-weight: 330;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--text-strong);
+  font-variation-settings: 'SOFT' 60, 'opsz' 144;
+  text-wrap: balance;
+}
+.titleBy {
+  display: block;
+  font-style: italic;
+  color: var(--text);
+}
+
+.lead {
+  margin: 0;
+  max-width: 34rem;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.cta {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--highlight);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+.ext {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  transition: transform var(--motion-1-dur, 160ms) var(--motion-1-ease, ease-out);
+}
+.cta:hover .ext {
+  transform: translate(2px, -2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ext {
+    transition: none;
+  }
+}
+
+/* Dates: RTINGS' own dates first, our retrieval date apart from them. */
+.dates {
+  display: grid;
+  margin: var(--space-xs) 0 0;
+  border-top: 1px solid var(--border-strong);
+}
+.dates > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-sm);
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.dates dt {
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.dates dd {
+  margin: 0;
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.missing {
+  font-weight: 500;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-xl);
+  min-width: 0;
+}
+
+/* The one oversized figure. */
+.feature {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--text-strong);
+}
+.featureLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.featureValue {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25em;
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 3rem + 11vw, 13rem);
+  font-weight: 300;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'SOFT' 40, 'opsz' 144;
+}
+.featureUnit {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.85rem + 0.6vw, 1.375rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--highlight-text);
+}
+.featureRaw {
+  margin: 0;
+  font-size: var(--step-small);
+  color: var(--text);
+}
+.featureRaw q {
+  font-family: var(--font-display);
+  font-size: 1.15em;
+  color: var(--text-strong);
+}
+
+.meter {
+  position: relative;
+  display: block;
+  height: 2px;
+  background: var(--track);
+  overflow: hidden;
+}
+.meter > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--w, 0) * 100%);
+  background: var(--highlight);
+}
+
+.verdict {
+  margin: 0;
+  max-width: 36ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2.1rem);
+  font-weight: 360;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+}
+
+/* Ruled ledger of RTINGS' values, verbatim. */
+.metrics {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+}
+.metric {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+  padding: var(--space-sm) 0 var(--space-md);
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+.metricLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.metricValue {
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text-strong);
+  overflow-wrap: anywhere;
+}
+.metricUnit {
+  margin-left: 0.15em;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.lists {
+  display: grid;
+  gap: var(--space-lg);
+}
+.lists:empty {
+  display: none;
+}
+@media (min-width: 720px) {
+  .lists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+}
+
+.block {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.blockLabel {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.textList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+  font-size: var(--step-small);
+  line-height: 1.5;
+  color: var(--text);
+}
+.summary {
+  margin: 0;
+  max-width: 44rem;
+  font-size: var(--step-small);
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-md);
+}
+.image {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: var(--surface);
+}
+.image figcaption {
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+
+.provenance {
+  margin: 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+  max-width: 46rem;
+  font-size: var(--step-xs);
+  line-height: 1.6;
+  color: var(--muted);
+}
+.provenance code {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.95em;
+  overflow-wrap: anywhere;
+}

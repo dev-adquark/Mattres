@@ -1,0 +1,16 @@
+@layer components {
+  .iconBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-pill);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text);
+    transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+  }
+  .iconBtn:hover { background: color-mix(in srgb, var(--text) 8%, transparent); }
+  .iconBtn svg { width: 20px; height: 20px; flex: none; }
+}

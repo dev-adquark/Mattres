@@ -1,0 +1,185 @@
+/* Diagrams and data charts for guides and sleep-position pages.
+   All colours come from the surrounding section's semantic tokens. */
+
+.figure { margin: 0; }
+.svg { width: 100%; height: auto; overflow: visible; }
+.caption {
+  margin-top: var(--space-xs);
+  font-size: var(--step-xs);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* --- SVG cross-sections ----------------------------------------------- */
+.layerComfort { fill: color-mix(in srgb, var(--text-strong) 8%, var(--surface)); }
+.layerCore { fill: color-mix(in srgb, var(--text-strong) 16%, var(--surface)); }
+.layerCoreFill { fill: color-mix(in srgb, var(--text-strong) 14%, var(--surface)); }
+.layerDense { fill: color-mix(in srgb, var(--text-strong) 24%, var(--surface)); }
+.layerEdge { fill: color-mix(in srgb, var(--accent) 38%, var(--surface)); }
+.outline { fill: none; stroke: color-mix(in srgb, var(--text-strong) 55%, transparent); stroke-width: 1.2; }
+.surfaceLine { fill: none; stroke: var(--text-strong); stroke-width: 2; stroke-linecap: round; }
+.coil { fill: none; stroke: color-mix(in srgb, var(--text-strong) 45%, transparent); stroke-width: 1.2; }
+
+.arrow line, .arrow polyline { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.arrowStrong { color: var(--warning-text); }
+.arrowStrong line, .arrowStrong polyline { stroke-width: 2.4; }
+.arrowSoft { color: var(--accent-text); }
+.arrowAir { color: var(--accent-text); }
+.arrowAir line { stroke-dasharray: 5 5; }
+
+.heatWarm { fill: none; stroke: var(--warning-text); stroke-width: 1.8; stroke-linecap: round; opacity: 0.85; }
+.heatTrapped { fill: none; stroke: var(--warning-text); stroke-width: 1.4; stroke-dasharray: 3 4; opacity: 0.7; }
+.wave { fill: none; stroke: var(--accent-text); stroke-width: 1.8; stroke-linecap: round; }
+.partner { fill: var(--warning-text); }
+.partnerCalm { fill: none; stroke: var(--accent-text); stroke-width: 1.6; }
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: var(--text-strong);
+}
+.label { font-family: var(--font-sans); font-size: 12.5px; fill: var(--text); }
+.note { font-family: var(--font-display); font-style: italic; font-size: 14px; fill: var(--muted); }
+
+/* --- Range chart (comfort windows) ------------------------------------ */
+.range {
+  --rc-label: minmax(6rem, 7.5rem);
+  --rc-value: 4.5rem;
+  width: 100%;
+}
+.rangeTable { width: 100%; border-collapse: collapse; display: block; }
+.rangeTable tbody { display: block; }
+.rangeCaption {
+  display: block;
+  text-align: left;
+  margin-bottom: var(--space-sm);
+  font-size: var(--step-small);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.rangeRow {
+  display: grid;
+  grid-template-columns: var(--rc-label) minmax(0, 1fr);
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-block: 0.7rem;
+}
+.rangeRow:last-child { border-bottom: 1px solid var(--border); }
+.rangeLabel {
+  display: grid;
+  text-align: left;
+  font-weight: 500;
+  font-size: var(--step-small);
+  color: var(--text);
+  padding-right: var(--space-sm);
+}
+.rangeSub { font-weight: 400; font-size: var(--step-xs); color: var(--muted); }
+.rangeCell { display: grid; grid-template-columns: minmax(0, 1fr) var(--rc-value); align-items: center; gap: var(--space-sm); padding: 0; }
+.rangeTrack {
+  position: relative;
+  height: 0.6rem;
+  background: var(--track);
+  border-radius: var(--r-pill);
+}
+.rangeBar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--range-min);
+  width: calc(var(--range-max) - var(--range-min));
+  background: color-mix(in srgb, var(--accent) 55%, var(--surface));
+  border-radius: var(--r-pill);
+}
+.rangeRowHighlight .rangeBar { background: var(--accent); }
+.rangeRowHighlight .rangeLabel { color: var(--text-strong); font-weight: 650; }
+.rangeValue {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text-strong);
+  text-align: right;
+  white-space: nowrap;
+}
+.rangeUnit { font-family: var(--font-sans); font-size: var(--step-xs); color: var(--muted); margin-left: 1px; }
+
+.rangeAxis {
+  display: grid;
+  grid-template-columns: var(--rc-label) minmax(0, 1fr) var(--rc-value);
+  column-gap: 0;
+  margin-top: 0.4rem;
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.rangeAxisTrack { position: relative; height: 1.25rem; margin-right: var(--space-sm); }
+.rangeAxisSpacer { padding-right: var(--space-sm); }
+.rangeTick { position: absolute; top: 0; left: var(--tick-x); transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+@media (max-width: 599.98px) { .rangeTick[data-minor] { display: none; } }
+.rangeEnds {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  margin-right: var(--space-sm);
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* --- Cooling dot plot ------------------------------------------------- */
+.dotFigure { width: 100%; }
+.dotPlot { --dp-label: minmax(7rem, 9rem); }
+.dotRow {
+  display: grid;
+  grid-template-columns: var(--dp-label) minmax(0, 1fr);
+  align-items: center;
+  min-height: 3.5rem;
+  border-top: 1px solid var(--border);
+}
+.dotRow:last-of-type { border-bottom: 1px solid var(--border); }
+.dotLabel { display: grid; font-size: var(--step-small); font-weight: 600; color: var(--text-strong); padding-right: var(--space-sm); }
+.dotSub { font-weight: 400; font-size: var(--step-xs); color: var(--muted); }
+.dotTrack { position: relative; height: 3.5rem; margin-inline: 0.5rem; }
+.dotTrack::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px dashed var(--border-strong);
+}
+.dot {
+  position: absolute;
+  left: var(--dot-x);
+  top: var(--dot-y);
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--accent-text);
+}
+.dotAxis {
+  display: grid;
+  grid-template-columns: var(--dp-label) minmax(0, 1fr);
+  font-size: var(--step-xs);
+  color: var(--muted);
+}
+.dotAxisTrack { position: relative; height: 1.4rem; margin-inline: 0.5rem; }
+.dotAxisTrack span { position: absolute; top: 0.3rem; left: var(--tick-x); transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+.dotCompact .dotRow, .dotCompact .dotTrack { min-height: 3rem; height: 3rem; }
+
+/* --- Cover diagrams (bands, types) ------------------------------------ */
+.gridLine { stroke: color-mix(in srgb, var(--text-strong) 14%, transparent); stroke-width: 1; stroke-dasharray: 2 4; }
+.bandTrack { stroke: color-mix(in srgb, var(--text-strong) 10%, transparent); stroke-width: 12; stroke-linecap: round; }
+.bandBar { stroke: var(--accent); stroke-width: 12; stroke-linecap: round; }
+.layerLatex { fill: color-mix(in srgb, #d8cbb7 70%, var(--surface)); }
+.layerLatexCore { fill: color-mix(in srgb, #d8cbb7 95%, var(--text-strong) 5%); }
+.pinhole { fill: color-mix(in srgb, var(--text-strong) 22%, transparent); }
+
+/* --- Materials + night-temperature diagrams ---------------------------- */
+.load { fill: color-mix(in srgb, var(--warning-text) 22%, var(--surface)); stroke: var(--warning-text); stroke-width: 1.6; }
+.axis { stroke: color-mix(in srgb, var(--text-strong) 45%, transparent); stroke-width: 1.2; }
+.marker { stroke: var(--border-strong, var(--border)); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.tempCurve { fill: none; stroke: var(--accent-text); stroke-width: 2.6; stroke-linecap: round; }

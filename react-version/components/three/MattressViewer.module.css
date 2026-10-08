@@ -1,0 +1,532 @@
+/*
+ * MattressViewer styles. Reads design-system tokens when present and falls
+ * back to the Night Sleep Lab palette (night ink, linen, warm sand, signal
+ * amber). Amber marks the selected layer, as it does in the 3D scene.
+ */
+
+.viewer {
+  --mv-ink: var(--c-night-ink, #050b16);
+  --mv-text: #ece7de;
+  --mv-muted: #b8b1a6;
+  --mv-line: rgba(233, 228, 218, 0.16);
+  --mv-accent: var(--signal-amber, #f2b45a);
+  --mv-accent-text: var(--signal-amber, #f2b45a);
+  --mv-surface: rgba(233, 228, 218, 0.04);
+  --mv-surface-active: rgba(242, 180, 90, 0.08);
+  --mv-font-sans: var(--font-sans, 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif);
+  --mv-font-display: var(--font-display, 'Fraunces', Georgia, serif);
+  margin: 0;
+  min-width: 0;
+  font-family: var(--mv-font-sans);
+  color: var(--mv-text);
+}
+
+.viewer[data-tone='light'] {
+  --mv-text: #14161d;
+  --mv-muted: #4d4a45;
+  --mv-line: rgba(20, 22, 29, 0.16);
+  --mv-accent: var(--amber-deep, #b06f12);
+  --mv-accent-text: var(--amber-ink, #8a5210);
+  --mv-surface: rgba(20, 22, 29, 0.03);
+  --mv-surface-active: rgba(176, 111, 18, 0.08);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* runtime colour from the `background` / `tone` props (MattressViewer sets --mv-stage-bg) */
+  background: var(--mv-stage-bg, var(--mv-ink));
+  border-radius: inherit;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.aspectHero {
+  aspect-ratio: 16 / 10;
+}
+
+.aspectXray {
+  aspect-ratio: 4 / 3;
+}
+
+/* `aspectRatio` prop: runtime value via --mv-aspect, used instead of .aspectHero */
+.aspectCustom {
+  aspect-ratio: var(--mv-aspect);
+}
+
+@media (max-width: 640px) {
+  .aspectHero {
+    aspect-ratio: 1 / 1;
+  }
+  .aspectXray {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.stage.fill {
+  height: 100%;
+}
+
+.poster,
+.canvasLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.poster {
+  transition: opacity 700ms ease;
+}
+
+.posterHidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 700ms ease, visibility 0s linear 700ms;
+}
+
+.canvasLayer {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.canvasReady {
+  opacity: 1;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: #e8ecf5;
+  background: rgba(10, 13, 26, 0.66);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  animation: hintFade 6s ease 1.5s forwards;
+}
+
+.stage[data-tone='light'] .hint {
+  color: #161b2e;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.hintCoarse {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .hintFine {
+    display: none;
+  }
+  .hintCoarse {
+    display: inline;
+  }
+}
+
+@keyframes hintFade {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.caption {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--mv-muted);
+}
+
+.fill > .caption {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  margin: 0;
+  max-width: min(60%, 320px);
+  text-align: right;
+}
+
+/* ---------- xray layout ---------- */
+
+.xray {
+  container-type: inline-size;
+}
+
+.xrayFigure {
+  margin: 0;
+  min-width: 0;
+}
+
+.xrayStage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+@container (max-width: 760px) {
+  .xrayStage {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* `aspectRatio` prop on x-ray: applies from 640px up (phones keep the 70vh stage) */
+@media (min-width: 640px) {
+  .xrayStage.xrayAspect {
+    aspect-ratio: var(--mv-aspect);
+  }
+}
+
+/* tabs: four compact, numbered, editorial */
+.tabsWrap {
+  position: relative;
+}
+
+.tabs {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  border-bottom: 1px solid var(--mv-line);
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 18px 16px 18px 0;
+  border: 0;
+  background: none;
+  color: var(--mv-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 16px;
+  top: -1px;
+  height: 2px;
+  background: var(--mv-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab:hover,
+.tabHovered {
+  color: var(--mv-text);
+}
+
+.tabActive {
+  color: var(--mv-text);
+}
+
+.tabActive::before {
+  transform: scaleX(1);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--focus, var(--mv-accent));
+  outline-offset: 2px;
+}
+
+.tabIndex {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--mv-muted);
+}
+
+.tabActive .tabIndex {
+  color: var(--mv-accent-text);
+}
+
+.tabLabel {
+  font-family: var(--mv-font-display);
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+/* detail: two-line explanation + drives chips */
+.detail {
+  display: grid;
+  gap: 20px 48px;
+  padding-top: 22px;
+  min-height: 7.5rem;
+}
+
+@container (min-width: 820px) {
+  .detail {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .detailPrompt,
+  .inspect {
+    grid-column: 1 / -1;
+  }
+}
+
+.detailMain {
+  min-width: 0;
+}
+
+.detailEyebrow {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mv-accent-text);
+}
+
+.detailTitle {
+  margin: 0 0 8px;
+  font-family: var(--mv-font-display);
+  font-size: 1.625rem;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  color: var(--mv-text);
+}
+
+.detailBody {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--mv-text);
+  opacity: 0.88;
+}
+
+.detailListed {
+  margin: 12px 0 0;
+  max-width: 60ch;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--mv-muted);
+}
+
+.detailListedLabel {
+  color: var(--mv-text);
+  font-weight: 600;
+}
+
+.detailPrompt {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--mv-muted);
+}
+
+.drives {
+  min-width: 0;
+}
+
+.drivesLabel {
+  margin: 0 0 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mv-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1px solid var(--mv-line);
+  border-radius: 999px;
+  color: var(--mv-text);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.chip:hover {
+  border-color: var(--mv-accent);
+  background: var(--mv-surface-active);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--focus, var(--mv-accent));
+  outline-offset: 2px;
+}
+
+.chipValue {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--mv-accent-text);
+}
+
+.drivesNote {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--mv-muted);
+}
+
+.inspect {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--mv-text);
+  text-decoration: underline;
+  text-decoration-color: var(--mv-accent);
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+}
+
+.inspect:hover {
+  text-decoration-thickness: 2px;
+}
+
+.inspect:focus-visible {
+  outline: 2px solid var(--focus, var(--mv-accent));
+  outline-offset: 2px;
+}
+
+/* ---------- phones: full-bleed canvas sized to the model, tabs as a scroller directly below it ---------- */
+@media (max-width: 639px) {
+  .xray {
+    /* about 11:10 of the width (never more than 70% of the screen): the exploded stack fills it without empty night above and below */
+    --mv-xray-h: max(380px, min(110vw, 70vh));
+  }
+  @supports (height: 1svh) {
+    .xray {
+      --mv-xray-h: max(380px, min(110vw, 70svh));
+    }
+  }
+  .xrayFigure {
+    position: relative;
+  }
+  .xray[data-bleed='true'] .xrayFigure {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+  .xrayStage,
+  .xray .xrayStage {
+    aspect-ratio: auto;
+    height: var(--mv-xray-h);
+    border-radius: 0;
+  }
+  .xray:not([data-bleed='true']) .xrayStage {
+    border-radius: 4px;
+  }
+  /* tabs sit in flow directly under the canvas: never over the model */
+  .tabsWrap {
+    position: relative;
+    height: 76px;
+    border-bottom: 1px solid var(--mv-line);
+  }
+  .tabs {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    /* the end padding lets the last tab scroll clear of the fade */
+    padding: 0 56px 0 16px;
+    overflow-x: auto;
+    /* the row runs off the right edge: fade it so a clipped label reads as "scroll for more" */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+    border-bottom: 0;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 18px 12px 0;
+    max-width: 62vw;
+  }
+  .tab::before {
+    top: 6px;
+    right: 18px;
+  }
+  .tabLabel {
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+  .xrayFigure > .caption {
+    padding-inline: 16px;
+  }
+}
+
+.srOnly {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .posterHidden,
+  .canvasLayer,
+  .tab,
+  .tab::before,
+  .chip {
+    transition: none;
+  }
+  .hint {
+    animation: none;
+  }
+}

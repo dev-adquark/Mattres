@@ -1,0 +1,7 @@
+Fonts in this folder are used only to render the Open Graph image (app/opengraph-image.js).
+
+Fraunces (Light, Light Italic) - Copyright 2018 The Fraunces Project Authors (https://github.com/undercasetype/Fraunces)
+Instrument Sans (Medium) - Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)
+
+Both are licensed under the SIL Open Font License, Version 1.1: https://openfontlicense.org
+Static instances downloaded from Google Fonts (fonts.gstatic.com).
