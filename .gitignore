@@ -1,3 +1,5 @@
 node_modules/
 .tmp-demo-build/
 *.tsbuildinfo
+.vercel
+.env*
