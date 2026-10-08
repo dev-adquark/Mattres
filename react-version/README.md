@@ -67,7 +67,7 @@ API routes: `POST /api/match` (score a profile), `GET /api/search-index` (site s
 `POST /api/match` body: `sleepPosition`, `weightLb`, `preferredFirmnessLabel` and `sleepTemperature`
 (all required), plus optional `motionSensitivity`, `painFocus`, `edgeImportance`,
 `mattressTypePreference`, `budgetUsd` and `scoreVersion` (`"0.2"` by default). It is rate-limited to
-30 requests a minute per IP, using Upstash Redis when configured and in-memory counting otherwise.
+30 requests a minute per IP, using a shared counter in Supabase PostgreSQL when configured and in-memory counting otherwise.
 Profiles are not stored.
 
 ## Where things live

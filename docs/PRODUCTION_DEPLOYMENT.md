@@ -23,12 +23,12 @@ Add values in Vercel Project Settings → Environment Variables, selecting Previ
 | `ADMIN_API_SECRET` | Admin sync endpoints | Separate from cron secret |
 | `APIFY_API_TOKEN` | RTINGS/Apify ingestion is enabled | Secret; rotate if exposed |
 | `APIFY_RTINGS_ACTOR_ID` | Optional actor override | Non-secret configuration |
-| `UPSTASH_REDIS_REST_URL` | Recommended for production shared rate limits | Redis REST endpoint; server-side only |
-| `UPSTASH_REDIS_REST_TOKEN` | Required with the Upstash URL | Secret; server-side only |
 
 Do not paste secrets into source control, issues, logs, screenshots, or chat. Set separate credentials for Preview and Production. Never use a production database credential in local development.
 
-## 3. Shared rate limiting (production recommendation)\n\nCreate an Upstash Redis database and set both `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel Preview and Production. The match API uses an atomic Redis fixed-window counter when configured; admin RTINGS endpoints also limit attempts. The implementation fails closed if configured Redis is unavailable. Without these values, it falls back to per-instance memory, which is not globally consistent across serverless instances and should be treated as development/best-effort protection. Verify the deployed function can reach the Upstash REST endpoint before launch.\n\n## 4. Supabase readiness
+## 3. Shared rate limiting
+
+Shared rate limits live in Supabase PostgreSQL (the only production database): migration `0006_rate_limit.sql` adds the `rate_limit_counters` table and the atomic `rate_limit_hit` function, called server-side with `SUPABASE_SECRET_KEY`. No other database or cache provider is used. The match API and the admin/cron guards fail closed if the configured database errors; without Supabase configured (local development) a bounded in-memory counter is used.
 
 - Review and apply the SQL migration using the project's documented migration script and a controlled database connection.
 - Confirm expected tables, indexes, constraints, and Row Level Security policies exist.

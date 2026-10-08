@@ -77,7 +77,7 @@ function buildSections(affiliateLinks: number): PolicySection[] {
             Every website receives the IP address of whoever requests it. The match service reads it for one purpose: to
             stop a single address sending more than 30 scoring requests a minute. The counter keyed by your address
             expires after 60 seconds. Depending on how the site is deployed, that counter lives either in the server&apos;s
-            short-lived memory or in a rate-limit store (Upstash Redis) that deletes it automatically.
+            short-lived memory or in a rate-limit counter in our Supabase database that is overwritten when the window expires and cleaned up automatically.
           </p>
           <p>
             Our code does not log IP addresses. The hosting provider, Vercel, processes every request and keeps its own

@@ -1,15 +1,17 @@
 /**
- * Rate limit API requests. When Upstash Redis REST credentials are present,
- * use an atomic shared fixed-window counter across serverless instances.
- * Without credentials, use the bounded per-instance fallback for development.
+ * Rate limit API requests. When Supabase is configured, use an atomic shared
+ * fixed-window counter in Postgres (rate_limit_hit, migration 0006) across
+ * serverless instances. Without Supabase, use the bounded per-instance
+ * fallback for development.
  */
 import 'server-only';
+import { getSupabaseClient } from '@/lib/db/supabaseClient';
 export interface RateLimitOptions {
   limit?: number;
   windowMs?: number;
 }
 
-export type RateLimitBackend = 'memory' | 'redis' | 'redis-error' | 'invalid-key';
+export type RateLimitBackend = 'memory' | 'supabase' | 'supabase-error' | 'invalid-key';
 
 export interface RateLimitResult {
   limited: boolean;
@@ -49,29 +51,18 @@ export function isRateLimited(
 
 export async function checkRateLimit(key: unknown, { limit = 30, windowMs = WINDOW_MS }: RateLimitOptions = {}): Promise<RateLimitResult> {
   if (typeof key !== 'string' || !key) return { limited: true, backend: 'invalid-key' };
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
+  const client = getSupabaseClient();
+  if (!client) {
     return { limited: isRateLimited(key, { limit, windowMs }), backend: 'memory' };
   }
 
-  const script = "local n = redis.call('INCR', KEYS[1]); if n == 1 then redis.call('PEXPIRE', KEYS[1], ARGV[1]); end; return n";
   try {
-    const response = await fetch(url.replace(/\/$/, ''), {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(['EVAL', script, '1', `rate-limit:match:${key}`, String(windowMs)]),
-      cache: 'no-store',
-    });
-    if (!response.ok) return { limited: true, backend: 'redis-error' };
-    const payload = (await response.json()) as { result?: unknown; error?: unknown };
-    if (payload.error || !Number.isFinite(Number(payload.result))) {
-      return { limited: true, backend: 'redis-error' };
-    }
-    return { limited: Number(payload.result) > limit, backend: 'redis' };
+    const { data, error } = await client.rpc('rate_limit_hit', { p_key: `match:${key}`, p_window_ms: windowMs });
+    if (error || !Number.isFinite(Number(data))) return { limited: true, backend: 'supabase-error' };
+    return { limited: Number(data) > limit, backend: 'supabase' };
   } catch {
-    // Fail closed when shared limiting is explicitly configured but unavailable.
-    return { limited: true, backend: 'redis-error' };
+    // Fail closed when shared limiting is configured but unavailable.
+    return { limited: true, backend: 'supabase-error' };
   }
 }
 

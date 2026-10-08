@@ -36,7 +36,7 @@ async function main() {
       console.log(`Applied: ${file}`);
     }
     const { rows } = await client.query(
-      `select table_name from information_schema.tables where table_schema = 'public' and table_name in ('mattresses','rtings_sync_runs','rtings_review_required') order by table_name`
+      `select table_name from information_schema.tables where table_schema = 'public' and table_name in ('mattresses','rtings_sync_runs','rtings_review_required','rate_limit_counters') order by table_name`
     );
     console.log('Tables now present:', rows.map((r) => r.table_name).join(', '));
   } finally {
