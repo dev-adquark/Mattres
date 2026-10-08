@@ -8,6 +8,7 @@ import localFont from 'next/font/local';
 import Nav from '@/components/Nav';
 import { navFeatureMedia } from '@/components/nav/navFeatureMedia';
 import Footer from '@/components/Footer';
+import { SectionJump } from '@/components/nav/SectionJump';
 import { PageTransition } from '@/components/PageTransition';
 import { CompareTray } from '@/components/compare/CompareTray';
 import { JsonLd } from '@/components/ui/JsonLd';
@@ -205,6 +206,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main id="main-content" tabIndex={-1}>
           <PageTransition>{children}</PageTransition>
         </main>
+        <SectionJump />
         <Footer />
         <CompareTray />
         <JsonLd data={organizationLd} />

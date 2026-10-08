@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { GUIDE_CATEGORIES, guideCategoryLabel, guideNumber, guidesInCategory } from '@/lib/content/guides';
@@ -28,7 +29,7 @@ export function HubContents() {
             ))}
           </nav>
         </div>
-        <div className={styles.index}>
+        <Rail label="categories" column="86%" align="start" className={styles.index}>
           {categories.map((c, i) => (
             <section key={c.id} id={c.id} className={styles.col} aria-labelledby={`${c.id}-title`}>
               <p className={styles.colNo} aria-hidden="true">
@@ -68,7 +69,7 @@ export function HubContents() {
               ) : null}
             </section>
           ))}
-        </div>
+        </Rail>
       </div>
     </section>
   );

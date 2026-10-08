@@ -1,5 +1,6 @@
 'use client';
 
+import { Rail } from '@/components/ui/Rail';
 import { useMemo, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import Link from 'next/link';
@@ -77,7 +78,7 @@ export function BrandIndex({ rows }: { rows: readonly BrandIndexRow[] }) {
         </div>
       </div>
 
-      <ol className={styles.brandIndex} onPointerLeave={() => setActive(null)}>
+      <Rail as="ol" label="brands" rows={4} column="88%" className={styles.brandIndex} onPointerLeave={() => setActive(null)}>
         {sorted.map((row, i) => (
           <li key={row.slug}>
             <Link
@@ -105,7 +106,7 @@ export function BrandIndex({ rows }: { rows: readonly BrandIndexRow[] }) {
             </Link>
           </li>
         ))}
-      </ol>
+      </Rail>
 
       {floating ? (
         <div ref={floatRef} className={cx(styles.float, active && styles.floatOn)} aria-hidden="true">

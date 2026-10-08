@@ -579,3 +579,44 @@
   border-top: 1px solid var(--border);
   background: var(--paper);
 }
+
+/* Phones: each group is a snap carousel (components/ui/Rail). The list view
+   stacks three rows per column; the gallery shows one card per column. The
+   editorial interlude takes a column of its own. */
+@media (max-width: 639.98px) {
+  .group .indexRows {
+    border-bottom: 0;
+  }
+  .group .indexRows > .indexItem {
+    border-bottom: 1px solid var(--border);
+  }
+  .group .indexRows > .interludeItem,
+  .group .gallery > .interludeItem {
+    grid-row: 1 / -1;
+    padding-top: var(--space-md);
+    border-top: 0;
+  }
+  .group .gallery > .cell {
+    display: block;
+    padding-bottom: 0;
+  }
+  .group .gallery > .cell > article {
+    grid-template-rows: none;
+    grid-row: auto;
+  }
+}
+
+/* Phones: search-adjacent controls (Filters, Sort) stay one tap away while
+   the results scroll under the header. */
+@media (max-width: 639.98px) {
+  .toolbarRow {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 4;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0.6rem var(--gutter);
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+}

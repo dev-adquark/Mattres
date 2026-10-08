@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import Link from 'next/link';
 import type { OutboundKind } from '@/lib/types';
 import type { MethodologySectionProps } from '../methodologyTypes';
@@ -140,7 +141,7 @@ export function LimitationsSection({ data }: MethodologySectionProps) {
               What this score <em>can&apos;t</em> tell you.
             </h2>
           </div>
-          <ol className={s.limits}>
+          <Rail as="ol" cards label="limits" column="86%" align="start" className={s.limits}>
             {items.map((item, i) => (
               <li key={item.title}>
                 <span className={s.limitNum} aria-hidden="true">{i + 1}</span>
@@ -150,7 +151,7 @@ export function LimitationsSection({ data }: MethodologySectionProps) {
                 </div>
               </li>
             ))}
-          </ol>
+          </Rail>
         </div>
       </div>
     </section>

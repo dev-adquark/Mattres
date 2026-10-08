@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import type { MethodologySectionProps } from '../methodologyTypes';
 import { FLAG_DOCS, NOTE_DOCS } from '../flagCopy';
 import { Chapter, SeverityLabel } from './Chapter';
@@ -18,7 +19,7 @@ export function FlagsSection({ data }: MethodologySectionProps) {
             about the trade-off. Each comes with something you can do about it.
           </p>
         </header>
-        <ul className={s.flags}>
+        <Rail as="ul" cards label="flags" column="86%" align="start" className={s.flags}>
           {rules.riskFlagRules.map((rule) => {
             const doc = FLAG_DOCS[rule.code];
             if (!doc) return null;
@@ -50,7 +51,7 @@ export function FlagsSection({ data }: MethodologySectionProps) {
               </li>
             );
           })}
-        </ul>
+        </Rail>
         <h3 className={`h4 ${s.notesTitle}`}>Notes that appear alongside flags</h3>
         <ul className={s.flags}>
           {NOTE_DOCS.map((n) => (

@@ -1,0 +1,109 @@
+/* Phone carousel: below 640px a Rail turns its list into a horizontal
+   scroll-snap track that bleeds to the screen edges, with the next item
+   peeking in. From 640px the wrapper is transparent (display: contents), so
+   the markup lays out exactly as it did before. Every item stays in the DOM
+   and in reading order; nothing is dropped, clipped or hidden. */
+.wrap {
+  display: contents;
+}
+.controls {
+  display: none;
+}
+
+@media (max-width: 639.98px) {
+  .wrap {
+    display: block;
+    position: relative;
+    min-width: 0;
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .wrap .rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--rail-col, 82%);
+    grid-template-columns: none;
+    grid-template-rows: repeat(var(--rail-rows, 1), auto);
+    align-items: var(--rail-align, stretch);
+    gap: var(--rail-row-gap, 0) var(--rail-gap, 1rem);
+    margin: 0;
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .wrap .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .wrap .rail > * {
+    min-width: 0;
+    scroll-snap-align: start;
+    grid-row: auto;
+    grid-column: auto;
+  }
+  .wrap .cards > * {
+    padding: 1.1rem 1.1rem 1.2rem;
+    border: 1px solid color-mix(in srgb, var(--text-strong) 14%, transparent);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface, #fff) 70%, transparent);
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem var(--gutter) 0;
+  }
+  .progress {
+    position: relative;
+    flex: 1 1 auto;
+    height: 3px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--text-strong) 14%, transparent);
+    overflow: hidden;
+  }
+  .thumb {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 3px;
+    background: var(--text-strong);
+    transform-origin: left center;
+    transition: transform 0.18s ease-out, width 0.18s ease-out;
+  }
+  .count {
+    flex: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .btn {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border: 1px solid color-mix(in srgb, var(--text-strong) 22%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-strong);
+    cursor: pointer;
+  }
+  .btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .btn svg {
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition: none;
+  }
+}

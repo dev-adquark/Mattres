@@ -1,0 +1,66 @@
+/* Phone-only section jump bar: appears under the header while scrolling up
+   on long pages, lists every titled section, and marks the one in view.
+   Fixed (not in flow), so it never shifts the layout. */
+.bar {
+  display: none;
+}
+@media (max-width: 899.98px) {
+  .bar {
+    display: block;
+    position: fixed;
+    inset-inline: 0;
+    top: var(--nav-h);
+    z-index: calc(var(--z-header) - 1);
+    background: color-mix(in srgb, var(--surface, #f6f3ed) 94%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid color-mix(in srgb, var(--text-strong, #0b1222) 12%, transparent);
+    transform: translateY(-110%);
+    visibility: hidden;
+    transition: transform 0.24s ease-out, visibility 0s linear 0.24s;
+  }
+  .bar[data-show='true'] {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .track {
+    display: flex;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0.5rem var(--gutter);
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .chip {
+    flex: none;
+    max-inline-size: 15rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--text-strong, #0b1222) 20%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text, #2a3144);
+    font: inherit;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .chip[aria-current='location'] {
+    background: var(--text-strong, #0b1222);
+    border-color: var(--text-strong, #0b1222);
+    color: var(--surface, #f6f3ed);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}

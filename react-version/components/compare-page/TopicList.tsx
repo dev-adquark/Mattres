@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import type { HeadingLevel } from './types';
@@ -20,7 +21,7 @@ interface TopicListProps {
 export function TopicList({ topics, headingLevel = 'h3', showIntro = true }: TopicListProps) {
   const Heading = headingLevel;
   return (
-    <ol className={styles.topicList}>
+    <Rail as="ol" label="comparison topics" rows={2} column="88%" className={styles.topicList}>
       {topics.map((t, i) => (
         <li key={t.slug} className={styles.topicItem}>
           <span className={styles.topicNo} aria-hidden="true">
@@ -44,6 +45,6 @@ export function TopicList({ topics, headingLevel = 'h3', showIntro = true }: Top
           <ArrowRight className={styles.topicArrow} aria-hidden="true" />
         </li>
       ))}
-    </ol>
+    </Rail>
   );
 }

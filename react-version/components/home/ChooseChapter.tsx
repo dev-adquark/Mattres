@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { GUIDES, guideCategoryLabel } from '@/lib/content/guides';
@@ -72,7 +73,7 @@ export function ChooseChapter({ trust }: { trust: HomeTrust }) {
             <p className={styles.trustTitle}>
               Scores can&rsquo;t be <em>bought.</em>
             </p>
-            <div className={styles.trustCols}>
+            <Rail cards label="trust points" column="82%" align="start" className={styles.trustCols}>
               <div>
                 <h3 className={styles.trustHead}>Recommendation</h3>
                 <p>
@@ -111,7 +112,7 @@ export function ChooseChapter({ trust }: { trust: HomeTrust }) {
                   yet verified&rdquo; rather than filled in.
                 </p>
               </div>
-            </div>
+            </Rail>
             <div className={styles.trustLinks}>
               <Link href="/methodology" className="link">
                 How the Match Score works

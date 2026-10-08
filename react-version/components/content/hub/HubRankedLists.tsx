@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import Link from 'next/link';
 import { cx } from '@/components/ui/cx';
 import { CATEGORY_PAGES, categoryCounts, countLabel } from '@/lib/categoryPages';
@@ -20,7 +21,7 @@ export function HubRankedLists({ catalog }: { catalog: MattressEntry[] }) {
             Each list is ranked live by the Match Score engine from the catalog. Counts are what is in the catalog today.
           </p>
         </div>
-        <ul className={styles.rankedList}>
+        <Rail as="ul" label="ranked lists" rows={5} column="80%" className={styles.rankedList}>
           {rankedLists.map((c) => (
             <li key={c.slug}>
               <Link href={c.href} className={styles.rankedItem}>
@@ -29,7 +30,7 @@ export function HubRankedLists({ catalog }: { catalog: MattressEntry[] }) {
               </Link>
             </li>
           ))}
-        </ul>
+        </Rail>
       </div>
     </section>
   );

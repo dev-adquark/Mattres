@@ -6,6 +6,7 @@ import { LayoutGrid, Rows3, SearchX, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { cx } from '@/components/ui/cx';
+import { Rail } from '@/components/ui/Rail';
 import { CatalogCard } from '@/components/catalog/CatalogCard';
 import type { CardMatchItem } from '@/components/catalog/CatalogCard';
 import { CatalogRow } from '@/components/catalog/CatalogRow';
@@ -209,7 +210,7 @@ export function CatalogGroups({
                   <span>Queen price</span>
                   <span>Data status</span>
                 </div>
-                <ul className={styles.indexRows}>
+                <Rail as="ul" className={styles.indexRows} label={group.title ? `${group.title} mattresses` : 'mattresses'} rows={3} column="88%">
                   {group.items.map(({ entry, annotation, headline }, index) => (
                     <Fragment key={entry.id}>
                       {band(index)}
@@ -218,10 +219,10 @@ export function CatalogGroups({
                       </li>
                     </Fragment>
                   ))}
-                </ul>
+                </Rail>
               </div>
             ) : (
-              <ul className={styles.gallery}>
+              <Rail as="ul" className={styles.gallery} label={group.title ? `${group.title} mattresses` : 'mattresses'} column="78%" align="start">
                 {group.items.map(({ entry, annotation, headline }, index) => (
                   <Fragment key={entry.id}>
                     {band(index)}
@@ -239,7 +240,7 @@ export function CatalogGroups({
                     </li>
                   </Fragment>
                 ))}
-              </ul>
+              </Rail>
             )}
           </div>
         );

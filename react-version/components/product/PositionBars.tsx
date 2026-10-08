@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useReveal, revealClassName } from '@/components/ui/Reveal';
-import { cx } from '@/components/ui/cx';
+import { Rail } from '@/components/ui/Rail';
 import { cssVars } from '@/components/ui/cssVars';
 import { ordinal } from './productDisplay';
 import { useStory } from './ProductStoryContext';
@@ -15,9 +15,10 @@ import styles from './ProductStory.module.css';
  */
 export function PositionBars() {
   const { rows, selected, select } = useStory();
-  const [ref, state] = useReveal<HTMLOListElement>();
+  const [ref, state] = useReveal<HTMLDivElement>();
   return (
-    <ol ref={ref} data-reveal={state} data-reveal-variant="fade" className={cx(styles.bars, revealClassName)}>
+    <div ref={ref} data-reveal={state} data-reveal-variant="fade" className={revealClassName}>
+    <Rail as="ol" cards label="sleeping positions" column="84%" align="start" className={styles.bars}>
       {rows.map((r, i) => {
         const has = typeof r.score === 'number';
         const active = selected === r.id;
@@ -66,6 +67,7 @@ export function PositionBars() {
           </li>
         );
       })}
-    </ol>
+    </Rail>
+    </div>
   );
 }

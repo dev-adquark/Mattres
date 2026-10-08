@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import type { MattressType, ScoreCategory } from '@/lib/types';
 import { DIMENSIONS } from '@/lib/explain';
 import { cssVars } from '@/components/ui/cssVars';
@@ -53,7 +54,7 @@ export function DimensionsSection({ data }: MethodologySectionProps) {
             many of the {catalog.total} mattresses have data on file for it (we don&apos;t lab-test anything ourselves).
           </p>
         </header>
-        <ol className="rule-list">
+        <Rail as="ol" cards label="dimensions" column="86%" align="start" className="rule-list">
           {DIMENSIONS.map((d, i) => {
             const weight = rules.baseWeights[d.id];
             const measured = dimensionCoverage[d.id];
@@ -83,7 +84,7 @@ export function DimensionsSection({ data }: MethodologySectionProps) {
               </li>
             );
           })}
-        </ol>
+        </Rail>
       </div>
     </section>
   );

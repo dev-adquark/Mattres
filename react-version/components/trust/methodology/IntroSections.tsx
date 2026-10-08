@@ -1,3 +1,4 @@
+import { Rail } from '@/components/ui/Rail';
 import type { MethodologyRules, MethodologySectionProps, WeightRuleSummary } from '../methodologyTypes';
 import { Chapter } from './Chapter';
 import { TYPE_LABEL, firmnessLabel, multiplierText, pad2 } from './format';
@@ -136,7 +137,7 @@ export function InputsSection({ data }: MethodologySectionProps) {
             Four answers are required. The rest refine the result, and anything you skip simply applies no adjustment.
           </p>
         </header>
-        <ol className="rule-list rule-list--strong">
+        <Rail as="ol" cards label="inputs" column="86%" align="start" className="rule-list rule-list--strong">
           {inputRows(rules).map((row, i) => {
             const modifiers = rulesFor(rules.weightRules, row.key);
             return (
@@ -163,7 +164,7 @@ export function InputsSection({ data }: MethodologySectionProps) {
               </li>
             );
           })}
-        </ol>
+        </Rail>
       </div>
     </section>
   );
