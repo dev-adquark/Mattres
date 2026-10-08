@@ -27,6 +27,13 @@ describe('checkRateLimit', () => {
     expect(await checkRateLimit('client', { limit: 30 })).toEqual({ limited: false, backend: 'supabase' });
   });
 
+  it('falls back to memory counting while the migration is not yet applied', async () => {
+    client = { rpc };
+    rpc.mockResolvedValue({ data: null, error: { code: 'PGRST202', message: 'function not found' } });
+    expect(await checkRateLimit('client', { limit: 1 })).toEqual({ limited: false, backend: 'memory' });
+    expect(await checkRateLimit('client', { limit: 1 })).toEqual({ limited: true, backend: 'memory' });
+  });
+
   it('fails closed when the configured database errors or is unreachable', async () => {
     client = { rpc };
     rpc.mockResolvedValue({ data: null, error: { message: 'boom' } });

@@ -58,6 +58,10 @@ export async function checkRateLimit(key: unknown, { limit = 30, windowMs = WIND
 
   try {
     const { data, error } = await client.rpc('rate_limit_hit', { p_key: `match:${key}`, p_window_ms: windowMs });
+    // Migration 0006 not applied yet: degrade to the per-instance counter instead of blocking every visitor.
+    if (error && (error.code === 'PGRST202' || error.code === '42883' || error.code === '42P01')) {
+      return { limited: isRateLimited(key, { limit, windowMs }), backend: 'memory' };
+    }
     if (error || !Number.isFinite(Number(data))) return { limited: true, backend: 'supabase-error' };
     return { limited: Number(data) > limit, backend: 'supabase' };
   } catch {
