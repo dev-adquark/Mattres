@@ -476,3 +476,67 @@ describe('actor starts returning its documented editorial fields', () => {
     expect(ev).toMatchObject({ overallScore: 7.1, verdict: 'SYNTHETIC TEST VERDICT', pros: ['SYNTHETIC PRO'], cons: ['SYNTHETIC CON'] });
   });
 });
+
+describe('strict validation guard: exactly one Apify call per trigger', () => {
+  it('startRun is called exactly once for a normal run, never retried or called again downstream', async () => {
+    const repo = newRepo();
+    const apify = mockApify({ items: realRecords() });
+    const summary = await sync(repo, apify);
+    expect(summary.status).toBe('success');
+    expect(apify.startRun).toHaveBeenCalledTimes(1);
+  });
+
+  it('getDatasetItems is called exactly once; its result alone is what gets recorded (received count and raw-record count match it exactly, nothing re-fetched)', async () => {
+    const repo = newRepo();
+    const items = realRecords();
+    const apify = mockApify({ items });
+    const summary = await sync(repo, apify);
+    expect(apify.getDatasetItems).toHaveBeenCalledTimes(1);
+    expect(summary.counts.received).toBe(items.length);
+    expect(repo.listRawRecords(summary.syncRunId!)).toHaveLength(items.length);
+  });
+
+  it('resuming an awaiting_apify run calls getRun, never a second startRun (no duplicate paid scrape for the same input)', async () => {
+    const repo = newRepo();
+    const started = await repo.startRun({ trigger: 'cron', triggerSource: 'cron', actorId: 'dCa1uCOn8ZtEkUamC', actorInput: { ...CATEGORY_INPUT } });
+    if (!started.ok) throw new Error('test setup: startRun should have succeeded');
+    await repo.finishRun(started.run.id, { status: 'awaiting_apify', apify_run_id: 'TEST_APIFY_RUN_resume', apify_status: 'RUNNING' });
+    const apify = mockApify({ items: realRecords() });
+    const summary = await sync(repo, apify);
+    expect(summary.status).toBe('success');
+    expect(apify.startRun).not.toHaveBeenCalled();
+    expect(apify.getRun).toHaveBeenCalled();
+  });
+
+  it('a non-array dataset response is rejected before any write: zero raw records, zero review writes, one failed run row', async () => {
+    const repo = newRepo();
+    const upsert = vi.spyOn(repo, 'upsertReview');
+    const appendRaw = vi.spyOn(repo, 'appendRawRecords');
+    const summary = await sync(repo, { items: { not: 'an array' } });
+    expect(summary.status).toBe('failed');
+    expect(summary.errors.map((e) => e.code)).toContain('APIFY_MALFORMED_RESPONSE');
+    expect(upsert).not.toHaveBeenCalled();
+    expect(appendRaw).not.toHaveBeenCalled();
+    expect(repo.listRawRecords(summary.syncRunId!)).toHaveLength(0);
+  });
+
+  it('a concurrent trigger while one is already running makes zero Apify calls of any kind (startRun, getRun or getDatasetItems)', async () => {
+    const repo = newRepo();
+    await repo.startRun({ trigger: 'cron', triggerSource: 'cron', actorId: 'dCa1uCOn8ZtEkUamC', actorInput: { ...CATEGORY_INPUT } });
+    const apify = mockApify({ items: realRecords() });
+    const summary = await sync(repo, apify);
+    expect(summary.errors[0]?.code).toBe('SYNC_ALREADY_RUNNING');
+    expect(apify.startRun).not.toHaveBeenCalled();
+    expect(apify.getRun).not.toHaveBeenCalled();
+    expect(apify.getDatasetItems).not.toHaveBeenCalled();
+  });
+
+  it('a startRun failure (Apify-side) is never retried by the pipeline itself', async () => {
+    const repo = newRepo();
+    const apify = mockApify({ startError: new ApifyCallError('APIFY_NETWORK_ERROR', 'TEST: socket hang up', true) });
+    const summary = await sync(repo, apify);
+    expect(summary.status).toBe('failed');
+    expect(apify.startRun).toHaveBeenCalledTimes(1);
+    expect(apify.getDatasetItems).not.toHaveBeenCalled();
+  });
+});

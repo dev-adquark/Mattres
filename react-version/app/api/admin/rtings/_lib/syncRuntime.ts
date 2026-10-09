@@ -189,6 +189,42 @@ export async function checkSyncBudget(route: string): Promise<{ status: number; 
   return null;
 }
 
+/** A Postgres error class (42xxx: undefined column/table/function - a schema that does not match migrations 0001-0006). */
+const SCHEMA_ERROR_CODE = /\(42\d{3}\)\s*$/;
+
+/**
+ * Explicit, clearly-labeled database-schema preflight: a cheap read
+ * (repo.getLastSuccessfulRun(), which orders by the completed_at column
+ * added in migration 0005) that fails the same way a real sync's first
+ * write would, but before anything is locked or any Apify call is made.
+ *
+ * The cron route gets this for free as a side effect of readFreshness()
+ * (called before checkSyncBudget/runSync); the admin manual-sync route
+ * bypasses freshness entirely, so it calls this explicitly instead of
+ * discovering a broken schema only once the pipeline's repo.startRun()
+ * insert fails mid-flight.
+ */
+export async function checkSchemaReady(repo: RtingsRepository, route: string): Promise<{ status: number; error: RouteError } | null> {
+  try {
+    await repo.getLastSuccessfulRun();
+    return null;
+  } catch (caught) {
+    const message = caught instanceof Error ? caught.message : String(caught);
+    const schemaIssue = caught instanceof Error && SCHEMA_ERROR_CODE.test(message);
+    logRouteSkip(route, schemaIssue ? 'database schema not ready' : 'database read failed', { message: redactSecrets(message).slice(0, 260) });
+    return {
+      status: 502,
+      error: {
+        code: schemaIssue ? 'SCHEMA_NOT_READY' : 'STORE_READ_FAILED',
+        message: schemaIssue
+          ? 'The RTINGS database schema does not match what this code expects (a migration is missing or only partly applied); the run was skipped before any Apify call.'
+          : 'Could not read the RTINGS store to confirm it is ready; the run was skipped before any Apify call.',
+        retryable: true,
+      },
+    };
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Running the pipeline
 // ---------------------------------------------------------------------------

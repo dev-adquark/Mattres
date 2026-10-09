@@ -6,6 +6,7 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vites
 import { resetRateLimitForTests } from '@/lib/rateLimit';
 import { makeRunRow, makeSummary } from '@/lib/rtings/__fixtures__/rows';
 import { stubRepository } from '@/lib/rtings/__fixtures__/stubRepository';
+import { RtingsRepositoryError } from '@/lib/rtings/types';
 import type { RtingsRepository } from '@/lib/rtings/types';
 
 const h = vi.hoisted(() => ({
@@ -178,5 +179,39 @@ describe('POST /api/admin/rtings/sync: valid secret', () => {
     await POST(req(`Bearer ${SECRET}`));
     expect(h.checkApifyBudget).toHaveBeenCalledTimes(1);
     expect(h.runPipeline).toHaveBeenCalledTimes(1);
+  
+});
+  it('502 SCHEMA_NOT_READY when the database schema does not match this code, before any Apify or budget call', async () => {
+    h.repo = stubRepository({
+      kind: 'supabase',
+      getLastSuccessfulRun: async () => {
+        throw new RtingsRepositoryError('getLastSuccessfulRun', 'column rtings_sync_runs.completed_at does not exist (42703)', false);
+      },
+      getAwaitingApifyRun: async () => null,
+      findReviewsByIdentity: async () => [],
+    });
+    const res = await POST(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(502);
+    const body = (await res.json()) as { success: boolean; error: { code: string } };
+    expect(body.success).toBe(false);
+    expect(body.error.code).toBe('SCHEMA_NOT_READY');
+    expect(h.checkApifyBudget).not.toHaveBeenCalled();
+    expect(h.runPipeline).not.toHaveBeenCalled();
+  });
+
+  it('502 STORE_READ_FAILED (not SCHEMA_NOT_READY) for a non-schema database error', async () => {
+    h.repo = stubRepository({
+      kind: 'supabase',
+      getLastSuccessfulRun: async () => {
+        throw new RtingsRepositoryError('getLastSuccessfulRun', 'connection refused', true);
+      },
+      getAwaitingApifyRun: async () => null,
+      findReviewsByIdentity: async () => [],
+    });
+    const res = await POST(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(502);
+    const body = (await res.json()) as { success: boolean; error: { code: string } };
+    expect(body.error.code).toBe('STORE_READ_FAILED');
+    expect(h.runPipeline).not.toHaveBeenCalled();
   });
 });

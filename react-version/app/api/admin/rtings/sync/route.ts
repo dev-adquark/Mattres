@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { adminError, guardAdminRequest } from '@/lib/adminAuth';
 import type { AdminEnvelope } from '@/lib/adminAuth';
-import { checkSyncBudget, parseAdminSyncBody, readJsonBody, routeRepository, runSync, syncPreconditionError } from '../_lib/syncRuntime';
+import { checkSchemaReady, checkSyncBudget, parseAdminSyncBody, readJsonBody, routeRepository, runSync, syncPreconditionError } from '../_lib/syncRuntime';
 import type { SyncSummary } from '@/lib/rtings/types';
 
 /**
@@ -37,6 +37,12 @@ export async function POST(request: Request): Promise<NextResponse<AdminEnvelope
   const repo = routeRepository();
   const precondition = syncPreconditionError(repo);
   if (precondition) return adminError(precondition.status, precondition.error);
+
+  // The admin route bypasses the freshness gate, so (unlike cron, which gets
+  // this for free from readFreshness) it validates the schema explicitly,
+  // before touching the body or the repo again.
+  const schema = await checkSchemaReady(repo, 'admin/rtings/sync');
+  if (schema) return adminError(schema.status, schema.error);
 
   const body = await readJsonBody(request);
   if (!body.ok) return adminError(400, body.error);
