@@ -15,12 +15,19 @@ import styles from './Hero.module.css';
 const MOBILE_HERO_ASPECT = 'cutaway' as const;
 
 /**
- * Matches Hero.module.css: the still is shown below 900px only. It covers a
- * frame that is taller than 16:9, so it renders wider than the viewport:
- * about 215vw on a 390px phone (56svh tall) and about 125vw on a tablet.
- * Sizing to the rendered width keeps it sharp on 2-3x screens.
+ * Matches Hero.module.css: `.mobileVisual` is shown below 900px only, and has
+ * no explicit width, so it is 100% of the viewport regardless of its (taller
+ * than 16:9) aspect ratio - the still inside it is `fill` + object-fit cover,
+ * which crops to that box rather than needing extra resolution for it.
+ *
+ * This was previously 215vw / 125vw (treating the frame's own aspect ratio
+ * as if it changed the box's CSS width): that told next/image this, the
+ * mobile LCP element, was over twice as wide as it is, which made it request
+ * the actual-pixels largest srcset candidate (w=1920) for an ~420px-wide box
+ * - confirmed as the PageSpeed Insights LCP element and the oversized
+ * request behind it. 100vw is what the box actually measures.
  */
-const MOBILE_HERO_SIZES = '(max-width: 599px) 215vw, (max-width: 899px) 125vw, 1vw';
+const MOBILE_HERO_SIZES = '(max-width: 899px) 100vw, 1vw';
 
 /** The hero visual slider's constructions, in the order the catalog's Inspect chapter uses. */
 const HERO_BUILDS: HeroBuild[] = [
