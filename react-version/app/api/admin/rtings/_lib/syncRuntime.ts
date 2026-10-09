@@ -272,6 +272,18 @@ export async function runSync(args: RunSyncArgs): Promise<RunSyncOutcome> {
       waitBudgetMs: PIPELINE_WAIT_BUDGET_MS,
     });
 
+    // The pipeline never throws (its own doc comment: "every failure ends as
+    // a recorded run"), so a failed Apify call is already durable in the
+    // sync_runs row (error_summary/error_message) - this line only makes it
+    // visible in Vercel's live function logs too, without changing the
+    // summary, its HTTP status, or whether anything is retried (it isn't:
+    // apifyClient.ts's startRun never retries, so there is nothing left to
+    // stop here - this purely records that the single attempt failed).
+    if (summary.status === 'failed' && summary.errors.some((e) => e.code.startsWith('APIFY_'))) {
+      const first = summary.errors.find((e) => e.code.startsWith('APIFY_'));
+      logRouteSkip(`rtings-sync run #${summary.syncRunId ?? 'none'}`, 'the single Apify call failed; not retried', { code: first?.code, message: first?.message });
+    }
+
     if (summaryChangesSite(summary)) {
       try {
         revalidateTag(RTINGS_EVIDENCE_CACHE_TAG, 'max');

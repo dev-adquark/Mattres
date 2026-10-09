@@ -250,6 +250,20 @@ describe('GET /api/cron/rtings-sync: valid secret', () => {
     expect(h.runPipeline).toHaveBeenCalledTimes(1);
   });
 
+  it('logs the single failed Apify call once, with no retry (the summary already proves the attempt was not repeated)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    h.runPipeline.mockResolvedValue(
+      makeSummary({ status: 'failed', errors: [{ code: 'APIFY_RUN_FAILED', message: 'TEST: apify run FAILED', affected: [], retryable: true }] })
+    );
+    const res = await GET(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(502);
+    expect(h.runPipeline).toHaveBeenCalledTimes(1);
+    const line = warn.mock.calls.map((c) => String(c[0])).find((l) => l.includes('single Apify call failed'));
+    expect(line).toBeDefined();
+    expect(line).toContain('APIFY_RUN_FAILED');
+    warn.mockRestore();
+  });
+
   it('never leaks the Apify token in the response', async () => {
     process.env.APIFY_API_TOKEN = 'apify_api_TESTONLYfaketoken123456';
     h.runPipeline.mockResolvedValue(

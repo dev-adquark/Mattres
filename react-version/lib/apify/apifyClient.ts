@@ -223,9 +223,15 @@ export function createApifyHttpPort(options: ApifyHttpPortOptions): ApifyPort {
   const baseDelayMs = options.baseDelayMs ?? DEFAULT_BASE_DELAY_MS;
 
   /**
-   * @param retryNetwork false for the POST that starts a paid run: a timeout
-   *   there is ambiguous (the run may have started), so it is never retried
-   *   blindly; only a 429 (definitely not started) is repeated.
+   * @param retryNetwork false for the POST that starts a paid run: that call
+   *   is made at most once per invocation, full stop - any failure (network
+   *   error, timeout, or any non-2xx response, including a 429) throws
+   *   immediately with no retry, so the pipeline logs it and stops rather
+   *   than risk a second billable run. (Earlier this retried a plain 429,
+   *   reasoning it provably never started; that carve-out is removed so the
+   *   guarantee holds with no exceptions.) Reads (getRun, getDatasetItems -
+   *   never billed, never start a run) pass true and keep their existing
+   *   retry-on-transient-failure behavior, unchanged.
    */
   async function request(method: 'GET' | 'POST', url: string, body: unknown, retryNetwork: boolean, requestTimeoutMs: number): Promise<unknown> {
     let lastError: ApifyCallError | null = null;
@@ -263,7 +269,7 @@ export function createApifyHttpPort(options: ApifyHttpPortOptions): ApifyPort {
           retryable,
           response.status
         );
-        if (!retryable || (!retryNetwork && response.status !== 429)) throw lastError;
+        if (!retryNetwork || !retryable) throw lastError;
         continue;
       }
       try {

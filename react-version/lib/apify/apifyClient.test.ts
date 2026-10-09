@@ -174,6 +174,35 @@ describe('HTTP port', () => {
     expect(f.calls).toHaveLength(1);
   });
 
+  it.each([408, 429, 500, 502, 503, 504])(
+    'starting a paid run is NEVER retried, not even on a retryable-elsewhere %i (one outbound request, full stop)',
+    async (status) => {
+      const f = fakeFetch([new Response('try later', { status }), json(runBody('READY'))]);
+      const port = createApifyHttpPort({ token: FAKE_TOKEN, fetchImpl: f.impl, baseDelayMs: 0 });
+      await expect(port.startRun(buildRtingsInput())).rejects.toMatchObject({ code: 'APIFY_RUN_FAILED', retryable: true });
+      expect(f.calls).toHaveLength(1);
+    }
+  );
+
+  it('a timeout while STARTING a paid run is never retried', async () => {
+    const f = fakeFetch([new DOMException('aborted', 'AbortError'), json(runBody('READY'))]);
+    const port = createApifyHttpPort({ token: FAKE_TOKEN, fetchImpl: f.impl, baseDelayMs: 0 });
+    await expect(port.startRun(buildRtingsInput())).rejects.toMatchObject({ code: 'APIFY_TIMEOUT' });
+    expect(f.calls).toHaveLength(1);
+  });
+
+  it('reads (getRun, getDatasetItems) keep retrying transient failures - only the paid startRun call is single-attempt', async () => {
+    const f1 = fakeFetch([new Response('busy', { status: 429 }), json(runBody('SUCCEEDED'))]);
+    const info = await createApifyHttpPort({ token: FAKE_TOKEN, fetchImpl: f1.impl, baseDelayMs: 0 }).getRun('TEST_RUN_x');
+    expect(info.status).toBe('SUCCEEDED');
+    expect(f1.calls).toHaveLength(2);
+
+    const f2 = fakeFetch([new Response('busy', { status: 429 }), json([{ productId: '1' }])]);
+    const items = await createApifyHttpPort({ token: FAKE_TOKEN, fetchImpl: f2.impl, baseDelayMs: 0 }).getDatasetItems('TEST_DS_x', { limit: 5 });
+    expect(items).toEqual([{ productId: '1' }]);
+    expect(f2.calls).toHaveLength(2);
+  });
+
   it('a malformed run response is APIFY_MALFORMED_RESPONSE', async () => {
     const f = fakeFetch([json({ nope: true })]);
     await expect(createApifyHttpPort({ token: FAKE_TOKEN, fetchImpl: f.impl }).getRun('TEST_RUN_x')).rejects.toMatchObject({ code: 'APIFY_MALFORMED_RESPONSE' });
