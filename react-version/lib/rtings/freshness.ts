@@ -1,13 +1,15 @@
 /**
- * 14-day freshness gate for the RTINGS sync (brief sections 22 and 41).
+ * RTINGS_SYNC_INTERVAL_DAYS-day freshness gate for the RTINGS sync (brief
+ * sections 22 and 41; the interval is 31 days during the current testing
+ * phase, 14 in the original design).
  *
- * Vercel Cron cannot express "every 14 days" exactly, so vercel.json
+ * Vercel Cron cannot express "every N days" exactly, so vercel.json
  * schedules a DAILY tick (RTINGS_CRON_SCHEDULE) and this module decides on
  * each tick whether a sync is actually due:
  *
  *   - an `awaiting_apify` run exists      -> due (resume it; no new scrape is paid for)
  *   - no successful run has ever finished -> due ('never_synced')
- *   - now - last successful completion >= 14 days -> due ('interval_elapsed')
+ *   - now - last successful completion >= RTINGS_SYNC_INTERVAL_DAYS -> due ('interval_elapsed')
  *   - otherwise                           -> not due (the tick spends nothing)
  *
  * Only `success` and `partial` runs count as successful. `held` and `failed`
@@ -15,12 +17,12 @@
  * problem never turns into a paid scrape every day (brief sections 22, 34):
  *
  *   - newest finished run is `held`   -> the same data would be held again; wait
- *     14 days from it ('held_awaiting_review'). An admin manual sync bypasses
- *     the gate whenever a person has looked at the flags.
+ *     RTINGS_SYNC_INTERVAL_DAYS from it ('held_awaiting_review'). An admin
+ *     manual sync bypasses the gate whenever a person has looked at the flags.
  *   - newest finished run(s) `failed` -> exponential backoff from the last
  *     failure: 1, 2, 4, then 7 days ('failed_backoff'). After
  *     RTINGS_MAX_AUTO_FAILURES consecutive failures the cron retries only
- *     every 14 days until a run succeeds.
+ *     every RTINGS_SYNC_INTERVAL_DAYS days until a run succeeds.
  *
  * Backoff windows end RETRY_TICK_TOLERANCE_MS early so a run that finished a
  * few minutes after 06:30 UTC is retried on the intended tick, not a day late.
@@ -30,7 +32,7 @@
 import { RTINGS_SYNC_INTERVAL_DAYS } from './types';
 import type { RtingsSyncRunRow, SyncDueDecision, SyncLastAttempt, SyncRunStatus } from './types';
 
-/** The vercel.json schedule for /api/cron/rtings-sync: daily at 06:30 UTC. Not a 14-day expression; the gate above is. */
+/** The vercel.json schedule for /api/cron/rtings-sync: daily at 06:30 UTC. Not an every-N-days expression; the gate above is. */
 export const RTINGS_CRON_SCHEDULE = '30 6 * * *';
 const CRON_HOUR_UTC = 6;
 const CRON_MINUTE_UTC = 30;
@@ -38,7 +40,7 @@ const CRON_MINUTE_UTC = 30;
 const DAY_MS = 24 * 60 * 60 * 1000;
 export const RTINGS_SYNC_INTERVAL_MS = RTINGS_SYNC_INTERVAL_DAYS * DAY_MS;
 
-/** Run statuses that reset the 14-day clock. */
+/** Run statuses that reset the freshness clock. */
 export const SUCCESSFUL_SYNC_STATUSES = ['success', 'partial'] as const satisfies readonly SyncRunStatus[];
 
 export function isSuccessfulRun(run: Pick<RtingsSyncRunRow, 'status'> | null | undefined): boolean {
@@ -61,7 +63,7 @@ export function successfulRunCompletedAt(run: RtingsSyncRunRow | null | undefine
   return null;
 }
 
-/** Earliest instant the gate allows the next sync: last success + 14 days. Null when never synced or unparseable. */
+/** Earliest instant the gate allows the next sync: last success + RTINGS_SYNC_INTERVAL_DAYS. Null when never synced or unparseable. */
 export function nextDueAt(lastSuccessAt: string | null | undefined): string | null {
   const t = toTime(lastSuccessAt);
   return t === null ? null : new Date(t + RTINGS_SYNC_INTERVAL_MS).toISOString();

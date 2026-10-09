@@ -3,7 +3,7 @@ import { guardCronRequest } from '@/lib/cronGuard';
 import { logRouteError, readFreshness, routeRepository, SCHEDULE_INFO } from '@/app/api/admin/rtings/_lib/syncRuntime';
 import { RTINGS_SYNC_INTERVAL_DAYS } from '@/lib/rtings/types';
 
-/** Days past the 14-day due date after which the daily tick has evidently not been refreshing the data. */
+/** Days past the due date (RTINGS_SYNC_INTERVAL_DAYS) after which the daily tick has evidently not been refreshing the data. */
 const OVERDUE_GRACE_DAYS = 2;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -16,11 +16,11 @@ const DAY_MS = 24 * 60 * 60 * 1000;
  * status:
  *   never_synced    no success|partial run recorded
  *   awaiting_apify  a run is parked waiting for Apify; the next daily tick resumes it
- *   fresh           last success < 14 days ago
- *   due             >= 14 days; the next daily tick will run a sync
- *   overdue         more than 14 + 2 days; the scheduled sync is not succeeding
+ *   fresh           last success < RTINGS_SYNC_INTERVAL_DAYS days ago
+ *   due             >= RTINGS_SYNC_INTERVAL_DAYS days; the next daily tick will run a sync
+ *   overdue         more than RTINGS_SYNC_INTERVAL_DAYS + OVERDUE_GRACE_DAYS days; the scheduled sync is not succeeding
  *   held_awaiting_review  the newest finished run was held by the safety gate; the cron waits
- *                   14 days from it, so a person should read its safety flags (and may run an admin sync)
+ *                   RTINGS_SYNC_INTERVAL_DAYS from it, so a person should read its safety flags (and may run an admin sync)
  *   failed_backoff  the newest finished run(s) failed; the cron is backing off (lastAttempt has the count)
  */
 export const dynamic = 'force-dynamic';

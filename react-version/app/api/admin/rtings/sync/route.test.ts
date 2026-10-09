@@ -13,6 +13,7 @@ const h = vi.hoisted(() => ({
   apifyConfigured: true,
   runPipeline: vi.fn(),
   getApifyPort: vi.fn(),
+  checkApifyBudget: vi.fn(),
 }));
 
 vi.mock('next/cache', () => ({ revalidateTag: vi.fn(), unstable_cache: <T>(fn: T) => fn }));
@@ -28,6 +29,7 @@ vi.mock('@/lib/apify/apifyClient', async (importOriginal) => ({
   ...(await importOriginal<object>()),
   isApifyConfigured: () => h.apifyConfigured,
   getApifyPort: h.getApifyPort,
+  checkApifyBudget: h.checkApifyBudget,
 }));
 
 import { POST } from './route';
@@ -67,6 +69,7 @@ beforeEach(() => {
       getDatasetItems: () => Promise.reject(new Error('TEST: Apify must not be called')),
     },
   });
+  h.checkApifyBudget.mockReset().mockResolvedValue({ ok: true, monthlyUsageUsd: 0, monthlyLimitUsd: 19, reservedUsd: 1.5, cycleEndsAt: null });
   vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('TEST: network disabled'))));
 });
 afterEach(() => vi.unstubAllGlobals());
@@ -159,5 +162,21 @@ describe('POST /api/admin/rtings/sync: valid secret', () => {
   it('409 when a sync is already running', async () => {
     h.runPipeline.mockResolvedValue(makeSummary({ status: 'failed', syncRunId: null, errors: [{ code: 'SYNC_ALREADY_RUNNING', message: 'test', affected: [], retryable: true }] }));
     expect((await POST(req(`Bearer ${SECRET}`))).status).toBe(409);
+  });
+
+  it('503 when the monthly Apify budget has no headroom, even for a manual sync', async () => {
+    h.checkApifyBudget.mockResolvedValue({ ok: false, monthlyUsageUsd: 19.05, monthlyLimitUsd: 19, reservedUsd: 1.5, cycleEndsAt: '2026-10-24T23:59:59.999Z' });
+    const res = await POST(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as { success: boolean; error: { code: string } };
+    expect(body.success).toBe(false);
+    expect(body.error.code).toBe('BUDGET_LIMIT_EXCEEDED');
+    expect(h.runPipeline).not.toHaveBeenCalled();
+  });
+
+  it('checks the budget before starting the pipeline, even though the freshness gate itself is bypassed', async () => {
+    await POST(req(`Bearer ${SECRET}`));
+    expect(h.checkApifyBudget).toHaveBeenCalledTimes(1);
+    expect(h.runPipeline).toHaveBeenCalledTimes(1);
   });
 });

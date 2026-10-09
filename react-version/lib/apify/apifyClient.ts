@@ -298,6 +298,73 @@ export function createApifyHttpPort(options: ApifyHttpPortOptions): ApifyPort {
   };
 }
 
+export interface ApifyBudgetStatus {
+  /** Whether there is enough headroom in the monthly cap for one more run up to maxChargeUsd(). */
+  ok: boolean;
+  monthlyUsageUsd: number;
+  monthlyLimitUsd: number;
+  /** maxChargeUsd() - the per-run ceiling this check reserved headroom for. */
+  reservedUsd: number;
+  cycleEndsAt: string | null;
+}
+
+/**
+ * Reads the account's current monthly spend against its cap
+ * (GET /v2/users/me/limits - free, read-only account metadata, never starts
+ * or charges for an actor run) and refuses headroom for one more run unless
+ * current usage plus the per-run cost cap (maxChargeUsd()) still fits under
+ * the plan's monthly limit. Called before every sync (cron and manual) so a
+ * run that would push the account over budget is never started - the $19
+ * October incident was 11 runs that each succeeded at Apify but could not be
+ * written to a database that did not yet have the right schema; this stops
+ * the same waste from a different cause (an exhausted monthly cap).
+ *
+ * Fails closed: a network error, a non-200 response or a malformed body all
+ * report { ok: false } - "cannot confirm the budget allows this" is treated
+ * the same as "the budget does not allow this".
+ */
+export async function checkApifyBudget(
+  options: { token?: string; fetchImpl?: typeof fetch; reservedUsd?: number } = {}
+): Promise<ApifyBudgetStatus | ApifyError> {
+  const token = (options.token ?? process.env.APIFY_API_TOKEN ?? '').trim();
+  if (token === '') return { success: false, code: 'APIFY_NOT_CONFIGURED', message: 'APIFY_API_TOKEN is not set on this deployment.', retryable: false };
+  const doFetch = options.fetchImpl ?? fetch;
+  const reservedUsd = options.reservedUsd ?? maxChargeUsd();
+
+  let response: Response;
+  try {
+    response = await doFetch(`${API_BASE}/users/me/limits`, { headers: { Authorization: `Bearer ${token}` } });
+  } catch (caught) {
+    return { success: false, code: 'APIFY_NETWORK_ERROR', message: `Network error reading Apify usage: ${(caught as Error).message}`, retryable: true };
+  }
+  if (!response.ok) {
+    return {
+      success: false,
+      code: response.status === 401 || response.status === 403 ? 'APIFY_UNAUTHORIZED' : 'APIFY_RUN_FAILED',
+      message: `Apify usage check returned HTTP ${response.status}.`,
+      retryable: RETRYABLE_STATUS.has(response.status),
+      httpStatus: response.status,
+    };
+  }
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch (caught) {
+    return { success: false, code: 'APIFY_MALFORMED_RESPONSE', message: `Apify usage response was not valid JSON: ${(caught as Error).message}`, retryable: true };
+  }
+  const data = (body as { data?: Record<string, unknown> } | null)?.data;
+  const current = data?.current as Record<string, unknown> | undefined;
+  const limits = data?.limits as Record<string, unknown> | undefined;
+  const cycle = data?.monthlyUsageCycle as Record<string, unknown> | undefined;
+  const monthlyUsageUsd = Number(current?.monthlyUsageUsd);
+  const monthlyLimitUsd = Number(limits?.maxMonthlyUsageUsd);
+  if (!Number.isFinite(monthlyUsageUsd) || !Number.isFinite(monthlyLimitUsd)) {
+    return { success: false, code: 'APIFY_MALFORMED_RESPONSE', message: 'Apify usage response was missing monthlyUsageUsd or maxMonthlyUsageUsd.', retryable: true };
+  }
+  const cycleEndsAt = typeof cycle?.endAt === 'string' ? cycle.endAt : null;
+  return { ok: monthlyUsageUsd + reservedUsd <= monthlyLimitUsd, monthlyUsageUsd, monthlyLimitUsd, reservedUsd, cycleEndsAt };
+}
+
 /** The configured port, or a structured reason why there is none. */
 export function getApifyPort(): { ok: true; port: ApifyPort } | ApifyError {
   const actor = resolveActorId();

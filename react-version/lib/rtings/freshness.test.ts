@@ -1,25 +1,27 @@
 import { describe, expect, it } from 'vitest';
 import { RETRY_TICK_TOLERANCE_MS, RTINGS_MAX_AUTO_FAILURES, decideSyncDue, failureBackoffDays, lastAttemptOf, nextDueAt } from './freshness';
+import { RTINGS_SYNC_INTERVAL_DAYS } from './types';
 import { makeRunRow } from './__fixtures__/rows';
 
 const DAY = 24 * 60 * 60 * 1000;
+const N = RTINGS_SYNC_INTERVAL_DAYS;
 const LAST = '2026-09-01T06:35:00.000Z';
 const at = (ms: number) => new Date(Date.parse(LAST) + ms);
 
-describe('freshness: 14-day gate', () => {
+describe(`freshness: ${N}-day gate`, () => {
   it('is due when nothing has ever synced', () => {
     const d = decideSyncDue(null, null, new Date(LAST));
     expect(d).toMatchObject({ due: true, reason: 'never_synced', lastSuccessAt: null });
   });
 
-  it('is not due 13 days after a successful run and reports nextDueAt = +14 days', () => {
-    const d = decideSyncDue(makeRunRow({ completed_at: LAST }), null, at(13 * DAY));
+  it(`is not due ${N - 1} days after a successful run and reports nextDueAt = +${N} days`, () => {
+    const d = decideSyncDue(makeRunRow({ completed_at: LAST }), null, at((N - 1) * DAY));
     expect(d.due).toBe(false);
-    if (!d.due) expect(d.nextDueAt).toBe(new Date(Date.parse(LAST) + 14 * DAY).toISOString());
+    if (!d.due) expect(d.nextDueAt).toBe(new Date(Date.parse(LAST) + N * DAY).toISOString());
   });
 
-  it('is due exactly 14 days after a successful run', () => {
-    expect(decideSyncDue(makeRunRow({ completed_at: LAST }), null, at(14 * DAY))).toMatchObject({ due: true, reason: 'interval_elapsed' });
+  it(`is due exactly ${N} days after a successful run`, () => {
+    expect(decideSyncDue(makeRunRow({ completed_at: LAST }), null, at(N * DAY))).toMatchObject({ due: true, reason: 'interval_elapsed' });
   });
 
   it('counts partial as successful', () => {
@@ -50,22 +52,22 @@ function finished(id: number, status: 'success' | 'partial' | 'held' | 'failed',
 
 describe('freshness: backoff after held runs', () => {
   const SUCCESS = makeRunRow({ id: 1, completed_at: LAST, finished_at: LAST });
-  const heldAt = at(14 * DAY); // the day-14 cron run was held by the safety gate
+  const heldAt = at(N * DAY); // the day-N cron run was held by the safety gate
 
-  it('a held run waits 14 days instead of re-scraping on every daily tick', () => {
+  it(`a held run waits ${N} days instead of re-scraping on every daily tick`, () => {
     const runs = [finished(2, 'held', heldAt), SUCCESS];
-    for (const day of [1, 2, 7, 13]) {
+    for (const day of [1, 2, 7, N - 1]) {
       const d = decideSyncDue(SUCCESS, null, new Date(heldAt.getTime() + day * DAY), runs);
       expect(d).toMatchObject({ due: false, reason: 'held_awaiting_review', lastAttempt: { runId: 2, status: 'held', consecutiveFailures: 0 } });
-      if (!d.due) expect(d.nextDueAt).toBe(new Date(heldAt.getTime() + 14 * DAY - RETRY_TICK_TOLERANCE_MS).toISOString());
+      if (!d.due) expect(d.nextDueAt).toBe(new Date(heldAt.getTime() + N * DAY - RETRY_TICK_TOLERANCE_MS).toISOString());
     }
-    expect(decideSyncDue(SUCCESS, null, new Date(heldAt.getTime() + 14 * DAY), runs)).toMatchObject({ due: true, reason: 'interval_elapsed' });
+    expect(decideSyncDue(SUCCESS, null, new Date(heldAt.getTime() + N * DAY), runs)).toMatchObject({ due: true, reason: 'interval_elapsed' });
   });
 
   it('a held run with no success ever also waits (never_synced does not bypass it)', () => {
     const runs = [finished(1, 'held', new Date(LAST))];
     expect(decideSyncDue(null, null, at(DAY), runs)).toMatchObject({ due: false, reason: 'held_awaiting_review' });
-    expect(decideSyncDue(null, null, at(14 * DAY), runs)).toMatchObject({ due: true, reason: 'never_synced' });
+    expect(decideSyncDue(null, null, at(N * DAY), runs)).toMatchObject({ due: true, reason: 'never_synced' });
   });
 
   it('a later successful run (e.g. an admin manual sync) clears the hold', () => {
@@ -75,26 +77,29 @@ describe('freshness: backoff after held runs', () => {
     expect(d).toMatchObject({ due: false, reason: 'not_due', lastAttempt: { runId: 3, status: 'success' } });
   });
 
-  it('a lasting hold costs one scrape per 14 days, not one per daily tick', () => {
+  it(`a lasting hold costs one scrape per ${N} days, not one per daily tick`, () => {
     let runs = [SUCCESS];
     let scrapes = 0;
-    for (let day = 14; day < 44; day++) {
+    const windowDays = N * 2;
+    for (let day = N; day < N + windowDays; day++) {
       const tick = new Date(Date.UTC(2026, 8, 1, 6, 30) + day * DAY);
       if (decideSyncDue(SUCCESS, null, tick, runs).due) {
         scrapes += 1;
         runs = [finished(100 + day, 'held', new Date(tick.getTime() + 3 * 60_000)), ...runs];
       }
     }
-    // Ticks on days 15 (first due), 29 and 43 over 30 daily ticks; before the backoff it was 29.
-    expect(scrapes).toBe(3);
+    // Backoff windows close RETRY_TICK_TOLERANCE_MS (1h) early, so each hold
+    // is cleared on the daily tick on or just before the N-day mark: one
+    // scrape roughly every N days across a 2N-day window.
+    expect(scrapes).toBe(2);
   });
 });
 
 describe('freshness: exponential backoff after failed runs', () => {
   const failedAt = new Date('2026-09-20T06:33:00.000Z');
 
-  it('backs off 1, 2, 4, 7 days, then 14 after the cap', () => {
-    expect([1, 2, 3, 4, 5, 6].map(failureBackoffDays)).toEqual([1, 2, 4, 7, 14, 14]);
+  it(`backs off 1, 2, 4, 7 days, then ${N} after the cap`, () => {
+    expect([1, 2, 3, 4, 5, 6].map(failureBackoffDays)).toEqual([1, 2, 4, 7, N, N]);
     expect(RTINGS_MAX_AUTO_FAILURES).toBe(5);
     expect(failureBackoffDays(0)).toBe(0);
   });
@@ -110,7 +115,7 @@ describe('freshness: exponential backoff after failed runs', () => {
       finished(5, 'failed', failedAt),
       finished(4, 'failed', new Date(failedAt.getTime() - 4 * DAY)),
       finished(3, 'failed', new Date(failedAt.getTime() - 6 * DAY)),
-      finished(2, 'success', new Date(failedAt.getTime() - 20 * DAY)),
+      finished(2, 'success', new Date(failedAt.getTime() - (N + 5) * DAY)), // well past N days back, so the interval gate itself does not also block
       finished(1, 'failed', new Date(failedAt.getTime() - 40 * DAY)),
     ];
     expect(lastAttemptOf(runs)).toMatchObject({ runId: 5, status: 'failed', consecutiveFailures: 3 });
@@ -131,8 +136,10 @@ describe('freshness: exponential backoff after failed runs', () => {
         runs = [finished(100 + day, 'failed', new Date(tick.getTime() + 3 * 60_000)), ...runs];
       }
     }
-    // Ticks on days 0, 1, 3, 7, 14, then every 14 days: 0,1,3,7,14,28.
-    expect(scrapes).toBe(6);
+    // Backoff is 1, 2, 4, 7 days regardless of N (only the 5th-failure-on
+    // backoff is N), so over 30 days scrapes land on days 0, 1, 3, 7, 14 -
+    // and a 5th (day 14 + min(7, N)) only when N <= 7, which it is not here.
+    expect(scrapes).toBe(5);
   });
 
   it('resuming an awaiting_apify run is never blocked by backoff (it costs no new scrape)', () => {

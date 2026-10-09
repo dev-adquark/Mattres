@@ -61,7 +61,7 @@ None of the 20 items included a verdict, pros, cons, a mixed summary, or a numer
 | `APIFY_API_TOKEN` | server only | Apify API token. Never logged, never in URLs that get logged, never sent to the client. |
 | `APIFY_RTINGS_ACTOR_ID` | server only | `dCa1uCOn8ZtEkUamC` |
 | `RTINGS_SYNC_MAX_ITEMS` | server only, optional | Items per category run (default 50, cap 200) |
-| `RTINGS_SYNC_MAX_CHARGE_USD` | server only, optional | Per-run Apify spending cap passed to the actor run (default 1.5, capped at 10) |
+| `RTINGS_SYNC_MAX_CHARGE_USD` | server only, optional | Per-run Apify spending cap passed to the actor run (default 1.5, capped at 10). Also the headroom `checkSyncBudget()` reserves against the account's monthly cap before any run starts (section 4, data flow). |
 | `SUPABASE_URL`, `SUPABASE_SECRET_KEY` | server only | Production store. Without them, the site reads the committed snapshot. |
 | `CRON_SECRET` | server only | Bearer secret Vercel Cron sends to `/api/cron/*` |
 | `ADMIN_API_SECRET` | server only | Bearer secret for `/api/admin/rtings/*` (separate from `CRON_SECRET`) |
@@ -71,8 +71,11 @@ Template: `react-version/.env.example`. Real values go in `.env.local` (gitignor
 ## 4. Data flow
 
 ```text
-Vercel Cron (daily tick)  ──►  /api/cron/rtings-sync  ──►  freshness.ts: due? (14 days since last success, or resume awaiting_apify)
+Vercel Cron (daily tick)  ──►  /api/cron/rtings-sync  ──►  freshness.ts: due? (RTINGS_SYNC_INTERVAL_DAYS since last success, or resume awaiting_apify)
                                                          │ no → 200 { skipped: 'not_due', nextDueAt }
+                                                         ▼ yes
+                                  checkSyncBudget(): monthly Apify cap has headroom?
+                                                         │ no → 503 { error: { code: 'BUDGET_LIMIT_EXCEEDED' } }, nothing spent
                                                          ▼ yes
                                   syncPipeline.ts  (lock: rtings_sync_runs status='running')
    Apify run ─► dataset items ─► rtings_raw_records (append-only, every item, valid or not)
@@ -146,6 +149,8 @@ There is no fuzzy matching. Only an `exact` or `high` match can be published.
 ## 11. Cron schedule
 
 Vercel Cron can't express "every 14 days" exactly, so `vercel.json` schedules a **daily** tick for `/api/cron/rtings-sync` (staggered from `verify-catalog`). The route runs the sync only when `now - last_successful_sync_at >= 14 days` (`lib/rtings/freshness.ts`), or when an `awaiting_apify` run needs to be resumed. Any other tick returns `200 { skipped: 'not_due', nextDueAt }` and spends nothing. `success` and `partial` runs count as successful. `held` and `failed` runs do not reset the clock, but they do back off the cron (see below), so a lasting problem never turns into a paid scrape every day.
+
+> **Current value (testing phase):** `RTINGS_SYNC_INTERVAL_DAYS = 31` (`lib/rtings/types.ts`), not the original 14 - the schedule below and every day figure in this document scale with that constant. Exactly one run is intended per 31-day cycle while the pipeline, the Supabase schema and the Apify budget are being verified.
 
 **Builder (scheduler).** `react-version/vercel.json`:
 

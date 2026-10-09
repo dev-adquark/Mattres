@@ -1,6 +1,6 @@
 /**
  * Server-only glue shared by the RTINGS route handlers:
- *   GET  /api/cron/rtings-sync     (CRON_SECRET, daily tick + 14-day gate)
+ *   GET  /api/cron/rtings-sync     (CRON_SECRET, daily tick + RTINGS_SYNC_INTERVAL_DAYS gate)
  *   GET  /api/cron/rtings-check    (CRON_SECRET, report-only freshness)
  *   POST /api/admin/rtings/sync    (ADMIN_API_SECRET, manual, ignores the gate)
  *   GET  /api/admin/rtings/status  (ADMIN_API_SECRET, observability, never calls Apify)
@@ -14,7 +14,7 @@ import 'server-only';
 import { revalidateTag } from 'next/cache';
 import { getCatalog } from '@/lib/db/mattressRepo';
 import { isDbConfigured } from '@/lib/db/supabaseClient';
-import { buildRtingsInput, getApifyPort, isApifyConfigured, MAX_ITEMS_CAP, resolveActorId } from '@/lib/apify/apifyClient';
+import { buildRtingsInput, checkApifyBudget, getApifyPort, isApifyConfigured, MAX_ITEMS_CAP, resolveActorId } from '@/lib/apify/apifyClient';
 import type { RtingsActorInput } from '@/lib/apify/apifyClient';
 import { getRtingsRepository, isWritableRepository } from '@/lib/rtings/repository';
 import { runRtingsPipeline, syncSummaryHttpStatus } from '@/lib/rtings/syncPipeline';
@@ -87,6 +87,12 @@ export function redactSecrets<T>(value: T): T {
   return JSON.parse(json) as T;
 }
 
+/** One log line for a run that was intentionally skipped (not an error) - always durable in Vercel's function logs. */
+export function logRouteSkip(route: string, reason: string, detail?: Record<string, unknown>): void {
+  const suffix = detail ? ` ${redactSecrets(JSON.stringify(detail)).slice(0, 260)}` : '';
+  console.warn(`[${route}] skipped: ${reason}${suffix}`);
+}
+
 /** One log line without stack traces or secret values. */
 export function logRouteError(route: string, caught: unknown): void {
   const name = caught instanceof Error ? caught.name : 'Error';
@@ -132,6 +138,51 @@ export function syncPreconditionError(repo: RtingsRepository): { status: number;
         code: 'STORE_NOT_CONFIGURED',
         message: 'Database credentials are not configured, so this deployment has no writable RTINGS store. Run the CLI sync (node scripts/sync-rtings.js) instead.',
         retryable: false,
+      },
+    };
+  }
+  return null;
+}
+
+/**
+ * Checks Apify's own monthly usage cap has headroom for one more run before
+ * starting one. Called by both the cron and the admin sync route, after
+ * `syncPreconditionError` and (for cron) after the freshness gate decides a
+ * run is due - never by buildStatusReport, which documents that it never
+ * calls Apify.
+ *
+ * This read is free (GET /v2/users/me/limits is account metadata, not an
+ * actor run) but it does use APIFY_API_TOKEN, so it only runs right before a
+ * sync that would otherwise proceed - never speculatively, never just to
+ * populate a status page.
+ *
+ * Fails closed: if the check itself cannot be completed (network error, bad
+ * response), the run is treated as not safe and skipped, the same as a
+ * confirmed over-budget account.
+ */
+export async function checkSyncBudget(route: string): Promise<{ status: number; error: RouteError } | null> {
+  const result = await checkApifyBudget();
+  if ('success' in result) {
+    logRouteSkip(route, 'budget check failed', { code: result.code, message: result.message });
+    return {
+      status: 503,
+      error: { code: 'BUDGET_CHECK_FAILED', message: `Could not confirm the Apify monthly budget allows a run: ${result.message}`, retryable: result.retryable },
+    };
+  }
+  if (!result.ok) {
+    const detail = {
+      monthlyUsageUsd: result.monthlyUsageUsd,
+      monthlyLimitUsd: result.monthlyLimitUsd,
+      reservedUsd: result.reservedUsd,
+      cycleEndsAt: result.cycleEndsAt,
+    };
+    logRouteSkip(route, 'monthly Apify budget exhausted', detail);
+    return {
+      status: 503,
+      error: {
+        code: 'BUDGET_LIMIT_EXCEEDED',
+        message: `Monthly Apify usage is $${result.monthlyUsageUsd.toFixed(2)} of a $${result.monthlyLimitUsd.toFixed(2)} cap; the $${result.reservedUsd.toFixed(2)} per-run ceiling would not fit. The run was skipped${result.cycleEndsAt ? `; the cycle resets ${result.cycleEndsAt}` : ''}.`,
+        retryable: true,
       },
     };
   }
@@ -221,7 +272,7 @@ export async function runSync(args: RunSyncArgs): Promise<RunSyncOutcome> {
 export interface FreshnessSnapshot {
   decision: SyncDueDecision;
   lastSuccessfulSyncAt: string | null;
-  /** Earliest instant the cron may start a sync: the 14-day due date, or the held/failed backoff end when later. */
+  /** Earliest instant the cron may start a sync: the RTINGS_SYNC_INTERVAL_DAYS due date, or the held/failed backoff end when later. */
   nextDueAt: string | null;
   nextScheduledSyncAt: string;
   awaitingApifyRunId: string | null;
@@ -229,7 +280,7 @@ export interface FreshnessSnapshot {
   lastAttempt: SyncLastAttempt | null;
 }
 
-/** Reads the rows the 14-day gate and its held/failed backoff need. Throws the repository's error. */
+/** Reads the rows the freshness gate and its held/failed backoff need. Throws the repository's error. */
 export async function readFreshness(repo: RtingsRepository, now: Date): Promise<FreshnessSnapshot> {
   const [lastSuccess, awaiting, recent] = await Promise.all([
     repo.getLastSuccessfulRun(),
@@ -252,7 +303,7 @@ export async function readFreshness(repo: RtingsRepository, now: Date): Promise<
 export const SCHEDULE_INFO = {
   cron: RTINGS_CRON_SCHEDULE,
   cronDescription:
-    'Daily tick at 06:30 UTC; a sync runs only when 14 days have passed since the last successful sync (or none exists). After a held run the cron waits 14 days (an admin manual sync can run sooner); after failed runs it backs off 1, 2, 4, then 7 days, and every 14 days after 5 failures in a row.',
+    `Daily tick at 06:30 UTC; a sync runs only when ${RTINGS_SYNC_INTERVAL_DAYS} days have passed since the last successful sync (or none exists), and only when checkSyncBudget() confirms this month's Apify spend has headroom for one more run. After a held run the cron waits ${RTINGS_SYNC_INTERVAL_DAYS} days (an admin manual sync can run sooner); after failed runs it backs off 1, 2, 4, then 7 days, and every ${RTINGS_SYNC_INTERVAL_DAYS} days after 5 failures in a row.`,
   intervalDays: RTINGS_SYNC_INTERVAL_DAYS,
 } as const;
 

@@ -7,12 +7,14 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vites
 import { makeRunRow, makeSummary } from '@/lib/rtings/__fixtures__/rows';
 import { stubRepository } from '@/lib/rtings/__fixtures__/stubRepository';
 import type { RtingsRepository, RtingsSyncRunRow } from '@/lib/rtings/types';
+import { RTINGS_SYNC_INTERVAL_DAYS as N } from '@/lib/rtings/types';
 
 const h = vi.hoisted(() => ({
   repo: null as unknown as RtingsRepository,
   apifyConfigured: true,
   runPipeline: vi.fn(),
   getApifyPort: vi.fn(),
+  checkApifyBudget: vi.fn(),
   revalidateTag: vi.fn(),
 }));
 
@@ -29,6 +31,7 @@ vi.mock('@/lib/apify/apifyClient', async (importOriginal) => ({
   ...(await importOriginal<object>()),
   isApifyConfigured: () => h.apifyConfigured,
   getApifyPort: h.getApifyPort,
+  checkApifyBudget: h.checkApifyBudget,
 }));
 
 import { GET, maxDuration } from './route';
@@ -73,6 +76,7 @@ beforeEach(() => {
       getDatasetItems: () => Promise.reject(new Error('TEST: Apify must not be called')),
     },
   });
+  h.checkApifyBudget.mockReset().mockResolvedValue({ ok: true, monthlyUsageUsd: 0, monthlyLimitUsd: 19, reservedUsd: 1.5, cycleEndsAt: null });
   h.revalidateTag.mockReset();
   vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('TEST: network disabled'))));
 });
@@ -129,8 +133,8 @@ describe('GET /api/cron/rtings-sync: valid secret', () => {
     expect(h.runPipeline.mock.calls[0]![0]).toMatchObject({ trigger: 'cron', triggerSource: 'cron' });
   });
 
-  it('skips with 200 {skipped: not_due} inside the 14-day window and spends nothing', async () => {
-    h.repo = repoWithLastSuccess(new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString());
+  it(`skips with 200 {skipped: not_due} inside the ${N}-day window and spends nothing`, async () => {
+    h.repo = repoWithLastSuccess(new Date(Date.now() - (N - 1) * 24 * 3600 * 1000).toISOString());
     const res = await GET(req(`Bearer ${SECRET}`));
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
@@ -140,8 +144,8 @@ describe('GET /api/cron/rtings-sync: valid secret', () => {
     expect(h.getApifyPort).not.toHaveBeenCalled();
   });
 
-  it('runs again once 14 days have passed', async () => {
-    h.repo = repoWithLastSuccess(new Date(Date.now() - 15 * 24 * 3600 * 1000).toISOString());
+  it(`runs again once ${N} days have passed`, async () => {
+    h.repo = repoWithLastSuccess(new Date(Date.now() - (N + 1) * 24 * 3600 * 1000).toISOString());
     h.runPipeline.mockResolvedValue(makeSummary());
     expect((await GET(req(`Bearer ${SECRET}`))).status).toBe(200);
     expect(h.runPipeline).toHaveBeenCalledTimes(1);
@@ -149,7 +153,7 @@ describe('GET /api/cron/rtings-sync: valid secret', () => {
 
   it('does not re-scrape every day after a held run: 200 {skipped: held_awaiting_review}', async () => {
     const DAY_H = 24;
-    h.repo = repoWithLastSuccess(new Date(Date.now() - 16 * DAY_H * 3600_000).toISOString(), [finishedRun(2, 'held', 2 * DAY_H)]);
+    h.repo = repoWithLastSuccess(new Date(Date.now() - (N + 2) * DAY_H * 3600_000).toISOString(), [finishedRun(2, 'held', 2 * DAY_H)]);
     const res = await GET(req(`Bearer ${SECRET}`));
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
@@ -210,6 +214,40 @@ describe('GET /api/cron/rtings-sync: valid secret', () => {
     const res = await GET(req(`Bearer ${SECRET}`));
     expect(res.status).toBe(503);
     expect(h.runPipeline).not.toHaveBeenCalled();
+  });
+
+  it('503 when the monthly Apify budget has no headroom, without starting the pipeline', async () => {
+    h.checkApifyBudget.mockResolvedValue({ ok: false, monthlyUsageUsd: 19.05, monthlyLimitUsd: 19, reservedUsd: 1.5, cycleEndsAt: '2026-10-24T23:59:59.999Z' });
+    const res = await GET(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect((body.error as Record<string, unknown>).code).toBe('BUDGET_LIMIT_EXCEEDED');
+    expect(h.runPipeline).not.toHaveBeenCalled();
+    expect(h.checkApifyBudget).toHaveBeenCalledTimes(1);
+  });
+
+  it('503 and skips safely when the budget check itself cannot be completed (fails closed)', async () => {
+    h.checkApifyBudget.mockResolvedValue({ success: false, code: 'APIFY_NETWORK_ERROR', message: 'TEST: offline', retryable: true });
+    const res = await GET(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(503);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect((body.error as Record<string, unknown>).code).toBe('BUDGET_CHECK_FAILED');
+    expect(h.runPipeline).not.toHaveBeenCalled();
+  });
+
+  it('does not call the (paid-token) budget check when the tick is not due anyway', async () => {
+    h.repo = repoWithLastSuccess(new Date(Date.now() - (N - 1) * 24 * 3600 * 1000).toISOString());
+    const res = await GET(req(`Bearer ${SECRET}`));
+    expect(res.status).toBe(200);
+    expect(h.checkApifyBudget).not.toHaveBeenCalled();
+    expect(h.runPipeline).not.toHaveBeenCalled();
+  });
+
+  it('calls the budget check before starting the pipeline when due', async () => {
+    h.runPipeline.mockResolvedValue(makeSummary({ status: 'success' }));
+    await GET(req(`Bearer ${SECRET}`));
+    expect(h.checkApifyBudget).toHaveBeenCalledTimes(1);
+    expect(h.runPipeline).toHaveBeenCalledTimes(1);
   });
 
   it('never leaks the Apify token in the response', async () => {

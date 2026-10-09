@@ -30,8 +30,13 @@ export const RTINGS_REVIEW_HOSTS = ['www.rtings.com'] as const;
 export const RTINGS_IMAGE_HOSTS = ['i.rtings.com'] as const;
 /** Cache tag for every cached read of published evidence; revalidated after a publish. */
 export const RTINGS_EVIDENCE_CACHE_TAG = 'rtings-evidence';
-/** Primary cadence (brief section 22/41): a daily tick runs the sync only when this much time has passed since the last successful one. */
-export const RTINGS_SYNC_INTERVAL_DAYS = 14;
+/**
+ * Primary cadence (brief section 22/41): a daily tick runs the sync only
+ * when this much time has passed since the last successful one. Set to 31
+ * for the current testing phase (one run per cycle while the pipeline and
+ * the Apify budget are being verified); the original design was 14.
+ */
+export const RTINGS_SYNC_INTERVAL_DAYS = 31;
 export const FINGERPRINT_VERSION = 1;
 
 // ---------------------------------------------------------------------------
@@ -477,11 +482,11 @@ export interface SyncSummary {
 export type SyncDueReason = 'never_synced' | 'interval_elapsed' | 'resume_awaiting_apify';
 /**
  * Why a due sync is still skipped:
- *   not_due               < 14 days since the last success|partial run
+ *   not_due               < RTINGS_SYNC_INTERVAL_DAYS since the last success|partial run
  *   held_awaiting_review  the latest finished run was held by the safety gate; the same data would be
- *                         held again, so the cron waits 14 days (an admin manual sync can run any time)
+ *                         held again, so the cron waits RTINGS_SYNC_INTERVAL_DAYS (an admin manual sync can run any time)
  *   failed_backoff        the latest finished run(s) failed; exponential backoff 1, 2, 4, 7 days, and
- *                         after RTINGS_MAX_AUTO_FAILURES consecutive failures only every 14 days
+ *                         after RTINGS_MAX_AUTO_FAILURES consecutive failures only every RTINGS_SYNC_INTERVAL_DAYS days
  */
 export type SyncSkipReason = 'not_due' | 'held_awaiting_review' | 'failed_backoff';
 

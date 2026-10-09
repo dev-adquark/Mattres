@@ -9,7 +9,7 @@ import type { StatusReport } from '../_lib/syncRuntime';
  * Never calls Apify and never writes. Answers brief section 29:
  *
  *   lastSuccessfulSyncAt   last success|partial run's completion time
- *   nextScheduledSyncAt    first daily 06:30 UTC tick at or after nextDueAt (lastSuccess + 14 days,
+ *   nextScheduledSyncAt    first daily 06:30 UTC tick at or after nextDueAt (lastSuccess + RTINGS_SYNC_INTERVAL_DAYS,
  *                          or the end of the held/failed backoff when that is later)
  *   dueReason              never_synced | interval_elapsed | resume_awaiting_apify | not_due |
  *                          held_awaiting_review | failed_backoff

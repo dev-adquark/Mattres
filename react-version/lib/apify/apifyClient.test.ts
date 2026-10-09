@@ -9,6 +9,7 @@ import {
   DEFAULT_MAX_TOTAL_CHARGE_USD,
   MAX_ITEMS_CAP,
   buildRtingsInput,
+  checkApifyBudget,
   createApifyHttpPort,
   defaultMaxItems,
   getApifyPort,
@@ -214,5 +215,60 @@ describe('buildRtingsInput', () => {
 
   it('refuses an unknown mode', () => {
     expect(() => buildRtingsInput({ mode: 'everything' })).toThrow();
+  });
+});
+
+describe('checkApifyBudget', () => {
+  const limitsBody = (current: number, limit: number, endAt = '2026-10-24T23:59:59.999Z') => ({
+    data: { current: { monthlyUsageUsd: current }, limits: { maxMonthlyUsageUsd: limit }, monthlyUsageCycle: { endAt } },
+  });
+
+  it('reports ok when current usage plus the reserved per-run cap still fits the monthly limit', async () => {
+    const f = fakeFetch([json(limitsBody(10, 19))]);
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: f.impl, reservedUsd: 1.5 });
+    expect(result).toMatchObject({ ok: true, monthlyUsageUsd: 10, monthlyLimitUsd: 19, reservedUsd: 1.5, cycleEndsAt: '2026-10-24T23:59:59.999Z' });
+    expect(f.calls[0]!.url).toBe('https://api.apify.com/v2/users/me/limits');
+    expect(headerOf(f.calls[0]!, 'Authorization')).toBe(`Bearer ${FAKE_TOKEN}`);
+  });
+
+  it('reports not ok when current usage plus the reserved cap would exceed the monthly limit', async () => {
+    const f = fakeFetch([json(limitsBody(19.05, 19))]);
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: f.impl, reservedUsd: 1.5 });
+    expect(result).toMatchObject({ ok: false, monthlyUsageUsd: 19.05, monthlyLimitUsd: 19 });
+  });
+
+  it('defaults reservedUsd to maxChargeUsd() when not given', async () => {
+    const f = fakeFetch([json(limitsBody(0, 19))]);
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: f.impl });
+    expect(result).toMatchObject({ ok: true, reservedUsd: DEFAULT_MAX_TOTAL_CHARGE_USD });
+  });
+
+  it('is never configured when no token is given or set', async () => {
+    const result = await checkApifyBudget({ fetchImpl: fakeFetch([]).impl });
+    expect(result).toMatchObject({ success: false, code: 'APIFY_NOT_CONFIGURED' });
+  });
+
+  it('fails closed on a network error', async () => {
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: fakeFetch([new TypeError('TEST: offline')]).impl });
+    expect(result).toMatchObject({ success: false, code: 'APIFY_NETWORK_ERROR' });
+  });
+
+  it('fails closed on a non-200 response', async () => {
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: fakeFetch([new Response('nope', { status: 401 })]).impl });
+    expect(result).toMatchObject({ success: false, code: 'APIFY_UNAUTHORIZED' });
+  });
+
+  it('fails closed on a malformed body missing the usage figures', async () => {
+    const result = await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: fakeFetch([json({ data: {} })]).impl });
+    expect(result).toMatchObject({ success: false, code: 'APIFY_MALFORMED_RESPONSE' });
+  });
+
+  it('never starts or charges for an actor run (GET only, no run/dataset endpoints touched)', async () => {
+    const f = fakeFetch([json(limitsBody(0, 19))]);
+    await checkApifyBudget({ token: FAKE_TOKEN, fetchImpl: f.impl });
+    expect(f.calls).toHaveLength(1);
+    expect(f.calls[0]!.init.method ?? 'GET').toBe('GET');
+    expect(f.calls[0]!.url).not.toContain('/acts/');
+    expect(f.calls[0]!.url).not.toContain('/datasets/');
   });
 });
