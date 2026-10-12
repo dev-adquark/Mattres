@@ -13,9 +13,14 @@ interface RenderStillImageProps {
   alt: string;
   sizes?: string;
   /**
-   * The LCP image of the page. Renders loading="eager" + fetchPriority="high"
-   * (not next/image `preload`, which must not be combined with `loading` and
-   * only duplicates an image that is already in the initial HTML).
+   * The LCP image of the page. Renders next/image `priority`, which sets
+   * loading="eager" + fetchPriority="high" AND injects a <link rel="preload"
+   * as="image"> in <head> with the matching srcset - discovered by the
+   * browser's preload scanner as soon as <head> parses, rather than only
+   * once the parser reaches this <img> tag's position in <body>, behind the
+   * page's render-blocking CSS <link> tags. `priority` cannot be combined
+   * with a manual `loading`/`fetchPriority` prop, which is why those are not
+   * also set here.
    */
   preload?: boolean;
   className?: string;
@@ -48,8 +53,8 @@ export function RenderStillImage({ still, alt, sizes, preload = false, className
       height={still.height}
       alt={alt}
       sizes={sizes}
-      loading={preload ? 'eager' : 'lazy'}
-      fetchPriority={preload ? 'high' : undefined}
+      priority={preload}
+      loading={preload ? undefined : 'lazy'}
       placeholder="blur"
       blurDataURL={still.blurDataURL}
       className={className}
