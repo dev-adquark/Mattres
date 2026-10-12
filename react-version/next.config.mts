@@ -44,22 +44,24 @@ const tsconfigPath = isolatedTsconfig(distDir);
 /**
  * Content-Security-Policy, ENFORCED (a full-site production sweep, 111 routes
  * at two viewports, logged zero report-only violations before the switch).
- * Everything the app loads is same-origin, except credited RTINGS product
- * photos, which load straight from i.rtings.com (the one third-party image
- * host; see lib/rtings/photo.ts). Same-origin: scripts and styles (Next inlines
- * bootstrap scripts and the RSC payload, hence 'unsafe-inline'), next/font
- * files, /_next/image stills, OG images, /api/*, and Vercel Analytics /
- * Speed Insights under /_vercel/*. Images also allow data: (blur
- * placeholders) and blob: (WebGL / canvas). Dev adds 'unsafe-eval' for
- * React's debugging tools and ws: for HMR.
+ * Everything the app loads is same-origin, except: credited RTINGS product
+ * photos, which load straight from i.rtings.com (see lib/rtings/photo.ts),
+ * and Google Analytics (gtag.js, see components/GoogleAnalytics.tsx), which
+ * loads its script from googletagmanager.com and sends hits to
+ * google-analytics.com - Google's own documented CSP additions for gtag.js.
+ * Same-origin: scripts and styles (Next inlines bootstrap scripts and the
+ * RSC payload, hence 'unsafe-inline'), next/font files, /_next/image stills,
+ * OG images, /api/*, and Vercel Analytics / Speed Insights under /_vercel/*.
+ * Images also allow data: (blur placeholders) and blob: (WebGL / canvas).
+ * Dev adds 'unsafe-eval' for React's debugging tools and ws: for HMR.
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://i.rtings.com",
   "font-src 'self' data:",
-  `connect-src 'self'${isDev ? ' ws: wss:' : ''}`,
+  `connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com${isDev ? ' ws: wss:' : ''}`,
   "worker-src 'self' blob:",
   "media-src 'self'",
   "object-src 'none'",

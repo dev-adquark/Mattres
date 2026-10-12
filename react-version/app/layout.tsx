@@ -13,6 +13,7 @@ import { PageTransition } from '@/components/PageTransition';
 import { CompareTray } from '@/components/compare/CompareTray';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { VercelInsights } from '@/components/VercelInsights';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_TITLE, SITE_URL, SEARCH_PATH } from '@/lib/site';
 
 // All three faces are self-hosted from OFL sources (license in
@@ -194,6 +195,9 @@ const websiteLd = {
 // which only exists on a Vercel deployment. Mounting them anywhere else
 // (`next start`, other hosts) produces 404s and MIME-type console errors.
 const ON_VERCEL = Boolean(process.env.VERCEL);
+// GA4 only on the real production deployment - never a preview URL or local
+// dev, so they never report into the real GA4 property (see GoogleAnalytics.tsx).
+const ON_PRODUCTION = process.env.VERCEL_ENV === 'production';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -212,6 +216,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <JsonLd data={organizationLd} />
         <JsonLd data={websiteLd} />
         {ON_VERCEL ? <VercelInsights /> : null}
+        {ON_PRODUCTION ? <GoogleAnalytics /> : null}
       </body>
     </html>
   );

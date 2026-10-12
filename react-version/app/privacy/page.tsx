@@ -10,7 +10,7 @@ import { monetizationStatus } from '@/components/trust/monetization';
 
 const TITLE = 'Privacy';
 const DESCRIPTION =
-  'What this site collects and what it does not: cookieless Vercel analytics, anonymous product events, quiz answers kept in your browser, and how the match API handles your request.';
+  'What this site collects and what it does not: cookieless Vercel analytics, Google Analytics (which does set cookies), anonymous product events, quiz answers kept in your browser, and how the match API handles your request.';
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -65,6 +65,21 @@ function buildSections(affiliateLinks: number): PolicySection[] {
             weight or search text).
           </p>
           <AnalyticsEventsTable />
+          <p>
+            This site also runs <strong>Google Analytics 4</strong> (gtag.js) on the production site only &mdash; never
+            on a preview deployment or in local development. Unlike Vercel Analytics, it sets first-party cookies (to
+            tell repeat visits apart) and the page sends a request to Google&apos;s servers to record the visit, your
+            approximate location, device and browser, and which pages you viewed. Google processes this data under its
+            own policies; see{' '}
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+              Google&apos;s privacy policy<span className="sr-only"> (opens in a new tab)</span>
+            </a>{' '}
+            and{' '}
+            <a href="https://support.google.com/analytics/answer/7667196" target="_blank" rel="noopener noreferrer">
+              how Google Analytics data is used and shared<span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            .
+          </p>
         </>
       ),
     },
@@ -93,12 +108,13 @@ function buildSections(affiliateLinks: number): PolicySection[] {
         <ul>
           <li>No accounts, sign-ups or email collection.</li>
           <li>No advertising, ad networks or tracking pixels.</li>
-          <li>No tracking cookies.</li>
+          <li>No accounts, sign-ups or email collection tied to analytics.</li>
           <li>No selling or sharing of data with brands. Brands get nothing from this site.</li>
           <li>
-            Fonts are served from this site, so loading a page makes no request to Google. The search box runs in your
-            browser against a downloaded index, so what you type there is not sent to us. (Searches and filters on the
-            Mattresses page are saved in the page address so they can be shared, like any link.)
+            Fonts are served from this site. Loading a page does make one request to Google, for Google Analytics (see
+            the Analytics section above) &mdash; it previously did not, before that was added. The search box still
+            runs in your browser against a downloaded index, so what you type there is not sent anywhere. (Searches and
+            filters on the Mattresses page are saved in the page address so they can be shared, like any link.)
           </li>
         </ul>
       ),
@@ -145,7 +161,10 @@ function buildSections(affiliateLinks: number): PolicySection[] {
             site keeps in this browser at once.
           </li>
           <li>Remembering your matches between visits is opt-in and off by default. The button above clears it too.</li>
-          <li>A content blocker that blocks Vercel&apos;s analytics scripts stops analytics without breaking the site.</li>
+          <li>
+            A content blocker that blocks Vercel&apos;s analytics scripts or googletagmanager.com stops analytics
+            without breaking the site.
+          </li>
         </ul>
       ),
     },
@@ -184,9 +203,9 @@ export default async function PrivacyPage() {
       updated={POLICY_UPDATED}
       summary={[
         { label: 'Accounts', value: 'None' },
-        { label: 'Cookies', value: 'None for tracking' },
+        { label: 'Cookies', value: 'Set by Google Analytics' },
         { label: 'Quiz answers', value: 'Kept in your browser tab' },
-        { label: 'Analytics', value: 'Vercel, cookieless and aggregated' },
+        { label: 'Analytics', value: 'Vercel (cookieless) and Google Analytics 4' },
       ]}
       sections={buildSections(affiliateLinks)}
       related={[
